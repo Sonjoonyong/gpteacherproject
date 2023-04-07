@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="gpteacherproject" />
         <module name="gpt" />
       </profile>
     </annotationProcessing>
@@ -14,6 +15,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="gpt" options="-Xlint:all" />
+      <module name="gpteacherproject" options="-Xlint:all" />
     </option>
   </component>
 </project>
