@@ -26,6 +26,7 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		//test eungyu
 		//test daehyeon
+		//test hyensub
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
