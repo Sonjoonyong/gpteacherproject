@@ -32,6 +32,13 @@ public class OpenAiClient {
             "I think there's so many questions about traveling at OPIC test " +
                     "but I don't like travels that much especially the travel aboard " +
                     "so I barely remember the trouble that I had ";
+    //**********************speaking Question*********************
+    public static final JSONObject SPEAKING_QUESTION_SCRIPT = new JSONObject()
+            .put("original", "I think there's so many questions about traveling at OPIC test.")
+            .put("")
+            .put("original", "I think there's so many questions about traveling at OPIC test.");
+
+    //************************************************************
 
     // ChatGPT에게 보여줄 JSON 예제
     public static final JSONObject EXAMPLE_SENTENCE1_JSON = new JSONObject()
@@ -56,6 +63,7 @@ public class OpenAiClient {
                     "2. corrected: corrected sentence. \n" +
                     "3. explanation: explanation for correction. \n" +
                     "Here is the script : \n";
+
 
     // ChatGPT에게 스크립트를 문장별로 나눠달라고 요청하는 프롬프트
     public static final String SPLIT_INSTRUCTION =

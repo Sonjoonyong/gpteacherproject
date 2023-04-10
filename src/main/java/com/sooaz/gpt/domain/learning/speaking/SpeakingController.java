@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Controller
 public class SpeakingController {
 
@@ -28,10 +29,32 @@ public class SpeakingController {
         return "correction";
     }
 
+    //*********************************************************************
+    // speaking Question 지시문
+    @PostMapping("/gpt/speakingTopic")
+    public String Topic(
+            @RequestParam String Topic,
+            Model model
+    ) throws IOException{
+
+        List<JSONObject> messages = new ArrayList<>();
+        JSONObject message = new JSONObject();
+        message.put("topic", TOPIC);
+        String prompt = OpenAiClient.SPEAKING_QUESTION_SCRIPT + TOPIC;
+        message.put("content", prompt);
+        messages.add(message);
+    }
+
+    @PostMapping("/gpt/speakingPractice")
+    @ResponseBody
+    public String speaking_question(@RequestParam("TOPIC") String topic) {
+        String prompt = "{\"prompt\": \"" + topic + "과 관련된 영어문제 내줘\"}";
+        return prompt;
+    }
 
 
-    //*********************************************************************************************
-    //*********************************************************************************************
+    //==========================================================
+    //==========================================================
     @PostMapping("/gpt/correction")
     public String correct(
             @RequestParam String userScript,
@@ -40,34 +63,35 @@ public class SpeakingController {
 
         List<JSONObject> messages = new ArrayList<>();
 
-        // 과거 이력 프롬프트에 추가 - 유저 스크립트*****************************************************
-        //*********************************************************************************************
+        // 과거 이력 프롬프트에 추가 - 유저 스크립트==================
+        //==========================================================
         JSONObject priorPrompt = new JSONObject();
         priorPrompt.put("role", "user");
         priorPrompt.put("content", OpenAiClient.SPEAKING_INSTRUCTION_PREFIX + OpenAiClient.EXAMPLE_SCRIPT);
         messages.add(priorPrompt);
 
-        // 과거 이력 프롬프트에 추가 - 교정 스크립트*****************************************************
-        //*********************************************************************************************
+        // 과거 이력 프롬프트에 추가 - 교정 스크립트
+        //========================================
         JSONObject priorResponse = new JSONObject();
         priorResponse.put("role", "assistant");
         priorResponse.put("content", OpenAiClient.EXAMPLE_SENTENCE_JSON_ARRAY.toString());
         messages.add(priorResponse);
 
-        // 교정 지시문 + 유저 스크립트 프롬프트 설정*****************************************************
-        //*********************************************************************************************
+        // 교정 지시문 + 유저 스크립트 프롬프트 설정
+        //========================================
         JSONObject message = new JSONObject();
         message.put("role", "user");
         String prompt = OpenAiClient.SPEAKING_INSTRUCTION_PREFIX + userScript;
         message.put("content", prompt);
         messages.add(message);
 
-        // ************************************분할 요청***********************************************
-        //*********************************************************************************************
+
+        // ======================분할 요청==================
+
         String responseText = OpenAiClient.chat(messages).trim();
 
-        // ************************************문장 개수에 따른 처리************************************
-        //*********************************************************************************************
+        // ==================문장 개수에 따른 처리==================
+        //=========================================================
         JSONArray splitScript = new JSONArray();
         try {
             if (responseText.startsWith("[")) { // 문장이 2개 이상 -> JSON 배열로 반환됨
@@ -84,7 +108,7 @@ public class SpeakingController {
 
         return "correction";
     }
-    //================================================================================================
+    //============================================================
 
 
     @GetMapping("/gpt/whisper")
