@@ -1,6 +1,7 @@
 package com.sooaz.gpt.domain.user;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
