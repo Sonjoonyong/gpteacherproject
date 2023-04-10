@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.user.UserMapper">
+
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select USERS_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into USERS
+        (
+            id,
+            user_login_id,
+            user_password,
+            user_nickname,
+            user_email,
+            user_birthday
+        )
+        values
+        (
+            #{id},
+            #{userLoginId},
+            #{userPassword},
+            #{userNickname},
+            #{userEmail},
+            #{userBirthday}
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="User">
+        select * from USERS where id = #{userId}
+    </select>
+
+</mapper>
