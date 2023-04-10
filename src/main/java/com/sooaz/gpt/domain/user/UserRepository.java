@@ -13,4 +13,8 @@ public class UserRepository {
         userMapper.save(user);
         return user;
     }
+
+    public User findById(Long userId) {
+        return userMapper.findById(userId).orElseThrow(IllegalStateException::new);
+    }
 }

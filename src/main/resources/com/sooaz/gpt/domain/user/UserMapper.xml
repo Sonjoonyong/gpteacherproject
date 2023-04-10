@@ -5,6 +5,9 @@
 <mapper namespace="com.sooaz.gpt.domain.user.UserMapper">
 
     <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select USERS_ID_SEQ.nextval from dual
+        </selectKey>
         insert into USERS
         (
             id,
@@ -16,7 +19,7 @@
         )
         values
         (
-            USERS_ID_SEQ.nextval,
+            #{id},
             #{userLoginId},
             #{userPassword},
             #{userNickname},
@@ -24,5 +27,9 @@
             #{userBirthday}
         )
     </insert>
+
+    <select id="findById" parameterType="long" resultType="User">
+        select * from USERS where id = #{userId}
+    </select>
 
 </mapper>
