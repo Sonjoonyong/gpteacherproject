@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,55 +52,73 @@ public class OpenAiClient {
     // ChatGPT에게 문장을 교정해달라고 요청하는 프롬프트
     public static final String SPEAKING_INSTRUCTION_PREFIX =
             "Cut my speaking script by sentence one by one followed by corrected one and explanation in JSON array. " +
-                    "JSON object has three attribute. \n" +
+                    "JSON object has three properties. \n" +
                     "1. original: original sentence. \n" +
                     "2. corrected: corrected sentence. \n" +
                     "3. explanation: explanation for correction. \n" +
                     "Here is the script : \n";
 
-    // ChatGPT에게 스크립트를 문장별로 나눠달라고 요청하는 프롬프트
-    public static final String SPLIT_INSTRUCTION =
-            "1. Give me the response as a string type that can be parsed into JSON with multiple JSON object. \n" +
-                    "2. One JSON object represents just only one sentence. " +
-                    "3. There must be as many JSON objects as there are sentences. " +
-                    "4. Do not append any unnecessary comments. " +
-                    "Here is an example of response format if there is two sentence: \n\n" + EXAMPLE_SENTENCE_JSON_ARRAY.toString();
+    public static JSONObject userMessage(String prompt) {
+        JSONObject message = new JSONObject();
+        message.put("role", "user");
+        message.put("content", prompt);
+        return message;
+    }
+
+    public static JSONObject assistantMessage(String prompt) {
+        JSONObject message = new JSONObject();
+        message.put("role", "assistant");
+        message.put("content", prompt);
+        return message;
+    }
 
     //============================교정받기===================================
     //======================================================================
-    public String chat(List<JSONObject> messages) throws IOException {
+    public String chat(String userPrompt) {
+        List<JSONObject> messages = new ArrayList<>();
+        JSONObject message = userMessage(userPrompt);
+        messages.add(message);
+        return chat(messages);
+    }
 
-        // HTTP 통신 설정
-        HttpURLConnection con = (HttpURLConnection) new URL(URL_CHAT).openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", "Bearer " + API_KEY);
+    public String chat(List<JSONObject> messages) {
 
-        // 요청 옵션 설정
-        JSONObject prompt = new JSONObject();
-        prompt.put("model", "gpt-3.5-turbo-0301"); // required - ChatGPT 3.5 모델 - 현재 공개된 모델
-        prompt.put("messages", messages); // required - 요청 프롬프트(과거 대화 이력 포함)
-        prompt.put("temperature", 0.0); // optional - 0 ~ 2 (클수록 답변이 랜덤해짐)
+        String responseText = "";
 
-        // HTTP 요청
-        con.setDoOutput(true);
-        con.getOutputStream().write(prompt.toString().getBytes());
+        try {
+            // HTTP 통신 설정
+            HttpURLConnection con = (HttpURLConnection) new URL(URL_CHAT).openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Authorization", "Bearer " + API_KEY);
 
-        // 결과 수신
-        String output = new BufferedReader(new InputStreamReader(con.getInputStream()))
-                .lines()
-                .reduce((a, b) -> a + b)
-                .get();
+            // 요청 옵션 설정
+            JSONObject prompt = new JSONObject();
+            prompt.put("model", "gpt-3.5-turbo-0301"); // required - ChatGPT 3.5 모델 - 현재 공개된 모델
+            prompt.put("messages", messages); // required - 요청 프롬프트(과거 대화 이력 포함)
+            prompt.put("temperature", 0.0); // optional - 0 ~ 2 (클수록 답변이 랜덤해짐)
 
-        System.out.println("output = " + output);
+            // HTTP 요청
+            con.setDoOutput(true);
+            con.getOutputStream().write(prompt.toString().getBytes());
 
-        // 수신한 JSON에서 응답 메시지 파싱
-        String responseText = new JSONObject(output)
-                .getJSONArray("choices")
-                .getJSONObject(0)
-                .getJSONObject("message")
-                .getString("content");
+            // 결과 수신
+            String output = new BufferedReader(new InputStreamReader(con.getInputStream()))
+                    .lines()
+                    .reduce((a, b) -> a + b)
+                    .get();
 
+            System.out.println("output = " + output);
+
+            // 수신한 JSON에서 응답 메시지 파싱
+            responseText = new JSONObject(output)
+                    .getJSONArray("choices")
+                    .getJSONObject(0)
+                    .getJSONObject("message")
+                    .getString("content");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return responseText;
     }
@@ -107,58 +126,66 @@ public class OpenAiClient {
     //==========================음성인식=============================================
     //===============================================================================
     public String transcript(MultipartFile audio) throws IOException {
-        String fileName = UUID.randomUUID() + ".webm";
-        String filePath = fileDir + fileName; //${file.dir}
-        File audioFile = new File(filePath);
-        audio.transferTo(audioFile);
 
-        // HTTP 통신 설정
-        URL url = new URL(URL_TRANSCRIPT);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setUseCaches(false);
-        con.setDoOutput(true);
-        con.setDoInput(true);
+        String script = "";
 
-        String LINE_FEED = "\r\n";
-        String boundary = "----" + UUID.randomUUID();
-        con.setRequestProperty("Authorization", "Bearer " + API_KEY);
-        con.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-        OutputStream outputStream = con.getOutputStream();
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
+        try {
+            String fileName = UUID.randomUUID() + ".webm";
+            String filePath = fileDir + fileName; //${file.dir}
+            File audioFile = new File(filePath);
+            audio.transferTo(audioFile);
 
-        // request body
-        writer.append("--" + boundary).append(LINE_FEED);
-        writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + audioFile.getName() + "\"").append(LINE_FEED);
-        writer.append(LINE_FEED);
-        writer.flush();
+            // HTTP 통신 설정
+            URL url = new URL(URL_TRANSCRIPT);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
 
-        FileInputStream inputStream = new FileInputStream(audioFile);
-        byte[] buffer = new byte[4096];
-        int bytesRead = -1;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
+            String LINE_FEED = "\r\n";
+            String boundary = "----" + UUID.randomUUID();
+            con.setRequestProperty("Authorization", "Bearer " + API_KEY);
+            con.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            OutputStream outputStream = con.getOutputStream();
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
+
+            // request body
+            writer.append("--" + boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + audioFile.getName() + "\"").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.flush();
+
+            FileInputStream inputStream = new FileInputStream(audioFile);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            inputStream.close();
+
+            writer.append(LINE_FEED);
+            writer.append("--" + boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"model\"").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.append("whisper-1").append(LINE_FEED);
+            writer.append("--" + boundary + "--").append(LINE_FEED);
+            writer.close();
+
+            // 결과 수신
+            String output = new BufferedReader(new InputStreamReader(con.getInputStream()))
+                    .lines()
+                    .reduce((a, b) -> a + b)
+                    .get();
+
+            System.out.println("output = " + output);
+
+            JSONObject jsonObject = new JSONObject(output);
+            script = jsonObject.getString("text");
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        outputStream.flush();
-        inputStream.close();
-
-        writer.append(LINE_FEED);
-        writer.append("--" + boundary).append(LINE_FEED);
-        writer.append("Content-Disposition: form-data; name=\"model\"").append(LINE_FEED);
-        writer.append(LINE_FEED);
-        writer.append("whisper-1").append(LINE_FEED);
-        writer.append("--" + boundary + "--").append(LINE_FEED);
-        writer.close();
-
-        // 결과 수신
-        String output = new BufferedReader(new InputStreamReader(con.getInputStream()))
-                .lines()
-                .reduce((a, b) -> a + b)
-                .get();
-
-        System.out.println("output = " + output);
-
-        JSONObject jsonObject = new JSONObject(output);
-        String script = jsonObject.getString("text");
 
         return script;
     }
