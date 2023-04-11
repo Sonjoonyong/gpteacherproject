@@ -12,4 +12,8 @@
         <package name="com.sooaz.gpt.domain"/>
     </typeAliases>
 
+    <typeHandlers>
+        <typeHandler handler="com.sooaz.gpt.global.handlers.LearningTypeHandler"/>
+    </typeHandlers>
+
 </configuration>
