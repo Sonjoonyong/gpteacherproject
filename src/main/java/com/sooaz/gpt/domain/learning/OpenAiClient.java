@@ -74,14 +74,17 @@ public class OpenAiClient {
         return message;
     }
 
-    //============================교정받기===================================
-    //======================================================================
+    //=====chat한테질문하기======
     public String chat(String userPrompt) {
         List<JSONObject> messages = new ArrayList<>();
         JSONObject message = userMessage(userPrompt);
         messages.add(message);
         return chat(messages);
     }
+
+    //============================교정받기===================================
+    //======================================================================
+
 
     public String chat(List<JSONObject> messages) {
 
@@ -144,6 +147,7 @@ public class OpenAiClient {
             con.setDoOutput(true);
             con.setDoInput(true);
 
+            // 헤더
             String LINE_FEED = "\r\n";
             String boundary = "----" + UUID.randomUUID();
             con.setRequestProperty("Authorization", "Bearer " + API_KEY);
@@ -151,7 +155,7 @@ public class OpenAiClient {
             OutputStream outputStream = con.getOutputStream();
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
 
-            // request body
+            // 바디
             writer.append("--" + boundary).append(LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + audioFile.getName() + "\"").append(LINE_FEED);
             writer.append(LINE_FEED);
