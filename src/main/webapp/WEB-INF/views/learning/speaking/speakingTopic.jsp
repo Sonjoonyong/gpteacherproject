@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <form action="/learning/writing" method="post">
+    <form action="/learning/speaking" method="post">
         이미지 버튼 선택:<br>
             <input type="image" src="static/images/TOEIC.jpg" name="TOPIC" value="TOEIC" />
             <input type="image" src="static/images/TOEFL.jpg" name="TOPIC" value="TOEFL" />
