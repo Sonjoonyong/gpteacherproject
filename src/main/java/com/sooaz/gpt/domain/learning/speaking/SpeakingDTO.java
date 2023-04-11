@@ -6,11 +6,4 @@ import lombok.Data;
 public class SpeakingDTO {
     private String TOPIC;
 
-    public String getImageButton() {
-        return TOPIC;
-    }
-
-    public void setImageButton(String TOPIC) {
-        this.TOPIC = TOPIC;
-    }
 }

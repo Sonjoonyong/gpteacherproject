@@ -14,6 +14,17 @@ public class SpeakingService {
 
     private String INSTRUCTION = "i have to practice speaking for \"%s\" test. please give me one question (sentences related to the \"%s\" test).";
 
+
+
+    public String initSpeaking(SpeakingDTO speakingDTO){
+
+        String initialInstruction = getInitialInstruction(speakingDTO);
+
+        String assistantQuestion = openAiClient.chat(initialInstruction);
+
+        return assistantQuestion;
+    }
+
     private String getInitialInstruction(SpeakingDTO speakingDTO){
         //지시문 설정
         return String.format(
@@ -22,14 +33,5 @@ public class SpeakingService {
                 speakingDTO.getTOPIC()
         );
     }
-
-    public String initSpeaking(SpeakingDTO speakingDTO){
-
-        String initialInstuction = getInitialInstruction(speakingDTO);
-        String assistantQuestion = openAiClient.chat(initialInstuction);
-        return assistantQuestion;
-    }
-
-
 
 }

@@ -27,8 +27,11 @@ public class SpeakingController {
             Model model
 
     ) {
+    String assistantQuestion = speakingService.initSpeaking(speakingDTO);
 
-        return "learning/speaking/speakingPractice";
+    model.addAttribute(assistantQuestion, assistantQuestion);
+
+    return "learning/speaking/speakingPractice";
     }
 
 
