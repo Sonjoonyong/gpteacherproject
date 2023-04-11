@@ -85,7 +85,7 @@ CREATE TABLE learning
     user_id            NUMBER        NOT NULL,
     learning_type      VARCHAR2(10)  NULL,
     learning_test_name VARCHAR2(10)  NULL,
-    learning_topic     VARCHAR2(255) NOT NULL,
+    learning_topic     VARCHAR2(1000) NOT NULL,
     learning_date      DATE          NULL,
     learning_like      CHAR(1)       NULL
 );
