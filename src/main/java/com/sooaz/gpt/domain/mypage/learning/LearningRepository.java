@@ -26,8 +26,8 @@ public class LearningRepository {
         return learningMapper.findAll();
     }
 
-    public void update() {
-
+    public void update(LearningUpdateDto learningUpdateDto) {
+        learningMapper.update(learningUpdateDto);
     }
 
     public void delete(Long learningId) {

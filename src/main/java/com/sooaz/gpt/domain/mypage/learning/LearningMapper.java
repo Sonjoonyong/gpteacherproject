@@ -14,6 +14,8 @@ public interface LearningMapper {
 
     List<Learning> findAll();
 
+    void update(LearningUpdateDto learningUpdateDto);
+
     void delete(Long learningId);
 
 

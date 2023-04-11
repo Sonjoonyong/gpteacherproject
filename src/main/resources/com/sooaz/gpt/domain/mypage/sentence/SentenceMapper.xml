@@ -8,19 +8,17 @@
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             select SENTENCE_ID_SEQ.nextval from dual
         </selectKey>
-        insert into SENTENCE
-        (
-        id,
-        learning_id,
-        sentence_question,
-        sentence_answer
+        insert into SENTENCE (
+            id,
+            learning_id,
+            sentence_question,
+            sentence_answer
         )
-        values
-        (
-        #{id},
-        #{learningId},
-        #{sentenceQuestion},
-        #{sentenceAnswer}
+        values (
+            #{id},
+            #{learningId},
+            #{sentenceQuestion},
+            #{sentenceAnswer}
         )
     </insert>
 
@@ -39,13 +37,24 @@
 
     <update id="update">
         update SENTENCE
-        set
-            flashcard_id = #{sentenceUpdateDto.flashcardId},
-            sentence_corrected = #{sentenceUpdateDto.sentenceCorrected},
-            sentence_accuracy = #{sentenceUpdateDto.sentenceAccuracy},
-            sentence_next_repetition = #{sentenceUpdateDto.sentenceNextRepetition},
-            sentence_repetition_step = #{sentenceUpdateDto.sentenceRepetitionStep}
-            where id = #{sentenceUpdateDto.sentenceId}
+        <set>
+            <if test="flashcardId != null">
+                flashcard_id = #{flashcardId},
+            </if>
+            <if test="sentenceCorrected != null">
+                sentence_corrected = #{sentenceCorrected},
+            </if>
+            <if test="sentenceAccuracy != null">
+                sentence_accuracy = #{sentenceAccuracy},
+            </if>
+            <if test="sentenceNextRepetition != null">
+                sentence_next_repetition = #{sentenceNextRepetition},
+            </if>
+            <if test="sentenceRepetitionStep != null">
+                sentence_repetition_step = #{sentenceRepetitionStep}
+            </if>
+        </set>
+        where id = #{sentenceId}
     </update>
 
     <delete id="delete">
