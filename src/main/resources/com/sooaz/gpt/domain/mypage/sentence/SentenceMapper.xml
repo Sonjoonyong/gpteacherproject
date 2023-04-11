@@ -22,7 +22,6 @@
         #{learningId},
         #{sentenceQuestion},
         #{sentenceAnswer},
-        'Not corrected yet'
         )
     </insert>
 
