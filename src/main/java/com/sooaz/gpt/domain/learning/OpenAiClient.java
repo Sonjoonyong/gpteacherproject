@@ -30,7 +30,7 @@ public class OpenAiClient {
     //======================================================================
     // ChatGPT에게 보여줄 응답 예제
     public static final String EXAMPLE_SCRIPT =
-            "I think there's so many questions about traveling at OPIC test " +
+            "I think there's so many questions about traveling at OPIC test " +  // /%s/
                     "but I don't like travels that much especially the travel aboard " +
                     "so I barely remember the trouble that I had ";
 
