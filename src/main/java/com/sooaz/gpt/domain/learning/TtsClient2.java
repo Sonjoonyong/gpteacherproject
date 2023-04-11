@@ -1,27 +1,25 @@
 package com.sooaz.gpt.domain.learning;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Component
 @PropertySource("classpath:/application.properties")
-public class ttsClient2 {
+public class TtsClient2 {
     @Value("${tts.client.id}")
     private String ttsCLIENT_ID;
     @Value("${tts.client.secret}")
     private String ttsCLIENT_SECRET;
 
-    private static void Question(String chat){
+    public void tts(String assistantTalk, HttpServletResponse response){
 
         String clientId = "ttsCLIENT_ID";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "ttsCLIENT_SECRET";//애플리케이션 클라이언트 시크릿값";
@@ -39,7 +37,7 @@ public class ttsClient2 {
             //헤더
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
-            String postParams = "speaker=nara&volume=0&speed=0&pitch=0&format=mp3&text=" + text;
+            String postParams = "speaker=nara&volume=0&speed=0&pitch=0&format=mp3&text=" + assistantTalk;
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
             wr.writeBytes(postParams);

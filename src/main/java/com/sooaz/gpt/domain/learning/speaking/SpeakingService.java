@@ -15,7 +15,6 @@ public class SpeakingService {
     private String INSTRUCTION = "i have to practice speaking for \"%s\" test. please give me one question (sentences related to the \"%s\" test).";
 
 
-
     public String initSpeaking(SpeakingDTO speakingDTO){
 
         String initialInstruction = getInitialInstruction(speakingDTO);
