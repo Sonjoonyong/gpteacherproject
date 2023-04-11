@@ -63,12 +63,12 @@ public class TtsClient2 {
             } else {  // 오류 발생
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                StringBuffer responseBuffer = new StringBuffer();
                 while ((inputLine = br.readLine()) != null) {
-                    response.append(inputLine);
+                    responseBuffer.append(inputLine);
                 }
                 br.close();
-                System.out.println(response.toString());
+                System.out.println(responseBuffer.toString());
             }
         } catch (Exception e) {
             System.out.println(e);
