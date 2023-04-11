@@ -1,42 +1,38 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
-import com.sooaz.gpt.domain.mypage.learning.Learning;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class SentenceRepository {
 
-    // 임시
-    public Learning save(Sentence sentence) {
-        return null;
+    private final SentenceMapper sentenceMapper;
+
+    public void save(Sentence sentence) {
+        sentenceMapper.save(sentence);
     }
 
-    // 임시
-    public Optional<Learning> findById(Long sentenceId) {
-        return null;
+    public Optional<Sentence> findById(Long sentenceId) {
+        return sentenceMapper.findById(sentenceId);
     }
 
-    // 임시
     public List<Sentence> findAll() {
-        return new ArrayList<Sentence>();
+        return sentenceMapper.findAll();
     }
 
-    // 임시
     public List<Sentence> findAllByLearningId(Long learningId) {
-        return new ArrayList<Sentence>();
+        return sentenceMapper.findAllByLearningId(learningId);
     }
 
-    // 임시
-    public void update() {
-
+    public void update(SentenceUpdateDto sentenceUpdateDto) {
+        sentenceMapper.update(sentenceUpdateDto);
     }
 
-    // 임시
-    public void delete() {
-
+    public void delete(Long sentenceId) {
+        sentenceMapper.delete(sentenceId);
     }
 }

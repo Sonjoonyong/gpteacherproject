@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.mypage.sentence.SentenceMapper">
+
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select SENTENCE_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into SENTENCE
+        (
+        id,
+        learning_id,
+        sentence_question,
+        sentence_answer,
+        sentence_corrected
+        )
+        values
+        (
+        #{id},
+        #{learningId},
+        #{sentenceQuestion},
+        #{sentenceAnswer},
+        'Not corrected yet'
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="Sentence">
+        select * from SENTENCE where id = #{sentenceId}
+    </select>
+
+    <select id="findAll" resultType="Sentence">
+        select * from SENTENCE
+    </select>
+
+    <select id="findAllByLearningId" parameterType="long" resultType="Sentence">
+        select * from SENTENCE where LEARNING_ID = #{learningId}
+    </select>
+
+
+    <update id="update">
+        update SENTENCE
+        set
+            flashcard_id = #{sentenceUpdateDto.flashcardId},
+            sentence_corrected = #{sentenceUpdateDto.sentenceCorrected},
+            sentence_accuracy = #{sentenceUpdateDto.sentenceAccuracy},
+            sentence_next_repetition = #{sentenceUpdateDto.sentenceNextRepetition},
+            sentence_repetition_step = #{sentenceUpdateDto.sentenceRepetitionStep}
+            where id = #{sentenceUpdateDto.sentenceId}
+    </update>
+
+    <delete id="delete">
+        delete from SENTENCE where ID = #{sentenceId}
+    </delete>
+
+</mapper>

@@ -26,24 +26,16 @@ public class DialogueService {
 
     public String initDialogue(DialogueTopicDto dialogueTopicDto) {
 
-        // 지시문 설정
-        String initialInstruction = String.format(
-                INSTRUCTION,
-                dialogueTopicDto.getSituation(),
-                dialogueTopicDto.getPlace(),
-                dialogueTopicDto.getOption(),
-                dialogueTopicDto.getUserRole(),
-                dialogueTopicDto.getAssistantRole()
-        );
-
-        String assistantTalk = openAiClient.chat(initialInstruction);
-
-        return assistantTalk;
+        String initialInstruction = getInitialInstruction(dialogueTopicDto);
+        return openAiClient.chat(initialInstruction);
     }
 
-    public Long saveLearn() {
-        Learning learning = new Learning();
+    public Long saveLearn(DialogueTopicDto dialogueTopicDto) {
 
+        // 지시문 설정
+        getInitialInstruction(dialogueTopicDto);
+
+        Learning learning = new Learning();
         learning.setLearning_type(LearningType.DIALOGUE);
         learning.setLearningTopic(INSTRUCTION);
         learning.setLearningDate(new Date());
@@ -82,5 +74,18 @@ public class DialogueService {
         messages.add(userMessage);
 
         return openAiClient.chat(messages);
+    }
+
+    private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
+        System.out.println("dialogueTopicDto = " + dialogueTopicDto);
+        // 지시문 설정
+        return String.format(
+                INSTRUCTION,
+                dialogueTopicDto.getSituation(),
+                dialogueTopicDto.getPlace(),
+                dialogueTopicDto.getOption(),
+                dialogueTopicDto.getUserRole(),
+                dialogueTopicDto.getAssistantRole()
+        );
     }
 }

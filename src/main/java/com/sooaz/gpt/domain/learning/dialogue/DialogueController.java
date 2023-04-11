@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning.dialogue;
 
+import com.sooaz.gpt.domain.learning.OpenAiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class DialogueController {
 
     private final DialogueService dialogueService;
+    private final OpenAiClient openAiClient;
 
     @GetMapping("/learning/dialogue")
     public String getTopicForm() {
@@ -22,7 +24,7 @@ public class DialogueController {
             Model model
     ) {
         String assistantTalk = dialogueService.initDialogue(dialogueTopicDto);
-        Long learningId = dialogueService.saveLearn();
+        Long learningId = dialogueService.saveLearn(dialogueTopicDto);
 
         model.addAttribute("assistantTalk", assistantTalk);
         model.addAttribute("learningId", learningId);
