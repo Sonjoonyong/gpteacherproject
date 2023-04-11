@@ -13,15 +13,14 @@
         id,
         learning_id,
         sentence_question,
-        sentence_answer,
-        sentence_corrected
+        sentence_answer
         )
         values
         (
         #{id},
         #{learningId},
         #{sentenceQuestion},
-        #{sentenceAnswer},
+        #{sentenceAnswer}
         )
     </insert>
 
