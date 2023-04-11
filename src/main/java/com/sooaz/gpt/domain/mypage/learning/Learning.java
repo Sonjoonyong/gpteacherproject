@@ -9,7 +9,7 @@ import java.util.Date;
 public class Learning {
     private Long id;
     private Long userId;
-    private LearningType learning_type;
+    private LearningType learningType;
     private String learningTestName;
     private String learningTopic;
     private Date learningDate;

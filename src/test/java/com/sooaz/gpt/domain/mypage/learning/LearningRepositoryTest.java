@@ -33,6 +33,7 @@ public class LearningRepositoryTest {
         Learning learning = new Learning();
         learning.setUserId(1L);
         learning.setLearningTopic("sports");
+        learning.setLearningType(LearningType.DIALOGUE);
 
         // 저장
         learningRepository.save(learning);

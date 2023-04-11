@@ -32,6 +32,7 @@ public class SentenceRepositoryTest {
         sentence.setSentenceQuestion("how old are you?");
         sentence.setSentenceAnswer("I'm 29 year old");
         sentence.setSentenceCorrected("I'm 29 years old");
+        sentence.setSentenceExplanation("explanation example");
 
         sentenceRepository.save(sentence);
         log.info("sentence = {}", sentence);
@@ -68,18 +69,21 @@ public class SentenceRepositoryTest {
         sentence1.setSentenceQuestion("how old are you?");
         sentence1.setSentenceAnswer("I'm 29 year old");
         sentence1.setSentenceCorrected("I'm 29 years old");
+        sentence1.setSentenceExplanation("explanation example");
 
         Sentence sentence2 = new Sentence();
         sentence2.setLearningId(100L);
         sentence2.setSentenceQuestion("how old are you?");
         sentence2.setSentenceAnswer("I'm 29 year old");
         sentence2.setSentenceCorrected("I'm 29 years old");
+        sentence2.setSentenceExplanation("explanation example");
 
         Sentence sentence3 = new Sentence();
         sentence3.setLearningId(200L);
         sentence3.setSentenceQuestion("how old are you?");
         sentence3.setSentenceAnswer("I'm 29 year old");
         sentence3.setSentenceCorrected("I'm 29 years old");
+        sentence3.setSentenceExplanation("explanation example");
 
         sentenceRepository.save(sentence1);
         sentenceRepository.save(sentence2);
