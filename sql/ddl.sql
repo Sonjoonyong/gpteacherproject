@@ -11,13 +11,13 @@ CREATE TABLE users
 
 CREATE TABLE sentence
 (
-    id                       NUMBER            NOT NULL,
-    learning_id              NUMBER            NOT NULL,
+    id                       NUMBER NOT NULL,
+    learning_id              NUMBER NOT NULL,
     flashcard_id             NUMBER NULL,
     voice_file_id            NUMBER NULL,
     sentence_question        VARCHAR2(255) NOT NULL,
     sentence_answer          VARCHAR2(255) NOT NULL,
-    sentence_corrected       VARCHAR2(255) NOT NULL,
+    sentence_corrected       VARCHAR2(255) NULL,
     sentence_like            CHAR(1) DEFAULT 0 NOT NULL,
     sentence_accuracy        NUMBER NULL,
     sentence_next_repetition DATE NULL,
@@ -152,72 +152,72 @@ CREATE TABLE bookmark
 
 ALTER TABLE users
     ADD CONSTRAINT PK_USER PRIMARY KEY (
-                                          id
+                                        id
         );
 
 ALTER TABLE sentence
     ADD CONSTRAINT PK_SENTENCE PRIMARY KEY (
-                                              id
+                                            id
         );
 
 ALTER TABLE community_post
     ADD CONSTRAINT PK_COMMUNITY_POST PRIMARY KEY (
-                                                    id
+                                                  id
         );
 
 ALTER TABLE board_notice
     ADD CONSTRAINT PK_BOARD_NOTICE PRIMARY KEY (
-                                                  id
+                                                id
         );
 
 ALTER TABLE community_reply
     ADD CONSTRAINT PK_COMMUNITY_REPLY PRIMARY KEY (
-                                                     id
+                                                   id
         );
 
 ALTER TABLE learning
     ADD CONSTRAINT PK_LEARNING PRIMARY KEY (
-                                              id
+                                            id
         );
 
 ALTER TABLE admin_user
     ADD CONSTRAINT PK_ADMIN_USER PRIMARY KEY (
-                                                id
+                                              id
         );
 
 ALTER TABLE voice_file
     ADD CONSTRAINT PK_VOICE_FILE PRIMARY KEY (
-                                                id
+                                              id
         );
 
 ALTER TABLE board_question
     ADD CONSTRAINT PK_BOARD_QUESTION PRIMARY KEY (
-                                                    id
+                                                  id
         );
 
 ALTER TABLE board_faq
     ADD CONSTRAINT PK_BOARD_FAQ PRIMARY KEY (
-                                               id
+                                             id
         );
 
 ALTER TABLE flashcard
     ADD CONSTRAINT PK_FLASHCARD PRIMARY KEY (
-                                               id
+                                             id
         );
 
 ALTER TABLE question_reply
     ADD CONSTRAINT PK_QUESTION_REPLY PRIMARY KEY (
-                                                    id
+                                                  id
         );
 
 ALTER TABLE report_list
     ADD CONSTRAINT PK_REPORT_LIST PRIMARY KEY (
-                                                 id
+                                               id
         );
 
 ALTER TABLE bookmark
     ADD CONSTRAINT PK_BOOKMARK PRIMARY KEY (
-                                              id
+                                            id
         );
 
 CREATE SEQUENCE ADMIN_ID_SEQ;
