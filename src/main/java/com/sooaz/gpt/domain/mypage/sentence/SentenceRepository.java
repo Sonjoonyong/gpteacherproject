@@ -11,7 +11,7 @@ import java.util.Optional;
 public class SentenceRepository {
 
     // 임시
-    public Learning save() {
+    public Learning save(Sentence sentence) {
         return null;
     }
 
@@ -22,6 +22,11 @@ public class SentenceRepository {
 
     // 임시
     public List<Sentence> findAll() {
+        return new ArrayList<Sentence>();
+    }
+
+    // 임시
+    public List<Sentence> findAllByLearningId(Long learningId) {
         return new ArrayList<Sentence>();
     }
 

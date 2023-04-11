@@ -10,7 +10,7 @@ import java.util.Optional;
 public class LearningRepository {
 
     // 임시
-    public Learning save() {
+    public Learning save(Learning learning) {
         return null;
     }
 
