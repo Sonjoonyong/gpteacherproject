@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.learning;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@PropertySource("classpath:/application.properties")
 public class OpenAiClient {
 
     private final String URL_CHAT = "https://api.openai.com/v1/chat/completions";
