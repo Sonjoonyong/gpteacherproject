@@ -20,7 +20,7 @@ public class DialogueService {
     private final SentenceRepository sentenceRepository;
     private final OpenAiClient openAiClient;
 
-    private String INSTRUCTION = "We can practice a conversation for \"%s\" at the \"%s\" and it's about \"%s\". " +
+    private String INITIAL_INSTRUCTION = "We can practice a conversation for \"%s\" at the \"%s\" and it's about \"%s\". " +
             "Please don't give me the full dialogue all at once say one sentence " +
             "and wait for my response. I'll be a \"%s\", and you'll be a \"%s\".";
 
@@ -32,12 +32,11 @@ public class DialogueService {
 
     public Long saveLearn(DialogueTopicDto dialogueTopicDto) {
 
-        // 지시문 설정
-        getInitialInstruction(dialogueTopicDto);
+        String initialInstruction = getInitialInstruction(dialogueTopicDto);
 
         Learning learning = new Learning();
         learning.setLearning_type(LearningType.DIALOGUE);
-        learning.setLearningTopic(INSTRUCTION);
+        learning.setLearningTopic(initialInstruction);
         learning.setLearningDate(new Date());
 
         return learningRepository.save(learning).getId();
@@ -54,6 +53,13 @@ public class DialogueService {
     public String talk(String userTalk, Long learningId) {
 
         List<JSONObject> messages = new ArrayList<>();
+
+        // 대화 주제 추가
+        Learning learning = learningRepository.findById(learningId)
+                .orElseThrow(IllegalStateException::new);
+        String learningTopic = learning.getLearningTopic();
+        JSONObject topicMessage = OpenAiClient.userMessage(learningTopic);
+        messages.add(topicMessage);
 
         // 과거 대화 내역 추가
         List<Sentence> sentences = sentenceRepository.findAllByLearningId(learningId);
@@ -77,10 +83,9 @@ public class DialogueService {
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
-        System.out.println("dialogueTopicDto = " + dialogueTopicDto);
         // 지시문 설정
         return String.format(
-                INSTRUCTION,
+                INITIAL_INSTRUCTION,
                 dialogueTopicDto.getSituation(),
                 dialogueTopicDto.getPlace(),
                 dialogueTopicDto.getOption(),
