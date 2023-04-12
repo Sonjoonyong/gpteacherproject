@@ -13,15 +13,15 @@
             ${errorMessage}
     </div>
 </c:if>
-<form action="${pageContext.request.contextPath}/learning/submitQuestionAndAnswer" method="post">
+<form action="${pageContext.request.contextPath}/learning/correction" method="post">
     <input type="hidden" name="action" value="submit">
     <input type="hidden" name="topic" value="${topic}" />
+    <input type="hidden" name="question" value="${question}" />
     <p>Question: <span>${question}</span></p>
     <label for="answer">Answer: </label>
     <textarea name="answer" id="answer"></textarea>
     <br>
     <input type="submit" value="Submit">
-</form>
 </form>
 </body>
 </html>
