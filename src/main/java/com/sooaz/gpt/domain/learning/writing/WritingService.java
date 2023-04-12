@@ -1,6 +1,7 @@
 package com.sooaz.gpt.domain.learning.writing;
 
 import com.sooaz.gpt.domain.learning.OpenAiClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,27 @@ public class WritingService {
         return question;
     }
 
-    public JSONObject evaluateAnswer(String answer) {
-        // OpenAiClient.chat()을 사용해서 답변을 평가한다.
+    public String evaluateAnswer(String userAnswer, String question) throws IOException {
+        String prompt = "Correct the following sentence: " + userAnswer;
+        String response = openAiClient.chat(prompt);
 
-        return null;
+        // Handle the response correctly
+        if (response.trim().startsWith("{")) {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("choices");
+            JSONObject choice = jsonArray.getJSONObject(0);
+            JSONObject message = choice.getJSONObject("message");
+            String content = message.getString("content").trim();
+
+            if (content.startsWith("{")) {
+                JSONObject contentJson = new JSONObject(content);
+                return contentJson.optString("corrected", content);
+            } else {
+                return content;
+            }
+        } else {
+            return response.trim();
+        }
     }
+
 }
