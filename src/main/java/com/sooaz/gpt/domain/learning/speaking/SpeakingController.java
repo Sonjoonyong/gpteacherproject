@@ -1,7 +1,7 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
 
-import com.sooaz.gpt.domain.learning.TtsClient2;
+import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SpeakingController {
 
     private final SpeakingService speakingService;
-    private final TtsClient2 ttsClient2;
+    private final NcpTtsClient ncpTtsClient;
 
     //Topic
     @GetMapping("/learning/speaking")
@@ -35,18 +35,18 @@ public class SpeakingController {
     ) {
         String assistantQuestion = speakingService.initSpeaking(speakingDTO);
 
-
-        model.addAttribute(assistantQuestion, assistantQuestion);
+        model.addAttribute("assistantQuestion", assistantQuestion);
 
         return "learning/speaking/speakingPractice";
     }
 
+    //
     @GetMapping("/learning/speaking/tts")
     public void getTts(
             @RequestParam String assistantQuestion,
             HttpServletResponse response
     ) {
-        ttsClient2.tts(assistantQuestion, response);
+        ncpTtsClient.tts(assistantQuestion, response);
 
     }
 

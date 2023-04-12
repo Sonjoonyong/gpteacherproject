@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>Quesion+speaking하는곳</title>
-	<!--tts-->
+	<!--=========TTS스크립트시작=========-->
     <script>
     	var audio = new Audio();
     	$(function(){
@@ -37,8 +37,9 @@
 
     	});
     </script>
+	<!--=========TTS스크립트끝=========-->
 
-	<!--record-->
+	<!--=========whisper스크립트시작=========-->
 	<script>
 		let recordButton = document.querySelector("#record");
 		let stopButton = document.querySelector("#stop");
@@ -49,46 +50,57 @@
 			if (navigator.mediaDevices) {
 				const constraints = {audio:true};
 				let chunks = [] // 녹음된 내용을 저장할 변수
+
 				// 정상 구현 시
 				navigator.mediaDevices.getUserMedia(constraints).then(stream => {
 					// 녹음을 시작하고 종료하는 객체
 					const mediaRecorder = new MediaRecorder(stream);
+
 					// 녹음 시작
 					recordButton.onclick = () => {
 						chunks = []; // 이전에 녹음된 내용이 있으면 초기화
 						mediaRecorder.start();
+
 						recordButton.style.backgroundColor = "red";
 						recordButton.style.color = "white";
 						recordButton.disabled = true;
 						stopButton.disabled = false;
 					}
+
 					// 오디오 저장
 					mediaRecorder.ondataavailable = e => {
 						chunks.push(e.data);
 					}
+
 					// 녹음 종료
 					stopButton.onclick = () => {
 						mediaRecorder.stop();
+
 						recordButton.style.backgroundColor = "";
 						stopButton.disabled = true;
 						recordButton.disabled = true;
 					}
+
 					// 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리
 					mediaRecorder.onstop = () => {
 						// chunks에 저장된 데이터를 바이너리코드로 변환
 						const blob = new Blob(chunks, {'type':'audio/webm codecs=opus'});
+
 						// 서버로 전송
 						let formData = new FormData();
 						formData.append("audio", blob);
 						ajax(formData);
 					}
+
 				}).catch(err => {
 					console.log(err);
 				});
 			} else {
 				console.log("미디어 장치 없음");
 			}
+
 		}
+
 		function ajax(formData) {
 			let request = new XMLHttpRequest();
 
@@ -99,75 +111,88 @@
 				recordButton.style.color = "";
 				recordButton.disabled = false;
 			}
+
 			request.open("POST", "/gpt/whisper", false);
 			request.send(formData);
 		}
-
 	</script>
+	<!--=========whisper스크립트끝=========-->
 </head>
 <body>
 	<h1>Speaking</h1>
+	<h4>Question</h4>
+	<h4>TTS버튼</h4>
     <div class="container">
-    	<form id="voiceForm" method="post">
-    		목소리 종류 :
-    		<select name="speaker">
-    			<option value="clara">여성</option>
-    			<option value="matt">남성</option>
-    		</select>
-    		볼륨 :
-    		<select name="volume" >
-    			<script>
-    				for(var i = -5; i <= 5; i++){
-    					document.write("<option value='"+ i +"'");
-    					if (i == 0){
-    						document.write(" selected");
-    					}
-    					document.write(">"+ i +"</option>");
-    				}
-    			</script>
-    		</select>
-    		속도 :
-    		<select name="speed">
-    			<script>
-    				for(var i = -5; i <= 5; i++){
-    					document.write("<option value='"+ i +"'");
-    					if (i == 0){
-    						document.write(" selected");
-    					}
-    					document.write(">"+ i +"</option>");
-    				}
-    			</script>
-    		</select>
-    		피치 :
-    		<select name="pitch">
-    			<script>
-    				for(var i = -5; i <= 5; i++){
-    					document.write("<option value='"+ i +"'");
-    					if (i == 0){
-    						document.write(" selected");
-    					}
-    					document.write(">"+ i +"</option>");
-    				}
-    			</script>
-    		</select>
-    		음성 감정 :
-    		<select name="emotion">
-    			<option value="0" selected>중립</option>
-    			<option value="1">슬픔</option>
-    			<option value="2">기쁨</option>
-    			<option value="3">분노</option>
-    		</select>
-    		<hr>
-    		<textarea name="text" style="width:100%; height:100px;"></textarea>
-    		<input type="submit" value="SPEAKER">
-    		<input type="button" value="stop" id="stop">
-			<br>
-			<h4>정답제출</h4>
-			<h4></h4>
-			<input type="button" id="record" value="녹음 시작">
-			<input type="button" id="stop" value="녹음 중지">
-			<br>
-    	</form>
+			<div>
+				<form id="voiceForm" method="post">
+					목소리 종류 :
+					<select name="speaker">
+						<option value="clara">여성</option>
+						<option value="matt">남성</option>
+					</select>
+
+					볼륨 :
+					<select name="volume" >
+						<script>
+							for(var i = -5; i <= 5; i++){
+								document.write("<option value='"+ i +"'");
+								if (i == 0){
+									document.write(" selected");
+								}
+								document.write(">"+ i +"</option>");
+							}
+						</script>
+					</select>
+
+					속도 :
+					<select name="speed">
+						<script>
+							for(var i = -5; i <= 5; i++){
+								document.write("<option value='"+ i +"'");
+								if (i == 0){
+									document.write(" selected");
+								}
+								document.write(">"+ i +"</option>");
+							}
+						</script>
+					</select>
+
+					피치 :
+					<select name="pitch">
+						<script>
+							for(var i = -5; i <= 5; i++){
+								document.write("<option value='"+ i +"'");
+								if (i == 0){
+									document.write(" selected");
+								}
+								document.write(">"+ i +"</option>");
+							}
+						</script>
+					</select>
+
+					음성 감정 :
+					<select name="emotion">
+						<option value="0" selected>중립</option>
+						<option value="1">슬픔</option>
+						<option value="2">기쁨</option>
+						<option value="3">분노</option>
+					</select>
+					<hr>
+					<textarea name="text" style="width:100%; height:100px;"></textarea>
+					<input type="submit" value="SPEAKER">
+					<input type="button" value="stop" id="stop">
+					<br>
+				</form>
+			</div>
+
+			<div>
+				<form id="voiceRecord" method="post">
+					<h4>whisper</h4>
+					<h4></h4>
+					<input type="button" id="record" value="녹음 시작">
+					<input type="button" id="stop2" value="녹음 중지">
+				</form>
+			</div>
     </div>
 
 </body>
