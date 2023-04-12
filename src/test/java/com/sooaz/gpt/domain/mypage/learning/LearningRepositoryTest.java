@@ -23,24 +23,37 @@ import static org.junit.Assert.*;
 })
 @Slf4j
 @Transactional
-public class LearningRepositoryTest{
+public class LearningRepositoryTest {
 
     @Autowired
     LearningRepository learningRepository;
 
     @Test
-    public void crd() {
+    public void crud() {
         Learning learning = new Learning();
         learning.setUserId(1L);
         learning.setLearningTopic("sports");
 
+        // 저장
         learningRepository.save(learning);
         log.info("learning = {}", learning);
         Learning foundLearning = learningRepository
                 .findById(learning.getId())
-                .orElseThrow(IllegalArgumentException::new);
-        assertEquals(learning.getLearningTopic(),foundLearning.getLearningTopic());
+                .orElseThrow(IllegalStateException::new);
+        assertEquals(learning.getLearningTopic(), foundLearning.getLearningTopic());
 
+        // 업데이트
+        LearningUpdateDto learningUpdateDto = new LearningUpdateDto();
+        learningUpdateDto.setLearningId(learning.getId());
+        learningUpdateDto.setLearningLike('1');
+        learningRepository.update(learningUpdateDto);
+        Learning updatedLearning = learningRepository
+                .findById(learning.getId())
+                .orElseThrow(IllegalStateException::new);
+        log.info("updatedLearning = {}", updatedLearning);
+        assertEquals('1', updatedLearning.getLearningLike().charValue());
+
+        // 삭제
         learningRepository.delete(learning.getId());
         List<Learning> learnings = learningRepository.findAll();
         assertEquals(0, learnings.size());

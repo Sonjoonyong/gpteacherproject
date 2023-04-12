@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.learning.dialogue;
 
-import com.sooaz.gpt.domain.learning.OpenAiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 public class DialogueController {
 
     private final DialogueService dialogueService;
-    private final OpenAiClient openAiClient;
 
     @GetMapping("/learning/dialogue")
     public String getTopicForm() {
@@ -39,8 +37,6 @@ public class DialogueController {
             @RequestParam String userTalk,
             @RequestParam Long learningId
     ) {
-        dialogueService.saveSentence(assistantTalk, userTalk);
-
-        return dialogueService.talk(userTalk, learningId);
+        return dialogueService.talk(assistantTalk, userTalk, learningId);
     }
 }

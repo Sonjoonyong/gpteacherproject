@@ -10,6 +10,7 @@ public class SentenceUpdateDto {
     private Long sentenceId;
     private Long flashcardId;
     private String sentenceCorrected;
+    private String sentenceExplanation;
     private Integer sentenceAccuracy;
     private Date sentenceNextRepetition;
     private Integer sentenceRepetitionStep;
