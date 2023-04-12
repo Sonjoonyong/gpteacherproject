@@ -6,7 +6,6 @@ import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
-import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,12 @@ public class DialogueService {
     private final SentenceRepository sentenceRepository;
     private final OpenAiClient openAiClient;
 
-    private String INITIAL_INSTRUCTION = "Let's practice a role-play for \"%s\" at the \"%s\" and it's about \"%s\". " +
-            "Please don't give me a full dialogue all at once and just say a single sentence and wait for my response. " +
-            "My role is \"%s\", and your role is \"%s\". Start conversation with your first talk for me. " +
-            "Don't append any comment except your role-play talk.";
+    private String INITIAL_INSTRUCTION = "Let's have conversation with me about \"%s\" at the \"%s\" and it's about \"%s\". " +
+            "My role is \"%s\", and your role is \"%s\".  " +
+            "Please don't give me a full dialogue all at once. " +
+            "Just response only a single sentence and wait for my talk. " +
+            "Don't append any comment except your role-play talk. " +
+            "Start conversation with your first talk to me with just single sentence.";
 
     private String USER_TALK_INSTRUCTION = "This is my talk : \"%s\"\n" +
             "\n" +
@@ -48,26 +49,14 @@ public class DialogueService {
         String initialInstruction = getInitialInstruction(dialogueTopicDto);
 
         Learning learning = new Learning();
-        learning.setLearning_type(LearningType.DIALOGUE);
+        learning.setUserId(1L);
+        learning.setLearningType(LearningType.DIALOGUE);
         learning.setLearningTopic(initialInstruction);
-        learning.setLearningDate(new Date());
 
         return learningRepository.save(learning).getId();
     }
 
-    public Sentence saveSentence(String pastAssistantTalk, String userTalk, Long learningId) {
-        // 현재 유저 응답 DB에 저장
-        Sentence sentence = new Sentence();
-        sentence.setLearningId(learningId);
-        sentence.setSentenceQuestion(pastAssistantTalk);
-        sentence.setSentenceAnswer(userTalk);
-        sentenceRepository.save(sentence);
-        return sentence;
-    }
-
     public String talk(String pastAssistantTalk, String userTalk, Long learningId) {
-        // 새로운 sentence로 저장
-        Sentence sentence = saveSentence(pastAssistantTalk, userTalk, learningId);
 
         List<JSONObject> messages = new ArrayList<>();
 
@@ -104,12 +93,18 @@ public class DialogueService {
         String assistantTalk = assistantTalkJsonObject.getString("answer");
         String correctedSentence = assistantTalkJsonObject.getString("corrected");
         String explanation = assistantTalkJsonObject.getString("explanation");
-        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
 
-        sentenceUpdateDto.setSentenceCorrected(correctedSentence);
-        sentenceUpdateDto.setSentenceExplanation(explanation);
+        // 새로운 sentence 저장
+        Sentence sentence = new Sentence();
+        sentence.setLearningId(learningId);
+        sentence.setSentenceQuestion(assistantTalk);
+        sentence.setSentenceCorrected(correctedSentence);
+        sentence.setSentenceExplanation(explanation);
+        sentence.setSentenceQuestion(pastAssistantTalk);
+        sentence.setSentenceAnswer(userTalk);
+        sentenceRepository.save(sentence);
 
-        return "";
+        return assistantTalk;
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {

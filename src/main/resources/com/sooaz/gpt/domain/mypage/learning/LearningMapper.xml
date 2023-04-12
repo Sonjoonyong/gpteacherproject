@@ -11,12 +11,14 @@
         insert into LEARNING (
             id,
             user_id,
-            learning_topic
+            learning_topic,
+            learning_type
         )
         values (
             #{id},
             #{userId},
-            #{learningTopic}
+            #{learningTopic},
+            #{learningType}
         )
     </insert>
 
