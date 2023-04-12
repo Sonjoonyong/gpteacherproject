@@ -17,7 +17,7 @@ public interface SentenceMapper {
 
     List<Sentence> findAll();
 
-    void update(@Param("sentenceUpdateDto") SentenceUpdateDto sentenceUpdateDto);
+    void update(SentenceUpdateDto sentenceUpdateDto);
 
     void delete(Long sentenceId);
 }

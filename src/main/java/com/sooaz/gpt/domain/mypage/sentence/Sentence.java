@@ -13,8 +13,9 @@ public class Sentence {
     private String sentenceQuestion;
     private String sentenceAnswer;
     private String sentenceCorrected;
+    private String sentenceExplanation;
     private Character sentenceLike;
-    private String sentenceAccuracy;
+    private Integer sentenceAccuracy;
     private Date sentenceNextRepetition;
     private Integer sentenceRepetitionStep;
 }

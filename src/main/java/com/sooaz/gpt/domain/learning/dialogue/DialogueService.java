@@ -6,6 +6,7 @@ import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,21 @@ public class DialogueService {
     private final SentenceRepository sentenceRepository;
     private final OpenAiClient openAiClient;
 
-    private String INITIAL_INSTRUCTION = "We can practice a conversation for \"%s\" at the \"%s\" and it's about \"%s\". " +
-            "Please don't give me the full dialogue all at once say one sentence " +
-            "and wait for my response. I'll be a \"%s\", and you'll be a \"%s\".";
+    private String INITIAL_INSTRUCTION = "Let's practice a role-play for \"%s\" at the \"%s\" and it's about \"%s\". " +
+            "Please don't give me a full dialogue all at once and just say a single sentence and wait for my response. " +
+            "My role is \"%s\", and your role is \"%s\". Start conversation with your first talk for me. " +
+            "Don't append any comment except your role-play talk.";
+
+    private String USER_TALK_INSTRUCTION = "This is my talk : \"%s\"\n" +
+            "\n" +
+            "First, answer to my talk.\n" +
+            "Second, correct my talk.\n" +
+            "Third, let me know the explanation for the correction.\n" +
+            "\n" +
+            "Give me response in JSON file like below :\n" +
+            "{ answer : \"your answer\",\n" +
+            "corrected : \"corrected version of my talk\",\n" +
+            "explanation : \"explanation for correction\" }";
 
     public String initDialogue(DialogueTopicDto dialogueTopicDto) {
 
@@ -42,15 +55,19 @@ public class DialogueService {
         return learningRepository.save(learning).getId();
     }
 
-    public void saveSentence(String assistantTalk, String userTalk) {
+    public Sentence saveSentence(String pastAssistantTalk, String userTalk, Long learningId) {
         // 현재 유저 응답 DB에 저장
         Sentence sentence = new Sentence();
-        sentence.setSentenceQuestion(assistantTalk);
+        sentence.setLearningId(learningId);
+        sentence.setSentenceQuestion(pastAssistantTalk);
         sentence.setSentenceAnswer(userTalk);
         sentenceRepository.save(sentence);
+        return sentence;
     }
 
-    public String talk(String userTalk, Long learningId) {
+    public String talk(String pastAssistantTalk, String userTalk, Long learningId) {
+        // 새로운 sentence로 저장
+        Sentence sentence = saveSentence(pastAssistantTalk, userTalk, learningId);
 
         List<JSONObject> messages = new ArrayList<>();
 
@@ -66,20 +83,33 @@ public class DialogueService {
         Collections.sort(sentences, Comparator.comparing(Sentence::getId));
 
         for (Sentence aSentence : sentences) {
-            String pastAssistantTalk = aSentence.getSentenceQuestion();
+            String aPastAssistantTalk = aSentence.getSentenceQuestion();
             String pastUserTalk = aSentence.getSentenceAnswer();
 
-            JSONObject assistantMessage = OpenAiClient.assistantMessage(pastAssistantTalk);
+            JSONObject assistantMessage = OpenAiClient.assistantMessage(aPastAssistantTalk);
             JSONObject userMessage = OpenAiClient.userMessage(pastUserTalk);
 
             messages.add(assistantMessage);
             messages.add(userMessage);
         }
 
-        JSONObject userMessage = OpenAiClient.userMessage(userTalk);
+        // 지시문에 유저 답변 결합 후 추가
+        String userTalkInstruction = String.format(USER_TALK_INSTRUCTION, userTalk);
+        JSONObject userMessage = OpenAiClient.userMessage(userTalkInstruction);
         messages.add(userMessage);
 
-        return openAiClient.chat(messages);
+        // JSON 형식 응답 수신
+        String assistantTalkJson = openAiClient.chat(messages);
+        JSONObject assistantTalkJsonObject = new JSONObject(assistantTalkJson);
+        String assistantTalk = assistantTalkJsonObject.getString("answer");
+        String correctedSentence = assistantTalkJsonObject.getString("corrected");
+        String explanation = assistantTalkJsonObject.getString("explanation");
+        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
+
+        sentenceUpdateDto.setSentenceCorrected(correctedSentence);
+        sentenceUpdateDto.setSentenceExplanation(explanation);
+
+        return "";
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {

@@ -44,11 +44,7 @@ public class SentenceRepositoryTest {
         // 업데이트
         SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
         sentenceUpdateDto.setSentenceId(sentence.getId());
-        sentenceUpdateDto.setFlashcardId(1L);
-        sentenceUpdateDto.setSentenceCorrected("I'm 29 years, very old");
         sentenceUpdateDto.setSentenceAccuracy(80);
-        sentenceUpdateDto.setSentenceNextRepetition(new Date());
-        sentenceUpdateDto.setSentenceRepetitionStep(1);
 
         sentenceRepository.update(sentenceUpdateDto);
 
@@ -56,7 +52,7 @@ public class SentenceRepositoryTest {
                 .findById(sentence.getId())
                 .orElseThrow(IllegalStateException::new);
 
-        assertEquals(sentenceUpdateDto.getSentenceCorrected(), updatedSentence.getSentenceCorrected());
+        assertEquals(80, updatedSentence.getSentenceAccuracy().intValue());
 
         // 삭제
         sentenceRepository.delete(sentence.getId());
