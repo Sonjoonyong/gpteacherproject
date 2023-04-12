@@ -41,7 +41,7 @@ public class DialogueService {
     public String initDialogue(DialogueTopicDto dialogueTopicDto) {
 
         String initialInstruction = getInitialInstruction(dialogueTopicDto);
-        return openAiClient.chat(initialInstruction);
+        return processTalk(openAiClient.chat(initialInstruction));
     }
 
     public Long saveLearn(DialogueTopicDto dialogueTopicDto) {
@@ -56,7 +56,7 @@ public class DialogueService {
         return learningRepository.save(learning).getId();
     }
 
-    public String talk(String pastAssistantTalk, String userTalk, Long learningId) {
+    public JSONObject talk(String pastAssistantTalk, String userTalk, Long learningId) {
 
         List<JSONObject> messages = new ArrayList<>();
 
@@ -104,7 +104,11 @@ public class DialogueService {
         sentence.setSentenceAnswer(userTalk);
         sentenceRepository.save(sentence);
 
-        return assistantTalk;
+
+        //return processTalk(assistantTalk);
+
+        return assistantTalkJsonObject;
+        //return assistantTalk;
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
@@ -117,5 +121,19 @@ public class DialogueService {
                 dialogueTopicDto.getUserRole(),
                 dialogueTopicDto.getAssistantRole()
         );
+    }
+
+    private String processTalk(String talk) {
+        if (talk == null || talk.length() == 0) {
+            return "";
+        }
+
+        int colon = talk.indexOf(':');
+        int leftParenthesis = talk.indexOf('(');
+
+        int left = (colon == -1) ? 0 : colon + 1;
+        int right = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
+
+        return talk.substring(left, right).trim();
     }
 }
