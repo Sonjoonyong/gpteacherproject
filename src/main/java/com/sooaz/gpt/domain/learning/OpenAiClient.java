@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.learning;
 
-import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
