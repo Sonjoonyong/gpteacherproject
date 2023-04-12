@@ -52,19 +52,6 @@
         ttsAjax(assistantTalk);
     })
 
-    function submitTts(button) {
-        let form = button.closest('form');
-        let text = form.querySelector('#textarea').value;
-        if (text == "") {
-            alert("문자를 입력하세요");
-            return false;
-        }
-        let formData = new FormData(form);
-
-        ttsAjax(formData);
-        return false;
-    }
-
     function ttsAjax(assistantTalk) {
         let request = new XMLHttpRequest();
 

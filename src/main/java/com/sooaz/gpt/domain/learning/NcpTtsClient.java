@@ -39,7 +39,6 @@ public class NcpTtsClient {
             wr.writeBytes(postParams);
             wr.flush();
             wr.close();
-            log.info("Started tts connection");
 
             int responseCode = con.getResponseCode();
             BufferedReader br;
@@ -60,7 +59,7 @@ public class NcpTtsClient {
                     res.append(inputLine);
                 }
                 br.close();
-                log.info("res = {}", res);
+                log.error("res = {}", res);
             }
         } catch (Exception e) {
             log.error("e = ", e);
