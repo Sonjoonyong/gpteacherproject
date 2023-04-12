@@ -5,16 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Sentence {
-    private Long id;
-    private Long learningId;
+public class SentenceUpdateDto {
+
+    private Long sentenceId;
     private Long flashcardId;
-    private Long voidFileId;
-    private String sentenceQuestion;
-    private String sentenceAnswer;
     private String sentenceCorrected;
     private String sentenceExplanation;
-    private Character sentenceLike;
     private Integer sentenceAccuracy;
     private Date sentenceNextRepetition;
     private Integer sentenceRepetitionStep;

@@ -18,10 +18,10 @@
         <input type="text" name="place" placeholder="대화 장소를 입력해 주세요." /><br/>
         예시 : restaurant<br/>
         My Role
-        <input type="text" name="myRole" placeholder="당신의 역할을 입력해주세요." /><br/>
+        <input type="text" name="userRole" placeholder="당신의 역할을 입력해주세요." /><br/>
         예시 : customer<br/>
         GPT's Role
-        <input type="text" name="gptRole" placeholder="대화 상대방의 역할을 입력해주세요." /><br/>
+        <input type="text" name="assistantRole" placeholder="대화 상대방의 역할을 입력해주세요." /><br/>
         예시 : waiter<br/>
         Situation
         <input type="text" name="situation" placeholder="대화 상황을 입력해주세요." /><br/>

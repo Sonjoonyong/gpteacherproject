@@ -26,7 +26,6 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
-    @Rollback(value = false)
     public void save() {
         User user = new User();
         user.setUserLoginId("admin");

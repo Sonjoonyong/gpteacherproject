@@ -8,9 +8,13 @@
 
 <div id="dialogueBox">
 
+    <button id="startAudio">
+        대화 시작하기
+    </button>
+
     <%--질문--%>
     <div class="question">
-        <span>What are you interested in?</span>
+        <span>${assistantTalk}</span>
     </div>
 
     <br>
@@ -41,6 +45,32 @@
     </div>
 
 </div>
+
+<script>
+    document.querySelector('#startAudio').addEventListener("click",() => {
+        let assistantTalk = "${assistantTalk}";
+        ttsAjax(assistantTalk);
+    })
+
+    function ttsAjax(assistantTalk) {
+        let request = new XMLHttpRequest();
+
+        let urlSearchParams = new URLSearchParams();
+        urlSearchParams.append("assistantTalk", assistantTalk);
+
+        request.onload = () => {
+            console.log(request.response);
+            let audioURL = URL.createObjectURL(request.response);
+            let audio = new Audio(audioURL);
+            audio.play();
+        }
+
+        request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
+        request.responseType = "blob";
+        request.send();
+    }
+</script>
+
 
 </body>
 </html>

@@ -1,15 +1,21 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gyurey
-  Date: 2023/04/08
-  Time: 5:20 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title></title>
+    <meta charset="UTF-8">
+    <title>Writing Practice - [${topic}]</title>
 </head>
 <body>
+<h1>Writing Practice - [${topic}]</h1>
+<form th:action="@{/learning/submitQuestionAndAnswer}" method="post">
+    <input type="hidden" name="topic" th:value="${topic}" />
+    <p>Question: <span th:text="${question}"></span></p>
+    <label for="answer">Answer: </label>
+    <textarea name="answer" id="answer"></textarea>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+</form>
 </body>
 </html>
+

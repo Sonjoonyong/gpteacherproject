@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.mypage.learning;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -7,30 +8,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class LearningRepository {
 
-    // 임시
+    private final LearningMapper learningMapper;
+
     public Learning save(Learning learning) {
-        return null;
+        learningMapper.save(learning);
+        return learning;
     }
 
-    // 임시
     public Optional<Learning> findById(Long learningId) {
-        return null;
+        return learningMapper.findById(learningId);
     }
 
-    // 임시
     public List<Learning> findAll() {
-        return new ArrayList<Learning>();
+        return learningMapper.findAll();
     }
 
-    // 임시
-    public void update() {
-
+    public void update(LearningUpdateDto learningUpdateDto) {
+        learningMapper.update(learningUpdateDto);
     }
 
-    // 임시
-    public void delete() {
-
+    public void delete(Long learningId) {
+        learningMapper.delete(learningId);
     }
 }

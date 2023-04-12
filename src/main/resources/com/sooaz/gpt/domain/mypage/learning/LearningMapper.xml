@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.mypage.learning.LearningMapper">
+
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select LEARNING_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into LEARNING (
+            id,
+            user_id,
+            learning_topic,
+            learning_type
+        )
+        values (
+            #{id},
+            #{userId},
+            #{learningTopic},
+            #{learningType}
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="Learning">
+        select * from LEARNING where id = #{learningId}
+    </select>
+
+    <select id="findAll" resultType="Learning">
+        select * from LEARNING
+    </select>
+
+    <update id="update">
+        update LEARNING
+        <set>
+            <if test="learningLike != null">
+                learning_like = #{learningLike}
+            </if>
+        </set>
+        where id = #{learningId}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from LEARNING where id = #{learningId}
+    </delete>
+
+</mapper>
