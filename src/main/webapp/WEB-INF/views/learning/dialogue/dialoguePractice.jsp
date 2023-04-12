@@ -10,7 +10,7 @@
 
     <%--질문--%>
     <div class="question">
-        <span>What are you interested in?</span>
+        <span>${assistantTalk}</span>
     </div>
 
     <br>
