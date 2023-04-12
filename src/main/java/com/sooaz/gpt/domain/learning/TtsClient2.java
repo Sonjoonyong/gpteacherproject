@@ -26,7 +26,7 @@ public class TtsClient2 {
 
         try {
 
-            String text = URLEncoder.encode("만나서 반갑습니다.", "UTF-8");
+            String text = URLEncoder.encode(assistantTalk, "UTF-8");
             String apiURL = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts";
 
             //HTTP
@@ -37,25 +37,22 @@ public class TtsClient2 {
             //헤더
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
-            String postParams = "speaker=nara&volume=0&speed=0&pitch=0&format=mp3&text=" + assistantTalk;
+            String postParams = "speaker=nara&volume=0&speed=0&pitch=0&format=mp3&text=" + text;
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(postParams);
+            wr.writeBytes(postParams); // tts에 text입력
             wr.flush();
             wr.close();
 
             int responseCode = con.getResponseCode(); //네이버에서 받은 결과
 
             BufferedReader br;
-
             if(responseCode==200) { // 정상 호출
                 InputStream is = con.getInputStream();
                 int read = 0;
                 byte[] bytes = new byte[1024];
-                String tempname = Long.valueOf(new Date().getTime()).toString(); // 랜덤한 이름으로 mp3 파일 생성
-                File f = new File(tempname + ".mp3");
-                f.createNewFile();
-                OutputStream outputStream = new FileOutputStream(f);
+                OutputStream outputStream = response.getOutputStream(); // text입력 결과를 view 페이지로 전달
+
                 while ((read =is.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, read);
                 }

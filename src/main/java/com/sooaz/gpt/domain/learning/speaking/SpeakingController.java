@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,16 +30,24 @@ public class SpeakingController {
     @PostMapping("/learning/speaking")
     public String getSpeakingForm(
             @ModelAttribute SpeakingDTO speakingDTO,
-            Model model,
-            HttpServletResponse response
+            Model model
+
     ) {
         String assistantQuestion = speakingService.initSpeaking(speakingDTO);
-        ttsClient2.tts(assistantQuestion, response);
+
 
         model.addAttribute(assistantQuestion, assistantQuestion);
 
         return "learning/speaking/speakingPractice";
     }
 
+    @GetMapping("/learning/speaking/tts")
+    public void getTts(
+            @RequestParam String assistantQuestion,
+            HttpServletResponse response
+    ) {
+        ttsClient2.tts(assistantQuestion, response);
+
+    }
 
 }

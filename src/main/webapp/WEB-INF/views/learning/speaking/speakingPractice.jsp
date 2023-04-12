@@ -10,55 +10,33 @@
 <html>
 <head>
     <title>Quesion+speaking하는곳</title>
-    <%
-        String question = generateQuestion("some topic");
-        JSONObject questionObj = new JSONObject(question);
-        String response = questionObj.getString("response");
-    %>
+
 
     <p>question: <%=response%></p>
 
     <script>
     	var audio = new Audio();
-
     	$(function(){
     		$("#voiceForm").submit(function(){
     			event.preventDefault();
-
-    			// javascript 비동기처리 객체 생성
-    			let xhr = new XMLHttpRequest();
-
-    			// 응답 받았을 때
-    			xhr.responseType = "blob";  // 받는 response 는 바이너리 타입 임
+    			let xhr = new XMLHttpRequest(); // javascript 비동기처리 객체 생성
+    			xhr.responseType = "blob"; // 받는 response 는 바이너리 타입 임
     			xhr.onload = function(){
     				var audioURL = URL.createObjectURL(this.response);  // this.response 여기에 오디오 데이터(바이너리) 있음
-
-    				// <audio src="파일명"></audio>
-    				//var audio = new Audio();
-    				audio.src = audioURL;  // audio 태그에 src 속성값 입력
-
-    				// 재생
-    				audio.play();
-
+    				audio.src = audioURL; // audio 태그에 src 속성값 입력
+    				audio.play(); // 재생
     			}
-
-    			// 접속 오픈
-    			xhr.open("post", "voiceOk");
-    			// 헤더 셋팅 - get 방식은 안해도 되는데, post 방식은 필요
-    			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    			xhr.open("post", "voiceOk");// 접속 오픈
+    			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");// 헤더 셋팅 - get 방식은 안해도 되는데, post 방식은 필요
     			// 접속 서버에 데이터 보내기
     			let params = $("#voiceForm").serialize();  // speaker=nara&...
     			xhr.send(params);
-
     		});
-
     		// stop 버튼
     		$("#stop").click(function(){
     			audio.pause();  // 일시정지
     			audio.currentTime = 0;  // 재생시간을 처음으로 설정
     		});
-
-
 
     	});
     </script>
@@ -74,7 +52,6 @@
     			<option value="clara">클라라: 영어, 여성 음색</option>
     			<option value="matt">매트: 영어, 남성 음색</option>
     		</select>
-
     		볼륨 :
     		<select name="volume">
     			<script>
@@ -87,7 +64,6 @@
     				}
     			</script>
     		</select>
-
     		속도 :
     		<select name="speed">
     			<script>
@@ -100,7 +76,6 @@
     				}
     			</script>
     		</select>
-
     		피치 :
     		<select name="pitch">
     			<script>
@@ -113,7 +88,6 @@
     				}
     			</script>
     		</select>
-
     		음성 감정 :
     		<select name="emotion">
     			<option value="0" selected>중립</option>
@@ -121,14 +95,11 @@
     			<option value="2">기쁨</option>
     			<option value="3">분노</option>
     		</select>
-
     		<hr>
-
     		<textarea name="text" style="width:100%; height:300px;"></textarea>
     		<input type="submit" value="SPEAKER">
     		<input type="button" value="stop" id="stop">
     	</form>
-
     </div>
 
 </body>
