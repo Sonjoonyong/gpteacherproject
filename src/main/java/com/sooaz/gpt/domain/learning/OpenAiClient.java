@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.learning;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -27,38 +26,6 @@ public class OpenAiClient {
 
     @Value("${file.dir}")
     private String fileDir;
-
-    //======================================================================
-    //======================================================================
-    // ChatGPT에게 보여줄 응답 예제
-    public static final String EXAMPLE_SCRIPT =
-            "I think there's so many questions about traveling at OPIC test " +
-                    "but I don't like travels that much especially the travel aboard " +
-                    "so I barely remember the trouble that I had ";
-
-    // ChatGPT에게 보여줄 JSON 예제
-    public static final JSONObject EXAMPLE_SENTENCE1_JSON = new JSONObject()
-            .put("original", "I think there's so many questions about traveling at OPIC test.")
-            .put("corrected", "I think there are many questions about traveling on the OPIC test.")
-            .put("explanation", "\"There's\" is a contraction of \"there is,\" which is singular. However, \"questions\" is plural, so \"there are\" should be used instead.");
-
-    public static final JSONObject EXAMPLE_SENTENCE2_JSON = new JSONObject()
-            .put("original", "but I don't like travels that much especially the travel aboard so I barely remember the trouble that I had.")
-            .put("corrected", "However, I don't enjoy traveling that much, especially abroad, so I barely remember any trouble I may have had.")
-            .put("explanation", "\"Travels\" should be changed to \"traveling\" to make it a verb. \"Aboard\" should be changed to \"abroad\" to indicate traveling to another country. The sentence structure is also improved for clarity.\"");
-
-    public static JSONArray EXAMPLE_SENTENCE_JSON_ARRAY = new JSONArray()
-            .put(EXAMPLE_SENTENCE1_JSON)
-            .put(EXAMPLE_SENTENCE2_JSON);
-
-    // ChatGPT에게 문장을 교정해달라고 요청하는 프롬프트
-    public static final String SPEAKING_INSTRUCTION_PREFIX =
-            "Cut my speaking script by sentence one by one followed by corrected one and explanation in JSON array. " +
-                    "JSON object has three properties. \n" +
-                    "1. original: original sentence. \n" +
-                    "2. corrected: corrected sentence. \n" +
-                    "3. explanation: explanation for correction. \n" +
-                    "Here is the script : \n";
 
     public static JSONObject userMessage(String prompt) {
         JSONObject message = new JSONObject();

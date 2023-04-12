@@ -4,7 +4,7 @@
 <head>
     <title>Title</title>
 </head>
-<body>
+<body onload="init()">
 
 <div id="dialogueBox">
 
@@ -46,31 +46,15 @@
 
 </div>
 
-<script>
-    document.querySelector('#startAudio').addEventListener("click",() => {
-        let assistantTalk = "${assistantTalk}";
-        ttsAjax(assistantTalk);
-    })
+<br><br><br><br>
+<input type="button" id="record" value="녹음 시작">
+<input type="button" id="stop" value="녹음 중지">
+발음해보세요: <div id="script">Peter Piper picked a peck of pickled peppers</div>
+<textarea rows="10" cols="100" id="textarea"></textarea>
+<br><br><br><br>
 
-    function ttsAjax(assistantTalk) {
-        let request = new XMLHttpRequest();
-
-        let urlSearchParams = new URLSearchParams();
-        urlSearchParams.append("assistantTalk", assistantTalk);
-
-        request.onload = () => {
-            console.log(request.response);
-            let audioURL = URL.createObjectURL(request.response);
-            let audio = new Audio(audioURL);
-            audio.play();
-        }
-
-        request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
-        request.responseType = "blob";
-        request.send();
-    }
-</script>
-
-
+<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script type="text/javascript" src="/js/dialoguePracticeTts.js"></script>
+<script type="text/javascript" src="/js/dialoguePracticePronunciation.js"></script>
 </body>
 </html>
