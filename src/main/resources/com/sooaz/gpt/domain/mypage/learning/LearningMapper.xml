@@ -8,18 +8,15 @@
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             select LEARNING_ID_SEQ.nextval from dual
         </selectKey>
-        insert into LEARNING
-        (
+        insert into LEARNING (
             id,
             user_id,
             learning_topic
-
         )
-        values
-        (
-         #{id},
-         #{userId},
-         #{learningTopic}
+        values (
+            #{id},
+            #{userId},
+            #{learningTopic}
         )
     </insert>
 
@@ -30,6 +27,16 @@
     <select id="findAll" resultType="Learning">
         select * from LEARNING
     </select>
+
+    <update id="update">
+        update LEARNING
+        <set>
+            <if test="learningLike != null">
+                learning_like = #{learningLike}
+            </if>
+        </set>
+        where id = #{learningId}
+    </update>
 
     <delete id="delete" parameterType="long">
         delete from LEARNING where id = #{learningId}
