@@ -56,7 +56,7 @@ public class DialogueService {
         return learningRepository.save(learning).getId();
     }
 
-    public String talk(String pastAssistantTalk, String userTalk, Long learningId) {
+    public JSONObject talk(String pastAssistantTalk, String userTalk, Long learningId) {
 
         List<JSONObject> messages = new ArrayList<>();
 
@@ -104,7 +104,11 @@ public class DialogueService {
         sentence.setSentenceAnswer(userTalk);
         sentenceRepository.save(sentence);
 
-        return processTalk(assistantTalk);
+
+        //return processTalk(assistantTalk);
+
+        return assistantTalkJsonObject;
+        //return assistantTalk;
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
