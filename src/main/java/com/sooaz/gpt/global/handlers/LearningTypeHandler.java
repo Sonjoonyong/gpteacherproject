@@ -16,7 +16,7 @@ public class LearningTypeHandler extends BaseTypeHandler<LearningType> {
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, LearningType learningType,
                                     JdbcType jdbcType) throws SQLException {
-
+        preparedStatement.setString(i, learningType.name());
     }
 
     @Override

@@ -12,7 +12,7 @@ DROP TABLE FLASHCARD;
 DROP TABLE question_reply;
 DROP TABLE report_list;
 DROP TABLE bookmark;
---DROP TABLE like;
+DROP TABLE likes;
 
 CREATE TABLE users
 (
@@ -35,6 +35,7 @@ CREATE TABLE sentence
     sentence_question        VARCHAR2(255)     NOT NULL,
     sentence_answer          VARCHAR2(255)     NOT NULL,
     sentence_corrected       VARCHAR2(255)     NULL,
+    sentence_explanation     VARCHAR2(255)     NULL,
     sentence_like            CHAR(1) DEFAULT 0 NOT NULL,
     sentence_accuracy        NUMBER            NULL,
     sentence_next_repetition DATE              NULL,
@@ -84,7 +85,7 @@ CREATE TABLE learning
     user_id            NUMBER        NOT NULL,
     learning_type      VARCHAR2(10)  NULL,
     learning_test_name VARCHAR2(10)  NULL,
-    learning_topic     VARCHAR2(255) NOT NULL,
+    learning_topic     VARCHAR2(1000) NOT NULL,
     learning_date      DATE          NULL,
     learning_like      CHAR(1)       NULL
 );
