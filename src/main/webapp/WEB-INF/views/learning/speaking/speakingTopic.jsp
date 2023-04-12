@@ -13,11 +13,28 @@
 <body>
 
     <form action="/learning/speaking" method="post">
-        이미지 버튼 선택:<br>
-            <input type="image" src="static/images/TOEIC.jpg" name="TOPIC" value="TOEIC" />
-            <input type="image" src="static/images/TOEFL.jpg" name="TOPIC" value="TOEFL" />
-            <input type="image" src="static/images/OPIC.jpg" name="TOPIC" value="OPIC" />
-            <input type="image" src="static/images/IELTS.jpg" name="TOPIC" value="IELTS" />
+        주제를 선택 해주세요. : <br>
+        <a href="/learning/speaking?TOPIC=TOEIC">
+            <button type="submit" name="TOPIC" value="TOEIC">
+                <img src="/images/TOEIC.jpg">
+            </button>
+        </a>
+        <a href="/learning/speaking?TOPIC=TOEIC">
+            <button type="submit" name="TOPIC" value="TOEFL">
+                <img src="/images/TOEFL.jpg">
+            </button>
+        </a>
+        <br>
+        <a href="/learning/speaking?TOPIC=TOEIC">
+            <button type="submit" name="TOPIC" value="OPIC">
+                <img src="/images/OPIC.jpg">
+            </button>
+        </a>
+        <a href="/learning/speaking?TOPIC=TOEIC">
+            <button type="submit" name="TOPIC" value="IELTS">
+                <img src="/images/IELTS.jpg">
+            </button>
+        </a>
     </form>
 
 </body>
