@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -111,53 +111,13 @@
     let stopButton = document.querySelector("#stop");
     stopButton.disabled = true;
 
-    function addContent(result) {
-        // 대화창
-        let dialogueBox = document.getElementById("dialogueBox");
-        let dialogueDiv = document.getElementsByTagName('template')[0].content.cloneNode(true).firstElementChild;
-
-        let yourSentenceDiv = dialogueDiv.querySelector('.yourSentence');
-        let correctedSentenceDiv = dialogueDiv.querySelector('.correctedSentence');
-        let explanationDiv = dialogueDiv.querySelector('.explanation');
-        let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
-
-        // 결과 가져오기
-        if (result.result === "fail") {
-            alert("잘못된 문장입니다. 다시 응답해주세요.")
-            return false;
-        }
-
-        let newAssistantTalk = result.answer;
-        let correctedSentence = result.corrected;
-        let explanation = result.explanation;
-        let userTalk = result.userTalk;
-        priorAssistantTalk = newAssistantTalk;
-
-        //결과 삽입
-        yourSentenceDiv.innerText = userTalk;
-        assistantTalkDiv.innerText = newAssistantTalk;
-
-        //고칠 부분이 없을 경우
-        if (!correctedSentence ||
-            correctedSentence === userTalk ||
-            correctedSentence === "N/A" ||
-            correctedSentence === "No correction needed."
-        ) {
-            correctedSentenceDiv.innerText = "No correction needed.";
-            explanationDiv.innerText = "Perfect!";
-        } else {
-            correctedSentenceDiv.innerText = correctedSentence;
-            explanationDiv.innerText = explanation;
-        }
-
-        // 화면에 추가
-        dialogueBox.appendChild(dialogueDiv);
-        // GPT 답변 읽어주기
-        ttsAjax(newAssistantTalk)
+    function retry() {
+        alert("잘못된 문장입니다. 다시 응답해주세요.");
+        recordButton.style.color = "";
+        recordButton.disabled = false;
     }
 
     function init() {
-
         if (navigator.mediaDevices) {
             const constraints = {audio: true};
             let chunks = [];
@@ -226,25 +186,71 @@
         request.send();
     }
 
-    // 유저 응답 서버에 전송 후
+    // 유저 답변 서버에 전송 후 결과 수신
     function sttAjax(formData) {
         let request = new XMLHttpRequest();
         formData.append("priorAssistantTalk", priorAssistantTalk);
         formData.append("learningId", learningId);
+        request.responseType = "json";
 
         request.onload = () => {
-            let responseText = request.responseText;
-            let result = JSON.parse(responseText);
-            addContent(result); //화면에 출력
+            //화면에 출력
+            addContent(request.response);
 
             recordButton.style.color = "";
             recordButton.disabled = false;
         }
 
         formData.enctype = "multipart/form-data";
-        request.open("POST", "/learning/dialogue/transcript", false);
+        request.open("POST", "/learning/dialogue/transcript", true);
         request.send(formData);
     }
+
+    function addContent(result) {
+        // 대화창
+        let dialogueBox = document.getElementById("dialogueBox");
+        let dialogueDiv = document.getElementsByTagName('template')[0].content.cloneNode(true).firstElementChild;
+
+        let yourSentenceDiv = dialogueDiv.querySelector('.yourSentence');
+        let correctedSentenceDiv = dialogueDiv.querySelector('.correctedSentence');
+        let explanationDiv = dialogueDiv.querySelector('.explanation');
+        let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
+
+        // 결과 가져오기
+        if (result.result === "fail") {
+            retry();
+            return false;
+        }
+
+        let newAssistantTalk = result.answer;
+        let correctedSentence = result.corrected;
+        let explanation = result.explanation;
+        let userTalk = result.userTalk;
+        priorAssistantTalk = newAssistantTalk;
+
+        // 결과 삽입
+        yourSentenceDiv.innerText = userTalk;
+        assistantTalkDiv.innerText = newAssistantTalk;
+
+        // 고칠 부분이 없을 경우
+        if (!correctedSentence ||
+            correctedSentence === userTalk ||
+            correctedSentence === "N/A" ||
+            correctedSentence === "No correction needed."
+        ) {
+            correctedSentenceDiv.innerText = "No correction needed.";
+            explanationDiv.innerText = "Perfect!";
+        } else {
+            correctedSentenceDiv.innerText = correctedSentence;
+            explanationDiv.innerText = explanation;
+        }
+
+        // 화면에 추가
+        dialogueBox.appendChild(dialogueDiv);
+        // GPT 답변 읽어주기
+        ttsAjax(newAssistantTalk)
+    }
+
 
 </script>
 

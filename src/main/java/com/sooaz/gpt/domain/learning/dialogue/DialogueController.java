@@ -5,7 +5,6 @@ import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,16 +56,18 @@ public class DialogueController {
     }
 
     @ResponseBody
-    @PostMapping("/learning/dialogue/transcript")
+    @PostMapping(value = "/learning/dialogue/transcript", produces = "application/json")
     public String transcript(
             @RequestParam MultipartFile audio,
             @RequestParam String priorAssistantTalk,
             @RequestParam Long learningId,
             HttpServletRequest request
     ) throws IOException {
+
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
+
         log.info("userTalk = {}", userTalk);
         log.info("result = {}", result);
         return result;
