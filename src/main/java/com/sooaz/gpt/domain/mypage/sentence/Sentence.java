@@ -9,7 +9,7 @@ public class Sentence {
     private Long id;
     private Long learningId;
     private Long flashcardId;
-    private Long voidFileId;
+    private Long voiceFileId;
     private String sentenceQuestion;
     private String sentenceAnswer;
     private String sentenceCorrected;
