@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@Slf4j
 @PropertySource("classpath:/application.properties")
 public class OpenAiClient {
 
@@ -135,7 +137,14 @@ public class OpenAiClient {
             writer.append("Content-Disposition: form-data; name=\"model\"").append(LINE_FEED);
             writer.append(LINE_FEED);
             writer.append("whisper-1").append(LINE_FEED);
+
+            writer.append("--" + boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"language\"").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.append("en").append(LINE_FEED);
+
             writer.append("--" + boundary + "--").append(LINE_FEED);
+
             writer.close();
 
             // 결과 수신
@@ -144,7 +153,7 @@ public class OpenAiClient {
                     .reduce((a, b) -> a + b)
                     .get();
 
-            System.out.println("output = " + output);
+            log.info("output = {}", output);
 
             JSONObject jsonObject = new JSONObject(output);
             script = jsonObject.getString("text");

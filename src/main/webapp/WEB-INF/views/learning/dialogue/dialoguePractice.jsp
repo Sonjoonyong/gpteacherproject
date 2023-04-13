@@ -14,6 +14,15 @@
             flex-direction: column;
         }
 
+        #record {
+            display: none;
+        }
+
+        #stop {
+            color: hotpink;
+            display: none;
+        }
+
     </style>
 </head>
 <body onload="init()">
@@ -27,7 +36,7 @@
     </button>
 
     <%--첫번째 질문--%>
-    <div class="question" id="initialAssistantTalk">
+    <div class="question" id="initialAssistantTalk" style="display: none">
         ${assistantTalk}
     </div>
 
@@ -81,8 +90,9 @@
 
 <%--녹음--%>
 <div>
-    <input type="button" id="record" value="녹음 시작">
-    <input type="button" id="stop" value="녹음 중지">
+    <input type="button" id="record" value="녹음 시작" disabled>
+    <input type="button" id="stop" value="녹음 중지" disabled>
+    <div>잠시 기다려주세요.</div>
 </div>
 
 <%--발음평가 테스트용(임시)--%>
@@ -96,24 +106,36 @@
 <script>
 
     let learningId = document.querySelector('#learningId').value;
-    let initialAssistantTalk = document.querySelector('#initialAssistantTalk').innerText;
+    let initialAssistantTalkDiv = document.querySelector('#initialAssistantTalk');
+    let initialAssistantTalk = initialAssistantTalkDiv.innerText;
+
+    let audio;
+
     let priorAssistantTalk = initialAssistantTalk;
-
-    let startDialogueBtn = document.querySelector('#startDialogue');
-
-    startDialogueBtn.onclick = () => {
-        ttsAjax(initialAssistantTalk);
-        startDialogueBtn.hidden = true;
-    }
 
     //녹음 & stt
     let recordButton = document.querySelector("#record");
     let stopButton = document.querySelector("#stop");
     stopButton.disabled = true;
 
+    let startDialogueBtn = document.querySelector('#startDialogue');
+
+    startDialogueBtn.onclick = () => {
+
+        ttsAjax(initialAssistantTalk);
+
+        initialAssistantTalkDiv.style.display = 'block';
+        startDialogueBtn.style.display = 'none';
+        recordButton.disabled = false;
+        recordButton.style.display = 'block';
+    }
+
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
-        recordButton.style.color = "";
+
+        stopButton.style.display = 'none';
+        stopButton.disabled = true;
+        recordButton.style.display = 'block';
         recordButton.disabled = false;
     }
 
@@ -128,11 +150,15 @@
                 // 녹음 시작
                 recordButton.onclick = () => {
                     chunks = [];
+                    // 진행중인 TTS 종료
+                    if (audio) {
+                        audio.stop();
+                    }
                     mediaRecorder.start();
 
-                    recordButton.style.backgroundColor = "red";
-                    recordButton.style.color = "white";
+                    recordButton.style.display = 'none';
                     recordButton.disabled = true;
+                    stopButton.style.display = 'block';
                     stopButton.disabled = false;
                 }
 
@@ -143,11 +169,9 @@
 
                 // 녹음 종료
                 stopButton.onclick = () => {
-                    mediaRecorder.stop();
-
-                    recordButton.style.backgroundColor = "";
+                    stopButton.style.display = 'none';
                     stopButton.disabled = true;
-                    recordButton.disabled = true;
+                    mediaRecorder.stop();
                 }
 
                 // 녹음이 종료되면 서버로 전송 및 결과 수신
@@ -177,7 +201,7 @@
         request.onload = () => {
             console.log(request.response);
             let audioURL = URL.createObjectURL(request.response);
-            let audio = new Audio(audioURL);
+            audio = new Audio(audioURL);
             audio.play();
         }
 
@@ -197,7 +221,9 @@
             //화면에 출력
             addContent(request.response);
 
-            recordButton.style.color = "";
+            stopButton.style.display = 'none';
+            stopButton.disabled = true;
+            recordButton.style.display = 'block';
             recordButton.disabled = false;
         }
 
