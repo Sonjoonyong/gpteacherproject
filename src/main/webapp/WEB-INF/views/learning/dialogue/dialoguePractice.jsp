@@ -59,6 +59,7 @@
 <div class="recordbox">
     <input type="button" id="record" value="녹음 시작">
     <input type="button" id="stop" value="녹음 중지">
+    <p id="timeView"></p>
 </div>
 
 <%--발음평가 테스트용(임시)--%>
@@ -137,6 +138,8 @@
         if (navigator.mediaDevices) {
             const constraints = {audio:true};
             let chunks = [] // 녹음된 내용을 저장할 변수
+            let timer = 0; // 타이머
+            clearInterval(timer); //타이머 초기화
 
             // 정상 구현 시
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
@@ -146,7 +149,24 @@
                 // 녹음 시작
                 recordButton.onclick = () => {
                     chunks = []; // 이전에 녹음된 내용이 있으면 초기화
+                    let time = 0; //시간 초기화
+
                     mediaRecorder.start();
+                    // 타이머 시작
+                    timer = setInterval(function() {
+                        time = time + 1;
+                        document.getElementById("timeView").innerHTML = time;
+                        if(time==10) { // 시간 제한
+                            clearInterval(timer);
+
+                            mediaRecorder.stop();
+                            document.getElementById("timeView").innerHTML = "";
+
+                            recordButton.style.backgroundColor = "";
+                            stopButton.disabled = true;
+                            recordButton.disabled = true;
+                        }
+                    },1000);
 
                     recordButton.style.backgroundColor = "red";
                     recordButton.style.color = "white";
@@ -162,6 +182,9 @@
                 // 녹음 종료
                 stopButton.onclick = () => {
                     mediaRecorder.stop();
+
+                    clearInterval(timer); // 타이머 초기화
+                    document.getElementById("timeView").innerHTML = "";
 
                     recordButton.style.backgroundColor = "";
                     stopButton.disabled = true;
