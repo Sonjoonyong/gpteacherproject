@@ -41,7 +41,8 @@ public class OpenAiClient {
         return message;
     }
 
-    //=====chat한테질문하기======
+    //============================교정받기===================================
+    //======================================================================
     public String chat(String userPrompt) {
         List<JSONObject> messages = new ArrayList<>();
         JSONObject message = userMessage(userPrompt);
@@ -49,9 +50,6 @@ public class OpenAiClient {
         return chat(messages);
     }
 
-
-    //============================교정받기===================================
-    //======================================================================
     public String chat(List<JSONObject> messages) {
 
         String responseText = "";
@@ -96,7 +94,6 @@ public class OpenAiClient {
 
     //==========================음성인식=============================================
     //===============================================================================
-
     public String transcript(MultipartFile audio) throws IOException {
 
         String script = "";
@@ -114,7 +111,6 @@ public class OpenAiClient {
             con.setDoOutput(true);
             con.setDoInput(true);
 
-            // 헤더
             String LINE_FEED = "\r\n";
             String boundary = "----" + UUID.randomUUID();
             con.setRequestProperty("Authorization", "Bearer " + API_KEY);
@@ -122,7 +118,7 @@ public class OpenAiClient {
             OutputStream outputStream = con.getOutputStream();
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
 
-            // 바디
+            // request body
             writer.append("--" + boundary).append(LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + audioFile.getName() + "\"").append(LINE_FEED);
             writer.append(LINE_FEED);
@@ -162,7 +158,6 @@ public class OpenAiClient {
 
         return script;
     }
-
 }
 
 
