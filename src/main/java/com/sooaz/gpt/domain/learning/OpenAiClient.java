@@ -25,9 +25,6 @@ public class OpenAiClient {
     @Value("${openai.api.key}")
     private String API_KEY;
 
-    @Value("${file.dir}")
-    private String fileDir;
-
     public static JSONObject userMessage(String prompt) {
         JSONObject message = new JSONObject();
         message.put("role", "user");
@@ -95,13 +92,13 @@ public class OpenAiClient {
 
     //==========================음성인식=============================================
     //===============================================================================
-    public String transcript(MultipartFile audio) throws IOException {
+    public String transcript(String directory, MultipartFile audio) throws IOException {
 
         String script = "";
 
         try {
             String fileName = UUID.randomUUID() + ".webm";
-            String filePath = fileDir + fileName; //${file.dir}
+            String filePath = directory + fileName;
             File audioFile = new File(filePath);
             audio.transferTo(audioFile);
 
