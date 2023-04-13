@@ -65,7 +65,7 @@ public class WritingService {
         String prompt = "Correct the following sentence: " + userAnswer;
         String response = openAiClient.chat(prompt);
 
-        // Handle the response correctly
+        // 응답 올바르게 처리
         if (response.trim().startsWith("{")) {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("choices");
@@ -96,6 +96,13 @@ public class WritingService {
             String explanation = null;
             if (!original.equals(corrected)) {
                 explanation = getCorrectionExplanation(original, corrected).trim();
+            } else {
+                List<String> originalTokens = Arrays.asList(original.split("\\s+"));
+                List<String> correctedTokens = Arrays.asList(corrected.split("\\s+"));
+
+                if (originalTokens.size() >= 2 && correctedTokens.size() >= 2) {
+                    explanation = "No correction needed.";
+                }
             }
 
             JSONObject item = new JSONObject();
