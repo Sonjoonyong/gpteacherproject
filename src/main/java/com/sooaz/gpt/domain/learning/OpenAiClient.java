@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.learning;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -149,6 +148,8 @@ public class OpenAiClient {
 
             JSONObject jsonObject = new JSONObject(output);
             script = jsonObject.getString("text");
+
+            audioFile.delete();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

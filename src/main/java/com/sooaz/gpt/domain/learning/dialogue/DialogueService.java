@@ -7,6 +7,7 @@ import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DialogueService {
 
     private final LearningRepository learningRepository;
@@ -29,8 +31,8 @@ public class DialogueService {
 
     private String USER_TALK_INSTRUCTION = "This is my talk : \"%s\"\n" +
             "\n" +
-            "First, answer to my talk.\n" +
-            "Second, correct my talk.\n" +
+            "First, correct my talk.\n" +
+            "Second, answer to my role-play talk.\n" +
             "Third, let me know the explanation for the correction.\n" +
             "\n" +
             "Give me response in JSON file like below :\n" +
@@ -56,7 +58,7 @@ public class DialogueService {
         return learningRepository.save(learning).getId();
     }
 
-    public JSONObject talk(String pastAssistantTalk, String userTalk, Long learningId) {
+    public JSONObject talk(String priorAssistantTalk, String userTalk, Long learningId) {
 
         List<JSONObject> messages = new ArrayList<>();
 
@@ -87,6 +89,14 @@ public class DialogueService {
         JSONObject userMessage = OpenAiClient.userMessage(userTalkInstruction);
         messages.add(userMessage);
 
+        log.info("===============================learning id = {}============================", learningId);
+        log.info("======================================================================");
+        for (JSONObject message : messages) {
+            log.info("message = {}", message);
+        }
+        log.info("======================================================================");
+        log.info("======================================================================");
+
         // JSON 형식 응답 수신
         String assistantTalkJson = openAiClient.chat(messages);
         JSONObject assistantTalkJsonObject = new JSONObject(assistantTalkJson);
@@ -100,14 +110,15 @@ public class DialogueService {
         sentence.setSentenceQuestion(assistantTalk);
         sentence.setSentenceCorrected(correctedSentence);
         sentence.setSentenceExplanation(explanation);
-        sentence.setSentenceQuestion(pastAssistantTalk);
+        sentence.setSentenceQuestion(priorAssistantTalk);
         sentence.setSentenceAnswer(userTalk);
         sentenceRepository.save(sentence);
 
         // assistantTalk 수정 후 JSONObject에 update
         assistantTalk = processTalk(assistantTalk);
         assistantTalkJsonObject.remove("answer");
-        assistantTalkJsonObject.put("answer",assistantTalk);
+        assistantTalkJsonObject.put("answer", assistantTalk);
+        assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
         return assistantTalkJsonObject;
     }
 

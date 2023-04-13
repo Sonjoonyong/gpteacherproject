@@ -5,7 +5,6 @@ import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,21 +46,29 @@ public class DialogueController {
     @ResponseBody
     @PostMapping("/learning/dialogue/talk")
     public String getAssistantResponse(
-            @RequestParam String assistantTalk,
+            @RequestParam String priorAssistantTalk,
             @RequestParam String userTalk,
             @RequestParam Long learningId
     ) {
-        JSONObject assistantTalkJsonObject = dialogueService.talk(assistantTalk, userTalk, learningId);
-        String newAssistantTalk = assistantTalkJsonObject.getString("answer");
-        String correctedSentence = assistantTalkJsonObject.getString("corrected");
-        String explanation = assistantTalkJsonObject.getString("explanation");
+        String string = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
+        log.info("assistant response json = {}", string);
+        return string;
+    }
 
-        JSONObject res = new JSONObject();
-        res.put("newAssistantTalk",newAssistantTalk);
-        res.put("correctedSentence",correctedSentence);
-        res.put("explanation",explanation);
-
-        return res.toString();
+    @ResponseBody
+    @PostMapping("/learning/dialogue/transcript")
+    public String transcript(
+            @RequestParam MultipartFile audio,
+            @RequestParam String priorAssistantTalk,
+            @RequestParam Long learningId,
+            HttpServletRequest request
+    ) throws IOException {
+        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+        String userTalk = openAiClient.transcript(directory, audio);
+        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
+        log.info("userTalk = {}", userTalk);
+        log.info("result = {}", result);
+        return result;
     }
 
     @GetMapping("/learning/dialogue/tts")
@@ -81,14 +88,5 @@ public class DialogueController {
     ) {
         String directory = request.getServletContext().getRealPath("/WEB-INF/files/");
         return azureClient.pronunciationAssessment(directory, audio, userTalk);
-    }
-
-    @ResponseBody
-    @PostMapping("/learning/dialogue/transcript")
-    public String transcript(
-            @RequestParam MultipartFile audio
-    ) throws IOException {
-        String script = openAiClient.transcript(audio);
-        return script;
     }
 }
