@@ -1,17 +1,18 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
 
+import com.sooaz.gpt.domain.learning.AzureClient;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @Controller
@@ -19,10 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 public class SpeakingController {
         private final SpeakingService speakingService;
         private final OpenAiClient openAiClient;
+        private final NcpTtsClient ncpTtsClient;
+        private final AzureClient azureClient;
 
         //Topic
         @GetMapping("/learning/speaking")
         public String getTopicForm(){
+
                 return "learning/speaking/speakingTopic";
         }
 
@@ -35,33 +39,26 @@ public class SpeakingController {
         ) {
                 String assistantQuestion = speakingService.initSpeaking(speakingDTO);
 
-                model.addAttribute(assistantQuestion, assistantQuestion);
+                model.addAttribute("assistantQuestion", assistantQuestion);
 
                 return "learning/speaking/speakingPractice";
         }
-       /* @PostMapping("/learning/speaking/talk")
-        public String getAssistantResponse(
 
-        ){
-                return speakingService.talk();
-        }*/
         @GetMapping("/learning/speaking/tts")
         public  void getTts(
-                @RequestParam String assistantAnswer,
+                @RequestParam String assistantQuestion,
                 HttpServletResponse response
         ){
-                //NcpTtsClient.tts(assistantAnswer,response);
+            ncpTtsClient.tts(assistantQuestion,response);
         }
 
-        /*    @ResponseBody
-        @PostMapping("/learning/dialogue/transcript")
+        @ResponseBody
+        @PostMapping("/learning/speakingPractice")
         public String transcript(
                 @RequestParam MultipartFile audio
         ) throws IOException {
                 String script = openAiClient.transcript(audio);
                 return script;
         }
-                */
-
 
 }

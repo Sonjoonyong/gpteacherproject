@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.learning.writing;
 
-import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.PerspectiveClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,7 +89,7 @@ public class WritingController {
             model.addAttribute("topic", topic);
             model.addAttribute("answer", answer);
             model.addAttribute("correctedAnswer", correctedAnswer);
-            return "learning/learningCorrection";
+            return "learning/speaking/learningCorrection";
         } else {
             return "redirect:/learning/writing";
         }
@@ -110,7 +109,7 @@ public class WritingController {
 
         storeAnalysisData(session, answer, correctedAnswer);
 
-        return "learning/learningCorrection";
+        return "learning/speaking/learningCorrection";
     }
 
     @GetMapping("/sentences")
