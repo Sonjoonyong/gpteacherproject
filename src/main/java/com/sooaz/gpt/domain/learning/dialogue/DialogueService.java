@@ -104,11 +104,11 @@ public class DialogueService {
         sentence.setSentenceAnswer(userTalk);
         sentenceRepository.save(sentence);
 
-
-        //return processTalk(assistantTalk);
-
+        // assistantTalk 수정 후 JSONObject에 update
+        assistantTalk = processTalk(assistantTalk);
+        assistantTalkJsonObject.remove("answer");
+        assistantTalkJsonObject.put("answer",assistantTalk);
         return assistantTalkJsonObject;
-        //return assistantTalk;
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {

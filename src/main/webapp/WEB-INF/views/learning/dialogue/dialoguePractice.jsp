@@ -12,39 +12,44 @@
         대화 시작하기
     </button>
 
-    <%--질문--%>
+    <%--첫번째 질문--%>
     <div class="question">
         <span>${assistantTalk}</span>
     </div>
 
     <br>
+    <template>
+        <div id="dialogue">
+            <%--답변--%>
+            <div class="answer">
+                <div> <!--style="display: flex;"-->
+                    <div class="yourSentence">
+                        <div>Your sentence</div>
+                        <div id="transcriptResult"></div>
+                    </div><br/>
 
-    <%--답변--%>
-    <div class="answer">
-        <div> <!--style="display: flex;"-->
-            <div class="yourSentence">
-                <div>Your sentence</div>
-                <div id="transcriptResult"></div>
-            </div><br/>
+                    <div class="correctedSentence">
+                        <div>Corrected sentence</div>
+                        <div id="correctedResult"></div>
+                    </div><br/>
+                </div>
 
-            <div class="correctedSentence">
-                <div>Corrected sentence</div>
-                <div id="correctedResult"></div>
-            </div><br/>
-        </div>
-
-        <div style="display: flex;">
-            <div class="explanation">
-                <div>Explanation</div>
-                <div id="explanationResult"></div>
+                <div style="display: flex;">
+                    <div class="explanation">
+                        <div>Explanation</div>
+                        <div id="explanationResult"></div>
+                    </div>
+                    <button>좋아요</button>
+                    <button>보관함에 넣기</button>
+                </div>
             </div>
-            <button>좋아요</button>
-            <button>보관함에 넣기</button>
-        </div>
-    </div>
 
-    <div id="dialogues">
-    </div>
+            <%--질문--%>
+            <div class="question">
+                <span></span>
+            </div>
+        </div>
+    </template>
 
     <%--녹음--%>
     <div class="recordbox">
@@ -55,6 +60,22 @@
 </div>
 
 <script>
+    function addContent(result,userTalk) {
+        let parent = document.getElementById("dialogueBox");
+        let divDialogue = document.getElementsByTagName("template")[0].content.cloneNode(true).firstElementChild;
+
+        let answer = divDialogue.children[0].children[0].children[0].children[1];
+        let correct = divDialogue.children[0].children[0].children[1].children[1];
+        let explanation = divDialogue.children[0].children[1].children[0].children[1];
+        let question = divDialogue.children[1].children[0];
+
+        answer.innerHTML = userTalk;
+        correct.innerHTML = result.correctedSentence;
+        explanation.innerHTML = result.explanation;
+        question.innerHTML = result.newAssistantTalk;
+
+        parent.appendChild(divDialogue);
+    }
     document.querySelector('#startAudio').addEventListener("click",() => {
         let assistantTalk = "${assistantTalk}";
         ttsAjax(assistantTalk);
@@ -178,7 +199,7 @@
         request.send(formData);
     }
 
-    function addContent(result,userTalk){
+    /*function addContent(result,userTalk){
         let dialogues = document.getElementById("dialogues");
         //let br = document.createElement("br");
 
@@ -205,7 +226,7 @@
         /*divAnswer.append(br, spanAnswer, br);
         divCorrect.append(br, spanCorrect, br);
         divExplanation.append(br, spanExplanation, br);
-        divQuestion.append(br, spanQuestion, br);*/
+        divQuestion.append(br, spanQuestion, br);
 
         divAnswer.append(spanAnswer);
         divCorrect.append(spanCorrect);
@@ -213,7 +234,7 @@
         divQuestion.append(spanQuestion);
 
         dialogues.append(divAnswer, divCorrect, divExplanation, divQuestion);
-    }
+    }*/
 
 </script>
 
