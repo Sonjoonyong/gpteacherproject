@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -86,7 +87,7 @@ public class OpenAiClient {
                     .getJSONObject("message")
                     .getString("content");
         } catch (Exception e) {
-            throw new IllegalStateException();
+            throw new RuntimeException(e);
         }
 
         return responseText;
@@ -153,7 +154,7 @@ public class OpenAiClient {
             script = jsonObject.getString("text");
 
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            throw new RuntimeException(e);
         }
 
         return script;
