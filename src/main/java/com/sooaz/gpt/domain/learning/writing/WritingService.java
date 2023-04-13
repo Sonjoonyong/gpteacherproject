@@ -65,7 +65,7 @@ public class WritingService {
         String prompt = "Correct the following sentence: " + userAnswer;
         String response = openAiClient.chat(prompt);
 
-        // Handle the response correctly
+        // 응답 올바르게 처리
         if (response.trim().startsWith("{")) {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("choices");
@@ -82,6 +82,43 @@ public class WritingService {
         } else {
             return response.trim();
         }
+    }
+    public JSONArray getAnalysisData(String originalAnswer, String correctedAnswer) throws IOException {
+        JSONArray analysis = new JSONArray();
+
+        List<String> originalSentences = Arrays.asList(originalAnswer.split("(?<=[.!?])\\s*"));
+        List<String> correctedSentences = Arrays.asList(correctedAnswer.split("(?<=[.!?])\\s*"));
+
+        for (int i = 0; i < originalSentences.size(); i++) {
+            String original = originalSentences.get(i).trim();
+            String corrected = correctedSentences.get(i).trim();
+
+            String explanation = null;
+            if (!original.equals(corrected)) {
+                explanation = getCorrectionExplanation(original, corrected).trim();
+            } else {
+                List<String> originalTokens = Arrays.asList(original.split("\\s+"));
+                List<String> correctedTokens = Arrays.asList(corrected.split("\\s+"));
+
+                if (originalTokens.size() >= 2 && correctedTokens.size() >= 2) {
+                    explanation = "No correction needed.";
+                }
+            }
+
+            JSONObject item = new JSONObject();
+            item.put("original", original);
+            item.put("corrected", corrected);
+            item.put("explanation", explanation);
+
+            analysis.put(item);
+        }
+
+        return analysis;
+    }
+
+    public String getCorrectionExplanation(String original, String corrected) {
+        String prompt = String.format("Explain the difference between the original sentence and the corrected sentence in a concise manner:\n\nOriginal: %s\nCorrected: %s", original, corrected);
+        return openAiClient.chat(prompt);
     }
 
 }
