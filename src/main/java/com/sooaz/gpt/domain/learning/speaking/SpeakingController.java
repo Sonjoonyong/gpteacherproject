@@ -53,54 +53,23 @@ public class SpeakingController {
     }
 
 
-    //STT Speech To Text
+    //whisper STT Speech To Text
     @ResponseBody
     @PostMapping("/learning/stt")
     public String transcript(
             @RequestParam MultipartFile audio
+
             //odel model
     ) throws IOException {
-        String script = openAiClient.transcript(audio);
+        String answer = openAiClient.transcript(audio);
         //model.addAttribute("answer",script);
         //return "learning/speaking/speakingPractice";
-        return script;
+        return answer;
     }
 
-
-    /*
-    @ResponseBody
-    @PostMapping("/learning/speaking/pronunciation")
-    public String getPronunciationAssessment(
-            MultipartFile audio,
-            @RequestParam String userTalk,
-            HttpServletRequest request
-    ) {
-        return "learning/speaking/speakingPractice";
-    }
-    */
-
-    /*
-    @PostMapping("/correction")
-    public String handleSubmitQuestionAndAnswer(
-
-            @RequestParam("assistantQuestion") String question,
-            @ModelAttribute DialogueTopicDto dialogueTopicDto,
-            @RequestParam("answer") String answer,
-            @RequestParam("TOPIC") String topic,
-            Model model, HttpSession session
-        ) throws IOException {
+    
 
 
-        String correctedAnswer = speakingService.evaluateAnswer(answer, question);
-        model.addAttribute("question", question);
-        model.addAttribute("answer", answer);
-        model.addAttribute("correctedAnswer", correctedAnswer);
-
-        storeAnalysisData(session, answer, correctedAnswer);
-
-        return "learning/learningCorrection";
-        }
-    */
 
 
 }

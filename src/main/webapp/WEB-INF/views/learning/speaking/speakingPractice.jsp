@@ -13,6 +13,7 @@
 		<input type="hidden" name="topic" value="${topic}" />
 		<input type="hidden" name="question" value="${question}" />
 		<p>Question: <span>${question}</span></p>
+		<span>${answer}</span>
 
 		<!--<label for="answer">Answer: </label>
         <textarea name="answer" id="answer"></textarea>
@@ -140,11 +141,11 @@
 			let responseText = request.responseText;
 			console.log(responseText);
 			document.querySelector("#textarea").innerText = responseText;
+
 			recordButton.style.color = "";
 			recordButton.disabled = false;
 
 		}
-
 
 		request.open("POST", "/learning/stt", false);
 		request.send(formData);
