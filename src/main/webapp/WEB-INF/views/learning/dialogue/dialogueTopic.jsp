@@ -12,7 +12,7 @@
 </head>
 <body>
     <h3>TOPIC</h3>
-    <h4>원하는 대와 상황을 영어로 입력해 주세요.</h4>
+    <h4>원하는 대화와 상황을 영어로 입력해 주세요.</h4>
     <form method="post" action="/learning/dialogue">
         Place
         <input type="text" name="place" placeholder="대화 장소를 입력해 주세요." /><br/>
