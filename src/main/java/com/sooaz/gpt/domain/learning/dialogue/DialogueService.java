@@ -22,18 +22,20 @@ public class DialogueService {
     private final SentenceRepository sentenceRepository;
     private final OpenAiClient openAiClient;
 
-    private String INITIAL_INSTRUCTION = "Let's have conversation with me about \"%s\" at the \"%s\" and it's about \"%s\". " +
-            "My role is \"%s\", and your role is \"%s\".  " +
-            "Please don't give me a full dialogue all at once. " +
-            "Just response only a single sentence and wait for my talk. " +
+    private String INITIAL_INSTRUCTION = "Let me talk to you. \n" +
+            "Situation: \"%s\".\n" +
+            "Place: \"%s\".\n" +
+            "Optional situation: \"%s\n" +
+            "My role: \"%s\". " +
+            "Your role: \"%s\".  " +
             "Don't append any comment except your role-play talk. " +
             "Start conversation with your first talk to me with just single sentence.";
 
-    private String USER_TALK_INSTRUCTION = "This is my talk : \"%s\"\n" +
-            "\n" +
-            "First, correct my talk.\n" +
-            "Second, answer to my role-play talk.\n" +
-            "Third, let me know the explanation for the correction.\n" +
+    private String USER_TALK_INSTRUCTION = "This is my talk : \"%s\"\n\n" +
+            "And this is instruction : \n" +
+            "First, answer to my talk.\n" +
+            "Second, correct only my talk in terms of grammar and clarity.\n" +
+            "Third, explain for the correction.\n" +
             "\n" +
             "Give me response in JSON file like below :\n" +
             "{ answer : \"your answer\",\n" +

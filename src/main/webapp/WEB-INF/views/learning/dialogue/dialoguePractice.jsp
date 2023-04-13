@@ -9,9 +9,26 @@
             border: 1px solid hotpink;
         }
 
+        #initialAssistantTalk {
+            display: none;
+        }
+
         #dialogue {
             display: flex;
             flex-direction: column;
+        }
+
+        #record {
+            display: none;
+        }
+
+        #stop {
+            color: hotpink;
+            display: none;
+        }
+
+        #waitingMessage {
+            display: none;
         }
 
     </style>
@@ -81,8 +98,9 @@
 
 <%--녹음--%>
 <div>
-    <input type="button" id="record" value="녹음 시작">
-    <input type="button" id="stop" value="녹음 중지">
+    <input type="button" id="record" value="녹음 시작" disabled>
+    <input type="button" id="stop" value="녹음 중지" disabled>
+    <div id="waitingMessage">잠시 기다려주세요.</div>
     <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
     <b id="time"></b>
 </div>
@@ -98,20 +116,15 @@
 <script>
 
     let learningId = document.querySelector('#learningId').value;
-    let initialAssistantTalk = document.querySelector('#initialAssistantTalk').innerText;
+    let initialAssistantTalkDiv = document.querySelector('#initialAssistantTalk');
+    let initialAssistantTalk = initialAssistantTalkDiv.innerText;
     let priorAssistantTalk = initialAssistantTalk;
 
-    let startDialogueBtn = document.querySelector('#startDialogue');
+    let audio;
 
-    startDialogueBtn.onclick = () => {
-        ttsAjax(initialAssistantTalk);
-        startDialogueBtn.hidden = true;
-    }
-
-    //녹음 & stt
+    //녹음 버튼
     let recordButton = document.querySelector("#record");
     let stopButton = document.querySelector("#stop");
-    stopButton.disabled = true;
 
     // 프로그레스 바
     let progress = document.getElementById("progress"); //progress bar
@@ -119,21 +132,33 @@
     let timer = 0; // 타이머
     let mx = 10; // 최대 시간(초)
 
-    function retry() {
-        alert("잘못된 문장입니다. 다시 응답해주세요.");
-        recordButton.style.color = "";
+    let startDialogueBtn = document.querySelector('#startDialogue');
+
+    startDialogueBtn.onclick = () => {
+        ttsAjax(initialAssistantTalk);
+
+        initialAssistantTalkDiv.style.display = 'block';
+        startDialogueBtn.style.display = 'none';
         recordButton.disabled = false;
+        recordButton.style.display = 'block';
     }
 
+    function retry() {
+        alert("잘못된 문장입니다. 다시 응답해주세요.");
+
+        if (audio) {
+            audio.pause();
+        }
+        stopButton.style.display = 'none';
+        stopButton.disabled = true;
+        recordButton.style.display = 'block';
+        recordButton.disabled = false;
+    }
 
     function init() {
         if (navigator.mediaDevices) {
             const constraints = {audio: true};
             let chunks = [];
-
-
-
-            clearInterval(timer); //타이머 초기화
 
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 const mediaRecorder = new MediaRecorder(stream);
@@ -141,8 +166,10 @@
                 // 녹음 시작
                 recordButton.onclick = () => {
                     chunks = [];
-
-
+                    // 진행중인 TTS 종료
+                    if (audio) {
+                        audio.pause();
+                    }
                     mediaRecorder.start();
 
                     // 타이머 시작
@@ -160,9 +187,9 @@
                         }
                     }, 100);
 
-                    recordButton.style.backgroundColor = "red";
-                    recordButton.style.color = "white";
+                    recordButton.style.display = 'none';
                     recordButton.disabled = true;
+                    stopButton.style.display = 'block';
                     stopButton.disabled = false;
                     progress.style.display = "inline";
                 }
@@ -203,7 +230,7 @@
 
         request.onload = () => {
             let audioURL = URL.createObjectURL(request.response);
-            let audio = new Audio(audioURL);
+            audio = new Audio(audioURL);
             audio.play();
         }
 
@@ -221,9 +248,12 @@
 
         request.onload = () => {
             //화면에 출력
+            console.log(request.response);
             addContent(request.response);
 
-            recordButton.style.color = "";
+            stopButton.style.display = 'none';
+            stopButton.disabled = true;
+            recordButton.style.display = 'block';
             recordButton.disabled = false;
         }
 
