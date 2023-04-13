@@ -59,7 +59,8 @@
 <div class="recordbox">
     <input type="button" id="record" value="녹음 시작">
     <input type="button" id="stop" value="녹음 중지">
-    <p id="timeView"></p>
+    <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
+    <b id="time"></b>
 </div>
 
 <%--발음평가 테스트용(임시)--%>
@@ -71,40 +72,6 @@
 <%--<br><br><br><br>--%>
 
 <script>
-    function addContent(result,userTalk) {
-        let parent = document.getElementById("dialogueBox");
-        let divDialogue = document.getElementsByTagName("template")[0].content.cloneNode(true).firstElementChild;
-
-        // 결과 삽입 위치 찾기
-        let divAnswer = divDialogue.children[0];
-        let divQuestion = divDialogue.children[2];
-
-        let divSentence = divAnswer.children[0].children[0].children[1];
-        let divCorrect = divAnswer.children[0].children[2].children[1];
-        let divExplanation = divAnswer.children[1].children[0].children[1];
-        let spanQuestion = divQuestion.children[0];
-
-        // 결과 가져오기
-        let newAssistantTalk = result.newAssistantTalk;
-        let correctedSentence = result.correctedSentence;
-        let explanation = result.explanation;
-
-        //결과 삽입
-        divSentence.innerHTML = userTalk;
-        spanQuestion.innerHTML = newAssistantTalk;
-
-        //고칠 부분이 없을 경우
-        if(correctedSentence=="" | correctedSentence==userTalk | correctedSentence==null | correctedSentence=="N/A") {
-            divCorrect.innerHTML = userTalk;
-            divExplanation.innerHTML = "No correction needed.";
-        }else {
-            divCorrect.innerHTML = correctedSentence;
-            divExplanation.innerHTML = explanation;
-        }
-
-        //화면에 추가
-        parent.appendChild(divDialogue);
-    }
     document.querySelector('#startAudio').addEventListener("click",() => {
         let assistantTalk = "${assistantTalk}";
         ttsAjax(assistantTalk);
@@ -133,12 +100,18 @@
     let stopButton = document.querySelector("#stop");
     stopButton.disabled = true;
 
+    let progress = document.getElementById("progress"); //progress bar
+    let b = document.getElementById("time"); // 초 표시할 b태그
+
+
     function mediaStart() {
 
         if (navigator.mediaDevices) {
             const constraints = {audio:true};
             let chunks = [] // 녹음된 내용을 저장할 변수
             let timer = 0; // 타이머
+            let mx = "10"; // 최대 시간(초)
+
             clearInterval(timer); //타이머 초기화
 
             // 정상 구현 시
@@ -150,28 +123,28 @@
                 recordButton.onclick = () => {
                     chunks = []; // 이전에 녹음된 내용이 있으면 초기화
                     let time = 0; //시간 초기화
+                    progress.setAttribute("max", mx*10); //프로그래스 바 최대 값 설정
 
                     mediaRecorder.start();
+
                     // 타이머 시작
                     timer = setInterval(function() {
                         time = time + 1;
-                        document.getElementById("timeView").innerHTML = time;
-                        if(time==10) { // 시간 제한
-                            clearInterval(timer);
+                        let realtime = parseInt(time/10);
+                        // 상태바 진행
+                        b.innerText = realtime+"s";
+                        progress.value = time;
 
-                            mediaRecorder.stop();
-                            document.getElementById("timeView").innerHTML = "";
-
-                            recordButton.style.backgroundColor = "";
-                            stopButton.disabled = true;
-                            recordButton.disabled = true;
+                        if(time==mx*10+1) { // 시간 제한
+                            stopRecording(mediaRecorder, timer)
                         }
-                    },1000);
+                    }, 100);
 
                     recordButton.style.backgroundColor = "red";
                     recordButton.style.color = "white";
                     recordButton.disabled = true;
                     stopButton.disabled = false;
+                    progress.style.display = "inline";
                 }
 
                 // 오디오 저장
@@ -181,14 +154,7 @@
 
                 // 녹음 종료
                 stopButton.onclick = () => {
-                    mediaRecorder.stop();
-
-                    clearInterval(timer); // 타이머 초기화
-                    document.getElementById("timeView").innerHTML = "";
-
-                    recordButton.style.backgroundColor = "";
-                    stopButton.disabled = true;
-                    recordButton.disabled = true;
+                    stopRecording(mediaRecorder, timer)
                 }
 
                 // 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리
@@ -245,6 +211,59 @@
        request.open("POST","/learning/dialogue/talk", false);
         console.log(formData);
         request.send(formData);
+    }
+
+    function addContent(result,userTalk) {
+        let parent = document.getElementById("dialogueBox");
+        let divDialogue = document.getElementsByTagName("template")[0].content.cloneNode(true).firstElementChild;
+
+        // 결과 삽입 위치 찾기
+        let divAnswer = divDialogue.children[0];
+        let divQuestion = divDialogue.children[2];
+
+        let divSentence = divAnswer.children[0].children[0].children[1];
+        let divCorrect = divAnswer.children[0].children[2].children[1];
+        let divExplanation = divAnswer.children[1].children[0].children[1];
+        let spanQuestion = divQuestion.children[0];
+
+        // 결과 가져오기
+        let newAssistantTalk = result.newAssistantTalk;
+        let correctedSentence = result.correctedSentence;
+        let explanation = result.explanation;
+
+        //결과 삽입
+        divSentence.innerHTML = userTalk;
+        spanQuestion.innerHTML = newAssistantTalk;
+
+        //고칠 부분이 없을 경우
+        if(correctedSentence=="" | correctedSentence==userTalk | correctedSentence==null | correctedSentence=="N/A") {
+            divCorrect.innerHTML = userTalk;
+            divExplanation.innerHTML = "No correction needed.";
+        }else {
+            divCorrect.innerHTML = correctedSentence;
+            divExplanation.innerHTML = explanation;
+        }
+
+        //화면에 추가
+        parent.appendChild(divDialogue);
+    }
+
+    function startTimer(time, mediaRecorder, timer) {
+
+    }
+
+    function stopRecording(mediaRecorder,timer) {
+        mediaRecorder.stop();
+
+        // 상태바 초기화
+        b.innerText = "";
+        progress.value = 0;
+        progress.style.display = "none";
+        clearInterval(timer); // 타이머 초기화
+
+        recordButton.style.backgroundColor = "";
+        stopButton.disabled = true;
+        recordButton.disabled = true;
     }
 
 </script>
