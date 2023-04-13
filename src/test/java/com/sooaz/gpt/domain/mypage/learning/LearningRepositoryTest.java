@@ -63,11 +63,11 @@ public class LearningRepositoryTest {
     @Test
     public void FindAll() {
         Learning learning1 = new Learning();
-        learning1.setUserId(1L);
+        learning1.setUserId(1000000L);
         learning1.setLearningTopic("sports");
 
         Learning learning2 = new Learning();
-        learning2.setUserId(2L);
+        learning2.setUserId(2000000L);
         learning2.setLearningTopic("food");
 
         learningRepository.save(learning1);
