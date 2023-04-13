@@ -36,6 +36,11 @@
 
 <textarea rows="10" cols="100" id="textarea"></textarea>
 
+<!--**어려움**-->
+<form  method="post"  style="display: none" id="sttForm" action="/learning/learningCorrection" enctype="multipart/form-data">
+	<input type="file" name="audio" id="audioFile"/>
+	<input type="text" name="question" class="question" value="${question}"/>
+</form>
 
 
 
@@ -75,7 +80,8 @@
 <script>
 	let recordButton = document.querySelector("#record");
 	let stopButton = document.querySelector("#stop");
-
+	let sttForm = document.querySelector("#sttForm");
+	let audioFile=document.querySelector("#audioFile");
 	stopButton.disabled = true;
 
 	function mediaStart() {
@@ -114,15 +120,13 @@
 					recordButton.disabled = true;
 				}
 
-				// 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리
+				// 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리 **어려움**
 				mediaRecorder.onstop = () => {
-					// chunks에 저장된 데이터를 바이너리코드로 변환
-					const blob = new Blob(chunks, {'type':'audio/webm codecs=opus'});
-
-					// 서버로 전송
-					let formData = new FormData();
-					formData.append("audio", blob);
-					ajax(formData);
+					let file = new File(chunks,"answerFile");
+					let temp = new DataTransfer();
+					temp.items.add(file);
+					audioFile.files=temp.files;
+					sttForm.submit();
 				}
 
 			}).catch(err => {
@@ -146,7 +150,6 @@
 			recordButton.disabled = false;
 
 		}
-
 		request.open("POST", "/learning/stt", false);
 		request.send(formData);
 

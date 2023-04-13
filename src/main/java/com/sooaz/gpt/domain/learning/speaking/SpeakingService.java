@@ -1,14 +1,15 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
 import com.sooaz.gpt.domain.learning.OpenAiClient;
+import com.sooaz.gpt.domain.mypage.learning.Learning;
+import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Service

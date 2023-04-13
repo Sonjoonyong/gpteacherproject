@@ -8,8 +8,8 @@
 <body>
 <h1>GPTeacher's CORRECTION</h1>
 <p>Question: ${question}</p>
-<p>Your Answer:</p>
-<p>${answer}</p>
+<p>Your Answer:${answer}</p>
+
 <p>GPTeacher's Correction:</p>
 <p>${correctedAnswer}</p>
 <form method="get" action="/learning/sentences">

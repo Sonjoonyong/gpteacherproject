@@ -24,7 +24,7 @@ public class SpeakingController {
     private final SpeakingService speakingService;
     private final NcpTtsClient ncpTtsClient;
     private final OpenAiClient openAiClient;
-    private final AzureClient azureClient;
+
 
     //Topic
     @GetMapping("/learning/speaking")
@@ -53,21 +53,22 @@ public class SpeakingController {
     }
 
 
-    //whisper STT Speech To Text
-    @ResponseBody
-    @PostMapping("/learning/stt")
+    //whisper STT Speech To Text **어려움**
+    @PostMapping("/learning/learningCorrection")
     public String transcript(
-            @RequestParam MultipartFile audio
-
-            //odel model
+            @RequestParam MultipartFile audio,
+            Model model,
+            HttpServletRequest request
     ) throws IOException {
+        String question=request.getParameter("question");
         String answer = openAiClient.transcript(audio);
-        //model.addAttribute("answer",script);
-        //return "learning/speaking/speakingPractice";
-        return answer;
+        model.addAttribute("answer",answer);
+        model.addAttribute("question",question);
+        return "/learning/learningCorrection";
     }
 
-    
+
+
 
 
 
