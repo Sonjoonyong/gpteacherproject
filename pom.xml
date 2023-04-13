@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sooaz</groupId>
-	<artifactId>gpt</artifactId>
-	<name>gpteacherproject</name>
-	<packaging>war</packaging>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
-	<properties>
-		<java-version>11</java-version>
-		<org.springframework-version>5.2.23.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
-	</properties>
-	
-<dependencies>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.sooaz</groupId>
+    <artifactId>gpt</artifactId>
+    <name>gpteacherproject</name>
+    <packaging>war</packaging>
+    <version>1.0.0-BUILD-SNAPSHOT</version>
+    <properties>
+        <java-version>11</java-version>
+        <org.springframework-version>5.2.23.RELEASE</org.springframework-version>
+        <org.aspectj-version>1.6.10</org.aspectj-version>
+        <org.slf4j-version>1.6.6</org.slf4j-version>
+    </properties>
+
+    <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -83,6 +83,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -165,7 +166,7 @@
             <version>2.1.0</version>
         </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
@@ -199,7 +200,7 @@
         </dependency>
 
 
-    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
@@ -213,7 +214,8 @@
             <version>20230227</version>
         </dependency>
 
-        </dependencies>
+    </dependencies>
+
 
     <build>
         <plugins>

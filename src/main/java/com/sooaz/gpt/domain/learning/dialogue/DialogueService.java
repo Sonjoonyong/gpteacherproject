@@ -127,9 +127,9 @@ public class DialogueService {
         int colon = talk.indexOf(':');
         int leftParenthesis = talk.indexOf('(');
 
-        int left = (colon == -1) ? 0 : colon + 1;
-        int right = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
+        int leftIndex = (colon == -1) ? 0 : colon + 1;
+        int rightIndex = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
 
-        return talk.substring(left, right).trim();
+        return talk.substring(leftIndex, rightIndex).trim();
     }
 }
