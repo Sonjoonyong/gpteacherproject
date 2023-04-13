@@ -1,6 +1,7 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
 
+import com.sooaz.gpt.domain.learning.AzureClient;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ public class SpeakingController {
 
     private final SpeakingService speakingService;
     private final NcpTtsClient ncpTtsClient;
+    private final AzureClient azureClient;
 
     //Topic
     @GetMapping("/learning/speaking")
@@ -47,5 +49,6 @@ public class SpeakingController {
         ncpTtsClient.tts(assistantQuestion, response);
 
     }
+
 
 }

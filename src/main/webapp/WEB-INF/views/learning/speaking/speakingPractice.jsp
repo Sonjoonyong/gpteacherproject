@@ -8,6 +8,7 @@
 <body>
 	<h1>Speaking</h1>
 	<div class="question">
+
 		<form action="${pageContext.request.contextPath}/learning/correction" method="post">
 			<input type="hidden" name="action" value="submit">
 			<input type="hidden" name="topic" value="${topic}" />
@@ -18,39 +19,24 @@
 			<br>
 			<input type="submit" value="Submit">-->
 		</form>
-
+		<!--TTS-->
 		<button id="startAudio">
 			Question 듣기
 		</button>
 		<br>
 	</div>
 
-	<script>
-		document.querySelector('#startAudio').addEventListener("click",() => {
-			let assistantQuestion = "${assistantQuestion}";
-			ttsAjax(assistantQuestion);
-		})
+	<div class="answer">
+		<!--whisper-->
+		<H2>대답입력</H2>
+		<input type="button" id="record" value="녹음 시작">
+		<input type="button" id="stop" value="녹음 중지">
+	</div>
 
-		function ttsAjax(assistantQuestion) {
-			let request = new XMLHttpRequest();
 
-			let urlSearchParams = new URLSearchParams();
-
-			urlSearchParams.append("assistantQuestion", assistantQuestion);
-
-			request.onload = () => {
-				console.log(request.response);
-				let audioURL = URL.createObjectURL(request.response);
-				let audio = new Audio(audioURL);
-				audio.play();
-			}
-
-			request.open("GET", "/learning/speaking/tts?" + urlSearchParams.toString());
-			request.responseType = "blob";
-			request.send();
-		}
-	</script>
-
+	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+	<script type="text/javascript" src="/js/speakingPracticeTts.js"></script>
+	<script type="text/javascript" src="/js/speakingPracticePronunciation.js"></script>
 
 </body>
 </html>
