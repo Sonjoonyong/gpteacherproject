@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>회화 연습</title>
 
     <style>
         div {
@@ -34,6 +34,9 @@
     </style>
 </head>
 <body onload="init()">
+
+<h1>말하기 연습</h1>
+<p>영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 번역해서 전달해줍니다!</p>
 
 <input type="hidden" id="learningId" value="${learningId}"/>
 
@@ -125,6 +128,7 @@
     //녹음 버튼
     let recordButton = document.querySelector("#record");
     let stopButton = document.querySelector("#stop");
+    let waitingMessage = document.querySelector('#waitingMessage')
 
     // 프로그레스 바
     let progress = document.getElementById("progress"); //progress bar
@@ -136,23 +140,17 @@
 
     startDialogueBtn.onclick = () => {
         ttsAjax(initialAssistantTalk);
-
         initialAssistantTalkDiv.style.display = 'block';
-        startDialogueBtn.style.display = 'none';
-        recordButton.disabled = false;
-        recordButton.style.display = 'block';
+        startDialogueBtn.display = 'none';
+        setBtnsRecordPossible();
     }
 
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
-
         if (audio) {
             audio.pause();
         }
-        stopButton.style.display = 'none';
-        stopButton.disabled = true;
-        recordButton.style.display = 'block';
-        recordButton.disabled = false;
+        setBtnsRecordPossible();
     }
 
     function init() {
@@ -187,11 +185,7 @@
                         }
                     }, 100);
 
-                    recordButton.style.display = 'none';
-                    recordButton.disabled = true;
-                    stopButton.style.display = 'block';
-                    stopButton.disabled = false;
-                    progress.style.display = "inline";
+                    setBtnsRecording();
                 }
 
                 // 오디오 저장
@@ -251,10 +245,7 @@
             console.log(request.response);
             addContent(request.response);
 
-            stopButton.style.display = 'none';
-            stopButton.disabled = true;
-            recordButton.style.display = 'block';
-            recordButton.disabled = false;
+            setBtnsRecordPossible();
         }
 
         formData.enctype = "multipart/form-data";
@@ -309,17 +300,42 @@
 
     function stopRecording(mediaRecorder, timer) {
         mediaRecorder.stop();
+        setBtnsWaiting()
+    }
 
+    // 녹음 시작 가능
+    function setBtnsRecordPossible() {
+        recordButton.disabled = false;
+        recordButton.style.display = 'block';
+        stopButton.disabled = true;
+        stopButton.style.display = 'none';
+        waitingMessage.style.display = 'none';
+    }
+
+    // 녹음 중
+    function setBtnsRecording() {
+        progress.style.display = "inline";
+        recordButton.disabled = true;
+        recordButton.style.display = 'none';
+        stopButton.disabled = false;
+        stopButton.style.display = 'block';
+        waitingMessage.style.display = 'none';
+    }
+
+    // 대기 중
+    function setBtnsWaiting() {
         // 상태바 초기화
         b.innerText = "";
         progress.value = 0;
         progress.style.display = "none";
         clearInterval(timer); // 타이머 초기화
 
-        stopButton.disabled = true;
         recordButton.disabled = true;
+        recordButton.style.display = 'none';
+        stopButton.disabled = true;
+        stopButton.style.display = 'none';
+        waitingMessage.style.display = 'block';
     }
-
 
 </script>
 
