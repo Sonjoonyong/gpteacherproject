@@ -18,45 +18,47 @@
     </div>
 
     <br>
-    <template>
-        <div id="dialogue">
-            <%--답변--%>
-            <div class="answer">
-                <div> <!--style="display: flex;"-->
-                    <div class="yourSentence">
-                        <div>Your sentence</div>
-                        <div id="transcriptResult"></div>
-                    </div><br/>
 
-                    <div class="correctedSentence">
-                        <div>Corrected sentence</div>
-                        <div id="correctedResult"></div>
-                    </div><br/>
-                </div>
 
-                <div style="display: flex;">
-                    <div class="explanation">
-                        <div>Explanation</div>
-                        <div id="explanationResult"></div>
-                    </div>
-                    <button>좋아요</button>
-                    <button>보관함에 넣기</button>
-                </div>
+</div>
+<template>
+    <div id="dialogue">
+        <%--답변--%>
+        <div class="answer">
+            <div> <!--style="display: flex;"-->
+                <div class="yourSentence">
+                    <div>Your sentence</div>
+                    <div id="transcriptResult"></div>
+                </div><br/>
+
+                <div class="correctedSentence">
+                    <div>Corrected sentence</div>
+                    <div id="correctedResult"></div>
+                </div><br/>
             </div>
 
-            <%--질문--%>
-            <div class="question">
-                <span></span>
+            <div style="display: flex;">
+                <div class="explanation">
+                    <div>Explanation</div>
+                    <div id="explanationResult"></div>
+                </div>
+                <button>좋아요</button>
+                <button>보관함에 넣기</button>
             </div>
         </div>
-    </template>
 
-    <%--녹음--%>
-    <div class="recordbox">
-        <input type="button" id="record" value="녹음 시작">
-        <input type="button" id="stop" value="녹음 중지">
+        <br/>
+
+        <%--질문--%>
+        <div class="question">
+            <span></span>
+        </div>
     </div>
-
+</template>
+<%--녹음--%>
+<div class="recordbox">
+    <input type="button" id="record" value="녹음 시작">
+    <input type="button" id="stop" value="녹음 중지">
 </div>
 
 <%--발음평가 테스트용(임시)--%>
@@ -72,16 +74,34 @@
         let parent = document.getElementById("dialogueBox");
         let divDialogue = document.getElementsByTagName("template")[0].content.cloneNode(true).firstElementChild;
 
-        let answer = divDialogue.children[0].children[0].children[0].children[1];
-        let correct = divDialogue.children[0].children[0].children[1].children[1];
-        let explanation = divDialogue.children[0].children[1].children[0].children[1];
-        let question = divDialogue.children[1].children[0];
+        // 결과 삽입 위치 찾기
+        let divAnswer = divDialogue.children[0];
+        let divQuestion = divDialogue.children[2];
 
-        answer.innerHTML = userTalk;
-        correct.innerHTML = result.correctedSentence;
-        explanation.innerHTML = result.explanation;
-        question.innerHTML = result.newAssistantTalk;
+        let divSentence = divAnswer.children[0].children[0].children[1];
+        let divCorrect = divAnswer.children[0].children[2].children[1];
+        let divExplanation = divAnswer.children[1].children[0].children[1];
+        let spanQuestion = divQuestion.children[0];
 
+        // 결과 가져오기
+        let newAssistantTalk = result.newAssistantTalk;
+        let correctedSentence = result.correctedSentence;
+        let explanation = result.explanation;
+
+        //결과 삽입
+        divSentence.innerHTML = userTalk;
+        spanQuestion.innerHTML = newAssistantTalk;
+
+        //고칠 부분이 없을 경우
+        if(correctedSentence=="" | correctedSentence==userTalk | correctedSentence==null | correctedSentence=="N/A") {
+            divCorrect.innerHTML = userTalk;
+            divExplanation.innerHTML = "No correction needed.";
+        }else {
+            divCorrect.innerHTML = correctedSentence;
+            divExplanation.innerHTML = explanation;
+        }
+
+        //화면에 추가
         parent.appendChild(divDialogue);
     }
     document.querySelector('#startAudio').addEventListener("click",() => {
@@ -195,54 +215,14 @@
         request.onload = () => {
             let result = request.response;
             result = JSON.parse(result);
-
-            /*document.querySelector('#transcriptResult').innerText = userTalk;
-            document.querySelector('#correctedResult').innerText = result.correctedSentence;
-            document.querySelector('#explanationResult').innerText = result.explanation;*/
-            addContent(result,userTalk);
+            console.log(result);
+            addContent(result,userTalk); //화면에 출력력
         }
 
-        request.open("POST","/learning/dialogue/talk", false);
+       request.open("POST","/learning/dialogue/talk", false);
         console.log(formData);
         request.send(formData);
     }
-
-    /*function addContent(result,userTalk){
-        let dialogues = document.getElementById("dialogues");
-        //let br = document.createElement("br");
-
-        let divAnswer = document.createElement("div");
-        let divCorrect = document.createElement("div");
-        let divExplanation = document.createElement("div");
-        let spanAnswer = document.createElement("span");
-        let spanCorrect = document.createElement("span");
-        let spanExplanation = document.createElement("span");
-
-
-        let divQuestion = document.createElement("div");
-        let spanQuestion = document.createElement("span");
-
-        divAnswer.innerText = "Your sentence";
-        divCorrect.innerText = "Corrected sentence";
-        divExplanation.innerText = "Explanation";
-
-        spanAnswer.innerHTML = userTalk;
-        spanCorrect.innerHTML = result.correctedSentence;
-        spanExplanation.innerHTML = result.explanation;
-        spanQuestion.innerHTML = result.newAssistantTalk;
-
-        /*divAnswer.append(br, spanAnswer, br);
-        divCorrect.append(br, spanCorrect, br);
-        divExplanation.append(br, spanExplanation, br);
-        divQuestion.append(br, spanQuestion, br);
-
-        divAnswer.append(spanAnswer);
-        divCorrect.append(spanCorrect);
-        divExplanation.append(spanExplanation);
-        divQuestion.append(spanQuestion);
-
-        dialogues.append(divAnswer, divCorrect, divExplanation, divQuestion);
-    }*/
 
 </script>
 
