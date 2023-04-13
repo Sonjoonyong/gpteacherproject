@@ -83,6 +83,8 @@
 <div>
     <input type="button" id="record" value="녹음 시작">
     <input type="button" id="stop" value="녹음 중지">
+    <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
+    <b id="time"></b>
 </div>
 
 <%--발음평가 테스트용(임시)--%>
@@ -111,16 +113,27 @@
     let stopButton = document.querySelector("#stop");
     stopButton.disabled = true;
 
+    // 프로그레스 바
+    let progress = document.getElementById("progress"); //progress bar
+    let b = document.getElementById("time"); // 초 표시할 b태그
+    let timer = 0; // 타이머
+    let mx = 10; // 최대 시간(초)
+
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
         recordButton.style.color = "";
         recordButton.disabled = false;
     }
 
+
     function init() {
         if (navigator.mediaDevices) {
             const constraints = {audio: true};
             let chunks = [];
+
+
+
+            clearInterval(timer); //타이머 초기화
 
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 const mediaRecorder = new MediaRecorder(stream);
@@ -128,12 +141,30 @@
                 // 녹음 시작
                 recordButton.onclick = () => {
                     chunks = [];
+
+
                     mediaRecorder.start();
+
+                    // 타이머 시작
+                    progress.setAttribute("max", mx * 10); //프로그래스 바 최대 값 설정
+                    let time = 0; //시간 초기화
+                    timer = setInterval(() => {
+                        time = time + 1;
+                        let realtime = parseInt(time / 10);
+                        // 상태바 진행
+                        b.innerText = realtime + " s";
+                        progress.value = time;
+
+                        if (time == mx * 10 + 1) { // 시간 제한
+                            stopRecording(mediaRecorder, timer)
+                        }
+                    }, 100);
 
                     recordButton.style.backgroundColor = "red";
                     recordButton.style.color = "white";
                     recordButton.disabled = true;
                     stopButton.disabled = false;
+                    progress.style.display = "inline";
                 }
 
                 // 오디오 저장
@@ -143,11 +174,7 @@
 
                 // 녹음 종료
                 stopButton.onclick = () => {
-                    mediaRecorder.stop();
-
-                    recordButton.style.backgroundColor = "";
-                    stopButton.disabled = true;
-                    recordButton.disabled = true;
+                    stopRecording(mediaRecorder, timer)
                 }
 
                 // 녹음이 종료되면 서버로 전송 및 결과 수신
@@ -175,7 +202,6 @@
         urlSearchParams.append("assistantTalk", assistantTalk);
 
         request.onload = () => {
-            console.log(request.response);
             let audioURL = URL.createObjectURL(request.response);
             let audio = new Audio(audioURL);
             audio.play();
@@ -249,6 +275,19 @@
         dialogueBox.appendChild(dialogueDiv);
         // GPT 답변 읽어주기
         ttsAjax(newAssistantTalk)
+    }
+
+    function stopRecording(mediaRecorder, timer) {
+        mediaRecorder.stop();
+
+        // 상태바 초기화
+        b.innerText = "";
+        progress.value = 0;
+        progress.style.display = "none";
+        clearInterval(timer); // 타이머 초기화
+
+        stopButton.disabled = true;
+        recordButton.disabled = true;
     }
 
 
