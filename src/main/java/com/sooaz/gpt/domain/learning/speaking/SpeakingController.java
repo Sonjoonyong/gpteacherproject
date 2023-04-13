@@ -25,7 +25,7 @@ public class SpeakingController {
 
     //Practice
     @PostMapping("/learning/speaking")
-    @ResponseBody
+
     public String getSpeakingForm(
             @ModelAttribute SpeakingDTO speakingDTO,
             Model model
