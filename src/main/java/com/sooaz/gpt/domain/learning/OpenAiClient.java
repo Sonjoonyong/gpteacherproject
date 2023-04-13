@@ -49,10 +49,9 @@ public class OpenAiClient {
         return chat(messages);
     }
 
+
     //============================교정받기===================================
     //======================================================================
-
-
     public String chat(List<JSONObject> messages) {
 
         String responseText = "";
@@ -97,6 +96,7 @@ public class OpenAiClient {
 
     //==========================음성인식=============================================
     //===============================================================================
+
     public String transcript(MultipartFile audio) throws IOException {
 
         String script = "";
@@ -162,6 +162,7 @@ public class OpenAiClient {
 
         return script;
     }
+
 }
 
 

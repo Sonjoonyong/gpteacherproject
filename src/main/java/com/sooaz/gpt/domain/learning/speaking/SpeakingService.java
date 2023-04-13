@@ -24,9 +24,9 @@ public class SpeakingService {
 
         String initialInstruction = getInitialInstruction(speakingDTO);
 
-        String assistantQuestion = openAiClient.chat(initialInstruction);
+        String question = openAiClient.chat(initialInstruction);
 
-        return assistantQuestion;
+        return question;
     }
 
     private String getInitialInstruction(SpeakingDTO speakingDTO){

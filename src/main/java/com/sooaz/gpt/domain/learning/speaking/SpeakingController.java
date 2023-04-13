@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.learning.speaking;
 
 import com.sooaz.gpt.domain.learning.AzureClient;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
+import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.dialogue.DialogueTopicDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ public class SpeakingController {
 
     private final SpeakingService speakingService;
     private final NcpTtsClient ncpTtsClient;
+    private final OpenAiClient openAiClient;
     private final AzureClient azureClient;
 
     //Topic
@@ -32,28 +34,39 @@ public class SpeakingController {
 
     //Practice
     @PostMapping("/learning/speaking")
-
     public String getSpeakingForm(
             @ModelAttribute SpeakingDTO speakingDTO,
             Model model
-
     ) {
-        String assistantQuestion = speakingService.initSpeaking(speakingDTO);
-
-        model.addAttribute("assistantQuestion", assistantQuestion);
-
+        String question = speakingService.initSpeaking(speakingDTO);
+        model.addAttribute("question", question);
         return "learning/speaking/speakingPractice";
     }
 
-    //
+    //TTS Test to Speech
     @GetMapping("/learning/speaking/tts")
     public void getTts(
-            @RequestParam String assistantQuestion,
+            @RequestParam String question,
             HttpServletResponse response
     ) {
-        ncpTtsClient.tts(assistantQuestion, response);
-
+        ncpTtsClient.tts(question, response);
     }
+
+
+    //STT Speech To Text
+    @ResponseBody
+    @PostMapping("/learning/stt")
+    public String transcript(
+            @RequestParam MultipartFile audio
+            //odel model
+    ) throws IOException {
+        String script = openAiClient.transcript(audio);
+        //model.addAttribute("answer",script);
+        //return "learning/speaking/speakingPractice";
+        return script;
+    }
+
+
     /*
     @ResponseBody
     @PostMapping("/learning/speaking/pronunciation")
