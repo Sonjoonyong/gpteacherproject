@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -94,6 +94,7 @@
 <%--<br><br><br><br>--%>
 
 <script>
+
     let learningId = document.querySelector('#learningId').value;
     let initialAssistantTalk = document.querySelector('#initialAssistantTalk').innerText;
     let priorAssistantTalk = initialAssistantTalk;
@@ -110,8 +111,7 @@
     let stopButton = document.querySelector("#stop");
     stopButton.disabled = true;
 
-
-    function addContent(result, userTalk) {
+    function addContent(result) {
         // 대화창
         let dialogueBox = document.getElementById("dialogueBox");
         let dialogueDiv = document.getElementsByTagName('template')[0].content.cloneNode(true).firstElementChild;
@@ -122,9 +122,15 @@
         let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
 
         // 결과 가져오기
+        if (result.result === "fail") {
+            alert("잘못된 문장입니다. 다시 응답해주세요.")
+            return false;
+        }
+
         let newAssistantTalk = result.answer;
         let correctedSentence = result.corrected;
         let explanation = result.explanation;
+        let userTalk = result.userTalk;
         priorAssistantTalk = newAssistantTalk;
 
         //결과 삽입
@@ -161,7 +167,7 @@
 
                 // 녹음 시작
                 recordButton.onclick = () => {
-                    chunks = []; // 이전에 녹음된 내용이 있으면 초기화
+                    chunks = [];
                     mediaRecorder.start();
 
                     recordButton.style.backgroundColor = "red";
@@ -220,7 +226,7 @@
         request.send();
     }
 
-
+    // 유저 응답 서버에 전송 후
     function sttAjax(formData) {
         let request = new XMLHttpRequest();
         formData.append("priorAssistantTalk", priorAssistantTalk);
@@ -228,7 +234,8 @@
 
         request.onload = () => {
             let responseText = request.responseText;
-            getResponse(responseText); //script
+            let result = JSON.parse(responseText);
+            addContent(result); //화면에 출력
 
             recordButton.style.color = "";
             recordButton.disabled = false;
@@ -236,26 +243,6 @@
 
         formData.enctype = "multipart/form-data";
         request.open("POST", "/learning/dialogue/transcript", false);
-        request.send(formData);
-    }
-
-    //유저 문장 보내고 교정본 받기
-    function getResponse(userTalk) {
-        let request = new XMLHttpRequest();
-
-        let formData = new FormData();
-        formData.append("priorAssistantTalk", priorAssistantTalk);
-        formData.append("userTalk", userTalk);
-        formData.append("learningId", learningId);
-
-        request.onload = () => {
-            let result = request.response;
-            result = JSON.parse(result);
-            addContent(result, userTalk); //화면에 출력
-        }
-
-        request.open("POST", "/learning/dialogue/talk", false);
-        console.log(formData);
         request.send(formData);
     }
 

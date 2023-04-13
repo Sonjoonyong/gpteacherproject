@@ -99,26 +99,41 @@ public class DialogueService {
 
         // JSON 형식 응답 수신
         String assistantTalkJson = openAiClient.chat(messages);
-        JSONObject assistantTalkJsonObject = new JSONObject(assistantTalkJson);
-        String assistantTalk = assistantTalkJsonObject.getString("answer");
-        String correctedSentence = assistantTalkJsonObject.getString("corrected");
-        String explanation = assistantTalkJsonObject.getString("explanation");
 
-        // 새로운 sentence 저장
-        Sentence sentence = new Sentence();
-        sentence.setLearningId(learningId);
-        sentence.setSentenceQuestion(assistantTalk);
-        sentence.setSentenceCorrected(correctedSentence);
-        sentence.setSentenceExplanation(explanation);
-        sentence.setSentenceQuestion(priorAssistantTalk);
-        sentence.setSentenceAnswer(userTalk);
-        sentenceRepository.save(sentence);
+        JSONObject assistantTalkJsonObject;
 
-        // assistantTalk 수정 후 JSONObject에 update
-        assistantTalk = processTalk(assistantTalk);
-        assistantTalkJsonObject.remove("answer");
-        assistantTalkJsonObject.put("answer", assistantTalk);
-        assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
+        assistantTalkJsonObject = new JSONObject(assistantTalkJson);
+
+        String assistantTalk;
+        String correctedSentence;
+        String explanation;
+
+        try {
+            assistantTalk = assistantTalkJsonObject.getString("answer");
+            correctedSentence = assistantTalkJsonObject.getString("corrected");
+            explanation = assistantTalkJsonObject.getString("explanation");
+
+            // 새로운 sentence 저장
+            Sentence sentence = new Sentence();
+            sentence.setLearningId(learningId);
+            sentence.setSentenceQuestion(assistantTalk);
+            sentence.setSentenceCorrected(correctedSentence);
+            sentence.setSentenceExplanation(explanation);
+            sentence.setSentenceQuestion(priorAssistantTalk);
+            sentence.setSentenceAnswer(userTalk);
+            sentenceRepository.save(sentence);
+
+            // assistantTalk 수정 후 JSONObject에 update
+            assistantTalk = processTalk(assistantTalk);
+            assistantTalkJsonObject.remove("answer");
+            assistantTalkJsonObject.put("answer", assistantTalk);
+            assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
+            assistantTalkJsonObject.put("userTalk", userTalk);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assistantTalkJsonObject.put("result", "fail");
+        }
+
         return assistantTalkJsonObject;
     }
 
