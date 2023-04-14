@@ -31,6 +31,17 @@
             display: none;
         }
 
+        #like, #storage {
+            height: 30px;
+            width: 30px;
+            background-color: transparent;
+        }
+
+        img {
+            height: 20px;
+            width: 20px;
+        }
+
     </style>
 </head>
 <body onload="init()">
@@ -56,6 +67,7 @@
 <%-- 템플릿 --%>
 <template>
     <div id="dialogue">
+        <input type="hidden" id="sentenceId"/>
         <%--답변--%>
         <div class="userTalk"> <!--id="sentenceDbId"-->
             <div style="display: flex;">
@@ -82,9 +94,13 @@
                     </div>
                 </div>
 
-                <button>좋아요</button>
+                <button id="like" onclick="likeAjax(this)">
+                    <img src="/images/empty-heart.png">
+                </button>
 
-                <button>보관함에 넣기</button>
+                <button id="storage">
+                    <img src="/images/empty-storage.png">
+                </button>
             </div>
         </div>
 
@@ -104,7 +120,6 @@
     <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
     <b id="time"></b>
 </div>
-
 <%--발음평가 테스트용(임시)--%>
 <%--<br><br><br><br>--%>
 <%--<input type="button" id="record" value="녹음 시작">--%>
@@ -142,6 +157,10 @@
         recordButton.disabled = false;
         recordButton.style.display = 'block';
     }
+
+    /*likeBtn.onclick = () => {
+        likeAjax()
+    }*/
 
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
@@ -262,6 +281,18 @@
         request.send(formData);
     }
 
+    function likeAjax(like) {
+       let request = new XMLHttpRequest();
+       let sentenceId = like.value;
+
+       request.onload = () => {
+           let likeStatus = request.response;
+       }
+
+       request.open("GET", "/learning/dialogue/like?sentenceId="+sentenceId);
+       request.send();
+    }
+
     function addContent(result) {
         // 대화창
         let dialogueBox = document.getElementById("dialogueBox");
@@ -271,6 +302,7 @@
         let correctedSentenceDiv = dialogueDiv.querySelector('.correctedSentence');
         let explanationDiv = dialogueDiv.querySelector('.explanation');
         let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
+        let likeBtn = dialogueDiv.querySelector('#like');
 
         // 결과 가져오기
         if (result.result === "fail") {
@@ -282,11 +314,13 @@
         let correctedSentence = result.corrected;
         let explanation = result.explanation;
         let userTalk = result.userTalk;
+        let sentenceId = result.sentenceId;
         priorAssistantTalk = newAssistantTalk;
 
         // 결과 삽입
         yourSentenceDiv.innerText = userTalk;
         assistantTalkDiv.innerText = newAssistantTalk;
+        likeBtn.value = sentenceId;
 
         // 고칠 부분이 없을 경우
         if (!correctedSentence ||

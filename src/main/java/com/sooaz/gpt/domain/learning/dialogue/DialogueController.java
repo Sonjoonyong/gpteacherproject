@@ -82,6 +82,16 @@ public class DialogueController {
     }
 
     @ResponseBody
+    @GetMapping("/learning/dialogue/like")
+    public String updateLike(
+            @RequestParam Long sentenceId
+    ) {
+        char likeStatus = dialogueService.updateLikeStatus(sentenceId); //update된 like상태
+        log.info("Update likeStatus = {}",likeStatus);
+        return Character.toString(likeStatus);
+    }
+
+    @ResponseBody
     @PostMapping("/learning/dialogue/pronunciation")
     public String getPronunciationAssessment(
             MultipartFile audio,

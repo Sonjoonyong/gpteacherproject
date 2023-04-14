@@ -6,6 +6,7 @@ import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -123,13 +124,15 @@ public class DialogueService {
             sentence.setSentenceExplanation(explanation);
             sentence.setSentenceQuestion(priorAssistantTalk);
             sentence.setSentenceAnswer(userTalk);
-            sentenceRepository.save(sentence);
+            Long sentenceId = sentenceRepository.save(sentence).getId();
 
             // assistantTalk 수정 후 JSONObject에 update
             assistantTalk = processTalk(assistantTalk);
             assistantTalkJsonObject.remove("answer");
             assistantTalkJsonObject.put("answer", assistantTalk);
             assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
+            assistantTalkJsonObject.put("sentenceId", sentenceId);
+
             assistantTalkJsonObject.put("userTalk", userTalk);
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,6 +140,25 @@ public class DialogueService {
         }
 
         return assistantTalkJsonObject;
+    }
+
+    public char updateLikeStatus(Long sentenceId) {
+        // sentence like 상태 구하기
+        char likeStatus = getLikeStatus(sentenceId);
+        //log.info("likeStatus = {}",likeStatus);
+
+        //like update
+        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
+        sentenceUpdateDto.setSentenceId(sentenceId);
+
+        if (likeStatus == '0') { // 0 -> 1 | 1 -> 0
+            sentenceUpdateDto.setSentenceLike('1');
+        } else {
+            sentenceUpdateDto.setSentenceLike('0');
+        }
+
+        sentenceRepository.update(sentenceUpdateDto);
+        return getLikeStatus(sentenceId);
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
@@ -164,4 +186,11 @@ public class DialogueService {
 
         return talk.substring(leftIndex, rightIndex).trim();
     }
+
+    private char getLikeStatus(Long sentenceId) {
+        Sentence sentence = sentenceRepository.findById(sentenceId)
+                .orElseThrow(IllegalStateException::new);
+        return sentence.getSentenceLike();
+    }
+
 }

@@ -55,7 +55,10 @@
                 sentence_next_repetition = #{sentenceNextRepetition},
             </if>
             <if test="sentenceRepetitionStep != null">
-                sentence_repetition_step = #{sentenceRepetitionStep}
+                sentence_repetition_step = #{sentenceRepetitionStep},
+            </if>
+            <if test="sentenceLike != null">
+                sentence_like = #{sentenceLike}
             </if>
         </set>
         where id = #{sentenceId}
