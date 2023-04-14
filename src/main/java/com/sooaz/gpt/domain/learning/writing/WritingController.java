@@ -117,8 +117,12 @@ public class WritingController {
             @RequestParam("question") String question,
             Model model, HttpSession session) throws IOException {
 
+        // AnalysisData 가져오기
+        JSONArray analysisData = writingService.getAnalysisData(answer, question);
+
         // 답변 평가 및 수정
         String correctedAnswer = writingService.evaluateAnswer(answer, question);
+
         model.addAttribute("question", question);
         model.addAttribute("answer", answer);
         model.addAttribute("correctedAnswer", correctedAnswer);
