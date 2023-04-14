@@ -61,7 +61,7 @@
     <input type="hidden" id="learningId" value="${learningId}"/>
 
     <div>
-        <button id="startDialogue">
+        <button id="startDialogue" class="btn btn-primary">
             대화 시작하기
         </button>
     </div>
@@ -214,8 +214,8 @@
 
     startDialogueBtn.onclick = () => {
         ttsAjax(initialAssistantTalk);
+        startDialogueBtn.style.display = 'none';
         initialAssistantTalkDiv.style.display = 'block';
-        startDialogueBtn.display = 'none';
         setBtnsRecordPossible();
     }
 
@@ -368,6 +368,7 @@
 
         // 화면에 추가
         dialogueBox.appendChild(dialogueDiv);
+        dialogueBox.scrollTop = dialogueBox.scrollHeight;
         // GPT 답변 읽어주기
         ttsAjax(newAssistantTalk)
     }
