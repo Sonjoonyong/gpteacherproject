@@ -84,12 +84,13 @@ CREATE TABLE learning
     id                 NUMBER        NOT NULL,
     user_id            NUMBER        NOT NULL,
     learning_type      VARCHAR2(10)  NULL,
-    learning_test_name VARCHAR2(10)  NULL,
+    learning_test_type VARCHAR2(10)  NULL,
     learning_topic     CLOB NOT NULL,
     learning_date      DATE          NULL,
     learning_like      CHAR(1)       NULL
 );
 
+select * from sentence;
 
 CREATE TABLE admin_user
 (
