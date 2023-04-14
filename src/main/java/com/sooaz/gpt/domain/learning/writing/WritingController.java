@@ -132,7 +132,7 @@ public class WritingController {
     }
 
     // 문장별 분석 페이지
-    @GetMapping("/sentences")
+//    @GetMapping("/sentences")
     public String showSentenceAnalysisPage(Model model, HttpSession session) {
         JSONArray jsonArray = (JSONArray) session.getAttribute("analysis");
         List<Map<String, Object>> analysis = new ArrayList<>();
