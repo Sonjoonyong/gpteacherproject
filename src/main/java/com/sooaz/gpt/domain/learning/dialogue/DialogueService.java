@@ -39,7 +39,7 @@ public class DialogueService {
             "Third, explain for the correction.\n" +
             "\n" +
             "Give me response in JSON file like below :\n" +
-            "{ answer : \"your answer\",\n" +
+            "{ answer : \"your answer. Must not be empty\",\n" +
             "corrected : \"corrected version of my talk\",\n" +
             "explanation : \"explanation for correction\" }";
 
