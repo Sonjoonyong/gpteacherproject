@@ -4,34 +4,52 @@
 <head>
     <title>회화 연습</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Bootstrap icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
     <style>
-        div {
-            border: 1px solid hotpink;
+        .container {
+            max-width: 800px;
         }
 
         #initialAssistantTalk {
-            display: none;
-        }
-
-        #dialogue {
-            display: flex;
-            flex-direction: column;
+             display: none;
         }
 
         #record {
-            display: none;
+             display: none;
         }
 
         #stop {
-            color: hotpink;
-            display: none;
+            color: rgb(255, 0, 0);
+             display: none;
         }
 
         #waitingMessage {
-            display: none;
+             display: none;
         }
 
+        .bi-heart-fill {
+            color: red;
+        }
+
+        .bi-archive-fill {
+            color: rgb(57, 116, 25);
+        }
+
+        #dialogueBox {
+            height: 60vh;
+        }
+
+        .assistantTalk {
+            background-color: #F4F2FF;
+            width: fit-content;
+        }
     </style>
+
+
 </head>
 <body onload="init()">
 
@@ -341,6 +359,9 @@
 
 <%--Wav 파일 업로드 라이브러리--%>
 <%--<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>--%>
+
+<%--Bootstrap 5.2.3--%>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 <%--<script type="text/javascript" src="/js/dialoguePracticeTts.js"></script>--%>
 <%--<script type="text/javascript" src="/js/dialoguePracticePronunciation.js"></script>--%>
