@@ -55,7 +55,7 @@
 
 <section class="container">
 
-    <h1>말하기 연습</h1>
+    <h1 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h1>
     <p>영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
 
     <input type="hidden" id="learningId" value="${learningId}"/>
@@ -102,7 +102,7 @@
             <div class="col-12 text-center">문장을 분석중입니다.</div>
         </div>
 
-        <div class="row justify-content-center" style="max-width: 400px;">
+        <div class="row justify-content-center align-items-center" style="max-width: 400px;">
             <div class="col-2 align-self-center"></div><!--dummy-->
             <progress class="col-8" id="progress" value="0" min="0" max="10" style="display:none;"></progress>
             <b id="time" class="col-2"></b>
