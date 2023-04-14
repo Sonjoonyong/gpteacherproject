@@ -161,6 +161,22 @@ public class DialogueService {
         return getLikeStatus(sentenceId);
     }
 
+    public char updateStorageStatus(Long sentenceId) {
+        char storageStatus = getStorageStatus(sentenceId);
+
+        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
+        sentenceUpdateDto.setSentenceId(sentenceId);
+
+        if (storageStatus == '0') {
+            sentenceUpdateDto.setFlashcardId(1L);
+        } else {
+            sentenceUpdateDto.setFlashcardId(-2L); //-2가 id로 들어오면 null로 update
+        }
+
+        sentenceRepository.update(sentenceUpdateDto);
+        return getStorageStatus(sentenceId);
+    }
+
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
         // 지시문 설정
         return String.format(
@@ -191,6 +207,16 @@ public class DialogueService {
         Sentence sentence = sentenceRepository.findById(sentenceId)
                 .orElseThrow(IllegalStateException::new);
         return sentence.getSentenceLike();
+    }
+    private char getStorageStatus(Long sentenceId) { //0이면 null, 1이면 값 있음
+        Sentence sentence = sentenceRepository.findById(sentenceId)
+                .orElseThrow(IllegalStateException::new);
+        Long flashcardId = sentence.getFlashcardId();
+        if (flashcardId==null) {
+            return '0';
+        } else {
+            return '1';
+        }
     }
 
 }

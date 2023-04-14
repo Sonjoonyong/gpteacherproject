@@ -87,8 +87,17 @@ public class DialogueController {
             @RequestParam Long sentenceId
     ) {
         char likeStatus = dialogueService.updateLikeStatus(sentenceId); //update된 like상태
-        log.info("Update likeStatus = {}",likeStatus);
         return Character.toString(likeStatus);
+    }
+
+    @ResponseBody
+    @GetMapping("/learning/dialogue/storage")
+    public String updateFlashcardId(
+            @RequestParam Long sentenceId
+    ) {
+        char storageStatus = dialogueService.updateStorageStatus(sentenceId);
+        log.info("Update storageStatus = {}",storageStatus);
+        return Character.toString(storageStatus);
     }
 
     @ResponseBody

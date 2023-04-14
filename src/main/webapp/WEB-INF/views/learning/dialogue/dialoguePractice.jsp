@@ -156,9 +156,9 @@
                             </button>
 
 
-                            <button class="col-1 col-md-5 btn" id="storage">
-                                <!-- <i class="bi bi-archive"></i> -->
-                                <i class="bi bi-archive-fill danger"></i>
+                            <button class="col-1 col-md-5 btn" id="storage" onclick="storageAjax(this)">
+                                <i class="bi bi-archive" id="emptyStorage"></i>
+                                <i class="bi bi-archive-fill danger" id="fillStorage"></i>
                             </button>
                         </div>
                     </div>
@@ -218,10 +218,6 @@
         initialAssistantTalkDiv.style.display = 'block';
         setBtnsRecordPossible();
     }
-
-    /*likeBtn.onclick = () => {
-        likeAjax()
-    }*/
 
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
@@ -331,26 +327,6 @@
         request.send(formData);
     }
 
-    function likeAjax(like) {
-       let request = new XMLHttpRequest();
-       let sentenceId = like.value;
-
-       request.onload = () => {
-           let likeStatus = request.response;
-           if (likeStatus=="1") {
-               like.querySelector('#emptyHeart').style.display = 'none';
-               like.querySelector('#fillHeart').style.display = 'block';
-           } else {
-               like.querySelector('#emptyHeart').style.display = 'block';
-               like.querySelector('#fillHeart').style.display = 'none';
-           }
-
-       }
-
-       request.open("GET", "/learning/dialogue/like?sentenceId="+sentenceId);
-       request.send();
-    }
-
     function addContent(result) {
         // 대화창
         let dialogueBox = document.getElementById("dialogueBox");
@@ -361,8 +337,11 @@
         let explanationDiv = dialogueDiv.querySelector('.explanation');
         let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
 
+        //좋아요 & 보관함
         let likeBtn = dialogueDiv.querySelector('#like');
         let fillHeart = dialogueDiv.querySelector('#fillHeart');
+        let storageBtn = dialogueDiv.querySelector('#storage');
+        let fillStorage = dialogueDiv.querySelector('#fillStorage');
 
         // 결과 가져오기
         if (result.result === "fail") {
@@ -382,7 +361,9 @@
         assistantTalkDiv.innerText = newAssistantTalk;
 
         likeBtn.value = sentenceId;
+        storageBtn.value = sentenceId;
         fillHeart.style.display = 'none';
+        fillStorage.style.display = 'none';
 
         // 고칠 부분이 없을 경우
         if (!correctedSentence ||
@@ -402,6 +383,44 @@
         dialogueBox.scrollTop = dialogueBox.scrollHeight;
         // GPT 답변 읽어주기
         ttsAjax(newAssistantTalk)
+    }
+
+    function likeAjax(like) {
+        let request = new XMLHttpRequest();
+        let sentenceId = like.value;
+
+        request.onload = () => {
+            let likeStatus = request.response;
+            if (likeStatus=="1") {
+                like.querySelector('#emptyHeart').style.display = 'none';
+                like.querySelector('#fillHeart').style.display = 'block';
+            } else {
+                like.querySelector('#emptyHeart').style.display = 'block';
+                like.querySelector('#fillHeart').style.display = 'none';
+            }
+        }
+
+        request.open("GET", "/learning/dialogue/like?sentenceId="+sentenceId);
+        request.send();
+    }
+
+    function storageAjax(storage) {
+        let request = new XMLHttpRequest();
+        let sentenceId = storage.value;
+
+        request.onload = () => {
+            let storageStatus = request.response;
+            if (storageStatus=="1") {
+                storage.querySelector('#emptyStorage').style.display = 'none';
+                storage.querySelector('#fillStorage').style.display = 'block';
+            } else {
+                storage.querySelector('#emptyStorage').style.display = 'block';
+                storage.querySelector('#fillStorage').style.display = 'none';
+            }
+        }
+
+        request.open("GET", "/learning/dialogue/storage?sentenceId="+sentenceId);
+        request.send();
     }
 
     function stopRecording(mediaRecorder, timer) {
