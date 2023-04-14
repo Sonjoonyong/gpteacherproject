@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -116,12 +119,8 @@ public class WritingController {
             @RequestParam("question") String question,
             Model model, HttpSession session) throws IOException {
 
-        // AnalysisData 가져오기
-        JSONArray analysisData = writingService.getAnalysisData(answer, question);
-
         // 답변 평가 및 수정
         String correctedAnswer = writingService.evaluateAnswer(answer, question);
-
         model.addAttribute("question", question);
         model.addAttribute("answer", answer);
         model.addAttribute("correctedAnswer", correctedAnswer);
@@ -176,18 +175,6 @@ public class WritingController {
 
         return "learning/learningSentences";
     }
-
-    // 좋아요
-    @ResponseBody
-    @GetMapping("/learning/writing/statusUpdate")
-    public String updateStatus(
-            @RequestParam Long sentenceId,
-            @RequestParam String type
-    ) {
-        char currentStatus = writingService.updateStatus(sentenceId, type); // 업데이트된 상태 반환
-        return Character.toString(currentStatus);
-    }
-
 
 }
 

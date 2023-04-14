@@ -29,7 +29,7 @@
 <script>
     function likeSentence(sentenceId) {
         // "좋아요" 버튼에 대한 로직 추가 예정
-        fetch(`/learning/sentences/statusUpdate?sentenceId=${sentenceId}&type=like`)
+        fetch(`/learning/writing/statusUpdate?sentenceId=${sentenceId}&type=like`)
             .then(response => response.text())
             .then(status => {
                 console.log("좋아요 상태:", status);
@@ -48,6 +48,7 @@
         var sentenceGroup = document.getElementById("sentence-group-" + sentenceId);
         sentenceGroup.remove();
     }
+
 </script>
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
