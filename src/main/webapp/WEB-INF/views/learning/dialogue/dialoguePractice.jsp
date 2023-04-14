@@ -4,31 +4,35 @@
 <head>
     <title>회화 연습</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <!-- Bootstrap icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <%@ include file="../../fragments/bootstrapCss.jsp" %>
+    <%@ include file="../../fragments/header.jsp" %>
 
     <style>
+        /* scrollbar track 노출 문제 해결 */
+        *::-webkit-scrollbar {
+            width: 16px;
+        }
+
         .container {
             max-width: 900px;
         }
 
-        #initialAssistantTalk {
-            display: none;
-        }
-
-        #record {
+        #initialAssistantTalk, #record, #stop, #waitingMessage {
             display: none;
         }
 
         #stop {
             color: rgb(255, 0, 0);
-            display: none;
+            width: 45px;
+            height: 45px;
+            border-color: gray;
         }
 
-        #waitingMessage {
-            display: none;
+        #record {
+            width: 45px;
+            height: 45px;
+            background-color: #5DB99D;
+            border-color: #5DB99D;
         }
 
         .bi-heart-fill {
@@ -56,7 +60,7 @@
 <section class="container">
 
     <h3 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h3>
-    <p>영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
+    <p class="text-center">영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
 
     <input type="hidden" id="learningId" value="${learningId}"/>
 
@@ -85,12 +89,10 @@
     <!-- 녹음 버튼 -->
     <div class="row g-0 justify-content-center g-0 gap-3">
         <div class="row justify-content-center">
-            <button id="record" class="btn rounded-circle text-center p-0 shadow"
-                    style="width: 45px; height: 45px; background-color: #5DB99D; border-color: #5DB99D;" disabled1>
+            <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
                 <i class="bi bi-mic fs-2" style="color: white"></i>
             </button>
-            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow"
-                    style="width: 45px; height: 45px; border-color: gray;" disabled1>
+            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
                 <i class="bi bi-square-fill"></i>
             </button>
         </div>
@@ -110,6 +112,8 @@
     </div>
 
 </section>
+
+<%@ include file="../../fragments/footer.jsp" %>
 
 <template>
     <div class="dialogue row p-2">
@@ -179,7 +183,7 @@
             </div>
         </div>
     </div>
-<!--dialogue end-->
+    <!--dialogue end-->
 </template>
 
 <%--발음평가 테스트용(임시)--%>
@@ -464,13 +468,10 @@
 
 </script>
 
+<%@ include file="../../fragments/bootstrapJs.jsp" %>
+
 <%--Wav 파일 업로드 라이브러리--%>
 <%--<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>--%>
-
-<%--Bootstrap 5.2.3--%>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
 
 <%--<script type="text/javascript" src="/js/dialoguePracticeTts.js"></script>--%>
 <%--<script type="text/javascript" src="/js/dialoguePracticePronunciation.js"></script>--%>
