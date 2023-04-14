@@ -19,7 +19,6 @@
         <textarea name="answer" id="answer"></textarea>
         <br>
         <input type="submit" value="Submit">-->
-
 	</form>
 	<!--TTS-->
 	<button id="startAudio">
@@ -34,7 +33,6 @@
 <input type="button" id="record" value="녹음 시작">
 <input type="button" id="stop" value="녹음 중지">
 
-<textarea rows="10" cols="100" id="textarea"></textarea>
 
 <!--**어려움**-->
 <form  method="post"  style="display: none" id="sttForm" action="/learning/learningCorrection" enctype="multipart/form-data">

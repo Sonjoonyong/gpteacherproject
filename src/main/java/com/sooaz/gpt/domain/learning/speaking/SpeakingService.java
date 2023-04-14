@@ -2,7 +2,9 @@ package com.sooaz.gpt.domain.learning.speaking;
 
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
+import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,7 +20,8 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class SpeakingService {
     private final OpenAiClient openAiClient;
-
+    private final LearningRepository learningRepository;
+    private final SentenceRepository sentenceRepository;
 
     private String INSTRUCTION = "i have to practice speaking for \"%s\" test. please give me one question (sentences related to the \"%s\" test).";
 
@@ -44,24 +47,25 @@ public class SpeakingService {
     //준용님파트
 
     // 사용자 답변 평가
-    public String evaluateAnswer(@RequestParam("answer")String answer, @RequestParam("question")String question) throws IOException {
-
+    public String evaluateAnswer(String userAnswer, String question) throws IOException {
         StringBuilder responseBuilder = new StringBuilder();
 
         // 문장 분할에 정규식 패턴 사용
         Pattern sentencePattern = Pattern.compile("(?<!\\b(?:[Dd]r|[Mm]r|[Mm]rs|[Mm]s|[Pp]rof|[Ss]t))\\b[.!?]\\s+(?=[A-Z])");
-        List<String> sentences = Arrays.asList(sentencePattern.split(answer));
+        List<String> sentences = Arrays.asList(sentencePattern.split(userAnswer));
 
         // 각 문장을 간결하고 문장이 흐트러지지 않게 교정 요청
         for (String sentence : sentences) {
             //String prompt = "chatGPT, there are rules to follow when correcting English sentences. If you want me to correct an English sentence, please provide it and specify that you only want the portion of the sentence after 'answer:' to be corrected. If there is no issues, you must output the portion of the sentence after 'answer:' as requested. answer:"+sentence;
+            //"Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect. Ensure that commas are not changed to periods: " + sentence;
             String prompt = "this is my sentence : \n" +sentence+
-                    "First, make correct my sentence, focusing on grammer, structure and punctuation\n"+
+                    "First, make correct my sentence, focusing on grammer, structure and punctuation.\n"+
                     "Second, let me know the explanation for the correction.\n"+
                     "give me response in JSON file like below :\n"+
                     "{sentence : \"my sentence\", \n" +
                     "corrected : \"corrected version of my sentence\",\n" +
                     "explanation : \"explanation for my correction\"}";
+
             String response = openAiClient.chat(prompt);
 
             if (responseBuilder.length() > 0) {
@@ -69,17 +73,16 @@ public class SpeakingService {
             }
             responseBuilder.append(response.trim());
         }
-
         return responseBuilder.toString();
     }
 
     // 원본 답변과 수정된 답변의 분석 데이터를 가져옴
-    public JSONArray getAnalysisData(String answer, String correctedAnswer) throws IOException {
+    public JSONArray getAnalysisData(String originalAnswer, String correctedAnswer) throws IOException {
         JSONArray analysis = new JSONArray();
 
         // 문장 분할에 정규식 패턴 사용
         Pattern sentencePattern = Pattern.compile("(?<!\\b(?:[Dd]r|[Mm]r|[Mm]rs|[Mm]s|[Pp]rof|[Ss]t))\\b[.!?]\\s+(?=[A-Z])");
-        List<String> originalSentences = Arrays.asList(sentencePattern.split(answer));
+        List<String> originalSentences = Arrays.asList(sentencePattern.split(originalAnswer));
         List<String> correctedSentences = Arrays.asList(sentencePattern.split(correctedAnswer));
 
         int minLength = Math.min(originalSentences.size(), correctedSentences.size());

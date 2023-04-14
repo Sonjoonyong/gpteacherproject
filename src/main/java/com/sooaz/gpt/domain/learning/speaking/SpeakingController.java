@@ -60,7 +60,7 @@ public class SpeakingController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //whisper STT Speech To Text **어려움**
-    @PostMapping("/learning/learningCorrection") //주소창에표시되는부분
+    @PostMapping(value="/learning/learningCorrection", produces = "application/json") //주소창에표시되는부분
     public String transcript(
             @RequestParam MultipartFile audio,
             Model model,
@@ -68,7 +68,8 @@ public class SpeakingController {
             HttpServletRequest request
     ) throws IOException {
         String question=request.getParameter("question");
-        String answer = openAiClient.transcript(audio);
+        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+        String answer = openAiClient.transcript(directory,audio);
         model.addAttribute("answer",answer);
         model.addAttribute("question",question);
         session.setAttribute("answer",answer);
@@ -79,6 +80,7 @@ public class SpeakingController {
         session.setAttribute("correctedAnswer", correctedAnswer);
 
         storeAnalysisData(session, answer, correctedAnswer);
+
         return "learning/learningCorrection"; //데이터를 보내는jsp?
     }
     
