@@ -2,108 +2,189 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>회화 연습</title>
+
+    <%@ include file="../../fragments/bootstrapCss.jsp" %>
+    <%@ include file="../../fragments/header.jsp" %>
 
     <style>
-        div {
-            border: 1px solid hotpink;
+        /* scrollbar track 노출 문제 해결 */
+        *::-webkit-scrollbar {
+            width: 16px;
         }
 
-        #initialAssistantTalk {
-            display: none;
+        .container {
+            max-width: 900px;
         }
 
-        #dialogue {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #record {
+        #initialAssistantTalk, #record, #stop, #waitingMessage {
             display: none;
         }
 
         #stop {
-            color: hotpink;
-            display: none;
+            color: rgb(255, 0, 0);
+            width: 45px;
+            height: 45px;
+            border-color: gray;
         }
 
-        #waitingMessage {
-            display: none;
+        #record {
+            width: 45px;
+            height: 45px;
+            background-color: #5DB99D;
+            border-color: #5DB99D;
         }
 
+        .bi-heart-fill {
+            color: red;
+        }
+
+        .bi-archive-fill {
+            color: rgb(57, 116, 25);
+        }
+
+        #dialogueBox {
+            height: 70vh;
+        }
+
+        .assistantTalk {
+            background-color: #F4F2FF;
+            width: fit-content;
+        }
     </style>
+
+
 </head>
 <body onload="init()">
 
-<input type="hidden" id="learningId" value="${learningId}"/>
+<section class="container">
 
-<div id="dialogueBox">
+    <h3 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h3>
+    <p class="text-center">영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
 
-    <button id="startDialogue">
-        대화 시작하기
-    </button>
+    <input type="hidden" id="learningId" value="${learningId}"/>
 
-    <%--첫번째 질문--%>
-    <div class="question" id="initialAssistantTalk">
-        ${assistantTalk}
+    <div>
+        <button id="startDialogue" class="btn btn-primary">
+            대화 시작하기
+        </button>
     </div>
 
-    <br>
+    <div id="dialogueBox" class="row align-content-start overflow-scroll p-2 my-3">
 
-</div>
+        <div class="col-10 col-lg-8 me-auto">
+            <div class="row g-0">
+                <div>
+                    <div class="assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;"
+                         id="initialAssistantTalk">
+                        ${assistantTalk}
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
+    <!-- dialogueBox end -->
 
-<%-- 템플릿 --%>
+    <!-- 녹음 버튼 -->
+    <div class="row g-0 justify-content-center g-0 gap-3">
+        <div class="row justify-content-center">
+            <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
+                <i class="bi bi-mic fs-2" style="color: white"></i>
+            </button>
+            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
+                <i class="bi bi-square-fill"></i>
+            </button>
+        </div>
+
+        <div id="waitingMessage" class="row justify-content-center">
+            <div class="col-12 text-center mb-2">
+                <div class="spinner-border text-secondary" role="status"></div>
+            </div>
+            <div class="col-12 text-center">문장을 분석중입니다.</div>
+        </div>
+
+        <div class="row justify-content-center align-items-center" style="max-width: 400px;">
+            <div class="col-2 align-self-center"></div><!--dummy-->
+            <progress class="col-8" id="progress" value="0" min="0" max="10" style="display:none;"></progress>
+            <b id="time" class="col-2"></b>
+        </div>
+    </div>
+
+</section>
+
+<%@ include file="../../fragments/footer.jsp" %>
+
 <template>
-    <div id="dialogue">
-        <%--답변--%>
-        <div class="userTalk"> <!--id="sentenceDbId"-->
-            <div style="display: flex;">
-                <div>
-                    <div>Your sentence</div>
-                    <div class="yourSentence">
-                        유저 답변
+    <div class="dialogue row p-2">
+        <!-- userTalk start -->
+        <div class="col-10 ms-auto my-3 shadow rounded-3">
+
+            <div class="row g-0 py-3 gap-2">
+
+                <div class="userTalk col g-0 justify-content-center"> <!--id="sentenceDbId"-->
+                    <div class="row px-0">
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #2A6976;">
+                                Your sentence
+                            </div>
+                            <div class="yourSentence border p-1 rounded-1">
+                                elit. Iusto, exercitationem deserunt omnis molestiae laborum
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #16967A;">
+                                Corrected sentence
+                            </div>
+                            <div class="correctedSentence border p-1 rounded-1">
+                                delectus dolore vero quidem laudantium eaque nemo!
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <div>Corrected sentence</div>
-                    <div class="correctedSentence">
-                        교정된 답변
+                <div class="row g-0 align-items-end justify-content-between">
+                    <div class="col-12 col-md-10">
+                        <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                        <div class="explanation border p-1 rounded-1">
+                            교정에 대한 설명
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <div class="row g-0">
+                            <button class="col-1 col-md-5 btn ms-md-auto">
+                                <!-- <i class="bi bi-heart"></i> -->
+                                <i class="bi bi-heart-fill danger"></i>
+                            </button>
+
+
+                            <button class="col-1 col-md-5 btn">
+                                <!-- <i class="bi bi-archive"></i> -->
+                                <i class="bi bi-archive-fill danger"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="display: flex;">
-                <div>
-                    <div>Explanation</div>
-                    <div class="explanation">
-                        교정에 대한 설명
-                    </div>
-                </div>
-
-                <button>좋아요</button>
-
-                <button>보관함에 넣기</button>
             </div>
         </div>
+        <!-- userTalk end -->
 
-        <br/>
-
-        <%--질문--%>
-        <div class="assistantTalk">
+        <!--assistantTalk-->
+        <div class="col-10 col-lg-8 me-auto">
+            <div class="row g-0">
+                <div>
+                    <div class="assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;">
+                        ${assistantTalk}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <!--dialogue end-->
 </template>
-
-<%--녹음--%>
-<div>
-    <input type="button" id="record" value="녹음 시작" disabled>
-    <input type="button" id="stop" value="녹음 중지" disabled>
-    <div id="waitingMessage">잠시 기다려주세요.</div>
-    <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
-    <b id="time"></b>
-</div>
 
 <%--발음평가 테스트용(임시)--%>
 <%--<br><br><br><br>--%>
@@ -125,6 +206,7 @@
     //녹음 버튼
     let recordButton = document.querySelector("#record");
     let stopButton = document.querySelector("#stop");
+    let waitingMessage = document.querySelector('#waitingMessage')
 
     // 프로그레스 바
     let progress = document.getElementById("progress"); //progress bar
@@ -136,23 +218,17 @@
 
     startDialogueBtn.onclick = () => {
         ttsAjax(initialAssistantTalk);
-
-        initialAssistantTalkDiv.style.display = 'block';
         startDialogueBtn.style.display = 'none';
-        recordButton.disabled = false;
-        recordButton.style.display = 'block';
+        initialAssistantTalkDiv.style.display = 'block';
+        setBtnsRecordPossible();
     }
 
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
-
         if (audio) {
             audio.pause();
         }
-        stopButton.style.display = 'none';
-        stopButton.disabled = true;
-        recordButton.style.display = 'block';
-        recordButton.disabled = false;
+        setBtnsRecordPossible();
     }
 
     function init() {
@@ -173,25 +249,21 @@
                     mediaRecorder.start();
 
                     // 타이머 시작
-                    progress.setAttribute("max", mx * 10); //프로그래스 바 최대 값 설정
+                    progress.setAttribute("max", mx * 100); //프로그래스 바 최대 값 설정
                     let time = 0; //시간 초기화
                     timer = setInterval(() => {
                         time = time + 1;
-                        let realtime = parseInt(time / 10);
+                        let realtime = parseInt(time / 100);
                         // 상태바 진행
-                        b.innerText = realtime + " s";
+                        b.innerText = (mx - realtime) + " s";
                         progress.value = time;
 
-                        if (time == mx * 10 + 1) { // 시간 제한
+                        if (realtime == mx) { // 시간 제한
                             stopRecording(mediaRecorder, timer)
                         }
-                    }, 100);
+                    }, 10);
 
-                    recordButton.style.display = 'none';
-                    recordButton.disabled = true;
-                    stopButton.style.display = 'block';
-                    stopButton.disabled = false;
-                    progress.style.display = "inline";
+                    setBtnsRecording();
                 }
 
                 // 오디오 저장
@@ -251,10 +323,7 @@
             console.log(request.response);
             addContent(request.response);
 
-            stopButton.style.display = 'none';
-            stopButton.disabled = true;
-            recordButton.style.display = 'block';
-            recordButton.disabled = false;
+            setBtnsRecordPossible();
         }
 
         formData.enctype = "multipart/form-data";
@@ -303,25 +372,53 @@
 
         // 화면에 추가
         dialogueBox.appendChild(dialogueDiv);
+        dialogueBox.scrollTop = dialogueBox.scrollHeight;
         // GPT 답변 읽어주기
         ttsAjax(newAssistantTalk)
     }
 
     function stopRecording(mediaRecorder, timer) {
         mediaRecorder.stop();
+        setBtnsWaiting()
+    }
 
+    // 녹음 시작 가능
+    function setBtnsRecordPossible() {
+        recordButton.disabled = false;
+        recordButton.style.display = 'block';
+        stopButton.disabled = true;
+        stopButton.style.display = 'none';
+        waitingMessage.style.display = 'none';
+    }
+
+    // 녹음 중
+    function setBtnsRecording() {
+        progress.style.display = "inline";
+        recordButton.disabled = true;
+        recordButton.style.display = 'none';
+        stopButton.disabled = false;
+        stopButton.style.display = 'block';
+        waitingMessage.style.display = 'none';
+    }
+
+    // 대기 중
+    function setBtnsWaiting() {
         // 상태바 초기화
         b.innerText = "";
         progress.value = 0;
         progress.style.display = "none";
         clearInterval(timer); // 타이머 초기화
 
-        stopButton.disabled = true;
         recordButton.disabled = true;
+        recordButton.style.display = 'none';
+        stopButton.disabled = true;
+        stopButton.style.display = 'none';
+        waitingMessage.style.display = 'block';
     }
 
-
 </script>
+
+<%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 <%--Wav 파일 업로드 라이브러리--%>
 <%--<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>--%>
