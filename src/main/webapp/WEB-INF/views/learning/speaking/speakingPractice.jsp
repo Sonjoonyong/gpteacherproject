@@ -47,30 +47,34 @@
 
 <body onload="mediaStart()">
 
-topic: ${topic} <br>
-${question}
-<!--**어려움**-->
-<form method="post" style="display: none" id="sttForm" action="/learning/learningCorrection"
+<form method="post" style="display: none" id="sttForm" action="/learning/sentences"
       enctype="multipart/form-data">
     <input type="file" name="audio" id="audioFile"/>
-    <input type="hidden" id="badBoy" name="question" class="question" value="${question}" />
-    <input type="hidden" id="badFriend" name="learningTestType" value="${topic}" />
+    <input type="hidden" name="question" class="question" value="${question}"/>
+    <input type="hidden" name="learningTestType" value="${learningTestType}"/>
 </form>
 
 <%@ include file="../../fragments/header.jsp" %>
 
 <section class="container">
 
-    <h1>Speaking</h1>
-    <div>
+    <h3 class="h3 text-center my-3" style="color: #5DB99D;">SPEAKING</h3>
+    <p class="text-center">주어진 문장에 음성으로 답변하세요.</p>
 
-        <!--TTS-->
-        <p>Question: <span id="question">${question}</span></p>
-        <button id="startAudio">
+    <!--TTS-->
+    <div class="row g-0 justify-content-center">
+        <div id="question" class="assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;">
+            ${question}
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <button id="startAudio" class="btn shadow" style="background-color: #5DB99D; color: white; width: 200px">
             Question 듣기
         </button>
+    </div>
 
-        <br>
+    <br>
     </div>
 
 
@@ -101,21 +105,16 @@ ${question}
 </section>
 <%@ include file="../../fragments/footer.jsp" %>
 
-${question}
-${question}
-${question}
-
-
-
 <!--tts : text to speech -->
 <script>
     let startBtn = document.querySelector('#startAudio');
     let initialQuestion = document.querySelector('#question').innerText;
-    
+
     startBtn.onclick = () => {
         let question = initialQuestion;
         setBtnsRecordPossible();
         startBtn.disabled = true;
+        startBtn.style.display = 'none';
         ttsAjax(question);
     }
 
@@ -149,6 +148,21 @@ ${question}
                     chunks = []; // 이전에 녹음된 내용이 있으면 초기화
                     mediaRecorder.start();
 
+                    // 타이머 시작
+                    progress.setAttribute("max", mx * 100); //프로그래스 바 최대 값 설정
+                    let time = 0; //시간 초기화
+                    timer = setInterval(() => {
+                        time = time + 1;
+                        let realtime = parseInt(time / 100);
+                        // 상태바 진행
+                        b.innerText = (mx - realtime) + " s";
+                        progress.value = time;
+
+                        if (realtime == mx) { // 시간 제한
+                            stopRecording(mediaRecorder, timer)
+                        }
+                    }, 10);
+
                     setBtnsRecording();
                 }
 
@@ -180,6 +194,11 @@ ${question}
             console.log("미디어 장치 없음");
         }
 
+    }
+
+    function stopRecording(mediaRecorder, timer) {
+        mediaRecorder.stop();
+        setBtnsWaiting()
     }
 
     function ttsAjax(question) {
