@@ -84,7 +84,7 @@ public class WritingService {
 
         // 각 문장을 간결하고 문장이 흐트러지지 않게 교정 요청
         for (String sentence : sentences) {
-            String prompt = "Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect: " + sentence;
+            String prompt = "Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect. Ensure that commas are not changed to periods: " + sentence;
             String response = openAiClient.chat(prompt);
 
             if (responseBuilder.length() > 0) {

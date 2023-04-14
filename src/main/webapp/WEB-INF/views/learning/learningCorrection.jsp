@@ -13,10 +13,10 @@
 <p>GPTeacher's Correction:</p>
 <p>${correctedAnswer}</p>
 <form method="get" action="/learning/sentences">
-    <button type="submit">Sentence-by-Sentence Analysis</button>
+    <button type="submit">문장별 분석</button>
 </form>
 <form method="get" action="/">
-    <button type="submit">Main Page</button>
+    <button type="submit">메인 페이지</button>
 </form>
 </body>
 </html>
