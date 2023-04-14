@@ -171,15 +171,15 @@
 
                     <div class="col-12 col-md-2">
                         <div class="row g-0">
-                            <button class="col-1 col-md-5 btn ms-md-auto">
-                                <!-- <i class="bi bi-heart"></i> -->
-                                <i class="bi bi-heart-fill danger"></i>
+                            <button class="col-1 col-md-5 btn ms-md-auto" id="like" onclick="statusUpdateAjax(this)">
+                                <i class="bi bi-heart" id="emptyHeart"></i>
+                                <i class="bi bi-heart-fill danger" id="fillHeart"></i>
                             </button>
 
 
-                            <button class="col-1 col-md-5 btn">
-                                <!-- <i class="bi bi-archive"></i> -->
-                                <i class="bi bi-archive-fill danger"></i>
+                            <button class="col-1 col-md-5 btn" id="storage" onclick="statusUpdateAjax(this)">
+                                <i class="bi bi-archive" id="emptyStorage"></i>
+                                <i class="bi bi-archive-fill danger" id="fillStorage"></i>
                             </button>
                         </div>
                     </div>
@@ -358,6 +358,12 @@
         let explanationDiv = dialogueDiv.querySelector('.explanation');
         let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
 
+        //좋아요 & 보관함
+        let likeBtn = dialogueDiv.querySelector('#like');
+        let fillHeart = dialogueDiv.querySelector('#fillHeart');
+        let storageBtn = dialogueDiv.querySelector('#storage');
+        let fillStorage = dialogueDiv.querySelector('#fillStorage');
+
         // 결과 가져오기
         if (result.result === "fail") {
             retry();
@@ -368,11 +374,17 @@
         let correctedSentence = result.corrected;
         let explanation = result.explanation;
         let userTalk = result.userTalk;
+        let sentenceId = result.sentenceId;
         priorAssistantTalk = newAssistantTalk;
 
         // 결과 삽입
         yourSentenceDiv.innerText = userTalk;
         assistantTalkDiv.innerText = newAssistantTalk;
+
+        likeBtn.value = sentenceId;
+        storageBtn.value = sentenceId;
+        fillHeart.style.display = 'none';
+        fillStorage.style.display = 'none';
 
         // 고칠 부분이 없을 경우
         if (!correctedSentence ||
@@ -392,6 +404,26 @@
         dialogueBox.scrollTop = dialogueBox.scrollHeight;
         // GPT 답변 읽어주기
         ttsAjax(newAssistantTalk)
+    }
+
+    function statusUpdateAjax(btn) {
+        let request = new XMLHttpRequest();
+        let sentenceId = btn.value;
+        let type = btn.getAttribute('id'); //like or storage
+
+        request.onload = () => {
+            let status = request.response;
+            if (status=="1") {
+                btn.children[0].style.display = 'none'; //emptyHeart or emptyStorage
+                btn.children[1].style.display = 'block'; //fillHeart or fillStorage
+            } else {
+                btn.children[0].style.display = 'block';
+                btn.children[1].style.display = 'none';
+            }
+        }
+
+        request.open("GET", "/learning/dialogue/statusUpdate?sentenceId="+sentenceId+"&type="+type);
+        request.send();
     }
 
     function stopRecording(mediaRecorder, timer) {

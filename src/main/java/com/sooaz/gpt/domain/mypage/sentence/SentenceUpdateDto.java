@@ -14,4 +14,5 @@ public class SentenceUpdateDto {
     private Integer sentenceAccuracy;
     private Date sentenceNextRepetition;
     private Integer sentenceRepetitionStep;
+    private char sentenceLike;
 }

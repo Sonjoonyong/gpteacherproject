@@ -3,23 +3,93 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Correction</title>
+
+    <style>
+        .bi-heart-fill {
+            color: red;
+        }
+
+        .bi-archive-fill {
+            color: rgb(57, 116, 25);
+        }
+    </style>
+
+    <%@ include file="../fragments/bootstrapCss.jsp" %>
+
 </head>
 <body>
 
-<c:forEach var="sentence" items="${sentences}">
+<%@ include file="../fragments/header.jsp" %>
 
-    <p>
-        ${sentence.sentenceAnswer}
-    </p>
-    <p>
-        ${sentence.sentenceCorrected}
-    </p>
-    <p>
-        ${sentence.sentenceExplanation}
-    </p>
+<h3 class="h3 text-center my-3" style="color: #5DB99D;">SENTENCES</h3>
+<p class="text-center">문장별 분석 화면입니다. 좋아요 표시를 하거나 플래시카드에 넣어 복습하세요!</p>
 
-</c:forEach>
+
+<section class="container">
+    <c:forEach var="sentence" items="${sentences}">
+    <div class="dialogue row p-2 sentence justify-content-center" id="${sentence.id}">
+        <!-- sentence start -->
+        <div class="col-10 my-3 shadow rounded-3">
+
+            <div class="row g-0 py-3 gap-2">
+
+                <div class="userTalk col g-0 justify-content-center">
+                    <div class="row px-0">
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #2A6976;">
+                                Your sentence
+                            </div>
+                            <div class="yourSentence border p-1 rounded-1">
+                                    ${sentence.sentenceAnswer}
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #16967A;">
+                                Corrected sentence
+                            </div>
+                            <div class="correctedSentence border p-1 rounded-1">
+                                    ${sentence.sentenceCorrected}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-0 align-items-end justify-content-between">
+                    <div class="col-12 col-md-10">
+                        <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                        <div class="explanation border p-1 rounded-1">
+                                ${sentence.sentenceExplanation}
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <div class="row g-0">
+                            <button class="col-1 col-md-5 btn ms-md-auto">
+                                <!-- <i class="bi bi-heart"></i> -->
+                                <i class="bi bi-heart-fill danger"></i>
+                            </button>
+
+
+                            <button class="col-1 col-md-5 btn">
+                                <!-- <i class="bi bi-archive"></i> -->
+                                <i class="bi bi-archive-fill danger"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- sentence end -->
+        </c:forEach>
+
+
+</section>
+
+<%@ include file="../fragments/footer.jsp" %>
+<%@ include file="../fragments/bootstrapJs.jsp" %>
 
 </body>
 </html>
