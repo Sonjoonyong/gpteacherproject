@@ -101,12 +101,6 @@ ${question}
 </section>
 <%@ include file="../../fragments/footer.jsp" %>
 
-${question}
-${question}
-${question}
-
-
-
 <!--tts : text to speech -->
 <script>
     let startBtn = document.querySelector('#startAudio');

@@ -77,11 +77,10 @@ public class SpeakingService {
         return processTalk(question);
     }
 
-    public String talk(String learningTestType, String question, String userTalk) {
-
+    public String talk(String learningTestType, String question, String userTalk, Learning learning) {
+        //TODO - learningTestType argument resolver 새성 및 등록
 
         // 대화 주제 추가
-        Learning learning = new Learning();
         learning.setUserId(1L); // temp
         learning.setLearningTopic(question);
         learning.setLearningTestType(LearningTestType.TOEIC);
