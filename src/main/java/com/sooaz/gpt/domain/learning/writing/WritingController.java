@@ -119,11 +119,14 @@ public class WritingController {
             @RequestParam("question") String question,
             Model model, HttpSession session) throws IOException {
 
+        System.out.println(answer);
         // 답변 평가 및 수정
         String correctedAnswer = writingService.evaluateAnswer(answer, question);
         model.addAttribute("question", question);
-        model.addAttribute("answer", answer);
-        model.addAttribute("correctedAnswer", correctedAnswer);
+        model.addAttribute("userScript", answer);
+        model.addAttribute("correctedScript", correctedAnswer);
+
+        System.out.println(correctedAnswer);
 
         // 분석 데이터 저장
         storeAnalysisData(session, answer, correctedAnswer);
