@@ -1,11 +1,10 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
-
-
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,7 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class SpeakingController {
 
     private final SpeakingService speakingService;
@@ -45,8 +45,43 @@ public class SpeakingController {
             Model model
     ) {
         String question = speakingService.initSpeaking(speakingDTO);
+        Long learningId = speakingService.saveLearn(speakingDTO);
+
         model.addAttribute("question", question);
+        model.addAttribute("learningId", learningId);
         return "learning/speaking/speakingPractice";
+    }
+
+    @ResponseBody
+    @PostMapping("/learning/speaking/talk")
+    public String getAssistantResponse(
+            @RequestParam String priorAssistantTalk,
+            @RequestParam String userTalk,
+            @RequestParam Long learningId
+    ) {
+        String string = speakingService.talk(priorAssistantTalk, userTalk, learningId).toString();
+        log.info("assistant response json = {}", string);
+        return string;
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //whisper STT Speech To Text **어려움**
+    @PostMapping(value="/learning/learningCorrection", produces = "application/json") //주소창에표시되는부분
+    public String transcript(
+            @RequestParam MultipartFile audio,
+            @RequestParam String priorAssistantTalk,
+            @RequestParam Long learningId,
+            HttpServletRequest request
+    ) throws IOException {
+        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+        String userTalk = openAiClient.transcript(directory, audio);
+        String result = speakingService.talk(priorAssistantTalk, userTalk, learningId).toString();
+
+        log.info("userTalk = {}", userTalk);
+        log.info("result = {}", result);
+        return result;
     }
 
     //TTS Test to Speech
@@ -58,32 +93,6 @@ public class SpeakingController {
         ncpTtsClient.tts(question, response);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //whisper STT Speech To Text **어려움**
-    @PostMapping(value="/learning/learningCorrection", produces = "application/json") //주소창에표시되는부분
-    public String transcript(
-            @RequestParam MultipartFile audio,
-            Model model,
-            HttpSession session,
-            HttpServletRequest request
-    ) throws IOException {
-        String question=request.getParameter("question");
-        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-        String answer = openAiClient.transcript(directory,audio);
-        model.addAttribute("answer",answer);
-        model.addAttribute("question",question);
-        session.setAttribute("answer",answer);
-        session.setAttribute("question",question);
-
-        String correctedAnswer = speakingService.evaluateAnswer(answer, question);
-        model.addAttribute("correctedAnswer", correctedAnswer);
-        session.setAttribute("correctedAnswer", correctedAnswer);
-
-        storeAnalysisData(session, answer, correctedAnswer);
-
-        return "learning/learningCorrection"; //데이터를 보내는jsp?
-    }
-    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 문장별 분석 페이지
     @GetMapping("/sentences")
@@ -137,5 +146,6 @@ public class SpeakingController {
 
         return "learning/learningSentences";
     }
+
 
 }
