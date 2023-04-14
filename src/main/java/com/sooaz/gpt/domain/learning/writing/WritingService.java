@@ -84,13 +84,21 @@ public class WritingService {
 
         // 각 문장을 간결하고 문장이 흐트러지지 않게 교정 요청
         for (String sentence : sentences) {
-            String prompt = "Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect. Ensure that commas are not changed to periods: " + sentence;
-            String response = openAiClient.chat(prompt);
+            String prompt = "Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect. Do not add, remove, or modify any punctuation (periods, commas, exclamation marks, or question marks) unless it is absolutely necessary for grammatical correctness: " + sentence;
+            String response = openAiClient.chat(prompt).trim();
+
+            if (response.toLowerCase().contains("no correction") ||
+                    response.startsWith("I'm sorry, there is no sentence provided to correct.") ||
+                    response.startsWith("I'm sorry, but there is no sentence provided to correct.") ||
+                    response.startsWith("I'm sorry, there is no sentence provided for correction.") ||
+                    response.startsWith("There is no sentence provided to correct.")) {
+                response = sentence;
+            }
 
             if (responseBuilder.length() > 0) {
                 responseBuilder.append(" ");
             }
-            responseBuilder.append(response.trim());
+            responseBuilder.append(response);
         }
 
         return responseBuilder.toString();
@@ -101,7 +109,7 @@ public class WritingService {
         JSONArray analysis = new JSONArray();
 
         // 문장 분할에 정규식 패턴 사용
-        Pattern sentencePattern = Pattern.compile("(?<!\\b(?:[Dd]r|[Mm]r|[Mm]rs|[Mm]s|[Pp]rof|[Ss]t))\\b[.!?]\\s+(?=[A-Z])");
+        Pattern sentencePattern = Pattern.compile("(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s");
         List<String> originalSentences = Arrays.asList(sentencePattern.split(originalAnswer));
         List<String> correctedSentences = Arrays.asList(sentencePattern.split(correctedAnswer));
 
@@ -112,17 +120,19 @@ public class WritingService {
             String original = originalSentences.get(i).trim();
             String corrected = correctedSentences.get(i).trim();
 
-            // 원문과 정정된 문장이 동일하지 않을 경우 교정 이유에 대한 설명을 받음
-            String explanation = null;
-            if (!original.equals(corrected)) {
-                explanation = getCorrectionExplanation(original, corrected).trim();
-            }
-
             // 각 문장 비교에 대한 JSON 객체를 생성하여 분석에 추가
             JSONObject item = new JSONObject();
             item.put("original", original);
             item.put("corrected", corrected);
-            item.put("explanation", explanation);
+
+            if (original.equalsIgnoreCase(corrected)) {
+                item.put("explanation", "No correction needed.");
+            } else {
+                // 원문과 수정된 문장이 다른 경우에만 ChatGPT API 호출
+                String prompt = String.format("Explain why the following original sentence: \"%s\" was corrected to: \"%s\"", original, corrected);
+                String explanation = openAiClient.chat(prompt).trim();
+                item.put("explanation", explanation);
+            }
 
             analysis.put(item);
         }
@@ -130,10 +140,5 @@ public class WritingService {
         return analysis;
     }
 
-    // 원문과 교정된 문장의 차이에 대한 간결한 설명 구하기
-    public String getCorrectionExplanation(String original, String corrected) {
-        String prompt = String.format("Explain the difference between the original sentence and the corrected sentence in a concise manner:\n\nOriginal: %s\nCorrected: %s", original, corrected);
-        return openAiClient.chat(prompt);
-    }
 
 }
