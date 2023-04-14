@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class SpeakingDTO {
-    private String TOPIC;
-
+    private String topic;
 }

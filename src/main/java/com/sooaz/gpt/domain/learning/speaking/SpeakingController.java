@@ -44,44 +44,51 @@ public class SpeakingController {
             @ModelAttribute SpeakingDTO speakingDTO,
             Model model
     ) {
+        
         String question = speakingService.initSpeaking(speakingDTO);
-        Long learningId = speakingService.saveLearn(speakingDTO);
 
+        model.addAttribute("topic", speakingDTO.getTopic());
         model.addAttribute("question", question);
-        model.addAttribute("learningId", learningId);
+
         return "learning/speaking/speakingPractice";
     }
-
-    @ResponseBody
-    @PostMapping("/learning/speaking/talk")
-    public String getAssistantResponse(
-            @RequestParam String priorAssistantTalk,
-            @RequestParam String userTalk,
-            @RequestParam Long learningId
-    ) {
-        String string = speakingService.talk(priorAssistantTalk, userTalk, learningId).toString();
-        log.info("assistant response json = {}", string);
-        return string;
-    }
+//
+//    @ResponseBody
+//    @PostMapping("/learning/speaking/talk")
+//    public String getAssistantResponse(
+//            @RequestParam String priorAssistantTalk,
+//            @RequestParam String userTalk,
+//            @RequestParam Long learningId
+//    ) {
+//        String string = speakingService.talk(priorAssistantTalk, userTalk, learningId).toString();
+//        log.info("assistant response json = {}", string);
+//        return string;
+//    }
 
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //whisper STT Speech To Text **어려움**
-    @PostMapping(value="/learning/learningCorrection", produces = "application/json") //주소창에표시되는부분
+    @PostMapping(value="/learning/learningCorrection")
     public String transcript(
             @RequestParam MultipartFile audio,
-            @RequestParam String priorAssistantTalk,
-            @RequestParam Long learningId,
+            @RequestParam String question,
+            @RequestParam String learningTestType,
+            Model model,
             HttpServletRequest request
     ) throws IOException {
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-        String userTalk = openAiClient.transcript(directory, audio);
-        String result = speakingService.talk(priorAssistantTalk, userTalk, learningId).toString();
+        String userScript = openAiClient.transcript(directory, audio);
+        String correctedScript = speakingService.talk(learningTestType, question, userScript);
 
-        log.info("userTalk = {}", userTalk);
-        log.info("result = {}", result);
-        return result;
+        model.addAttribute("userScript", userScript);
+        model.addAttribute("question", question);
+        model.addAttribute("correctedScript", correctedScript);
+
+        log.info("userScript = {}", userScript);
+        log.info("correctedScript = {}", correctedScript);
+
+        return "learning/learningCorrection";
     }
 
     //TTS Test to Speech

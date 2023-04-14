@@ -12,12 +12,14 @@
             id,
             user_id,
             learning_topic,
+            learning_test_type,
             learning_type
         )
         values (
             #{id},
             #{userId},
             #{learningTopic},
+            #{learningTestType},
             #{learningType}
         )
     </insert>

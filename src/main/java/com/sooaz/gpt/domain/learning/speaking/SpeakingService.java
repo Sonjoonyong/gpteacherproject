@@ -27,6 +27,40 @@ public class SpeakingService {
     private final LearningRepository learningRepository;
     private final SentenceRepository sentenceRepository;
 
+
+
+    public static final String EXAMPLE_SCRIPT =
+            "I think there's so many questions about traveling at OPIC test " +
+                    "but I don't like travels that much especially the travel aboard " +
+                    "so I barely remember the trouble that I had ";
+
+    // ChatGPT에게 보여줄 JSON 예제
+    public static final JSONObject EXAMPLE_SENTENCE1_JSON = new JSONObject()
+            .put("original", "I think there's so many questions about traveling at OPIC test.")
+            .put("corrected", "I think there are many questions about traveling on the OPIC test.")
+            .put("explanation", "\"There's\" is a contraction of \"there is,\" which is singular. However, \"questions\" is plural, so \"there are\" should be used instead.");
+
+    public static final JSONObject EXAMPLE_SENTENCE2_JSON = new JSONObject()
+            .put("original", "but I don't like travels that much especially the travel aboard so I barely remember the trouble that I had.")
+            .put("corrected", "However, I don't enjoy traveling that much, especially abroad, so I barely remember any trouble I may have had.")
+            .put("explanation", "\"Travels\" should be changed to \"traveling\" to make it a verb. \"Aboard\" should be changed to \"abroad\" to indicate traveling to another country. The sentence structure is also improved for clarity.\"");
+
+    public static JSONArray EXAMPLE_SENTENCE_JSON_ARRAY = new JSONArray()
+            .put(EXAMPLE_SENTENCE1_JSON)
+            .put(EXAMPLE_SENTENCE2_JSON);
+
+    // ChatGPT에게 문장을 교정해달라고 요청하는 프롬프트
+    public static final String SPEAKING_INSTRUCTION_PREFIX =
+            "Cut my speaking script by sentence one by one followed by corrected one and explanation in JSON array. " +
+                    "JSON object has three attribute. \n" +
+                    "1. original: original sentence. \n" +
+                    "2. corrected: corrected sentence. \n" +
+                    "3. explanation: explanation for correction. \n" +
+                    "Here is the script : \n";
+
+
+
+
     private String INSTRUCTION = "i have to practice speaking for \"%s\" test. please give me one question (sentences related to the \"%s\" test).";
 
     private String USER_TALK_INSTRUCTION = "this is my sentence : \"%s\"\n\n" +
@@ -43,99 +77,68 @@ public class SpeakingService {
         return processTalk(question);
     }
 
-    public Long saveLearn(SpeakingDTO speakingDTO) {
-        String initialInstruction = getInitialInstruction(speakingDTO);
-        Learning learning = new Learning();
-        learning.setUserId(1L);
-        learning.setLearningType(LearningType.SPEAKING);
-        learning.setLearningTopic(initialInstruction);
-        return learningRepository.save(learning).getId();
-    }
+    public String talk(String learningTestType, String question, String userTalk) {
 
-    public JSONObject talk(String priorAssistantTalk, String userTalk, Long learningId) {
-
-        List<JSONObject> messages = new ArrayList<>();
 
         // 대화 주제 추가
-        Learning learning = learningRepository.findById(learningId)
-                .orElseThrow(IllegalStateException::new);
-        String learningTopic = learning.getLearningTopic();
-        JSONObject topicMessage = OpenAiClient.userMessage(learningTopic);
-        messages.add(topicMessage);
+        Learning learning = new Learning();
+        learning.setUserId(1L); // temp
+        learning.setLearningTopic(question);
+        learning.setLearningTestType(LearningTestType.TOEIC);
+        learning.setLearningType(LearningType.SPEAKING);
 
-        // 과거 대화 내역 추가
-        List<Sentence> sentences = sentenceRepository.findAllByLearningId(learningId);
-        Collections.sort(sentences, Comparator.comparing(Sentence::getId));
+        learningRepository.save(learning);
 
-        for (Sentence aSentence : sentences) {
-            String aPastAssistantTalk = aSentence.getSentenceQuestion();
-            String pastUserTalk = aSentence.getSentenceAnswer();
+        // 프롬프트 전송
+        List<JSONObject> messages = new ArrayList<>();
 
-            JSONObject assistantMessage = OpenAiClient.assistantMessage(aPastAssistantTalk);
-            JSONObject userMessage = OpenAiClient.userMessage(pastUserTalk);
+        JSONObject userMessage = OpenAiClient.userMessage(SPEAKING_INSTRUCTION_PREFIX + EXAMPLE_SCRIPT);
+        JSONObject assistantMessage = OpenAiClient.assistantMessage(EXAMPLE_SENTENCE_JSON_ARRAY.toString());
+        JSONObject newUserMessage = OpenAiClient.userMessage(userTalk);
 
-            messages.add(assistantMessage);
-            messages.add(userMessage);
-        }
-
-        // 지시문에 유저 답변 결합 후 추가
-        String userTalkInstruction = String.format(USER_TALK_INSTRUCTION, userTalk);
-        JSONObject userMessage = OpenAiClient.userMessage(userTalkInstruction);
         messages.add(userMessage);
-
-        log.info("===============================learning id = {}============================", learningId);
-        log.info("======================================================================");
-        for (JSONObject message : messages) {
-            log.info("message = {}", message);
-        }
-        log.info("======================================================================");
-        log.info("======================================================================");
+        messages.add(assistantMessage);
+        messages.add(newUserMessage);
 
         // JSON 형식 응답 수신
         String assistantTalkJson = openAiClient.chat(messages);
         JSONObject assistantTalkJsonObject;
-        assistantTalkJsonObject = new JSONObject(assistantTalkJson);
+        JSONArray jsonArray = new JSONArray(assistantTalkJson);
 
-        String assistantTalk;
-        String correctedSentence;
-        String explanation;
+        StringBuilder sb = new StringBuilder();
 
         try {
-            assistantTalk = assistantTalkJsonObject.getString("answer");
-            correctedSentence = assistantTalkJsonObject.getString("corrected");
-            explanation = assistantTalkJsonObject.getString("explanation");
+            for (Object object : jsonArray) {
+                JSONObject jsonObject = (JSONObject) object;
+                String original = jsonObject.getString("original");
+                String corrected = jsonObject.getString("corrected");
+                String explanation = jsonObject.getString("explanation");
 
-            // 새로운 sentence 저장
-            Sentence sentence = new Sentence();
-            sentence.setLearningId(learningId);
-            sentence.setSentenceQuestion(assistantTalk);
-            sentence.setSentenceCorrected(correctedSentence);
-            sentence.setSentenceExplanation(explanation);
-            sentence.setSentenceQuestion(priorAssistantTalk);
-            sentence.setSentenceAnswer(userTalk);
-            sentenceRepository.save(sentence);
-            /*
-            // assistantTalk 수정 후 JSONObject에 update
-            assistantTalk = processTalk(assistantTalk);
-            assistantTalkJsonObject.remove("answer");
-            assistantTalkJsonObject.put("answer", assistantTalk);
-            assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
-            assistantTalkJsonObject.put("userTalk", userTalk);
-            */
+                Sentence sentence = new Sentence();
+                sentence.setLearningId(learning.getId());
+                sentence.setSentenceQuestion(question);
+                sentence.setSentenceAnswer(original);
+                sentence.setSentenceCorrected(corrected);
+                sentence.setSentenceExplanation(explanation);
+                sentenceRepository.save(sentence);
+
+                sb.append(corrected);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
-            assistantTalkJsonObject.put("result", "fail");
         }
-
-        return assistantTalkJsonObject;
+        String correctedScript = sb.toString();
+        return correctedScript;
     }
 
     private String getInitialInstruction(SpeakingDTO speakingDTO){
         //지시문 설정
         return String.format(
                 INSTRUCTION,
-                speakingDTO.getTOPIC(),
-                speakingDTO.getTOPIC()
+                speakingDTO.getTopic(),
+                speakingDTO.getTopic()
         );
     }
 
