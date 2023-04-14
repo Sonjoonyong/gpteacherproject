@@ -32,10 +32,10 @@ CREATE TABLE sentence
     learning_id              NUMBER            NOT NULL,
     flashcard_id             NUMBER            NULL,
     voice_file_id            NUMBER            NULL,
-    sentence_question        VARCHAR2(255)     NOT NULL,
-    sentence_answer          VARCHAR2(255)     NOT NULL,
-    sentence_corrected       VARCHAR2(255)     NULL,
-    sentence_explanation     VARCHAR2(255)     NULL,
+    sentence_question        CLOB     NOT NULL,
+    sentence_answer          CLOB     NOT NULL,
+    sentence_corrected       CLOB     NULL,
+    sentence_explanation     CLOB     NULL,
     sentence_like            CHAR(1) DEFAULT 0 NOT NULL,
     sentence_accuracy        NUMBER            NULL,
     sentence_next_repetition DATE              NULL,
@@ -85,7 +85,7 @@ CREATE TABLE learning
     user_id            NUMBER        NOT NULL,
     learning_type      VARCHAR2(10)  NULL,
     learning_test_name VARCHAR2(10)  NULL,
-    learning_topic     VARCHAR2(1000) NOT NULL,
+    learning_topic     CLOB NOT NULL,
     learning_date      DATE          NULL,
     learning_like      CHAR(1)       NULL
 );
@@ -250,14 +250,14 @@ CREATE SEQUENCE ADMIN_ID_SEQ;
 CREATE SEQUENCE BOARD_FAQ_ID_SEQ;
 CREATE SEQUENCE BOARD_NOTICE_ID_SEQ;
 CREATE SEQUENCE BOARD_QUESTION_ID_SEQ;
-
 CREATE SEQUENCE COMMUNITY_POST_ID_SEQ;
+
 CREATE SEQUENCE COMMUNITY_REPLY_ID_SEQ;
 CREATE SEQUENCE FLASHCARD_ID_SEQ;
 CREATE SEQUENCE LEARNING_ID_SEQ;
 CREATE SEQUENCE QUESTION_REPLY_ID_SEQ;
-
 CREATE SEQUENCE REPORT_ID_SEQ;
+
 CREATE SEQUENCE SENTENCE_ID_SEQ;
 CREATE SEQUENCE USERS_ID_SEQ;
 CREATE SEQUENCE VOICE_FILE_ID_SEQ;
