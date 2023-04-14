@@ -8,6 +8,11 @@
     <%@ include file="../../fragments/header.jsp" %>
 
     <style>
+        /* scrollbar track 노출 문제 해결 */
+        *::-webkit-scrollbar {
+            width: 16px;
+        }
+
         .container {
             max-width: 900px;
         }
