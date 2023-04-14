@@ -14,21 +14,22 @@
             max-width: 900px;
         }
 
-        #initialAssistantTalk {
-            display: none;
-        }
-
-        #record {
+        #initialAssistantTalk, #record, #stop, #waitingMessage {
             display: none;
         }
 
         #stop {
             color: rgb(255, 0, 0);
-            display: none;
+            width: 45px;
+            height: 45px;
+            border-color: gray;
         }
 
-        #waitingMessage {
-            display: none;
+        #record {
+            width: 45px;
+            height: 45px;
+            background-color: #5DB99D;
+            border-color: #5DB99D;
         }
 
         .bi-heart-fill {
@@ -85,12 +86,10 @@
     <!-- 녹음 버튼 -->
     <div class="row g-0 justify-content-center g-0 gap-3">
         <div class="row justify-content-center">
-            <button id="record" class="btn rounded-circle text-center p-0 shadow"
-                    style="width: 45px; height: 45px; background-color: #5DB99D; border-color: #5DB99D;" disabled1>
+            <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
                 <i class="bi bi-mic fs-2" style="color: white"></i>
             </button>
-            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow"
-                    style="width: 45px; height: 45px; border-color: gray;" disabled1>
+            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
                 <i class="bi bi-square-fill"></i>
             </button>
         </div>
@@ -179,7 +178,7 @@
             </div>
         </div>
     </div>
-<!--dialogue end-->
+    <!--dialogue end-->
 </template>
 
 <%--발음평가 테스트용(임시)--%>
