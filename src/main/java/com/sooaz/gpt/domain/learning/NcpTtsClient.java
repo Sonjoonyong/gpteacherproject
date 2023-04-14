@@ -32,7 +32,7 @@ public class NcpTtsClient {
             con.setRequestProperty("X-NCP-APIGW-API-KEY", NCP_API_KEY);
 
             // post request
-            String postParams = "speaker=clara&volume=0&speed=0&pitch=0&format=mp3&text=" + text; // clara
+            String postParams = "speaker=clara&volume=0&speed=0&pitch=0&format=mp3&text=" + text;
 
             con.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
