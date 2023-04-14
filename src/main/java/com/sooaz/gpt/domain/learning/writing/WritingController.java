@@ -103,7 +103,7 @@ public class WritingController {
             model.addAttribute("topic", topic);
             model.addAttribute("answer", answer);
             model.addAttribute("correctedAnswer", correctedAnswer);
-            return "learning/learningCorrection";
+            return "learning/speaking/learningCorrection";
         } else {
             // 그 외의 경우 주제 선택 페이지로 이동
             return "redirect:/learning/writing";
@@ -126,7 +126,7 @@ public class WritingController {
         // 분석 데이터 저장
         storeAnalysisData(session, answer, correctedAnswer);
 
-        return "learning/learningCorrection";
+        return "learning/speaking/learningCorrection";
     }
 
     // 문장별 분석 페이지
