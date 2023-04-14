@@ -55,7 +55,7 @@
 
 <section class="container">
 
-    <h1 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h1>
+    <h3 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h3>
     <p>영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
 
     <input type="hidden" id="learningId" value="${learningId}"/>
