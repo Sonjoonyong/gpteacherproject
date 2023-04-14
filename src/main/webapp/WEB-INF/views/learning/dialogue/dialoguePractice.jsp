@@ -11,24 +11,24 @@
 
     <style>
         .container {
-            max-width: 800px;
+            max-width: 900px;
         }
 
         #initialAssistantTalk {
-             display: none;
+            display: none;
         }
 
         #record {
-             display: none;
+            display: none;
         }
 
         #stop {
             color: rgb(255, 0, 0);
-             display: none;
+            display: none;
         }
 
         #waitingMessage {
-             display: none;
+            display: none;
         }
 
         .bi-heart-fill {
@@ -40,7 +40,7 @@
         }
 
         #dialogueBox {
-            height: 60vh;
+            height: 70vh;
         }
 
         .assistantTalk {
@@ -53,78 +53,134 @@
 </head>
 <body onload="init()">
 
-<h1>말하기 연습</h1>
-<p>영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 번역해서 전달해줍니다!</p>
+<section class="container">
 
-<input type="hidden" id="learningId" value="${learningId}"/>
+    <h1>말하기 연습</h1>
+    <p>영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
 
-<div id="dialogueBox">
+    <input type="hidden" id="learningId" value="${learningId}"/>
 
-    <button id="startDialogue">
-        대화 시작하기
-    </button>
-
-    <%--첫번째 질문--%>
-    <div class="question" id="initialAssistantTalk">
-        ${assistantTalk}
+    <div>
+        <button id="startDialogue">
+            대화 시작하기
+        </button>
     </div>
 
-    <br>
+    <div id="dialogueBox" class="row align-content-start overflow-scroll p-2 my-3">
 
-</div>
+        <div class="col-10 col-lg-8 me-auto">
+            <div class="row g-0">
+                <div>
+                    <div class="assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;"
+                         id="initialAssistantTalk">
+                        ${assistantTalk}
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
+    <!-- dialogueBox end -->
 
-<%-- 템플릿 --%>
+    <!-- 녹음 버튼 -->
+    <div class="row g-0 justify-content-center g-0 gap-3">
+        <div class="row justify-content-center">
+            <button id="record" class="btn rounded-circle text-center p-0 shadow"
+                    style="width: 45px; height: 45px; background-color: #5DB99D; border-color: #5DB99D;" disabled1>
+                <i class="bi bi-mic fs-2" style="color: white"></i>
+            </button>
+            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow"
+                    style="width: 45px; height: 45px; border-color: gray;" disabled1>
+                <i class="bi bi-square-fill"></i>
+            </button>
+        </div>
+
+        <div id="waitingMessage" class="row justify-content-center">
+            <div class="col-12 text-center mb-2">
+                <div class="spinner-border text-secondary" role="status"></div>
+            </div>
+            <div class="col-12 text-center">문장을 분석중입니다.</div>
+        </div>
+
+        <div class="row justify-content-center" style="max-width: 400px;">
+            <div class="col-2 align-self-center"></div><!--dummy-->
+            <progress class="col-8" id="progress" value="0" min="0" max="10" style="display:none;"></progress>
+            <b id="time" class="col-2"></b>
+        </div>
+    </div>
+
+</section>
+
 <template>
-    <div id="dialogue">
-        <%--답변--%>
-        <div class="userTalk"> <!--id="sentenceDbId"-->
-            <div style="display: flex;">
-                <div>
-                    <div>Your sentence</div>
-                    <div class="yourSentence">
-                        유저 답변
+    <div class="dialogue row p-2">
+        <!-- userTalk start -->
+        <div class="col-10 ms-auto my-3 shadow rounded-3">
+
+            <div class="row g-0 py-3 gap-2">
+
+                <div class="userTalk col g-0 justify-content-center"> <!--id="sentenceDbId"-->
+                    <div class="row px-0">
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #2A6976;">
+                                Your sentence
+                            </div>
+                            <div class="yourSentence border p-1 rounded-1">
+                                elit. Iusto, exercitationem deserunt omnis molestiae laborum
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #16967A;">
+                                Corrected sentence
+                            </div>
+                            <div class="correctedSentence border p-1 rounded-1">
+                                delectus dolore vero quidem laudantium eaque nemo!
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <div>Corrected sentence</div>
-                    <div class="correctedSentence">
-                        교정된 답변
+                <div class="row g-0 align-items-end justify-content-between">
+                    <div class="col-12 col-md-10">
+                        <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                        <div class="explanation border p-1 rounded-1">
+                            교정에 대한 설명
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <div class="row g-0">
+                            <button class="col-1 col-md-5 btn ms-md-auto">
+                                <!-- <i class="bi bi-heart"></i> -->
+                                <i class="bi bi-heart-fill danger"></i>
+                            </button>
+
+
+                            <button class="col-1 col-md-5 btn">
+                                <!-- <i class="bi bi-archive"></i> -->
+                                <i class="bi bi-archive-fill danger"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="display: flex;">
-                <div>
-                    <div>Explanation</div>
-                    <div class="explanation">
-                        교정에 대한 설명
-                    </div>
-                </div>
-
-                <button>좋아요</button>
-
-                <button>보관함에 넣기</button>
             </div>
         </div>
+        <!-- userTalk end -->
 
-        <br/>
-
-        <%--질문--%>
-        <div class="assistantTalk">
+        <!--assistantTalk-->
+        <div class="col-10 col-lg-8 me-auto">
+            <div class="row g-0">
+                <div>
+                    <div class="assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;">
+                        ${assistantTalk}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+<!--dialogue end-->
 </template>
-
-<%--녹음--%>
-<div>
-    <input type="button" id="record" value="녹음 시작" disabled>
-    <input type="button" id="stop" value="녹음 중지" disabled>
-    <div id="waitingMessage">잠시 기다려주세요.</div>
-    <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
-    <b id="time"></b>
-</div>
 
 <%--발음평가 테스트용(임시)--%>
 <%--<br><br><br><br>--%>
@@ -189,19 +245,19 @@
                     mediaRecorder.start();
 
                     // 타이머 시작
-                    progress.setAttribute("max", mx * 10); //프로그래스 바 최대 값 설정
+                    progress.setAttribute("max", mx * 100); //프로그래스 바 최대 값 설정
                     let time = 0; //시간 초기화
                     timer = setInterval(() => {
                         time = time + 1;
-                        let realtime = parseInt(time / 10);
+                        let realtime = parseInt(time / 100);
                         // 상태바 진행
-                        b.innerText = realtime + " s";
+                        b.innerText = (mx - realtime) + " s";
                         progress.value = time;
 
-                        if (time == mx * 10 + 1) { // 시간 제한
+                        if (realtime == mx) { // 시간 제한
                             stopRecording(mediaRecorder, timer)
                         }
-                    }, 100);
+                    }, 10);
 
                     setBtnsRecording();
                 }
@@ -361,7 +417,9 @@
 <%--<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>--%>
 
 <%--Bootstrap 5.2.3--%>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 
 <%--<script type="text/javascript" src="/js/dialoguePracticeTts.js"></script>--%>
 <%--<script type="text/javascript" src="/js/dialoguePracticePronunciation.js"></script>--%>
