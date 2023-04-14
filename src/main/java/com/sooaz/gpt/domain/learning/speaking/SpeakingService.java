@@ -112,5 +112,5 @@ public class SpeakingService {
         String prompt = String.format("Explain the difference between the original sentence and the corrected sentence in a concise manner:\n\nOriginal: %s\nCorrected: %s", original, corrected);
         return openAiClient.chat(prompt);
     }
-
+ //
 }
