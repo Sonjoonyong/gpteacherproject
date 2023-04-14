@@ -86,7 +86,7 @@ public class OpenAiClient {
                     .getJSONObject("message")
                     .getString("content");
         } catch (Exception e) {
-            throw new IllegalStateException();
+            throw new RuntimeException(e);
         }
 
         return responseText;
@@ -153,7 +153,7 @@ public class OpenAiClient {
             script = jsonObject.getString("text");
 
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            throw new RuntimeException(e);
         }
 
         return script;

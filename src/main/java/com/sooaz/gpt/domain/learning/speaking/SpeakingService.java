@@ -55,7 +55,13 @@ public class SpeakingService {
         // 각 문장을 간결하고 문장이 흐트러지지 않게 교정 요청
         for (String sentence : sentences) {
             //String prompt = "chatGPT, there are rules to follow when correcting English sentences. If you want me to correct an English sentence, please provide it and specify that you only want the portion of the sentence after 'answer:' to be corrected. If there is no issues, you must output the portion of the sentence after 'answer:' as requested. answer:"+sentence;
-            String prompt = "chatGPT, There are rules that must be follow when correcting English sentences. The first rule is to correct only the sentence in (). The second rule only corrects words, grammar, and punctuation. The third rule is, if there's nothing wrong, print out the words inside (), without (). ("+sentence+").";
+            String prompt = "this is my sentence : \n" +sentence+
+                    "First, make correct my sentence, focusing on grammer, structure and punctuation\n"+
+                    "Second, let me know the explanation for the correction.\n"+
+                    "give me response in JSON file like below :\n"+
+                    "{sentence : \"my sentence\", \n" +
+                    "corrected : \"corrected version of my sentence\",\n" +
+                    "explanation : \"explanation for my correction\"}";
             String response = openAiClient.chat(prompt);
 
             if (responseBuilder.length() > 0) {
