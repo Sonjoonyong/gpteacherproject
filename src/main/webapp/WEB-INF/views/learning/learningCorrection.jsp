@@ -14,6 +14,7 @@
 <p>${correctedScript}</p>
 <form method="get" action="/learning/sentences">
     <button type="submit">문장별 분석</button>
+    <input type="hidden" name="learningId" value="${learningId}">
 </form>
 <form method="get" action="/">
     <button type="submit">메인 페이지</button>

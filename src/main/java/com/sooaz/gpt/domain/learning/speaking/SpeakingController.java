@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.learning.speaking;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 
+import com.sooaz.gpt.domain.mypage.learning.Learning;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -77,14 +78,17 @@ public class SpeakingController {
             Model model,
             HttpServletRequest request
     ) throws IOException {
+        Learning learning = new Learning();
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userScript = openAiClient.transcript(directory, audio);
-        String correctedScript = speakingService.talk(learningTestType, question, userScript);
+        String correctedScript = speakingService.talk(learningTestType, question, userScript, learning);
 
         model.addAttribute("userScript", userScript);
         model.addAttribute("question", question);
         model.addAttribute("correctedScript", correctedScript);
+        model.addAttribute("learningId", learning.getId());
 
+        log.info("learningId = {}", learning.getId());
         log.info("userScript = {}", userScript);
         log.info("correctedScript = {}", correctedScript);
 
@@ -102,7 +106,7 @@ public class SpeakingController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 문장별 분석 페이지
-    @GetMapping("/sentences")
+//    @GetMapping("/sentences")
     public String showSentenceAnalysisPage(
             Model model,
             HttpSession session
