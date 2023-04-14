@@ -12,8 +12,9 @@ public class SentenceRepository {
 
     private final SentenceMapper sentenceMapper;
 
-    public void save(Sentence sentence) {
+    public Sentence save(Sentence sentence) {
         sentenceMapper.save(sentence);
+        return sentence;
     }
 
     public Optional<Sentence> findById(Long sentenceId) {
