@@ -5,8 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Writing Practice - ${topic}</title>
+
+    <%@ include file="../../fragments/bootstrapCss.jsp" %>
+
 </head>
 <body>
+
+<%@ include file="../../fragments/header.jsp" %>
+<section class="container">
 <h1>Writing Practice - ${topic}</h1>
 <c:if test="${not empty errorMessage}">
     <div class="error-message">
@@ -23,6 +29,12 @@
     <br>
     <input type="submit" value="Submit">
 </form>
+</section>
+
+<%@ include file="../../fragments/footer.jsp" %>
+
+<%@ include file="../../fragments/bootstrapJs.jsp" %>
+
 </body>
 </html>
 
