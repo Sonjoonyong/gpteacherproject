@@ -42,9 +42,14 @@
     <update id="update">
         update SENTENCE
         <set>
-            <if test="flashcardId != null">
-                flashcard_id = #{flashcardId},
-            </if>
+            <choose>
+                <when test='flashcardId == "-2"'>
+                    flashcard_id = null,
+                </when>
+                <when test='flashcardId != "-2" and flashcardId != null'>
+                    flashcard_id = #{flashcardId},
+                </when>
+            </choose>
             <if test="sentenceCorrected != null">
                 sentence_corrected = #{sentenceCorrected},
             </if>
@@ -55,7 +60,10 @@
                 sentence_next_repetition = #{sentenceNextRepetition},
             </if>
             <if test="sentenceRepetitionStep != null">
-                sentence_repetition_step = #{sentenceRepetitionStep}
+                sentence_repetition_step = #{sentenceRepetitionStep},
+            </if>
+            <if test="sentenceLike != null">
+                sentence_like = #{sentenceLike}
             </if>
         </set>
         where id = #{sentenceId}
