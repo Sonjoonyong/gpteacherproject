@@ -12,5 +12,30 @@
 </head>
 <body>
 
+<form action="/learning/speaking" method="post">
+    주제를 선택 해주세요. : <br>
+
+    <button type="submit" name="topic" value="TOEIC">
+        <img src="/images/TOEIC.jpg">
+    </button>
+
+
+    <button type="submit" name="topic" value="TOEFL">
+        <img src="/images/TOEFL.jpg">
+    </button>
+
+    <br>
+
+    <button type="submit" name="topic" value="OPIC">
+        <img src="/images/OPIC.jpg">
+    </button>
+
+
+    <button type="submit" name="topic" value="IELTS">
+        <img src="/images/IELTS.jpg">
+    </button>
+
+</form>
+
 </body>
 </html>
