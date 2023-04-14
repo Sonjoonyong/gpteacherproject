@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -40,51 +42,53 @@ public class SpeakingService {
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //준용님파트
-    public String evaluateAnswer(String answer, String question) throws IOException {
-        String prompt = "Correct the following sentence: " + answer;
-        String response = openAiClient.chat(prompt);
 
-        // 응답 올바르게 처리
-        if (response.trim().startsWith("{")) {
-            JSONObject jsonObject = new JSONObject(response);
-            JSONArray jsonArray = jsonObject.getJSONArray("choices");
-            JSONObject choice = jsonArray.getJSONObject(0);
-            JSONObject message = choice.getJSONObject("message");
-            String content = message.getString("content").trim();
+    // 사용자 답변 평가
+    public String evaluateAnswer(@RequestParam("answer")String answer, @RequestParam("question")String question) throws IOException {
 
-            if (content.startsWith("{")) {
-                JSONObject contentJson = new JSONObject(content);
-                return contentJson.optString("corrected", content);
-            } else {
-                return content;
+        StringBuilder responseBuilder = new StringBuilder();
+
+        // 문장 분할에 정규식 패턴 사용
+        Pattern sentencePattern = Pattern.compile("(?<!\\b(?:[Dd]r|[Mm]r|[Mm]rs|[Mm]s|[Pp]rof|[Ss]t))\\b[.!?]\\s+(?=[A-Z])");
+        List<String> sentences = Arrays.asList(sentencePattern.split(answer));
+
+        // 각 문장을 간결하고 문장이 흐트러지지 않게 교정 요청
+        for (String sentence : sentences) {
+            String prompt = "Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect. Ensure that commas are not changed to periods: " + sentence;
+            String response = openAiClient.chat(prompt);
+
+            if (responseBuilder.length() > 0) {
+                responseBuilder.append(" ");
             }
-        } else {
-            return response.trim();
+            responseBuilder.append(response.trim());
         }
+
+        return responseBuilder.toString();
     }
 
+    // 원본 답변과 수정된 답변의 분석 데이터를 가져옴
     public JSONArray getAnalysisData(String answer, String correctedAnswer) throws IOException {
         JSONArray analysis = new JSONArray();
 
-        List<String> originalSentences = Arrays.asList(answer.split("(?<=[.!?])\\s*"));
-        List<String> correctedSentences = Arrays.asList(correctedAnswer.split("(?<=[.!?])\\s*"));
+        // 문장 분할에 정규식 패턴 사용
+        Pattern sentencePattern = Pattern.compile("(?<!\\b(?:[Dd]r|[Mm]r|[Mm]rs|[Mm]s|[Pp]rof|[Ss]t))\\b[.!?]\\s+(?=[A-Z])");
+        List<String> originalSentences = Arrays.asList(sentencePattern.split(answer));
+        List<String> correctedSentences = Arrays.asList(sentencePattern.split(correctedAnswer));
 
-        for (int i = 0; i < originalSentences.size(); i++) {
+        int minLength = Math.min(originalSentences.size(), correctedSentences.size());
+
+        // 각 문장과 해당 수정된 문장을 비교
+        for (int i = 0; i < minLength; i++) {
             String original = originalSentences.get(i).trim();
             String corrected = correctedSentences.get(i).trim();
 
+            // 원문과 정정된 문장이 동일하지 않을 경우 교정 이유에 대한 설명을 받음
             String explanation = null;
             if (!original.equals(corrected)) {
                 explanation = getCorrectionExplanation(original, corrected).trim();
-            } else {
-                List<String> originalTokens = Arrays.asList(original.split("\\s+"));
-                List<String> correctedTokens = Arrays.asList(corrected.split("\\s+"));
-
-                if (originalTokens.size() >= 2 && correctedTokens.size() >= 2) {
-                    explanation = "No correction needed.";
-                }
             }
 
+            // 각 문장 비교에 대한 JSON 객체를 생성하여 분석에 추가
             JSONObject item = new JSONObject();
             item.put("original", original);
             item.put("corrected", corrected);
@@ -96,10 +100,10 @@ public class SpeakingService {
         return analysis;
     }
 
+    // 원문과 교정된 문장의 차이에 대한 간결한 설명 구하기
     public String getCorrectionExplanation(String original, String corrected) {
         String prompt = String.format("Explain the difference between the original sentence and the corrected sentence in a concise manner:\n\nOriginal: %s\nCorrected: %s", original, corrected);
         return openAiClient.chat(prompt);
     }
-
 
 }

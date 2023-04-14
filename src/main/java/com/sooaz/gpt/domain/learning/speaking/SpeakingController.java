@@ -58,44 +58,42 @@ public class SpeakingController {
         ncpTtsClient.tts(question, response);
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //whisper STT Speech To Text **어려움**
-    @PostMapping("/learning/learningCorrection")
+    @PostMapping("/learning/learningCorrection") //주소창에표시되는부분
     public String transcript(
             @RequestParam MultipartFile audio,
             Model model,
+            HttpSession session,
             HttpServletRequest request
     ) throws IOException {
         String question=request.getParameter("question");
         String answer = openAiClient.transcript(audio);
         model.addAttribute("answer",answer);
         model.addAttribute("question",question);
-        return "/learning/learningCorrection";
-    }
+        session.setAttribute("answer",answer);
+        session.setAttribute("question",question);
 
-    //준용님파트
-    @PostMapping("/learning/learningCorrection")
-    public String handleSubmitQuestionAndAnswer(
-            @RequestParam("answer") String answer,
-            @RequestParam("question") String question,
-            @RequestParam("topic") String topic,
-            Model model,
-            HttpSession session) throws IOException {
-
-        String correctedAnswer = SpeakingService.evaluateAnswer(answer, question);
-        answer = (String) session.getAttribute("answer");
-        question = (String) session.getAttribute("question") ;
+        String correctedAnswer = speakingService.evaluateAnswer(answer, question);
         model.addAttribute("correctedAnswer", correctedAnswer);
+        session.setAttribute("correctedAnswer", correctedAnswer);
 
         storeAnalysisData(session, answer, correctedAnswer);
-
-        return "learning/learningCorrection";
+        return "learning/learningCorrection"; //데이터를 보내는jsp?
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 문장별 분석 페이지
     @GetMapping("/sentences")
-    public String showSentenceAnalysisPage(Model model, HttpSession session) {
+    public String showSentenceAnalysisPage(
+            Model model,
+            HttpSession session
+            ) {
         JSONArray jsonArray = (JSONArray) session.getAttribute("analysis");
+
         List<Map<String, Object>> analysis = new ArrayList<>();
 
+        // 분석 데이터 리스트에 추가
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             Map<String, Object> item = new HashMap<>();
@@ -116,24 +114,26 @@ public class SpeakingController {
     }
 
 
+    // 분석 데이터를 세션에 저장
     private void storeAnalysisData(HttpSession session, String answer, String correctedAnswer) throws IOException {
-        JSONArray analysis = writingService.getAnalysisData(answer, correctedAnswer);
+        JSONArray analysis = speakingService.getAnalysisData(answer, correctedAnswer);
         session.setAttribute("analysis", analysis);
     }
 
+    // 문장별 분석 처리
     @GetMapping("/analysis")
     public String handleAnalysisBySentence(Model model, HttpSession session) throws IOException {
+
+        //String answer = (String) model.getAttribute("answer");//대현수정
+        //String correctedAnswer = (String) model.getAttribute("correctedAnswer");//대현수정
         String answer = (String) session.getAttribute("answer");
         String correctedAnswer = (String) session.getAttribute("correctedAnswer");
 
-        JSONArray analysis = writingService.getAnalysisData(answer, correctedAnswer);
+        // 분석 데이터 가져오기
+        JSONArray analysis = speakingService.getAnalysisData(answer, correctedAnswer);
         model.addAttribute("analysis", analysis);
 
         return "learning/learningSentences";
     }
-
-
-
-
 
 }
