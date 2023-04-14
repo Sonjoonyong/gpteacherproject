@@ -49,7 +49,7 @@ public class OpenAiClient {
         messages.add(message);
         return chat(messages);
     }
-
+    //ㅗㅓ
     public String chat(List<JSONObject> messages) {
 
         String responseText = "";
