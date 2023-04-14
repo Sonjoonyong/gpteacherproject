@@ -19,7 +19,7 @@
             #{id},
             #{userId},
             #{learningTopic},
-            #{learningTestType},
+            #{learningTestType, jdbcType=VARCHAR},
             #{learningType}
         )
     </insert>

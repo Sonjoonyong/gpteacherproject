@@ -114,7 +114,7 @@
     <div class="row justify-content-end g-0">
         <form method="get" action="/learning/sentences">
             <input type="hidden" name="learningId" value="${learningId}" >
-            <input type="button" id="stopDialogue" value="대화 그만하기" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width:120px; background-color: #5DB99D;">
+            <input type="submit" id="stopDialogue" value="대화 그만하기" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width:120px; background-color: #5DB99D;">
         </form>
     </div>
 

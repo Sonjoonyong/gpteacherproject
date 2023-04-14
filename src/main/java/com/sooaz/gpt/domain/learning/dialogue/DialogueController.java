@@ -64,6 +64,7 @@ public class DialogueController {
             HttpServletRequest request
     ) throws IOException {
 
+        log.info("learningId = {}", learningId);
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
