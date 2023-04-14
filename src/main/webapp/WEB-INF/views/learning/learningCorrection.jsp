@@ -9,9 +9,9 @@
 <h1>GPTeacher's CORRECTION</h1>
 <p>Question: ${question}</p>
 <p>Your Answer:</p>
-<p>${answer}</p>
+<p>${userScript}</p>
 <p>GPTeacher's Correction:</p>
-<p>${correctedAnswer}</p>
+<p>${correctedScript}</p>
 <form method="get" action="/learning/sentences">
     <button type="submit">문장별 분석</button>
 </form>
