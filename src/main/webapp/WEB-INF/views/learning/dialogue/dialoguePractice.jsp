@@ -154,13 +154,13 @@
 
                     <div class="col-12 col-md-2">
                         <div class="row g-0">
-                            <button class="col-1 col-md-5 btn ms-md-auto" id="like" onclick="likeAjax(this)">
+                            <button class="col-1 col-md-5 btn ms-md-auto" id="like" onclick="statusUpdateAjax(this)">
                                 <i class="bi bi-heart" id="emptyHeart"></i>
                                 <i class="bi bi-heart-fill danger" id="fillHeart"></i>
                             </button>
 
 
-                            <button class="col-1 col-md-5 btn" id="storage" onclick="storageAjax(this)">
+                            <button class="col-1 col-md-5 btn" id="storage" onclick="statusUpdateAjax(this)">
                                 <i class="bi bi-archive" id="emptyStorage"></i>
                                 <i class="bi bi-archive-fill danger" id="fillStorage"></i>
                             </button>
@@ -389,41 +389,23 @@
         ttsAjax(newAssistantTalk)
     }
 
-    function likeAjax(like) {
+    function statusUpdateAjax(btn) {
         let request = new XMLHttpRequest();
-        let sentenceId = like.value;
+        let sentenceId = btn.value;
+        let type = btn.getAttribute('id'); //like or storage
 
         request.onload = () => {
-            let likeStatus = request.response;
-            if (likeStatus=="1") {
-                like.querySelector('#emptyHeart').style.display = 'none';
-                like.querySelector('#fillHeart').style.display = 'block';
+            let status = request.response;
+            if (status=="1") {
+                btn.children[0].style.display = 'none'; //emptyHeart or emptyStorage
+                btn.children[1].style.display = 'block'; //fillHeart or fillStorage
             } else {
-                like.querySelector('#emptyHeart').style.display = 'block';
-                like.querySelector('#fillHeart').style.display = 'none';
+                btn.children[0].style.display = 'block';
+                btn.children[1].style.display = 'none';
             }
         }
 
-        request.open("GET", "/learning/dialogue/like?sentenceId="+sentenceId);
-        request.send();
-    }
-
-    function storageAjax(storage) {
-        let request = new XMLHttpRequest();
-        let sentenceId = storage.value;
-
-        request.onload = () => {
-            let storageStatus = request.response;
-            if (storageStatus=="1") {
-                storage.querySelector('#emptyStorage').style.display = 'none';
-                storage.querySelector('#fillStorage').style.display = 'block';
-            } else {
-                storage.querySelector('#emptyStorage').style.display = 'block';
-                storage.querySelector('#fillStorage').style.display = 'none';
-            }
-        }
-
-        request.open("GET", "/learning/dialogue/storage?sentenceId="+sentenceId);
+        request.open("GET", "/learning/dialogue/statusUpdate?sentenceId="+sentenceId+"&type="+type);
         request.send();
     }
 

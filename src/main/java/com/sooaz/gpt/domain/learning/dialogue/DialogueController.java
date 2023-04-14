@@ -82,22 +82,13 @@ public class DialogueController {
     }
 
     @ResponseBody
-    @GetMapping("/learning/dialogue/like")
-    public String updateLike(
-            @RequestParam Long sentenceId
+    @GetMapping("/learning/dialogue/statusUpdate")
+    public String updateStatus(
+            @RequestParam Long sentenceId,
+            @RequestParam String type
     ) {
-        char likeStatus = dialogueService.updateLikeStatus(sentenceId); //update된 like상태
-        return Character.toString(likeStatus);
-    }
-
-    @ResponseBody
-    @GetMapping("/learning/dialogue/storage")
-    public String updateFlashcardId(
-            @RequestParam Long sentenceId
-    ) {
-        char storageStatus = dialogueService.updateStorageStatus(sentenceId);
-        log.info("Update storageStatus = {}",storageStatus);
-        return Character.toString(storageStatus);
+        char currentStatus = dialogueService.updateStatus(sentenceId, type); //update된 상태 반환
+        return Character.toString(currentStatus);
     }
 
     @ResponseBody
