@@ -3,46 +3,87 @@
 <html>
 <head>
     <title>Title</title>
+
+    <style>
+        div {
+            border: 1px solid hotpink;
+        }
+
+        #initialAssistantTalk {
+            display: none;
+        }
+
+        #dialogue {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #record {
+            display: none;
+        }
+
+        #stop {
+            color: hotpink;
+            display: none;
+        }
+
+        #waitingMessage {
+            display: none;
+        }
+
+    </style>
 </head>
-<body onload="mediaStart()">
+<body onload="init()">
+
+<input type="hidden" id="learningId" value="${learningId}"/>
 
 <div id="dialogueBox">
 
-    <button id="startAudio">
+    <button id="startDialogue">
         대화 시작하기
     </button>
 
     <%--첫번째 질문--%>
-    <div class="question">
-        <span>${assistantTalk}</span>
+    <div class="question" id="initialAssistantTalk">
+        ${assistantTalk}
     </div>
 
     <br>
 
-
 </div>
+
+
+<%-- 템플릿 --%>
 <template>
     <div id="dialogue">
         <%--답변--%>
-        <div class="answer">
-            <div> <!--style="display: flex;"-->
-                <div class="yourSentence">
+        <div class="userTalk"> <!--id="sentenceDbId"-->
+            <div style="display: flex;">
+                <div>
                     <div>Your sentence</div>
-                    <div id="transcriptResult"></div>
-                </div><br/>
+                    <div class="yourSentence">
+                        유저 답변
+                    </div>
+                </div>
 
-                <div class="correctedSentence">
+                <div>
                     <div>Corrected sentence</div>
-                    <div id="correctedResult"></div>
-                </div><br/>
+                    <div class="correctedSentence">
+                        교정된 답변
+                    </div>
+                </div>
             </div>
 
             <div style="display: flex;">
-                <div class="explanation">
+                <div>
                     <div>Explanation</div>
-                    <div id="explanationResult"></div>
+                    <div class="explanation">
+                        교정에 대한 설명
+                    </div>
                 </div>
+
                 <button>좋아요</button>
+
                 <button>보관함에 넣기</button>
             </div>
         </div>
@@ -50,15 +91,18 @@
         <br/>
 
         <%--질문--%>
-        <div class="question">
-            <span></span>
+        <div class="assistantTalk">
         </div>
     </div>
 </template>
+
 <%--녹음--%>
-<div class="recordbox">
-    <input type="button" id="record" value="녹음 시작">
-    <input type="button" id="stop" value="녹음 중지">
+<div>
+    <input type="button" id="record" value="녹음 시작" disabled>
+    <input type="button" id="stop" value="녹음 중지" disabled>
+    <div id="waitingMessage">잠시 기다려주세요.</div>
+    <progress id="progress" value="0" min="0" max="10" style="display:none;"></progress>
+    <b id="time"></b>
 </div>
 
 <%--발음평가 테스트용(임시)--%>
@@ -70,88 +114,84 @@
 <%--<br><br><br><br>--%>
 
 <script>
-    function addContent(result,userTalk) {
-        let parent = document.getElementById("dialogueBox");
-        let divDialogue = document.getElementsByTagName("template")[0].content.cloneNode(true).firstElementChild;
 
-        // 결과 삽입 위치 찾기
-        let divAnswer = divDialogue.children[0];
-        let divQuestion = divDialogue.children[2];
+    let learningId = document.querySelector('#learningId').value;
+    let initialAssistantTalkDiv = document.querySelector('#initialAssistantTalk');
+    let initialAssistantTalk = initialAssistantTalkDiv.innerText;
+    let priorAssistantTalk = initialAssistantTalk;
 
-        let divSentence = divAnswer.children[0].children[0].children[1];
-        let divCorrect = divAnswer.children[0].children[2].children[1];
-        let divExplanation = divAnswer.children[1].children[0].children[1];
-        let spanQuestion = divQuestion.children[0];
+    let audio;
 
-        // 결과 가져오기
-        let newAssistantTalk = result.newAssistantTalk;
-        let correctedSentence = result.correctedSentence;
-        let explanation = result.explanation;
-
-        //결과 삽입
-        divSentence.innerHTML = userTalk;
-        spanQuestion.innerHTML = newAssistantTalk;
-
-        //고칠 부분이 없을 경우
-        if(correctedSentence=="" | correctedSentence==userTalk | correctedSentence==null | correctedSentence=="N/A") {
-            divCorrect.innerHTML = userTalk;
-            divExplanation.innerHTML = "No correction needed.";
-        }else {
-            divCorrect.innerHTML = correctedSentence;
-            divExplanation.innerHTML = explanation;
-        }
-
-        //화면에 추가
-        parent.appendChild(divDialogue);
-    }
-    document.querySelector('#startAudio').addEventListener("click",() => {
-        let assistantTalk = "${assistantTalk}";
-        ttsAjax(assistantTalk);
-    })
-
-    function ttsAjax(assistantTalk) {
-        let request = new XMLHttpRequest();
-
-        let urlSearchParams = new URLSearchParams();
-        urlSearchParams.append("assistantTalk", assistantTalk);
-
-        request.onload = () => {
-            console.log(request.response);
-            let audioURL = URL.createObjectURL(request.response);
-            let audio = new Audio(audioURL);
-            audio.play();
-        }
-
-        request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
-        request.responseType = "blob";
-        request.send();
-    }
-
-    //녹음 & stt
+    //녹음 버튼
     let recordButton = document.querySelector("#record");
     let stopButton = document.querySelector("#stop");
-    stopButton.disabled = true;
 
-    function mediaStart() {
+    // 프로그레스 바
+    let progress = document.getElementById("progress"); //progress bar
+    let b = document.getElementById("time"); // 초 표시할 b태그
+    let timer = 0; // 타이머
+    let mx = 10; // 최대 시간(초)
 
+    let startDialogueBtn = document.querySelector('#startDialogue');
+
+    startDialogueBtn.onclick = () => {
+        ttsAjax(initialAssistantTalk);
+
+        initialAssistantTalkDiv.style.display = 'block';
+        startDialogueBtn.style.display = 'none';
+        recordButton.disabled = false;
+        recordButton.style.display = 'block';
+    }
+
+    function retry() {
+        alert("잘못된 문장입니다. 다시 응답해주세요.");
+
+        if (audio) {
+            audio.pause();
+        }
+        stopButton.style.display = 'none';
+        stopButton.disabled = true;
+        recordButton.style.display = 'block';
+        recordButton.disabled = false;
+    }
+
+    function init() {
         if (navigator.mediaDevices) {
-            const constraints = {audio:true};
-            let chunks = [] // 녹음된 내용을 저장할 변수
+            const constraints = {audio: true};
+            let chunks = [];
 
-            // 정상 구현 시
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                // 녹음을 시작하고 종료하는 객체
                 const mediaRecorder = new MediaRecorder(stream);
 
                 // 녹음 시작
                 recordButton.onclick = () => {
-                    chunks = []; // 이전에 녹음된 내용이 있으면 초기화
+                    chunks = [];
+                    // 진행중인 TTS 종료
+                    if (audio) {
+                        audio.pause();
+                    }
                     mediaRecorder.start();
 
-                    recordButton.style.backgroundColor = "red";
-                    recordButton.style.color = "white";
+                    // 타이머 시작
+                    progress.setAttribute("max", mx * 10); //프로그래스 바 최대 값 설정
+                    let time = 0; //시간 초기화
+                    timer = setInterval(() => {
+                        time = time + 1;
+                        let realtime = parseInt(time / 10);
+                        // 상태바 진행
+                        b.innerText = realtime + " s";
+                        progress.value = time;
+
+                        if (time == mx * 10 + 1) { // 시간 제한
+                            stopRecording(mediaRecorder, timer)
+                        }
+                    }, 100);
+
+                    recordButton.style.display = 'none';
                     recordButton.disabled = true;
+                    stopButton.style.display = 'block';
                     stopButton.disabled = false;
+                    progress.style.display = "inline";
                 }
 
                 // 오디오 저장
@@ -161,19 +201,13 @@
 
                 // 녹음 종료
                 stopButton.onclick = () => {
-                    mediaRecorder.stop();
-
-                    recordButton.style.backgroundColor = "";
-                    stopButton.disabled = true;
-                    recordButton.disabled = true;
+                    stopRecording(mediaRecorder, timer)
                 }
 
-                // 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리
+                // 녹음이 종료되면 서버로 전송 및 결과 수신
                 mediaRecorder.onstop = () => {
-                    // chunks에 저장된 데이터를 바이너리코드로 변환
-                    const blob = new Blob(chunks, {'type':'audio/webm codecs=opus'});
+                    const blob = new Blob(chunks, {'type': 'audio/webm codecs=opus'});
 
-                    // 서버로 전송
                     let formData = new FormData();
                     formData.append("audio", blob);
                     sttAjax(formData);
@@ -188,41 +222,104 @@
 
     }
 
-    function sttAjax(formData) {
+    function ttsAjax(assistantTalk) {
         let request = new XMLHttpRequest();
 
-        request.onload = () => {
-            let responseText = request.responseText;
-            getResponse(responseText); //script
-
-            recordButton.style.color = "";
-            recordButton.disabled = false;
-    }
-        formData.enctype="multipart/form-data";
-        request.open("POST", "/learning/dialogue/transcript", false);
-        request.send(formData);
-    }
-
-    //유저 문장 보내고 교정본 받기
-    function getResponse(userTalk){
-        let request = new XMLHttpRequest();
-
-        let formData = new FormData();
-        formData.append("assistantTalk","${assistantTalk}");
-        formData.append("userTalk",userTalk);
-        formData.append("learningId","${learningId}");
+        let urlSearchParams = new URLSearchParams();
+        urlSearchParams.append("assistantTalk", assistantTalk);
 
         request.onload = () => {
-            let result = request.response;
-            result = JSON.parse(result);
-            console.log(result);
-            addContent(result,userTalk); //화면에 출력력
+            let audioURL = URL.createObjectURL(request.response);
+            audio = new Audio(audioURL);
+            audio.play();
         }
 
-       request.open("POST","/learning/dialogue/talk", false);
-        console.log(formData);
+        request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
+        request.responseType = "blob";
+        request.send();
+    }
+
+    // 유저 답변 서버에 전송 후 결과 수신
+    function sttAjax(formData) {
+        let request = new XMLHttpRequest();
+        formData.append("priorAssistantTalk", priorAssistantTalk);
+        formData.append("learningId", learningId);
+        request.responseType = "json";
+
+        request.onload = () => {
+            //화면에 출력
+            console.log(request.response);
+            addContent(request.response);
+
+            stopButton.style.display = 'none';
+            stopButton.disabled = true;
+            recordButton.style.display = 'block';
+            recordButton.disabled = false;
+        }
+
+        formData.enctype = "multipart/form-data";
+        request.open("POST", "/learning/dialogue/transcript", true);
         request.send(formData);
     }
+
+    function addContent(result) {
+        // 대화창
+        let dialogueBox = document.getElementById("dialogueBox");
+        let dialogueDiv = document.getElementsByTagName('template')[0].content.cloneNode(true).firstElementChild;
+
+        let yourSentenceDiv = dialogueDiv.querySelector('.yourSentence');
+        let correctedSentenceDiv = dialogueDiv.querySelector('.correctedSentence');
+        let explanationDiv = dialogueDiv.querySelector('.explanation');
+        let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
+
+        // 결과 가져오기
+        if (result.result === "fail") {
+            retry();
+            return false;
+        }
+
+        let newAssistantTalk = result.answer;
+        let correctedSentence = result.corrected;
+        let explanation = result.explanation;
+        let userTalk = result.userTalk;
+        priorAssistantTalk = newAssistantTalk;
+
+        // 결과 삽입
+        yourSentenceDiv.innerText = userTalk;
+        assistantTalkDiv.innerText = newAssistantTalk;
+
+        // 고칠 부분이 없을 경우
+        if (!correctedSentence ||
+            correctedSentence === userTalk ||
+            correctedSentence === "N/A" ||
+            correctedSentence === "No correction needed."
+        ) {
+            correctedSentenceDiv.innerText = "No correction needed.";
+            explanationDiv.innerText = "Perfect!";
+        } else {
+            correctedSentenceDiv.innerText = correctedSentence;
+            explanationDiv.innerText = explanation;
+        }
+
+        // 화면에 추가
+        dialogueBox.appendChild(dialogueDiv);
+        // GPT 답변 읽어주기
+        ttsAjax(newAssistantTalk)
+    }
+
+    function stopRecording(mediaRecorder, timer) {
+        mediaRecorder.stop();
+
+        // 상태바 초기화
+        b.innerText = "";
+        progress.value = 0;
+        progress.style.display = "none";
+        clearInterval(timer); // 타이머 초기화
+
+        stopButton.disabled = true;
+        recordButton.disabled = true;
+    }
+
 
 </script>
 
@@ -231,7 +328,6 @@
 
 <%--<script type="text/javascript" src="/js/dialoguePracticeTts.js"></script>--%>
 <%--<script type="text/javascript" src="/js/dialoguePracticePronunciation.js"></script>--%>
-
 
 </body>
 </html>
