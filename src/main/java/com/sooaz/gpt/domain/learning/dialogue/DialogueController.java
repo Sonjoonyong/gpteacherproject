@@ -83,16 +83,6 @@ public class DialogueController {
     }
 
     @ResponseBody
-    @GetMapping("/learning/dialogue/statusUpdate")
-    public String updateStatus(
-            @RequestParam Long sentenceId,
-            @RequestParam String type
-    ) {
-        char currentStatus = dialogueService.updateStatus(sentenceId, type); //update된 상태 반환
-        return Character.toString(currentStatus);
-    }
-
-    @ResponseBody
     @PostMapping("/learning/dialogue/pronunciation")
     public String getPronunciationAssessment(
             MultipartFile audio,

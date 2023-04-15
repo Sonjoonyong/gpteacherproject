@@ -412,7 +412,7 @@
             }
         }
 
-        request.open("GET", "/learning/dialogue/statusUpdate?sentenceId="+sentenceId+"&type="+type);
+        request.open("GET", "/learning/sentence/statusUpdate?sentenceId="+sentenceId+"&type="+type);
         request.send();
     }
 
