@@ -90,7 +90,6 @@ CREATE TABLE learning
     learning_like      CHAR(1)       NULL
 );
 
-select * from sentence;
 
 CREATE TABLE admin_user
 (

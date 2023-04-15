@@ -22,7 +22,7 @@
             #{userId},
             #{learningTopic},
             <if test="learningTestType != null">
-              #{learningTestType},
+                #{learningTestType},
             </if>
             #{learningType}
         )

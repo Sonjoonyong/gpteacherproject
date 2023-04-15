@@ -9,8 +9,25 @@
 
     <style>
         /* scrollbar track 노출 문제 해결 */
-        *::-webkit-scrollbar {
+        /* Firefox */
+        #dialogueBox {
+            scrollbar-width: auto;
+            scrollbar-color: #a2ddb8 #ffffff;
+        }
+
+        /* Chrome, Edge, and Safari */
+        #dialogueBox::-webkit-scrollbar {
             width: 16px;
+        }
+
+        #dialogueBox::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        #dialogueBox::-webkit-scrollbar-thumb {
+            background-color: #a2ddb8;
+            border-radius: 10px;
+            border: 3px solid #ffffff;
         }
 
         .container {
@@ -44,7 +61,7 @@
         }
 
         #dialogueBox {
-            height: 70vh;
+            height: 65vh;
         }
 
         .assistantTalk {
@@ -64,8 +81,8 @@
 
     <input type="hidden" id="learningId" value="${learningId}"/>
 
-    <div>
-        <button id="startDialogue" class="btn btn-primary">
+    <div class="row justify-content-center">
+        <button id="startDialogue" class="btn btn-light mt-5 shadow py-2 rounded-3" style="width: 150px; color: #5DB99D">
             대화 시작하기
         </button>
     </div>
@@ -87,7 +104,7 @@
     <!-- dialogueBox end -->
 
     <!-- 녹음 버튼 -->
-    <div class="row g-0 justify-content-center g-0 gap-3">
+    <div class="row g-0 justify-content-center g-0 gap-3 mb-5">
         <div class="row justify-content-center">
             <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
                 <i class="bi bi-mic fs-2" style="color: white"></i>
@@ -122,6 +139,7 @@
 
 <%@ include file="../../fragments/footer.jsp" %>
 
+<%-- 채팅 템플릿 --%>
 <template>
     <div class="dialogue row p-2">
         <!-- userTalk start -->
@@ -355,7 +373,7 @@
         let fillStorage = dialogueDiv.querySelector('#fillStorage');
 
         // 결과 가져오기
-        if (result.result === "fail") {
+        if (!result || result.result === "fail") {
             retry();
             return false;
         }

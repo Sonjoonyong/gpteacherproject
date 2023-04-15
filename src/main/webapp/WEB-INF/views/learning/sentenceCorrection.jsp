@@ -28,41 +28,41 @@
 
 <section class="container">
     <c:forEach var="sentence" items="${sentences}">
-        <div class="dialogue row p-2 sentence justify-content-center" id="${sentence.id}">
-            <!-- sentence start -->
-            <div class="col-10 my-3 shadow rounded-3">
+    <div class="dialogue row p-2 sentence justify-content-center" id="${sentence.id}">
+        <!-- sentence start -->
+        <div class="col-10 my-3 shadow rounded-3">
 
-                <div class="row g-0 py-3 gap-2">
+            <div class="row g-0 py-3 gap-2">
 
-                    <div class="userTalk col g-0 justify-content-center">
-                        <div class="row px-0">
-                            <div class="col-12 col-md-6">
-                                <div class="fw-bold" style="color: #2A6976;">
-                                    Your sentence
-                                </div>
-                                <div class="yourSentence border p-1 rounded-1">
-                                        ${sentence.sentenceAnswer}
-                                </div>
+                <div class="userTalk col g-0 justify-content-center">
+                    <div class="row px-0">
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #2A6976;">
+                                Your sentence
                             </div>
+                            <div class="yourSentence border p-1 rounded-1">
+                                    ${sentence.sentenceAnswer}
+                            </div>
+                        </div>
 
-                            <div class="col-12 col-md-6">
-                                <div class="fw-bold" style="color: #16967A;">
-                                    Corrected sentence
-                                </div>
-                                <div class="correctedSentence border p-1 rounded-1">
-                                        ${sentence.sentenceCorrected}
-                                </div>
+                        <div class="col-12 col-md-6">
+                            <div class="fw-bold" style="color: #16967A;">
+                                Corrected sentence
+                            </div>
+                            <div class="correctedSentence border p-1 rounded-1">
+                                    ${sentence.sentenceCorrected}
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="row g-0 align-items-end justify-content-between">
-                        <div class="col-12 col-md-10">
-                            <div class="fw-bold" style="color: #2F4858;">Explanation</div>
-                            <div class="explanation border p-1 rounded-1">
-                                    ${sentence.sentenceExplanation}
-                            </div>
+                <div class="row g-0 align-items-end justify-content-between">
+                    <div class="col-12 col-md-10">
+                        <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                        <div class="explanation border p-1 rounded-1">
+                                ${sentence.sentenceExplanation}
                         </div>
+                    </div>
 
                         <div class="col-12 col-md-2">
                             <div class="row g-0">
