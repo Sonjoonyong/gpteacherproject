@@ -64,6 +64,7 @@ public class DialogueController {
             HttpServletRequest request
     ) throws IOException {
 
+        log.info("learningId = {}", learningId);
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
@@ -79,16 +80,6 @@ public class DialogueController {
             HttpServletResponse response
     ) {
         ncpTtsClient.tts(assistantTalk, response);
-    }
-
-    @ResponseBody
-    @GetMapping("/learning/dialogue/statusUpdate")
-    public String updateStatus(
-            @RequestParam Long sentenceId,
-            @RequestParam String type
-    ) {
-        char currentStatus = dialogueService.updateStatus(sentenceId, type); //update된 상태 반환
-        return Character.toString(currentStatus);
     }
 
     @ResponseBody

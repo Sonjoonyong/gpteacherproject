@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ public class SentenceController {
     private final SentenceRepository sentenceRepository;
     private final SpeakingService speakingService;
     private final WritingService writingService;
+    private final SentenceService sentenceService;
     private final OpenAiClient openAiClient;
 
     @GetMapping("/learning/sentences")
@@ -38,6 +40,16 @@ public class SentenceController {
         model.addAttribute("sentences", sentences);
 
         return "learning/sentenceCorrection";
+    }
+
+    @ResponseBody
+    @GetMapping("/learning/sentence/statusUpdate")
+    public String updateStatus(
+            @RequestParam Long sentenceId,
+            @RequestParam String type
+    ) {
+        char currentStatus = sentenceService.updateStatus(sentenceId, type); //update된 상태 반환
+        return Character.toString(currentStatus);
     }
 
     @PostMapping("/learning/sentences")
