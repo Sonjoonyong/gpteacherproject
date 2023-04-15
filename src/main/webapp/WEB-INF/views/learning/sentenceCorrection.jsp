@@ -64,29 +64,52 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-2">
-                        <div class="row g-0">
-                            <button class="col-1 col-md-5 btn ms-md-auto">
-                                <!-- <i class="bi bi-heart"></i> -->
-                                <i class="bi bi-heart-fill danger"></i>
-                            </button>
+                        <div class="col-12 col-md-2">
+                            <div class="row g-0">
+                                <button class="col-1 col-md-5 btn ms-md-auto" id="like" value="${sentence.id}" onclick="statusUpdateAjax(this)">
+                                    <i class="bi bi-heart"></i>
+                                    <i class="bi bi-heart-fill danger" style="display: none;"></i>
+                                </button>
 
 
-                            <button class="col-1 col-md-5 btn">
-                                <!-- <i class="bi bi-archive"></i> -->
-                                <i class="bi bi-archive-fill danger"></i>
-                            </button>
+                                <button class="col-1 col-md-5 btn" id="storage" value="${sentence.id}" onclick="statusUpdateAjax(this)">
+                                    <i class="bi bi-archive"></i>
+                                    <i class="bi bi-archive-fill danger" style="display: none;"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-        </div>
-    </div>
-        <!-- sentence end -->
-        </c:forEach>
+            <!-- sentence end -->
+    </c:forEach>
 
 
 </section>
+
+<script>
+    function statusUpdateAjax(btn) {
+        let request = new XMLHttpRequest();
+        let sentenceId = btn.value;
+        let type = btn.getAttribute('id'); //like or storage
+
+        request.onload = () => {
+            let status = request.response;
+            if (status=="1") {
+                btn.children[0].style.display = 'none'; //emptyHeart or emptyStorage
+                btn.children[1].style.display = 'block'; //fillHeart or fillStorage
+            } else {
+                btn.children[0].style.display = 'block';
+                btn.children[1].style.display = 'none';
+            }
+        }
+
+        request.open("GET", "/learning/sentence/statusUpdate?sentenceId="+sentenceId+"&type="+type);
+        request.send();
+    }
+
+</script>
 
 <%@ include file="../fragments/footer.jsp" %>
 <%@ include file="../fragments/bootstrapJs.jsp" %>

@@ -43,18 +43,6 @@ public class DialogueController {
         return "learning/dialogue/dialoguePractice";
     }
 
-//    @ResponseBody
-//    @PostMapping("/learning/dialogue/talk")
-//    public String getAssistantResponse(
-//            @RequestParam String priorAssistantTalk,
-//            @RequestParam String userTalk,
-//            @RequestParam Long learningId
-//    ) {
-//        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
-//        log.info("assistant response = {}", result);
-//        return result;
-//    }
-
     @ResponseBody
     @PostMapping(value = "/learning/dialogue/transcript", produces = "application/json")
     public String transcript(
@@ -63,6 +51,7 @@ public class DialogueController {
             @RequestParam Long learningId,
             HttpServletRequest request
     ) throws IOException {
+
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
@@ -75,16 +64,6 @@ public class DialogueController {
             HttpServletResponse response
     ) {
         ncpTtsClient.tts(assistantTalk, response);
-    }
-
-    @ResponseBody
-    @GetMapping("/learning/dialogue/statusUpdate")
-    public String updateStatus(
-            @RequestParam Long sentenceId,
-            @RequestParam String type
-    ) {
-        char currentStatus = dialogueService.updateStatus(sentenceId, type); //update된 상태 반환
-        return Character.toString(currentStatus);
     }
 
     @ResponseBody

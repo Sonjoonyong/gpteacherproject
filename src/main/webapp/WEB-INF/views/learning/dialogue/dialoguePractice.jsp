@@ -92,7 +92,7 @@
         <div class="col-10 col-lg-8 me-auto">
             <div class="row g-0">
                 <div>
-                    <div class="assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;"
+                    <div class="col assistantTalk rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;"
                          id="initialAssistantTalk">
                         ${assistantTalk}
                     </div>
@@ -126,6 +126,13 @@
             <progress class="col-8" id="progress" value="0" min="0" max="10" style="display:none;"></progress>
             <b id="time" class="col-2"></b>
         </div>
+    </div>
+
+    <div class="row justify-content-end g-0">
+        <form method="get" action="/learning/sentences">
+            <input type="hidden" name="learningId" value="${learningId}" >
+            <input type="submit" id="stopDialogue" value="대화 그만하기" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width:120px; background-color: #5DB99D;">
+        </form>
     </div>
 
 </section>
@@ -423,7 +430,7 @@
             }
         }
 
-        request.open("GET", "/learning/dialogue/statusUpdate?sentenceId="+sentenceId+"&type="+type);
+        request.open("GET", "/learning/sentence/statusUpdate?sentenceId="+sentenceId+"&type="+type);
         request.send();
     }
 
