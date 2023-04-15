@@ -66,7 +66,6 @@ public class DialogueController {
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
-        log.info("result = {}", result);
         return result;
     }
 

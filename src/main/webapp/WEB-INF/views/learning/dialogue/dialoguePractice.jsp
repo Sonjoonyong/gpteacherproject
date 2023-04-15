@@ -132,6 +132,7 @@
 
 <%@ include file="../../fragments/footer.jsp" %>
 
+<%-- 채팅 템플릿 --%>
 <template>
     <div class="dialogue row p-2">
         <!-- userTalk start -->

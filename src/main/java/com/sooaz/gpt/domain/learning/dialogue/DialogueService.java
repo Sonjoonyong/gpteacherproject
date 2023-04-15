@@ -70,12 +70,11 @@ public class DialogueService {
     }
 
     public String talk(String priorAssistantTalk, String userTalk, Long learningId) {
-        System.out.println("DialogueService.talk");
         List<JSONObject> messages = new ArrayList<>();
 
         Optional<Learning> learningOptional = learningRepository.findById(learningId);
         if (learningOptional.isEmpty()) {
-            log.info("error: learning optional is empty");
+            log.error("Learning optional is empty");
             return "retry";
         }
         Learning learning = learningOptional.get();
@@ -86,12 +85,10 @@ public class DialogueService {
         try {
             learningTopicJson = new JSONObject(learningTopic);
         } catch (Exception e) {
-            log.info("error: earning topic data from database is not parsable for JSON");
-            log.info("e = {}", e);
+            log.error("Earning topic data from database is not parsable for JSON, \n", e);
             return "retry";
         }
 
-        System.out.println("DialogueService.talk 22222222");
         String initialInstruction = String.format(INITIAL_INSTRUCTION,
                 learningTopicJson.getString("place"),
                 learningTopicJson.getString("userRole"),
@@ -100,7 +97,6 @@ public class DialogueService {
                 learningTopicJson.getString("option")
         );
         JSONObject topicMessage = OpenAiClient.userMessage(initialInstruction);
-        log.info("initialInstruction = {}", initialInstruction);
         messages.add(topicMessage);
 
         // 과거 대화 내역 추가
@@ -117,8 +113,6 @@ public class DialogueService {
             messages.add(assistantMessage);
             messages.add(userMessage);
         }
-        System.out.println("DialogueService.talk 3333333");
-
 
         // 지시문에 유저 답변 결합 후 추가
         JSONObject topicJson = new JSONObject(learning.getLearningTopic());
@@ -161,12 +155,10 @@ public class DialogueService {
 
             assistantTalkJsonObject.put("userTalk", userTalk);
         } catch (Exception e) {
-            log.info("error: result string from assistant is not parsable to JSON");
-            e.printStackTrace();
+            log.error("error: result string from assistant is not parsable to JSON, \n", e);
             return "retry";
         }
 
-        log.info("assistantTalkJsonObject.toString(); = {}", assistantTalkJsonObject);
         return assistantTalkJsonObject.toString();
     }
 
