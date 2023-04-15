@@ -35,24 +35,12 @@ public class DialogueController {
             Model model
     ) {
         String assistantTalk = dialogueService.initDialogue(dialogueTopicDto);
-        Long learningId = dialogueService.saveLearn(dialogueTopicDto);
+        Long learningId = dialogueService.saveLearning(dialogueTopicDto);
 
         model.addAttribute("assistantTalk", assistantTalk);
         model.addAttribute("learningId", learningId);
 
         return "learning/dialogue/dialoguePractice";
-    }
-
-    @ResponseBody
-    @PostMapping("/learning/dialogue/talk")
-    public String getAssistantResponse(
-            @RequestParam String priorAssistantTalk,
-            @RequestParam String userTalk,
-            @RequestParam Long learningId
-    ) {
-        String string = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
-        log.info("assistant response json = {}", string);
-        return string;
     }
 
     @ResponseBody
@@ -64,13 +52,9 @@ public class DialogueController {
             HttpServletRequest request
     ) throws IOException {
 
-        log.info("learningId = {}", learningId);
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
-        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
-
-        log.info("userTalk = {}", userTalk);
-        log.info("result = {}", result);
+        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
         return result;
     }
 

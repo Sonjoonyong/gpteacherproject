@@ -1,6 +1,7 @@
 package com.sooaz.gpt.global.handlers;
 
 import com.sooaz.gpt.domain.learning.LearningTestType;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
@@ -21,6 +22,9 @@ public class LearningTestTypeHandler extends BaseTypeHandler<LearningTestType> {
 
     @Override
     public LearningTestType getNullableResult(ResultSet resultSet, String s) throws SQLException {
+        if (resultSet.getString(s) == null) {
+            return null;
+        }
         return LearningTestType.valueOf(resultSet.getString(s));
     }
 
