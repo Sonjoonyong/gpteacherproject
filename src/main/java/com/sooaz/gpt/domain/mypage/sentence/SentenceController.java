@@ -2,6 +2,7 @@ package com.sooaz.gpt.domain.mypage.sentence;
 
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.LearningTestType;
+import com.sooaz.gpt.domain.learning.PerspectiveClient;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
 import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
@@ -29,6 +30,7 @@ public class SentenceController {
     private final WritingService writingService;
     private final SentenceService sentenceService;
     private final OpenAiClient openAiClient;
+    private final PerspectiveClient perspectiveClient;
 
     @GetMapping("/learning/sentences")
     public String getSentenceCorrection(
@@ -50,6 +52,15 @@ public class SentenceController {
     ) {
         char currentStatus = sentenceService.updateStatus(sentenceId, type); //update된 상태 반환
         return Character.toString(currentStatus);
+    }
+
+    @ResponseBody
+    @GetMapping("/learning/sentence/profanity")
+    public String checkProfanity(
+            @RequestParam String text
+    ) {
+        double profanityScore = perspectiveClient.getProfanityScore(text);
+        return Boolean.toString(profanityScore > 0.7);
     }
 
     @PostMapping("/learning/sentences")
