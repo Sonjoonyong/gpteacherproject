@@ -24,7 +24,6 @@
             <if test="learningTestType != null">
                 #{learningTestType},
             </if>
-
             #{learningType}
         )
     </insert>

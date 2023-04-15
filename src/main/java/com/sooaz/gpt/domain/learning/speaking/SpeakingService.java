@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
+import com.sooaz.gpt.domain.learning.LearningTestType;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
