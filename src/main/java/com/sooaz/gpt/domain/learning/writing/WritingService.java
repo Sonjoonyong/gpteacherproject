@@ -1,152 +1,154 @@
 package com.sooaz.gpt.domain.learning.writing;
 
+import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
+import com.sooaz.gpt.domain.mypage.learning.Learning;
+import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
-import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.regex.Pattern;
+
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class WritingService {
 
-    // 의존성 주입
-    @Autowired
-    private OpenAiClient openAiClient;
+    private final OpenAiClient openAiClient;
+    private final LearningRepository learningRepository;
+    private final SentenceRepository sentenceRepository;
 
-    @Autowired
-    private SentenceRepository sentenceRepository;
+    public static final String EXAMPLE_SCRIPT =
+            "I think the English writing is a very difficult. " +
+                    "but it could be my personal opinion. " +
+                    "so I think about it again today. ";
 
-    // 주어진 주제에 대한 질문을 생성
-    public String generateQuestion(String topic) throws IOException {
-        // 각 주제에 대한 프롬프트 목록 정의
-        List<String> phrasesPolitics = Arrays.asList("voting", "elections", "presidents", "mayors", "local government", "citizenship", "national holidays", "laws", "rights", "leaders");
-        List<String> phrasesSociety = Arrays.asList("family", "friendship", "school", "work", "hobbies", "neighborhood", "celebrations", "transportation", "shopping", "travel");
-        List<String> phrasesEconomy = Arrays.asList("saving money", "budgeting", "grocery shopping", "finding a job", "starting a business", "renting a house", "buying a car", "taking a loan", "paying taxes", "investing");
-        List<String> phrasesEntertainment = Arrays.asList("children's movies", "pop music", "bestselling books", "animated films", "comedies", "reality TV shows", "cooking shows", "romantic novels", "board games", "puzzles");
-        List<String> phrasesSports = Arrays.asList("playing soccer", "swimming", "jogging", "yoga", "hiking", "dancing", "skating", "jump rope", "exercise routines", "team sports");
+    // 챗 GPT에게 보여줄 JSON 예제
+    public static final JSONObject EXAMPLE_SENTENCE1_JSON = new JSONObject()
+            .put("original", "I think the English writing is a very difficult.")
+            .put("corrected", "I think English writing is very difficult.")
+            .put("explanation", "Remove the unnecessary article \"the\" before \"English writing,\" and change \"a very difficult\" to \"very difficult.\"");
 
-        List<String> promptTemplates = Arrays.asList("Generate a simple question about %s", "Generate an easy question about %s", "Generate a basic question about %s");
+    public static final JSONObject EXAMPLE_SENTENCE2_JSON = new JSONObject()
+            .put("original", "but it could be my personal opinion.")
+            .put("corrected", "However, it might just be my personal opinion.")
+            .put("explanation", "Replace \"but\" with \"However\" to start a new sentence, and use \"might just be\" to emphasize that the difficulty could be a personal opinion.");
 
-        // 주제에 따라 적절한 목록에서 무작위 프롬프트 선택
-        Random random = new Random();
-        String phrase;
-        switch (topic) {
-            case "Politics":
-                phrase = phrasesPolitics.get(random.nextInt(phrasesPolitics.size()));
-                break;
-            case "Society":
-                phrase = phrasesSociety.get(random.nextInt(phrasesSociety.size()));
-                break;
-            case "Economy":
-                phrase = phrasesEconomy.get(random.nextInt(phrasesEconomy.size()));
-                break;
-            case "Entertainment":
-                phrase = phrasesEntertainment.get(random.nextInt(phrasesEntertainment.size()));
-                break;
-            case "Sports":
-                phrase = phrasesSports.get(random.nextInt(phrasesSports.size()));
-                break;
-            default:
-                phrase = topic;
-                promptTemplates = Arrays.asList(
-                        "Generate a simple question related to %s",
-                        "Generate an easy question related to %s",
-                        "Generate a basic question related to %s"
-                );
-                break;
-        }
+    public static final JSONObject EXAMPLE_SENTENCE3_JSON = new JSONObject()
+            .put("original", "so I think about it again today.")
+            .put("corrected", "Therefore, I'm reconsidering it today.")
+            .put("explanation", "Replace \"so\" with \"Therefore\" to show the logical connection between the previous sentences, and use \"reconsidering\" to convey the idea of thinking about the issue again.");
 
-        String promptTemplate = promptTemplates.get(random.nextInt(promptTemplates.size()));
-        String prompt = String.format(promptTemplate, phrase);
 
-        // 선택한 프롬프트를 사용하여 ChatGPT를 기반으로 질문 생성
-        String questions = openAiClient.chat(prompt);
+    public static JSONArray EXAMPLE_SENTENCE_JSON_ARRAY = new JSONArray()
+            .put(EXAMPLE_SENTENCE1_JSON)
+            .put(EXAMPLE_SENTENCE2_JSON)
+            .put(EXAMPLE_SENTENCE3_JSON);
 
-        String[] questionList = questions.split("\n");
-        String question = questionList[random.nextInt(Math.min(3, questionList.length))];
+    // ChatGPT에게 문장을 교정해달라고 요청하는 프롬프트
+    public static final String WRITING_INSTRUCTION_PREFIX =
+            "Cut my speaking script by sentence one by one followed by corrected one and explanation in JSON array. " +
+                    "JSON object has three attribute. \n" +
+                    "1. original: original sentence. \n" +
+                    "2. corrected: corrected sentence. \n" +
+                    "3. explanation: explanation for correction. \n" +
+                    "Here is the script : \n";
 
-        // 앞에 숫자가 붙는 것을 삭제
-        question = question.replaceAll("^\\d+\\.", "").trim();
+    private String INSTRUCTION = "I have to practice speaking for \"%s\" test. please give me a random question.";
 
-        return question;
+    public String initWriting(LearningTestType learningTestType){
+        String initialInstruction = getInitialInstruction(learningTestType.name());
+        String question = openAiClient.chat(initialInstruction);
+
+        return processTalk(question);
     }
 
-    // 사용자 답변 평가
-    public String evaluateAnswer(String userAnswer, String question) throws IOException {
-        StringBuilder responseBuilder = new StringBuilder();
+    public String talk(LearningTestType learningTestType, String question, String userScript, Learning learning) {
 
-        // 문장 분할에 정규식 패턴 사용
-        Pattern sentencePattern = Pattern.compile("(?<!\\b(?:[Dd]r|[Mm]r|[Mm]rs|[Mm]s|[Pp]rof|[Ss]t))\\b[.!?]\\s+(?=[A-Z])");
-        List<String> sentences = Arrays.asList(sentencePattern.split(userAnswer));
+        learning.setUserId(1L); // TODO - 로그인 구현 후 변경
+        learning.setLearningTopic(question);
+        learning.setLearningTestType(learningTestType);
+        learning.setLearningType(LearningType.WRITING);
 
-        // 각 문장을 간결하고 문장이 흐트러지지 않게 교정 요청
-        for (String sentence : sentences) {
-            String prompt = "Please provide a concise correction for the following sentence, focusing on grammar, structure, and punctuation, without changing the user's original content or intention, even if it may be factually incorrect. Do not add, remove, or modify any punctuation (periods, commas, exclamation marks, or question marks) unless it is absolutely necessary for grammatical correctness: " + sentence;
-            String response = openAiClient.chat(prompt).trim();
+        learningRepository.save(learning);
 
-            if (response.toLowerCase().contains("no correction") ||
-                    response.startsWith("I'm sorry, there is no sentence provided to correct.") ||
-                    response.startsWith("I'm sorry, but there is no sentence provided to correct.") ||
-                    response.startsWith("I'm sorry, there is no sentence provided for correction.") ||
-                    response.startsWith("There is no sentence provided to correct.")) {
-                response = sentence;
-            }
+        // 프롬프트 전송
+        List<JSONObject> messages = new ArrayList<>();
 
-            if (responseBuilder.length() > 0) {
-                responseBuilder.append(" ");
-            }
-            responseBuilder.append(response);
+        JSONObject userMessage = OpenAiClient.userMessage(WRITING_INSTRUCTION_PREFIX + EXAMPLE_SCRIPT);
+        JSONObject assistantMessage = OpenAiClient.assistantMessage(EXAMPLE_SENTENCE_JSON_ARRAY.toString());
+        JSONObject newUserMessage = OpenAiClient.userMessage(userScript);
+
+        messages.add(userMessage);
+        messages.add(assistantMessage);
+        messages.add(newUserMessage);
+
+        // JSON 형식 응답 수신
+        String assistantTalkJson = openAiClient.chat(messages);
+        log.info("assistantTalkJson = {}", assistantTalkJson);
+
+        JSONArray responseJsonArray;
+        try {
+            responseJsonArray = new JSONArray(assistantTalkJson);
+        } catch (Exception e) {
+            return "retry";
         }
 
-        return responseBuilder.toString();
-    }
+        StringBuilder sb = new StringBuilder();
 
-    // 원본 답변과 수정된 답변의 분석 데이터를 가져옴
-    public JSONArray getAnalysisData(String originalAnswer, String correctedAnswer) throws IOException {
-        JSONArray analysis = new JSONArray();
+        try {
+            for (Object object : responseJsonArray) {
+                JSONObject jsonObject = (JSONObject) object;
+                String original = jsonObject.getString("original");
+                String corrected = jsonObject.getString("corrected");
+                String explanation = jsonObject.getString("explanation");
 
-        // 문장 분할에 정규식 패턴 사용
-        Pattern sentencePattern = Pattern.compile("(?<!\\w\\.\\w.)(?<![A-Z][a-z]\\.)(?<=\\.|\\?)\\s");
-        List<String> originalSentences = Arrays.asList(sentencePattern.split(originalAnswer));
-        List<String> correctedSentences = Arrays.asList(sentencePattern.split(correctedAnswer));
+                Sentence sentence = new Sentence();
+                sentence.setLearningId(learning.getId());
+                sentence.setSentenceQuestion(question);
+                sentence.setSentenceAnswer(original);
+                sentence.setSentenceCorrected(corrected);
+                sentence.setSentenceExplanation(explanation);
+                sentenceRepository.save(sentence);
 
-        int minLength = Math.min(originalSentences.size(), correctedSentences.size());
-
-        // 각 문장과 해당 수정된 문장을 비교
-        for (int i = 0; i < minLength; i++) {
-            String original = originalSentences.get(i).trim();
-            String corrected = correctedSentences.get(i).trim();
-
-            // 각 문장 비교에 대한 JSON 객체를 생성하여 분석에 추가
-            JSONObject item = new JSONObject();
-            item.put("original", original);
-            item.put("corrected", corrected);
-
-            if (original.equalsIgnoreCase(corrected)) {
-                item.put("explanation", "No correction needed.");
-            } else {
-                // 원문과 수정된 문장이 다른 경우에만 ChatGPT API 호출
-                String prompt = String.format("Explain why the following original sentence: \"%s\" was corrected to: \"%s\"", original, corrected);
-                String explanation = openAiClient.chat(prompt).trim();
-                item.put("explanation", explanation);
+                sb.append(corrected);
+                sb.append(" ");
             }
-
-            analysis.put(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "retry";
         }
 
-        return analysis;
+        return sb.toString();
     }
 
+    private String getInitialInstruction(String learningTestType){
+        //지시문 설정
+        return String.format(
+                INSTRUCTION,
+                learningTestType
+        );
+    }
 
+    private String processTalk(String talk) {
+        if (talk == null || talk.length() == 0) {
+            return "";
+        }
 
+        int colon = talk.indexOf(':');
+        int leftParenthesis = talk.indexOf('(');
+
+        int leftIndex = (colon == -1) ? 0 : colon + 1;
+        int rightIndex = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
+
+        return talk.substring(leftIndex, rightIndex).trim();
+    }
 
 }

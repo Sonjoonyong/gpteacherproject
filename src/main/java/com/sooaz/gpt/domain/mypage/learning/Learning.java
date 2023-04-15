@@ -1,7 +1,7 @@
 package com.sooaz.gpt.domain.mypage.learning;
 
 import com.sooaz.gpt.domain.learning.LearningType;
-import com.sooaz.gpt.domain.learning.speaking.LearningTestType;
+import com.sooaz.gpt.domain.learning.writing.LearningTestType;
 import lombok.Data;
 
 import java.util.Date;

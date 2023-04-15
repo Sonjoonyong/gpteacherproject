@@ -1,9 +1,9 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
-import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
-import com.sooaz.gpt.domain.learning.speaking.LearningTestType;
+import com.sooaz.gpt.domain.learning.writing.LearningTestType;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
+import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,7 @@ public class SentenceController {
 
     private final SentenceRepository sentenceRepository;
     private final SpeakingService speakingService;
+    private final WritingService writingService;
     private final OpenAiClient openAiClient;
 
     @GetMapping("/learning/sentences")
