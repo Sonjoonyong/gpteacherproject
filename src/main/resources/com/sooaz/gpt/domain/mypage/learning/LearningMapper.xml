@@ -12,14 +12,19 @@
             id,
             user_id,
             learning_topic,
-            learning_test_type,
+            <if test="learningTestType != null">
+                learning_test_type,
+            </if>
             learning_type
         )
         values (
             #{id},
             #{userId},
             #{learningTopic},
-            #{learningTestType},
+            <if test="learningTestType != null">
+                #{learningTestType},
+            </if>
+
             #{learningType}
         )
     </insert>

@@ -23,6 +23,7 @@ public class DialogueService {
     private final SentenceRepository sentenceRepository;
     private final OpenAiClient openAiClient;
 
+    // 초기 지시문 템플릿
     private String INITIAL_INSTRUCTION = "Let me talk to you. \n" +
             "Situation: \"%s\".\n" +
             "Place: \"%s\".\n" +
@@ -32,13 +33,14 @@ public class DialogueService {
             "Don't append any comment except your role-play talk. " +
             "Start conversation with your first talk to me with just single sentence.";
 
-    private String USER_TALK_INSTRUCTION = "This is my talk : \"%s\"\n\n" +
+    // 유저 발화 지시문 템플릿. userRole, userTalk, assistantRole 순으로 String.format()
+    private String USER_TALK_INSTRUCTION = "This is my talk as \"%s\": \"%s\"\n\n" +
             "And this is instruction : \n" +
-            "First, answer to my talk.\n" +
-            "Second, correct only my talk in terms of grammar and clarity.\n" +
+            "First, answer to my talk as \"%s\" role.\n" +
+            "Second, correct my talk in terms of grammar and clarity.\n" +
             "Third, explain for the correction.\n" +
             "\n" +
-            "Give me response in JSON file like below :\n" +
+            "Give me response in JSON file like below without unnecessary comment:\n" +
             "{ answer : \"your answer. Must not be empty\",\n" +
             "corrected : \"corrected version of my talk\",\n" +
             "explanation : \"explanation for correction\" }";
@@ -71,20 +73,30 @@ public class DialogueService {
 
         List<JSONObject> messages = new ArrayList<>();
 
-        // 대화 주제 추가
+        // 최초 지시문 추가
         Learning learning = learningRepository.findById(learningId)
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("해당 id를 가진 learning이 존재하지 않습니다.");
+                });
         String learningTopic = learning.getLearningTopic();
-        JSONObject topicMessage = OpenAiClient.userMessage(learningTopic);
+        JSONObject learningTopicJson = new JSONObject(learningTopic);
+        String initialInstruction = String.format(INITIAL_INSTRUCTION,
+                learningTopicJson.getString("place"),
+                learningTopicJson.getString("userRole"),
+                learningTopicJson.getString("assistantRole"),
+                learningTopicJson.getString("situation"),
+                learningTopicJson.getString("option")
+        );
+        JSONObject topicMessage = OpenAiClient.userMessage(initialInstruction);
         messages.add(topicMessage);
 
         // 과거 대화 내역 추가
         List<Sentence> sentences = sentenceRepository.findAllByLearningId(learningId);
         Collections.sort(sentences, Comparator.comparing(Sentence::getId));
 
-        for (Sentence aSentence : sentences) {
-            String aPastAssistantTalk = aSentence.getSentenceQuestion();
-            String pastUserTalk = aSentence.getSentenceAnswer();
+        for (Sentence sen : sentences) {
+            String aPastAssistantTalk = sen.getSentenceQuestion();
+            String pastUserTalk = sen.getSentenceAnswer();
 
             JSONObject assistantMessage = OpenAiClient.assistantMessage(aPastAssistantTalk);
             JSONObject userMessage = OpenAiClient.userMessage(pastUserTalk);
@@ -94,19 +106,17 @@ public class DialogueService {
         }
 
         // 지시문에 유저 답변 결합 후 추가
-        String userTalkInstruction = String.format(USER_TALK_INSTRUCTION, userTalk);
+        JSONObject topicJson = new JSONObject(learning.getLearningTopic());
+        String userRole = topicJson.getString("userRole");
+        String assistantRole = topicJson.getString("assistantRole");
+
+        String userTalkInstruction = String.format(USER_TALK_INSTRUCTION, userRole, userTalk, assistantRole);
         JSONObject userMessage = OpenAiClient.userMessage(userTalkInstruction);
         messages.add(userMessage);
 
-        for (JSONObject message : messages) {
-            log.info("message = {}", message);
-        }
-
         // JSON 형식 응답 수신
-        String assistantTalkJson = openAiClient.chat(messages);
-
         JSONObject assistantTalkJsonObject;
-
+        String assistantTalkJson = openAiClient.chat(messages);
         assistantTalkJsonObject = new JSONObject(assistantTalkJson);
 
         String assistantTalk;
@@ -130,7 +140,6 @@ public class DialogueService {
 
             // assistantTalk 수정 후 JSONObject에 update
             assistantTalk = processTalk(assistantTalk);
-            assistantTalkJsonObject.remove("answer");
             assistantTalkJsonObject.put("answer", assistantTalk);
             assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
             assistantTalkJsonObject.put("sentenceId", sentenceId);
@@ -160,7 +169,7 @@ public class DialogueService {
 
         } else if (type.equals("storage")) {
             if (currentStatus == '0') {
-                sentenceUpdateDto.setFlashcardId(1L); //임시 flashcardId = 1
+                sentenceUpdateDto.setFlashcardId(1L); // TODO - 임시 flashcardId = 1
             } else {
                 sentenceUpdateDto.setFlashcardId(-2L); //-2가 id로 들어오면 null로 update
             }
@@ -185,19 +194,23 @@ public class DialogueService {
 
     private char getStatus(Long sentenceId, String type) {
         Sentence sentence = sentenceRepository.findById(sentenceId)
-                .orElseThrow(IllegalStateException::new);
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("해당 id를 가진 sentence가 존재하지 않습니다.");
+                });
+
         char result = ' ';
 
         if (type.equals("like")) {
             result = sentence.getSentenceLike(); //객체의 현재 like 반환
         } else if (type.equals("storage")) {
             Long flashcardId = sentence.getFlashcardId(); //객체의 현재 flashcardId 반환
-            if (flashcardId==null) {
+            if (flashcardId == null) {
                 result = '0';
             } else {
                 result = '1';
             }
         }
+
         return result;
     }
 
