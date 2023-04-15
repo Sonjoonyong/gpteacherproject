@@ -1,26 +1,45 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>글쓰기 연습 - 주제선정</title>
+    <title>Writing</title>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
+
+    <style>
+        .container {
+            max-width: 768px;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #3b9d7f;
+        }
+
+        #exampleQuestions {
+            font-weight: lighter;
+        }
+    </style>
 
 </head>
 <body>
 
 <%@ include file="../../fragments/header.jsp" %>
-<section class="container d-flex flex-column align-items-center">
-    <h1>TOPIC</h1>
+<section class="container">
+    <h3 class="h3 text-center my-3" style="color: #5DB99D">TOPIC</h3>
     <c:if test="${not empty errorMessage}">
         <div class="error-message">
         ${errorMessage}
         </div>
     </c:if>
-    <form action="${pageContext.request.contextPath}/learning/writing" method="post">
+    <form action="/learning/writing" method="post" class="row d-flex">
+
         <input type="hidden" name="action" value="start">
+
         <div class="form-option">
             <input type="radio" id="customTopicRadio" name="topicType" value="custom" onclick="toggleTopicInput()" checked>
             <label for="customTopicRadio">주제 직접 입력</label>
@@ -38,7 +57,9 @@
             </select>
         </div>
         <ul id="exampleQuestions"></ul>
-        <button type="submit">주제선정</button>
+        <div class="row justify-content-center mt-5">
+        <input type="submit" value="주제 선정" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 85px; background-color: #5DB99D;">
+        </div>
     </form>
 </section>
 

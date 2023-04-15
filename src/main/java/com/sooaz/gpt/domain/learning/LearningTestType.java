@@ -1,4 +1,4 @@
-package com.sooaz.gpt.domain.learning.speakingwriting;
+package com.sooaz.gpt.domain.learning;
 
 public enum LearningTestType {
     TOEIC, TOEFL, IELTS, OPIC

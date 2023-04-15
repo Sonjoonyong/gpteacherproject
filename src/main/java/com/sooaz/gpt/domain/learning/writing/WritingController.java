@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning.writing;
 
+import com.sooaz.gpt.domain.learning.LearningTestType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

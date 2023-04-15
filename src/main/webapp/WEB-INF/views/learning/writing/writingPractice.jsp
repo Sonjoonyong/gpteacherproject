@@ -8,6 +8,43 @@
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
+    <style>
+        .container {
+            max-width: 900px;
+        }
+
+        #initialAssistantTalk, #record, #stop, #waitingMessage {
+            display: none;
+        }
+
+        #stop {
+            color: rgb(255, 0, 0);
+            width: 45px;
+            height: 45px;
+            border-color: gray;
+        }
+
+        #record {
+            width: 45px;
+            height: 45px;
+            background-color: #5DB99D;
+            border-color: #5DB99D;
+        }
+
+        .bi-heart-fill {
+            color: red;
+        }
+
+        .bi-archive-fill {
+            color: rgb(57, 116, 25);
+        }
+
+        .assistantTalk {
+            background-color: #F4F2FF;
+            width: fit-content;
+        }
+    </style>
+
 </head>
 <body>
 

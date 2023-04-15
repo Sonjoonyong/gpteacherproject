@@ -1,6 +1,6 @@
-package com.sooaz.gpt.domain.learning.speakingwriting;
+package com.sooaz.gpt.domain.learning.speaking;
 
-import com.sooaz.gpt.domain.learning.writing.LearningTestType;
+import com.sooaz.gpt.domain.learning.LearningTestType;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
