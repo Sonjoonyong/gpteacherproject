@@ -54,10 +54,10 @@ public class SpeakingService {
                     "3. explanation: explanation for correction. \n" +
                     "Here is the script : \n";
 
-    private String INSTRUCTION = "I have to practice speaking for \"%s\" test. please give me a random question.";
+    private String INSTRUCTION = "I am practicing English speaking for \"%s\" test. please give me a random question.";
 
-    public String initSpeaking(LearningTestType learningTestType){
-        String initialInstruction = getInitialInstruction(learningTestType.name());
+    public String initSpeaking(LearningTestType learningTestType) {
+        String initialInstruction = String.format(INSTRUCTION, learningTestType);
         String question = openAiClient.chat(initialInstruction);
 
         return processTalk(question);
@@ -120,14 +120,6 @@ public class SpeakingService {
         }
 
         return sb.toString();
-    }
-
-    private String getInitialInstruction(String learningTestType){
-        //지시문 설정
-        return String.format(
-                INSTRUCTION,
-                learningTestType
-        );
     }
 
     private String processTalk(String talk) {

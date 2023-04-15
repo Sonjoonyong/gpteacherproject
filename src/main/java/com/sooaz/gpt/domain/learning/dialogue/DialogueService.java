@@ -49,14 +49,20 @@ public class DialogueService {
         return processTalk(openAiClient.chat(initialInstruction));
     }
 
-    public Long saveLearn(DialogueTopicDto dialogueTopicDto) {
+    public Long saveLearning(DialogueTopicDto dialogueTopicDto) {
 
-        String initialInstruction = getInitialInstruction(dialogueTopicDto);
+        // 대화 주제를 JSON으로 저장
+        JSONObject topicJson = new JSONObject();
+        topicJson.put("place", dialogueTopicDto.getPlace());
+        topicJson.put("userRole", dialogueTopicDto.getUserRole());
+        topicJson.put("assistantRole", dialogueTopicDto.getAssistantRole());
+        topicJson.put("situation", dialogueTopicDto.getSituation());
+        topicJson.put("option", dialogueTopicDto.getOption());
 
         Learning learning = new Learning();
         learning.setUserId(1L);
         learning.setLearningType(LearningType.DIALOGUE);
-        learning.setLearningTopic(initialInstruction);
+        learning.setLearningTopic(topicJson.toString());
 
         return learningRepository.save(learning).getId();
     }
@@ -92,13 +98,9 @@ public class DialogueService {
         JSONObject userMessage = OpenAiClient.userMessage(userTalkInstruction);
         messages.add(userMessage);
 
-        log.info("===============================learning id = {}============================", learningId);
-        log.info("======================================================================");
         for (JSONObject message : messages) {
             log.info("message = {}", message);
         }
-        log.info("======================================================================");
-        log.info("======================================================================");
 
         // JSON 형식 응답 수신
         String assistantTalkJson = openAiClient.chat(messages);
@@ -181,20 +183,6 @@ public class DialogueService {
         );
     }
 
-    private String processTalk(String talk) {
-        if (talk == null || talk.length() == 0) {
-            return "";
-        }
-
-        int colon = talk.indexOf(':');
-        int leftParenthesis = talk.indexOf('(');
-
-        int leftIndex = (colon == -1) ? 0 : colon + 1;
-        int rightIndex = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
-
-        return talk.substring(leftIndex, rightIndex).trim();
-    }
-
     private char getStatus(Long sentenceId, String type) {
         Sentence sentence = sentenceRepository.findById(sentenceId)
                 .orElseThrow(IllegalStateException::new);
@@ -211,5 +199,19 @@ public class DialogueService {
             }
         }
         return result;
+    }
+
+    private String processTalk(String talk) {
+        if (talk == null || talk.length() == 0) {
+            return "";
+        }
+
+        int colon = talk.indexOf(':');
+        int leftParenthesis = talk.indexOf('(');
+
+        int leftIndex = (colon == -1) ? 0 : colon + 1;
+        int rightIndex = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
+
+        return talk.substring(leftIndex, rightIndex).trim();
     }
 }
