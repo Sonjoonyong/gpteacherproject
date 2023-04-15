@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning.speaking;
 
+import com.sooaz.gpt.domain.learning.LearningTestType;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class SpeakingController {
 
-    private final SpeakingService speakingService;
+    private final com.sooaz.gpt.domain.learning.speaking.SpeakingService speakingService;
     private final NcpTtsClient ncpTtsClient;
 
     @GetMapping("/learning/speaking")

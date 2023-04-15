@@ -1,9 +1,9 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
-import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
-import com.sooaz.gpt.domain.learning.speaking.LearningTestType;
+import com.sooaz.gpt.domain.learning.LearningTestType;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
+import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,7 @@ public class SentenceController {
 
     private final SentenceRepository sentenceRepository;
     private final SpeakingService speakingService;
+    private final WritingService writingService;
     private final OpenAiClient openAiClient;
 
     @GetMapping("/learning/sentences")
@@ -41,16 +42,25 @@ public class SentenceController {
 
     @PostMapping("/learning/sentences")
     public String transcript(
-            @RequestParam MultipartFile audio,
+            @RequestParam(required = false) MultipartFile audio,
+            @RequestParam(required = false) String writingScript,
             @RequestParam String question,
-            @RequestParam LearningTestType learningTestType,
+            @RequestParam(required = false) LearningTestType learningTestType,
             Model model,
             HttpServletRequest request
     ) throws IOException {
 
+        String userScript;
+
+        if (audio != null) {
+            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+            userScript = openAiClient.transcript(directory, audio);
+        } else {
+            userScript = writingScript;
+        }
+
         Learning learning = new Learning();
-        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-        String userScript = openAiClient.transcript(directory, audio);
+
         String correctedScript = speakingService.talk(learningTestType, question, userScript, learning);
 
         model.addAttribute("userScript", userScript);
