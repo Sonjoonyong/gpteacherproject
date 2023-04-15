@@ -61,7 +61,7 @@
         }
 
         #dialogueBox {
-            height: 65vh;
+            height: 60vh;
         }
 
         .assistantTalk {
@@ -146,11 +146,11 @@
 <template>
     <div class="dialogue row p-2">
         <!-- userTalk start -->
-        <div class="col-10 ms-auto my-3 shadow rounded-3">
+        <div class="col-10 ms-auto my-3 shadow rounded-3"> <!--sentenceId 설정-->
 
             <div class="row g-0 py-3 gap-2">
 
-                <div class="userTalk col g-0 justify-content-center"> <!--id="sentenceDbId"-->
+                <div class="userTalk col g-0 justify-content-center">
                     <div class="row px-0">
                         <div class="col-12 col-md-6">
                             <div class="fw-bold" style="color: #2A6976;">
@@ -163,7 +163,7 @@
 
                         <div class="col-12 col-md-6">
                             <div class="fw-bold" style="color: #16967A;">
-                                Corrected sentence
+                                Corrected sentence <i class="bi bi-play-fill playBtn"></i>
                             </div>
                             <div class="correctedSentence border p-1 rounded-1">
                                 delectus dolore vero quidem laudantium eaque nemo!
@@ -223,7 +223,6 @@
 <%--<br><br><br><br>--%>
 
 <script>
-
     let learningId = document.querySelector('#learningId').value;
     let initialAssistantTalkDiv = document.querySelector('#initialAssistantTalk');
     let initialAssistantTalk = initialAssistantTalkDiv.innerText;
