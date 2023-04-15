@@ -30,7 +30,7 @@ public class SentenceController {
     private final SentenceService sentenceService;
     private final OpenAiClient openAiClient;
 
-    @GetMapping("/learning/sentences")
+    @GetMapping("/learning/correction/sentences")
     public String getSentenceCorrection(
             @RequestParam Long learningId,
             Model model
@@ -52,7 +52,7 @@ public class SentenceController {
         return Character.toString(currentStatus);
     }
 
-    @PostMapping("/learning/sentences")
+    @PostMapping("/learning/correction/script")
     public String transcript(
             @RequestParam(required = false) MultipartFile audio,
             @RequestParam(required = false) String writingScript,

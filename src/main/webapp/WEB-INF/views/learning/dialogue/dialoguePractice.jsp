@@ -82,7 +82,8 @@
     <input type="hidden" id="learningId" value="${learningId}"/>
 
     <div class="row justify-content-center">
-        <button id="startDialogue" class="btn btn-light mt-5 shadow py-2 rounded-3" style="width: 150px; color: #5DB99D">
+        <button id="startDialogue" class="btn btn-light mt-5 shadow py-2 rounded-3"
+                style="width: 150px; color: #5DB99D">
             대화 시작하기
         </button>
     </div>
@@ -128,12 +129,14 @@
         </div>
     </div>
 
-    <div class="row justify-content-end g-0">
-        <form method="get" action="/learning/sentences">
-            <input type="hidden" name="learningId" value="${learningId}" >
-            <input type="submit" id="stopDialogue" value="대화 그만하기" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width:120px; background-color: #5DB99D;">
-        </form>
-    </div>
+    <form method="get" action="/learning/correction/sentences">
+        <input type="hidden" name="learningId" value="${learningId}">
+        <div class="row justify-content-center">
+            <input type="submit" id="stopDialogue" value="대화 그만하기"
+                   class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+                   style="width:120px; background-color: #5DB99D;">
+        </div>
+    </form>
 
 </section>
 
@@ -421,7 +424,7 @@
 
         request.onload = () => {
             let status = request.response;
-            if (status=="1") {
+            if (status == "1") {
                 btn.children[0].style.display = 'none'; //emptyHeart or emptyStorage
                 btn.children[1].style.display = 'block'; //fillHeart or fillStorage
             } else {
@@ -430,7 +433,7 @@
             }
         }
 
-        request.open("GET", "/learning/sentence/statusUpdate?sentenceId="+sentenceId+"&type="+type);
+        request.open("GET", "/learning/sentence/statusUpdate?sentenceId=" + sentenceId + "&type=" + type);
         request.send();
     }
 

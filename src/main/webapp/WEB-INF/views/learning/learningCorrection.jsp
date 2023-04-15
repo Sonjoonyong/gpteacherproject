@@ -28,7 +28,7 @@
             교정본 듣기
         </button>
 
-        <form method="get" action="/learning/sentences" class="col-1">
+        <form method="get" action="/learning/correction/sentences" class="col-1">
             <button type="submit" class="btn" style="background-color: #5DB99D; color: white; width: 120px">
                 문장별 분석
             </button>
