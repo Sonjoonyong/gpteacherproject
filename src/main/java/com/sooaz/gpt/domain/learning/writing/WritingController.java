@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.learning.writing;
 
-import com.sooaz.gpt.domain.learning.LearningTestType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,15 +23,21 @@ public class WritingController {
 
     @PostMapping("/learning/writing")
     public String getSpeakingForm(
-            @RequestParam LearningTestType learningTestType,
+            @RequestParam String topicType,
+            @RequestParam(required = false) String customTopic,
+            @RequestParam(required = false) String predefinedTopic,
             Model model
     ) {
-        System.out.println("learningTestType = " + learningTestType);
-        log.info("learningTestType = {}", learningTestType);
+        log.info("topicType = {}", topicType);
+        log.info("customTopic = {}", customTopic);
 
-        String question = writingService.initWriting(learningTestType);
+        String question;
+        if (topicType.equals("customTopic")) {
+            question = customTopic;
+        } else {
+            question = writingService.getRandomQuestion(predefinedTopic);
+        }
 
-        model.addAttribute("learningTestType", learningTestType);
         model.addAttribute("question", question);
 
         return "learning/writing/writingPractice";

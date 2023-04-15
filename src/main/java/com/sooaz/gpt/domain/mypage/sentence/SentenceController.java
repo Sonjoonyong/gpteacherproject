@@ -42,16 +42,25 @@ public class SentenceController {
 
     @PostMapping("/learning/sentences")
     public String transcript(
-            @RequestParam MultipartFile audio,
+            @RequestParam(required = false) MultipartFile audio,
+            @RequestParam(required = false) String writingScript,
             @RequestParam String question,
-            @RequestParam LearningTestType learningTestType,
+            @RequestParam(required = false) LearningTestType learningTestType,
             Model model,
             HttpServletRequest request
     ) throws IOException {
 
+        String userScript;
+
+        if (audio != null) {
+            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+            userScript = openAiClient.transcript(directory, audio);
+        } else {
+            userScript = writingScript;
+        }
+
         Learning learning = new Learning();
-        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-        String userScript = openAiClient.transcript(directory, audio);
+
         String correctedScript = speakingService.talk(learningTestType, question, userScript, learning);
 
         model.addAttribute("userScript", userScript);

@@ -62,13 +62,11 @@ public class WritingService {
                     "3. explanation: explanation for correction. \n" +
                     "Here is the script : \n";
 
-    private String INSTRUCTION = "I have to practice speaking for \"%s\" test. please give me a random question.";
+    private String RANDOM_INSTRUCTION = "I want to practice English writing. Please give me a random topic for writing about %s.";
 
-    public String initWriting(LearningTestType learningTestType){
-        String initialInstruction = getInitialInstruction(learningTestType.name());
-        String question = openAiClient.chat(initialInstruction);
-
-        return processTalk(question);
+    public String getRandomQuestion(String topic) {
+        String initialInstruction = getInitialInstruction(topic);
+        return openAiClient.chat(initialInstruction);
     }
 
     public String talk(LearningTestType learningTestType, String question, String userScript, Learning learning) {
@@ -133,7 +131,7 @@ public class WritingService {
     private String getInitialInstruction(String learningTestType){
         //지시문 설정
         return String.format(
-                INSTRUCTION,
+                RANDOM_INSTRUCTION,
                 learningTestType
         );
     }

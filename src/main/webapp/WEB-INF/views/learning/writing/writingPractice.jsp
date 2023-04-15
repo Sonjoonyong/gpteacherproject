@@ -56,15 +56,15 @@
             ${errorMessage}
     </div>
 </c:if>
-<form action="${pageContext.request.contextPath}/learning/correction" method="post">
-    <input type="hidden" name="action" value="submit">
-    <input type="hidden" name="topic" value="${topic}" />
+<form action="/learning/sentences" method="post">
     <input type="hidden" name="question" value="${question}" />
+
     <p>Question: <span>${question}</span></p>
+
     <label for="answer">Answer: </label>
-    <textarea name="answer" id="answer"></textarea>
-    <br>
-    <input type="submit" value="Submit">
+    <textarea cols="100" rows="30" name="writingScript" id="answer"></textarea>
+
+    <button>교정받기</button>
 </form>
 </section>
 
