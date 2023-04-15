@@ -43,17 +43,17 @@ public class DialogueController {
         return "learning/dialogue/dialoguePractice";
     }
 
-    @ResponseBody
-    @PostMapping("/learning/dialogue/talk")
-    public String getAssistantResponse(
-            @RequestParam String priorAssistantTalk,
-            @RequestParam String userTalk,
-            @RequestParam Long learningId
-    ) {
-        String string = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
-        log.info("assistant response json = {}", string);
-        return string;
-    }
+//    @ResponseBody
+//    @PostMapping("/learning/dialogue/talk")
+//    public String getAssistantResponse(
+//            @RequestParam String priorAssistantTalk,
+//            @RequestParam String userTalk,
+//            @RequestParam Long learningId
+//    ) {
+//        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
+//        log.info("assistant response = {}", result);
+//        return result;
+//    }
 
     @ResponseBody
     @PostMapping(value = "/learning/dialogue/transcript", produces = "application/json")
@@ -63,12 +63,9 @@ public class DialogueController {
             @RequestParam Long learningId,
             HttpServletRequest request
     ) throws IOException {
-
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
-        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId).toString();
-
-        log.info("userTalk = {}", userTalk);
+        String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
         log.info("result = {}", result);
         return result;
     }

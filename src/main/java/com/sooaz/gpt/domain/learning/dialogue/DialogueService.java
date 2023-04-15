@@ -69,17 +69,29 @@ public class DialogueService {
         return learningRepository.save(learning).getId();
     }
 
-    public JSONObject talk(String priorAssistantTalk, String userTalk, Long learningId) {
-
+    public String talk(String priorAssistantTalk, String userTalk, Long learningId) {
+        System.out.println("DialogueService.talk");
         List<JSONObject> messages = new ArrayList<>();
 
+        Optional<Learning> learningOptional = learningRepository.findById(learningId);
+        if (learningOptional.isEmpty()) {
+            log.info("error: learning optional is empty");
+            return "retry";
+        }
+        Learning learning = learningOptional.get();
+
         // 최초 지시문 추가
-        Learning learning = learningRepository.findById(learningId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("해당 id를 가진 learning이 존재하지 않습니다.");
-                });
         String learningTopic = learning.getLearningTopic();
-        JSONObject learningTopicJson = new JSONObject(learningTopic);
+        JSONObject learningTopicJson;
+        try {
+            learningTopicJson = new JSONObject(learningTopic);
+        } catch (Exception e) {
+            log.info("error: earning topic data from database is not parsable for JSON");
+            log.info("e = {}", e);
+            return "retry";
+        }
+
+        System.out.println("DialogueService.talk 22222222");
         String initialInstruction = String.format(INITIAL_INSTRUCTION,
                 learningTopicJson.getString("place"),
                 learningTopicJson.getString("userRole"),
@@ -88,6 +100,7 @@ public class DialogueService {
                 learningTopicJson.getString("option")
         );
         JSONObject topicMessage = OpenAiClient.userMessage(initialInstruction);
+        log.info("initialInstruction = {}", initialInstruction);
         messages.add(topicMessage);
 
         // 과거 대화 내역 추가
@@ -104,6 +117,8 @@ public class DialogueService {
             messages.add(assistantMessage);
             messages.add(userMessage);
         }
+        System.out.println("DialogueService.talk 3333333");
+
 
         // 지시문에 유저 답변 결합 후 추가
         JSONObject topicJson = new JSONObject(learning.getLearningTopic());
@@ -146,11 +161,13 @@ public class DialogueService {
 
             assistantTalkJsonObject.put("userTalk", userTalk);
         } catch (Exception e) {
+            log.info("error: result string from assistant is not parsable to JSON");
             e.printStackTrace();
-            assistantTalkJsonObject.put("result", "fail");
+            return "retry";
         }
 
-        return assistantTalkJsonObject;
+        log.info("assistantTalkJsonObject.toString(); = {}", assistantTalkJsonObject);
+        return assistantTalkJsonObject.toString();
     }
 
     public char updateStatus(Long sentenceId, String type) {

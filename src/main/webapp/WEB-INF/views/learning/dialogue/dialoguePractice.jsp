@@ -365,7 +365,7 @@
         let fillStorage = dialogueDiv.querySelector('#fillStorage');
 
         // 결과 가져오기
-        if (result.result === "fail") {
+        if (!result || result.result === "fail") {
             retry();
             return false;
         }
