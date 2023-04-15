@@ -1,6 +1,6 @@
 package com.sooaz.gpt.global.handlers;
 
-import com.sooaz.gpt.domain.learning.speaking.LearningTestType;
+import com.sooaz.gpt.domain.learning.LearningTestType;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;

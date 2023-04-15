@@ -1,41 +1,65 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gyurey
-  Date: 2023/04/08
-  Time: 5:20 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
-    <title>Title</title>
+    <title>Speaking</title>
+
+    <%@ include file="../../fragments/bootstrapCss.jsp" %>
+
+    <style>
+        .test {
+            width: 350px;
+            height: 100%;
+        }
+
+        form img {
+            width: 350px;
+            height: 280px;
+        }
+    </style>
 </head>
 <body>
 
-<form action="/learning/speaking" method="post">
-    주제를 선택 해주세요. : <br>
+<%@ include file="../../fragments/header.jsp" %>
+<section class="container">
+    <h3 class="h3 text-center my-3" style="color: #5DB99D;">SPEAKING</h3>
+    <p class="text-center">말하기 연습을 하고싶은 시험을 선택해주세요.</p>
 
-    <button type="submit" name="topic" value="TOEIC">
-        <img src="/images/TOEIC.jpg">
-    </button>
+    <form action="/learning/speaking" method="post" class="row d-flex">
 
+        <div class="row g-0 justify-content-center">
+            <div class="test col-6">
+                <button type="submit" name="learningTestType" value="TOEIC">
+                    <img src="/images/TOEIC.jpg">
+                </button>
+            </div>
+            <div class="test col-6">
+                <button type="submit" name="learningTestType" value="TOEFL">
+                    <img src="/images/TOEFL.jpg">
+                </button>
+            </div>
+        </div>
+        <div class="row g-0 justify-content-center">
 
-    <button type="submit" name="topic" value="TOEFL">
-        <img src="/images/TOEFL.jpg">
-    </button>
+            <br>
+            <div class="test col-6">
+                <button type="submit" name="learningTestType" value="OPIC">
+                    <img src="/images/OPIC.jpg">
+                </button>
+            </div>
+            <div class="test col-6">
+                <button type="submit" name="learningTestType" value="IELTS">
+                    <img src="/images/IELTS.jpg">
+                </button>
+            </div>
+        </div>
 
-    <br>
+    </form>
+</section>
 
-    <button type="submit" name="topic" value="OPIC">
-        <img src="/images/OPIC.jpg">
-    </button>
-
-
-    <button type="submit" name="topic" value="IELTS">
-        <img src="/images/IELTS.jpg">
-    </button>
-
-</form>
+<%@ include file="../../fragments/footer.jsp" %>
+<%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>
 </html>
