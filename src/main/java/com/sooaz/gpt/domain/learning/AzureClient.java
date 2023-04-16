@@ -29,7 +29,7 @@ public class AzureClient {
     @Value("${azure.api.key}")
     private String API_KEY;
 
-    public String pronunciationAssessment(String directory, MultipartFile multipartFile, String script) {
+    public Integer pronunciationAssessment(String directory, MultipartFile multipartFile, String script) {
 
         String result = "";
         long uploadFinishTime = System.currentTimeMillis();
@@ -41,11 +41,13 @@ public class AzureClient {
             File newWav = convertWav(directory, wav);
 
             // build pronunciation assessment parameters
-            String pronAssessmentParamsJson = "{\"ReferenceText\":\"" + script + "\",\"GradingSystem\":\"HundredMark\",\"Dimension\":\"Basic\", \"Granularity\": \"FullText\"}";
-            byte[] pronAssessmentParamsBase64 = new byte[0];
-            pronAssessmentParamsBase64 = Base64.getEncoder().encode(pronAssessmentParamsJson.getBytes("utf-8"));
-            String pronAssessmentParams = null;
-            pronAssessmentParams = new String(pronAssessmentParamsBase64, "utf-8");
+            String pronAssessmentParamsJson = "{\"ReferenceText\":\"" + script + "\"," +
+                    "\"GradingSystem\":\"HundredMark\"," +
+                    "\"Dimension\":\"Comprehensive\"," +
+                    "\"EnableMiscue\":\"True\"," +
+                    "\"Granularity\": \"Word\"}";
+            byte[] pronAssessmentParamsBase64 = Base64.getEncoder().encode(pronAssessmentParamsJson.getBytes("utf-8"));
+            String pronAssessmentParams = new String(pronAssessmentParamsBase64, "utf-8");
 
             // build request (when re-run below code in short time, the connect can be cached and reused behind, with lower connecting time cost)
             URL url = new URL("https://eastus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-us");
@@ -57,6 +59,7 @@ public class AzureClient {
             connection.setRequestProperty("Content-Type", "audio/wav; codecs=audio/pcm; samplerate=16000");
             connection.setRequestProperty("Ocp-Apim-Subscription-Key", API_KEY);
             connection.setRequestProperty("Pronunciation-Assessment", pronAssessmentParams);
+            connection.setRequestProperty("Connection", "close");
 
             FileInputStream fis = new FileInputStream(newWav);
             OutputStream os = connection.getOutputStream();
@@ -89,16 +92,22 @@ public class AzureClient {
         String status = resultJson.getString("RecognitionStatus");
 
         if(status.equals("Success")) {
-            int score = resultJson
+            JSONObject nBest = resultJson
                     .getJSONArray("NBest")
-                    .getJSONObject(0)
-                    .getInt("AccuracyScore");
-            result = String.valueOf(score);
+                    .getJSONObject(0);
+
+            int accuracyScore = nBest.getInt("AccuracyScore");
+            int FluencyScore = nBest.getInt("FluencyScore");
+            int CompletenessScore = nBest.getInt("CompletenessScore");
+            int PronScore = nBest.getInt("PronScore");
+
+            int totalScore = (accuracyScore + FluencyScore + CompletenessScore + PronScore) / 4;
+            result = String.valueOf(totalScore);
         } else {
-            result = "다시 발음해주세요";
+            result = "0";
         }
 
-        return result;
+        return Integer.parseInt(result);
     }
 
     public File convertWav(String directory, File wav) {
