@@ -20,3 +20,44 @@ footer {
     height: 100px; /* footer 높이, 임의 지정 */
     transform: translateY(-185px); /* section 올라간 높이 + 본인 높이 만큼 이동 */
 }
+
+/* 좋아요, 플래시카드 보관함 아이콘*/
+
+.bi-heart-fill {
+    color: red;
+}
+
+.bi-archive-fill {
+    color: rgb(57, 116, 25);
+}
+
+.pronunciationAccuracy {
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: lighter;
+    color: rgb(35, 28, 181);
+}
+
+.assistantTalk {
+    background-color: #F4F2FF;
+}
+
+/* 녹음 UI 관련 */
+
+#stop {
+    color: rgb(255, 0, 0);
+    width: 45px;
+    height: 45px;
+    border-color: gray;
+}
+
+#record {
+    width: 45px;
+    height: 45px;
+    background-color: #5DB99D;
+    border-color: #5DB99D;
+}
+
+#initialAssistantTalk, #record, #stop, #waitingMessage, #stopDialogue {
+    display: none;
+}

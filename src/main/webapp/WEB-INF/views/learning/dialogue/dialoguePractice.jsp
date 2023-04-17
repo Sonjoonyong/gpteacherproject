@@ -26,36 +26,6 @@
             border-radius: 10px;
             border: 3px solid #ffffff;
         }
-
-        #initialAssistantTalk, #record, #stop, #waitingMessage, #stopDialogue {
-            display: none;
-        }
-
-        #stop {
-            color: rgb(255, 0, 0);
-            width: 45px;
-            height: 45px;
-            border-color: gray;
-        }
-
-        #record {
-            width: 45px;
-            height: 45px;
-            background-color: #5DB99D;
-            border-color: #5DB99D;
-        }
-
-        .pronunciationAccuracy {
-            font-size: 12px;
-            line-height: 24px;
-            font-weight: lighter;
-            color: rgb(35, 28, 181);
-        }
-
-        .assistantTalk {
-            background-color: #F4F2FF;
-        }
-
     </style>
 
     <link rel="stylesheet" href="/css/base.css">
@@ -144,72 +114,65 @@
 
 <%-- 채팅 템플릿 --%>
 <template>
-    <div class="dialogue row"> <!-- sentenceId 설정되는 태그 -->
+    <div class="dialogue row">
         <!-- userTalk start -->
         <div class="col-10 ms-auto my-3 shadow rounded-3">
-
-            <div class="row g-0 py-3 gap-2">
-
-                <div class="row g-0 align-items-end justify-content-between">
-                    <div class="row px-0 g-0">
-                        <div class="col-12 col-md-6 pe-1">
-                            <div class="fw-bold" style="color: #2A6976;">
-                                Your sentence
-                            </div>
-                            <div class="row g-0 justify-content-between border p-1 rounded-1">
+            <div class="sentence row g-0 py-3 align-items-end justify-content-between">  <!-- sentenceId 설정되는 태그 -->
+                <div class="row px-0 g-0">
+                    <div class="col-12 col-md-6 pe-1">
+                        <div class="fw-bold" style="color: #2A6976;">
+                            Your sentence
+                        </div>
+                        <div class="row g-0 justify-content-between border p-1 rounded-1">
                                 <span class="yourSentence col-11 p-0">
                                     elit. Iusto, exercitationem de se ru nt om nis molestiae laborum
                                 </span>
-                                <!-- 발음해보기 버튼-->
-                                <button class="btn pronunciationBtn col-1 p-0">
-                                    <i class="bi bi-mic" style="color: red;"></i>
-                                </button>
-                            </div>
+                            <!-- 발음해보기 버튼-->
+                            <button class="btn pronunciationBtn col-1 p-0">
+                                <i class="bi bi-mic" style="color: red;"></i>
+                            </button>
                         </div>
+                    </div>
 
-                        <div class="col-12 col-md-6 ps-1">
-                            <div class="row g-0 fw-bold justify-content-between align-content-center">
+                    <div class="col-12 col-md-6 ps-1">
+                        <div class="row g-0 fw-bold justify-content-between align-content-center">
                                 <span class="col-12 col-md-8" style="color: #16967A;">
                                     Corrected sentence
                                 </span>
-                                <span class="col-12 col-md-4 pronunciationAccuracy">
+                            <span class="col-12 col-md-4 pronunciationAccuracy">
                                         <!-- 발음 정확도: 90% -->
                                 </span>
-                            </div>
-                            <div class="row g-0 justify-content-between border p-1 rounded-1">
-                                <!-- 문장 듣기 버튼 -->
-                                <button class="btn ttsBtn col-1 p-0">
-                                    <i class="bi bi-volume-up-fill"></i>
-                                </button>
-                                <span class="col-11 p-0 correctedSentence">
+                        </div>
+                        <div class="row g-0 justify-content-between border p-1 rounded-1">
+                            <!-- 문장 듣기 버튼 -->
+                            <button class="btn ttsBtn col-1 p-0">
+                                <i class="bi bi-volume-up-fill"></i>
+                            </button>
+                            <span class="col-11 p-0 correctedSentence">
                                         delectus dolore vero quidem laudantium eaque nemo!
                                 </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-10">
-                        <div class="fw-bold" style="color: #2F4858;">Explanation</div>
-                        <div class="explanation border p-1 rounded-1">
-                            교정에 대한 설명
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-2">
-                        <div class="row g-0">
-                            <button class="like col-1 col-md-5 btn ms-md-auto" onclick="statusUpdateAjax(this)">
-                                <i class="bi bi-heart"></i>
-                                <i class="bi bi-heart-fill danger" style="color: red"></i>
-                            </button>
-
-                            <button class="storage col-1 col-md-5 btn" onclick="statusUpdateAjax(this)">
-                                <i class="bi bi-archive"></i>
-                                <i class="bi bi-archive-fill danger" style="color: #397419"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
 
+                <div class="col-12 col-md-10">
+                    <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                    <div class="explanation border p-1 rounded-1">
+                        교정에 대한 설명
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-2">
+                    <div class="row g-0">
+                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLikeAjax(this)">
+                            <i class="like bi bi-heart"></i>
+                        </button>
+
+                        <button class=" col-1 col-md-5 btn" onclick="toggleStorageAjax(this)">
+                            <i class="storage bi bi-archive"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- userTalk end -->
@@ -233,13 +196,14 @@
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <!-- 발음 평가 JS -->
 <script src="/js/pronunciation.js"></script>
+<script src="/js/toggleLikeAjax.js"></script>
+<script src="/js/toggleStorageAjax.js"></script>
 <script src="/js/ttsAjax.js"></script>
 
 <script>
     const learningId = document.querySelector('#learningId').value;
     const initialAssistantTalkDiv = document.querySelector('#initialAssistantTalk');
     const initialAssistantTalk = initialAssistantTalkDiv.innerText;
-    const body = document.querySelector('body');
 
     let priorAssistantTalk = initialAssistantTalk;
     let audio;
@@ -269,9 +233,7 @@
 
     function retry() {
         alert("잘못된 문장입니다. 다시 응답해주세요.");
-        if (audio) {
-            audio.pause();
-        }
+        audio && audio.pause();
         setBtnsRecordPossible();
     }
 
@@ -353,7 +315,6 @@
 
         request.onload = () => {
             //화면에 출력
-            console.log(request.response);
             addContent(request.response);
 
             setBtnsRecordPossible();
@@ -374,11 +335,6 @@
         let explanationDiv = dialogueDiv.querySelector('.explanation');
         let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
 
-        //좋아요 & 보관함
-        let fillHeart = dialogueDiv.querySelector('.bi-heart-fill');
-        let fillStorage = dialogueDiv.querySelector('.bi-archive-fill');
-
-
         // 결과 가져오기
         if (!result || result.result === "fail") {
             retry();
@@ -390,14 +346,11 @@
         let userTalk = result.userTalk;
         let sentenceId = result.sentenceId;
         priorAssistantTalk = newAssistantTalk;
-        dialogueDiv.id = 'sentence_' + sentenceId;
+        dialogueDiv.querySelector('.sentence').id = 'sentence_' + sentenceId;
 
         // 결과 삽입
         yourSentenceDiv.innerText = userTalk;
         assistantTalkDiv.innerText = newAssistantTalk;
-
-        fillHeart.style.display = 'none';
-        fillStorage.style.display = 'none';
 
         // 고칠 부분이 없을 경우
         if (!correctedSentence ||
@@ -429,12 +382,10 @@
             // 발음 평가 모달 창 띄우기
             setPronunciationBtnsRecordPossible();
             pronunciationModal.classList.toggle('show', true);
-            body.style.overflow = 'hidden';
+            document.querySelector('body').style.overflow = 'hidden';
 
             // 진행중인 TTS 종료
-            if (audio) {
-                audio.pause();
-            }
+            audio && audio.pause();
         }
 
         // 화면에 추가
@@ -442,31 +393,6 @@
         dialogueBox.scrollTop = dialogueBox.scrollHeight;
         // GPT 답변 읽어주기
         ttsAjax(newAssistantTalk)
-    }
-
-    function statusUpdateAjax(btn) {
-        let request = new XMLHttpRequest();
-        let sentenceId = btn.closest('.dialogue').id.replace('sentence_', '');
-        let type;
-        if (btn.classList.contains('like')) {
-            type = 'like';
-        } else {
-            type = 'storage';
-        }
-
-        request.onload = () => {
-            let status = request.response;
-            if (status == "1") {
-                btn.children[0].style.display = 'none'; //emptyHeart or emptyStorage
-                btn.children[1].style.display = 'block'; //fillHeart or fillStorage
-            } else {
-                btn.children[0].style.display = 'block';
-                btn.children[1].style.display = 'none';
-            }
-        }
-
-        request.open("GET", '/learning/sentence/statusUpdate?sentenceId=' + sentenceId + '&type=' + type);
-        request.send();
     }
 
     function stopRecording(mediaRecorder, timer) {
@@ -497,6 +423,20 @@
         setBtnsDisabled(true);
     }
 
+    // 대기 중
+    function setBtnsWaiting() {
+        // 상태바 초기화
+        b.innerText = "";
+        progress.value = 0;
+        progress.style.display = "none";
+        clearInterval(timer); // 타이머 초기화
+
+        recordButton.disabled = true;
+        recordButton.style.display = 'none';
+        stopButton.disabled = true;
+        stopButton.style.display = 'none';
+        waitingMessage.style.display = 'block';
+    }
 
     function setBtnsDisabled(bool) {
         let pronunciationBtns = document.getElementsByClassName('pronunciationBtn');

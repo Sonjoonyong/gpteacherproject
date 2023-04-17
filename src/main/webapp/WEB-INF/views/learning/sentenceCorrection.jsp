@@ -5,22 +5,6 @@
 <head>
     <title>문장별 분석</title>
 
-    <style>
-        .bi-heart-fill {
-            color: red;
-        }
-
-        .bi-archive-fill {
-            color: rgb(57, 116, 25);
-        }
-
-        .container{
-            max-width:980px;
-            margin:0 auto;/*make it centered*/
-        }
-
-    </style>
-
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/pronunciationModal.css">
 
@@ -37,8 +21,8 @@
 
 <section class="container" style="max-width: 900px">
     <c:forEach var="sentence" items="${sentences}">
+        <!-- sentence start -->
         <div class="row p-2 sentence justify-content-center" id="sentence_${sentence.id}">
-            <!-- sentence start -->
             <div class="row g-0 my-1 align-items-end justify-content-between shadow rounded-3 p-3">
                 <div class="row px-0 g-0">
                     <div class="col-12 col-md-6 pe-1">
@@ -61,8 +45,7 @@
                                 <span class="col-12 col-md-8" style="color: #16967A;">
                                     Corrected sentence
                                 </span>
-                            <span class="col-12 col-md-4 pronunciationAccuracy"
-                                  style="font-size: 12px; line-height: 24px; font-weight: lighter; color: rgb(35, 28, 181);">
+                            <span class="col-12 col-md-4 pronunciationAccuracy">
                                 <c:if test="${not empty sentence.sentenceAccuracy}">
                                     '발음 정확도: ' ${sentence.sentenceAccuracy}%
                                 </c:if>
@@ -89,11 +72,11 @@
 
                 <div class="col-12 col-md-2">
                     <div class="row g-0">
-                        <button class="col-1 col-md-5 btn ms-md-auto like" onclick="toggleLikeAjax(this)">
+                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLikeAjax(this)">
                             <i class="like bi bi-heart${not empty sentence.sentenceLike && sentence.sentenceLike == '1'.charAt(0) ? '-fill' : ''}"></i>
                         </button>
 
-                        <button class="col-1 col-md-5 btn storage" onclick="toggleStorageAjax(this)">
+                        <button class="col-1 col-md-5 btn" onclick="toggleStorageAjax(this)">
                             <i class="storage bi bi-archive${not empty sentence.flashcardId && sentence.flashcardId != -2 ? '-fill' : ''}"></i>
                         </button>
                     </div>
@@ -112,6 +95,7 @@
 
 <!-- Wav 파일 업로드 라이브러리 -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+
 <script src="/js/pronunciation.js"></script>
 <script src="/js/tts.js"></script>
 <script src="/js/toggleLikeAjax.js"></script>

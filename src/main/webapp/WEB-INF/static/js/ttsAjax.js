@@ -1,5 +1,3 @@
-let audio;
-
 function ttsAjax(assistantTalk) {
     audio && audio.pause();
 

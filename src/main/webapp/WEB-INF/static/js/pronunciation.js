@@ -1,5 +1,4 @@
 // 발음 평가 녹음 관련
-let body = document.querySelector('body');
 let recorder;
 let targetSentenceId;
 document.querySelector('pronunciation')
@@ -17,7 +16,7 @@ pronunciationTtsBtn.onclick = () => {
 
 function closePronunciationModal() {
     pronunciationModal.classList.toggle('show', false);
-    body.style.overflow = 'scroll';
+    document.querySelector('body').style.overflow = 'scroll';
 }
 
 pronunciationClose.onclick = closePronunciationModal;
@@ -99,21 +98,6 @@ function stopPronunciationRecording() {
     recorder && recorder.stop();
     setPronunciationBtnsWaiting();
     sendPronunciationToServer();
-}
-
-// 대기 중
-function setBtnsWaiting() {
-    // 상태바 초기화
-    b.innerText = "";
-    progress.value = 0;
-    progress.style.display = "none";
-    clearInterval(timer); // 타이머 초기화
-
-    recordButton.disabled = true;
-    recordButton.style.display = 'none';
-    stopButton.disabled = true;
-    stopButton.style.display = 'none';
-    waitingMessage.style.display = 'block';
 }
 
 // 발음평가 녹음 시작 가능

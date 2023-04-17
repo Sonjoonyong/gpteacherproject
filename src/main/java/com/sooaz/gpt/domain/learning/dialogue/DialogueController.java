@@ -53,8 +53,7 @@ public class DialogueController {
             @RequestParam String priorAssistantTalk,
             @RequestParam Long learningId,
             HttpServletRequest request
-    ) throws IOException {
-
+    ) {
         String directory = request.getServletContext().getRealPath("/WEB-INF/files");
         String userTalk = openAiClient.transcript(directory, audio);
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
