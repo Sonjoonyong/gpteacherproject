@@ -13,8 +13,15 @@
         .bi-archive-fill {
             color: rgb(57, 116, 25);
         }
+
+        .container{
+            max-width:980px;
+            margin:0 auto;/*make it centered*/
+        }
+
     </style>
 
+    <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/pronunciationModal.css">
 
     <%@ include file="../fragments/bootstrapCss.jsp" %>
@@ -28,11 +35,11 @@
 <p class="text-center">문장별 분석 화면입니다. 좋아요 표시를 하거나 플래시카드에 넣어 복습하세요!</p>
 
 
-<section class="container">
+<section class="container" style="max-width: 900px">
     <c:forEach var="sentence" items="${sentences}">
         <div class="row p-2 sentence justify-content-center" id="sentence_${sentence.id}">
             <!-- sentence start -->
-            <div class="row g-0 my-1 align-items-end justify-content-between shadow rounded-3 p-3 w-75">
+            <div class="row g-0 my-1 align-items-end justify-content-between shadow rounded-3 p-3">
                 <div class="row px-0 g-0">
                     <div class="col-12 col-md-6 pe-1">
                         <div class="fw-bold" style="color: #2A6976;">
@@ -56,7 +63,9 @@
                                 </span>
                             <span class="col-12 col-md-4 pronunciationAccuracy"
                                   style="font-size: 12px; line-height: 24px; font-weight: lighter; color: rgb(35, 28, 181);">
-                                        <!-- 발음 정확도: 90% -->
+                                <c:if test="${not empty sentence.sentenceAccuracy}">
+                                    '발음 정확도: ' ${sentence.sentenceAccuracy}%
+                                </c:if>
                                 </span>
                         </div>
                         <div class="row g-0 justify-content-between border p-1 rounded-1">
@@ -103,10 +112,13 @@
 
 <!-- Wav 파일 업로드 라이브러리 -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
-<!-- 발음 평가 -->
 <script src="/js/pronunciation.js"></script>
+<script src="/js/tts.js"></script>
+<script src="/js/toggleLikeAjax.js"></script>
+<script src="/js/toggleStorageAjax.js"></script>
 
 <script>
+
     function init() {
         if (navigator.mediaDevices) {
             navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -117,8 +129,9 @@
 
                 // 발음 평가 모달 녹음 버튼 설정
                 setPronunciationRecordBtns();
-                // 발음 평가 버튼 설정
+                // 발음 평가, tts 버튼 설정
                 setPronunciationBtns();
+                setTtsBtns();
 
             }).catch(err => {
                 console.log(err);
@@ -128,11 +141,25 @@
         }
     }
 
+    function setTtsBtns() {
+        let ttsBtns = document.getElementsByClassName('ttsBtn');
+        for (let btn of ttsBtns) {
+            // 진행중인 TTS 종료
+            audio && audio.pause();
+
+            btn.onclick = (e) => {
+                ttsAjax(e.currentTarget.nextElementSibling.innerText);
+            }
+        }
+    }
+
     // 발음 평가 버튼 설정
     function setPronunciationBtns() {
-        let pronunciationBtns = document.getElementsByClassName('.pronunciationBtn');
+        let pronunciationBtns = document.getElementsByClassName('pronunciationBtn');
         for (let btn of pronunciationBtns) {
-            btn.closest()
+            const sentence = btn.closest('.sentence');
+            let sentenceId = sentence.id.replace('sentence_', '');
+            let correctedSentence = sentence.querySelector('.correctedSentence').innerText;
 
             btn.onclick = () => {
                 pronunciationResultDiv.innerText = '녹음 버튼을 누르고 아래 문장을 큰 목소리로 발음해 보세요.';
@@ -146,57 +173,10 @@
                 body.style.overflow = 'hidden';
 
                 // 진행중인 TTS 종료
-                if (audio) {
-                    audio.pause();
-                }
+                audio && audio.pause();
             }
         }
     }
-
-    function toggleLikeAjax(btn) {
-        let request = new XMLHttpRequest();
-        let sentenceId = btn.closest('.sentence').id.replace('sentence_', '');
-        let like = btn.querySelector('.like');
-
-        request.onload = () => {
-            let result = request.response;
-            if (result === '0') {
-                like.classList.toggle('bi-heart', true);
-                like.classList.toggle('bi-heart-fill', false);
-            } else if (result === '1') {
-                like.classList.toggle('bi-heart', false);
-                like.classList.toggle('bi-heart-fill', true);
-            } else {
-                alert("존재하지 않는 문장입니다.");
-            }
-        }
-
-        request.open("POST", '/learning/sentences/'+ sentenceId +'/like');
-        request.send();
-    }
-
-    function toggleStorageAjax(btn) {
-        let request = new XMLHttpRequest();
-        let sentenceId = btn.closest('.sentence').id.replace('sentence_', '');
-        let like = btn.querySelector('.storage');
-
-        request.onload = () => {
-            let result = request.response;
-            if (result === '0') {
-                like.classList.toggle('bi-archive', true);
-                like.classList.toggle('bi-archive-fill', false);
-            } else if (result === '1') {
-                like.classList.toggle('bi-archive', false);
-                like.classList.toggle('bi-archive-fill', true);
-            } else {
-                alert("존재하지 않는 문장입니다.");
-            }
-        }
-
-        request.open("POST", '/learning/sentences/'+ sentenceId +'/flashcard');
-        request.send();
-    }
-
 
 </script>
 

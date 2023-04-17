@@ -1,4 +1,5 @@
 // 발음 평가 녹음 관련
+let body = document.querySelector('body');
 let recorder;
 let targetSentenceId;
 document.querySelector('pronunciation')

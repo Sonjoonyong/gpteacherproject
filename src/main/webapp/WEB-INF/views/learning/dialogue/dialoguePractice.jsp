@@ -31,14 +31,14 @@
             display: none;
         }
 
-        #stop, #pronunciationStop {
+        #stop {
             color: rgb(255, 0, 0);
             width: 45px;
             height: 45px;
             border-color: gray;
         }
 
-        #record, #pronunciationRecord {
+        #record {
             width: 45px;
             height: 45px;
             background-color: #5DB99D;
@@ -58,6 +58,7 @@
 
     </style>
 
+    <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/pronunciationModal.css">
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
@@ -232,6 +233,7 @@
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <!-- 발음 평가 JS -->
 <script src="/js/pronunciation.js"></script>
+<script src="/js/ttsAjax.js"></script>
 
 <script>
     const learningId = document.querySelector('#learningId').value;
@@ -340,27 +342,6 @@
         } else {
             console.log("미디어 장치 없음");
         }
-    }
-
-
-    function ttsAjax(assistantTalk) {
-        if (audio) {
-            audio.pause();
-        }
-        let request = new XMLHttpRequest();
-
-        let urlSearchParams = new URLSearchParams();
-        urlSearchParams.append("assistantTalk", assistantTalk);
-
-        request.onload = () => {
-            let audioURL = URL.createObjectURL(request.response);
-            audio = new Audio(audioURL);
-            audio.play();
-        }
-
-        request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
-        request.responseType = "blob";
-        request.send();
     }
 
     // 유저 톡 서버에 전송 후 결과 수신

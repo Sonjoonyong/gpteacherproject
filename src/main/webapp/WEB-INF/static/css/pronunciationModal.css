@@ -1,11 +1,11 @@
 #pronunciationModal {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 2;
 
     width: 100%;
-    height: 110%;
+    height: 100%;
 
     display: none;
     background-color: rgba(0, 0, 0, 0.4);
@@ -18,7 +18,7 @@
 }
 
 #pronunciationModalBody {
-    position: absolute;
+    position: fixed;
     width: 500px;
 
     display: flex;
@@ -27,10 +27,29 @@
     justify-content: center;
 
     background-color: white;
-
-    transform: translateY(-20%);
 }
 
-*:disabled {
+#stop, #pronunciationStop {
+    color: rgb(255, 0, 0);
+    width: 45px;
+    height: 45px;
+    border-color: gray;
+}
+
+#pronunciationRecord {
+    width: 45px;
+    height: 45px;
+    background-color: #5DB99D;
+    border-color: #5DB99D;
+}
+
+.pronunciationAccuracy {
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: lighter;
+    color: rgb(35, 28, 181);
+}
+
+*:disabled, #pronunciationTtsBtn {
     border: none;
 }

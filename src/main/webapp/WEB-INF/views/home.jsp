@@ -6,6 +6,7 @@
 <head>
     <title>GPTeacher</title>
 
+    <link rel="stylesheet" href="/css/base.css">
     <%@ include file="fragments/bootstrapCss.jsp" %>
 
 </head>

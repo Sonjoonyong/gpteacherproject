@@ -23,7 +23,6 @@ public class SentenceService {
         Sentence sentence = sentenceOptional.get();
 
         Character like = sentence.getSentenceLike();
-        log.info("like = {}", like);
 
         SentenceUpdateDto dto = new SentenceUpdateDto();
         dto.setSentenceId(sentenceId);
@@ -49,7 +48,6 @@ public class SentenceService {
         Sentence sentence = sentenceOptional.get();
 
         Long flashcardId = sentence.getFlashcardId();
-        log.info("flashcardId = {}", flashcardId);
 
         SentenceUpdateDto dto = new SentenceUpdateDto();
         dto.setSentenceId(sentenceId);
