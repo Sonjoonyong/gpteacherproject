@@ -140,7 +140,7 @@ public class DialogueService {
             // 새로운 sentence 저장
             Sentence sentence = new Sentence();
             sentence.setLearningId(learningId);
-            sentence.setSentenceQuestion(assistantTalk);
+            sentence.setSentenceQuestion(assistantTalk.trim());
             sentence.setSentenceCorrected(correctedSentence);
             sentence.setSentenceExplanation(explanation);
             sentence.setSentenceQuestion(priorAssistantTalk);
@@ -152,7 +152,6 @@ public class DialogueService {
             assistantTalkJsonObject.put("answer", assistantTalk);
             assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
             assistantTalkJsonObject.put("sentenceId", sentenceId);
-
             assistantTalkJsonObject.put("userTalk", userTalk);
         } catch (Exception e) {
             log.error("error: result string from assistant is not parsable to JSON, \n", e);

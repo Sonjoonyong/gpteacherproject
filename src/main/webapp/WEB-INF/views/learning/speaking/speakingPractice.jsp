@@ -47,7 +47,7 @@
 
 <body onload="mediaStart()">
 
-<form method="post" style="display: none" id="sttForm" action="/learning/sentences"
+<form method="post" style="display: none" id="sttForm" action="/learning/correction/script"
       enctype="multipart/form-data">
     <input type="file" name="audio" id="audioFile"/>
     <input type="hidden" name="question" class="question" value="${question}"/>

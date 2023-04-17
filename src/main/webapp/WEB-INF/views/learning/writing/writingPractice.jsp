@@ -56,7 +56,7 @@
                 ${errorMessage}
         </div>
     </c:if>
-    <form action="/learning/sentences" method="post">
+    <form action="/learning/correction/script" method="post">
         <input type="hidden" name="question" value="${question}" />
 
         <p class="text-center">Question: <span>${question}</span></p>
@@ -78,3 +78,4 @@
 
 </body>
 </html>
+
