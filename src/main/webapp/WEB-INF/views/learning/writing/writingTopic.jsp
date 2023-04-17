@@ -79,7 +79,7 @@
         formData.append('text',topic);
 
         request.onload = () => {
-            let profanity = request.response;
+            let profanity = request.response.profanity;
             console.log(profanity);
             if (profanity == "true") {
                 document.getElementById('customTopic').value = '';
@@ -90,7 +90,8 @@
             }
         }
 
-        request.open("POST","/learning/writing/profanity", true);
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
         request.send(formData);
     }
 </script>

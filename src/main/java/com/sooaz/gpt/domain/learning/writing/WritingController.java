@@ -49,13 +49,4 @@ public class WritingController {
         return "learning/writing/writingPractice";
     }
 
-    @ResponseBody
-    @PostMapping("/learning/writing/profanity")
-    public String getTopicProfanity(
-            @RequestParam(required = false) String text
-    ) {
-        double profanityScore = perspectiveClient.getProfanityScore(text);
-        return Boolean.toString(profanityScore > 0.7);
-    }
-
 }

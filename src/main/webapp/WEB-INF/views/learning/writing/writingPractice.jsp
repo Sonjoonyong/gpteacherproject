@@ -63,7 +63,7 @@
 
         <div class="form-group">
             <label for="answer">Answer: </label>
-            <textarea class="form-control" cols="100" rows="30" name="writingScript" id="answer"></textarea>
+            <textarea class="form-control" cols="100" rows="30" name="userScript" id="answer"></textarea>
         </div>
 
         <div class="text-center">
@@ -84,9 +84,7 @@
         console.log(writingScript);
 
         request.onload = () => {
-            let profanity = request.response;
-            console.log(profanity)
-
+            let profanity = request.response.profanity;
             if (profanity == "true") {
                 document.getElementById("answer").value = '';
                 alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
@@ -96,7 +94,8 @@
             }
         }
 
-        request.open("POST","/learning/writing/profanity", true);
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
         request.send(formData);
     }
 </script>

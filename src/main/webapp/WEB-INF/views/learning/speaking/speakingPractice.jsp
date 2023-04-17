@@ -49,7 +49,8 @@
 
 <form method="post" style="display: none" id="sttForm" action="/learning/correction/script"
       enctype="multipart/form-data">
-    <input type="file" name="audio" id="audioFile"/>
+<%--    <input type="file" name="audio" id="audioFile"/>--%>
+    <input type="hidden" name="userScript" id="userScript"/>
     <input type="hidden" name="question" class="question" value="${question}"/>
     <input type="hidden" name="learningTestType" value="${learningTestType}"/>
 </form>
@@ -130,7 +131,7 @@
     let mx = 30; // 최대 시간(초)
 
     let sttForm = document.querySelector("#sttForm");
-    let audioFile = document.querySelector("#audioFile");
+    //let audioFile = document.querySelector("#audioFile");
 
     function mediaStart() {
 
@@ -183,13 +184,14 @@
 
                     let formData = new FormData();
                     formData.append("audio", blob);
-
-                    let file = new File(chunks, "answerFile");
-                    console.log(chunks);
-                    let temp = new DataTransfer();
-                    temp.items.add(file);
-                    audioFile.files = temp.files;
                     checkProfanity(formData);
+
+                    // let file = new File(chunks, "answerFile");
+                    // console.log(chunks);
+                    // let temp = new DataTransfer();
+                    // temp.items.add(file);
+                    // audioFile.files = temp.files;
+
                     // sttForm.submit();
                 }
 
@@ -200,25 +202,6 @@
             console.log("미디어 장치 없음");
         }
 
-    }
-
-    function checkProfanity(formData) {
-        let request = new XMLHttpRequest();
-
-        request.onload = () => {
-            let profanity = request.response;
-
-            if (profanity == 'true') {
-                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
-                setBtnsRecordPossible();
-            } else {
-                sttForm.submit()
-            }
-        }
-
-        formData.enctype = "multipart/form-data";
-        request.open("POST","/learning/sentence/profanity", true);
-        request.send(formData)
     }
 
     function stopRecording(mediaRecorder, timer) {
@@ -277,6 +260,26 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'block';
+    }
+
+    function checkProfanity(formData) {
+        let request = new XMLHttpRequest();
+
+        request.onload = () => {
+            let result = request.response;
+            if (result.profanity == 'true') {
+                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                setBtnsRecordPossible();
+            } else {
+                document.getElementById('userScript').value = result.userScript;
+                sttForm.submit();
+            }
+        }
+
+        formData.enctype = "multipart/form-data";
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
+        request.send(formData)
     }
 </script>
 

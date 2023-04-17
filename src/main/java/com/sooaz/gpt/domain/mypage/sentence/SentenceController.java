@@ -8,6 +8,7 @@ import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,22 +66,22 @@ public class SentenceController {
 
     @PostMapping("/learning/correction/script")
     public String transcript(
-            @RequestParam(required = false) MultipartFile audio,
-            @RequestParam(required = false) String writingScript,
+            //@RequestParam(required = false) MultipartFile audio,
+            @RequestParam(required = false) String userScript,
             @RequestParam String question,
             @RequestParam(required = false) LearningTestType learningTestType,
-            Model model,
-            HttpServletRequest request
+            Model model
+            //HttpServletRequest request
     ) throws IOException {
 
-        String userScript;
-
-        if (audio != null) {
-            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-            userScript = openAiClient.transcript(directory, audio);
-        } else {
-            userScript = writingScript;
-        }
+//        String userScript;
+//
+//        if (audio != null) {
+//            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+//            userScript = openAiClient.transcript(directory, audio);
+//        } else {
+//            userScript = writingScript;
+//        }
 
         Learning learning = new Learning();
 
@@ -98,10 +99,10 @@ public class SentenceController {
     }
 
     @ResponseBody
-    @PostMapping("/learning/sentence/profanity")
+    @PostMapping(value = "/learning/sentence/profanity")
     public String checkProfanity(
             @RequestParam(required = false) MultipartFile audio,
-            @RequestParam(required = false) String writingScript,
+            @RequestParam(required = false) String text,
             HttpServletRequest request
     ) throws IOException {
         String userScript="";
@@ -109,12 +110,13 @@ public class SentenceController {
             String directory = request.getServletContext().getRealPath("/WEB-INF/files");
             userScript = openAiClient.transcript(directory, audio);
         } else {
-            userScript = writingScript;
+            userScript =  text;
         }
-        //비속어 처리
         double profanityScore = perspectiveClient.getProfanityScore(userScript);
-        log.info("script = {}", userScript);
-        log.info("profanity = {}", profanityScore > 0.7);
-        return Boolean.toString(profanityScore > 0.7);
+
+        JSONObject json = new JSONObject();
+        json.put("profanity", Boolean.toString(profanityScore > 0.7));
+        json.put("userScript", userScript);
+        return json.toString();
     }
 }
