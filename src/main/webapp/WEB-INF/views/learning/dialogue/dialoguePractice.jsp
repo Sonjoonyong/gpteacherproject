@@ -128,7 +128,7 @@
                                     elit. Iusto, exercitationem de se ru nt om nis molestiae laborum
                                 </span>
                             <!-- 발음해보기 버튼-->
-                            <button class="btn pronunciationBtn col-1 p-0">
+                            <button class="btn pronunciationBtn col-1 p-0 border-0">
                                 <i class="bi bi-mic" style="color: red;"></i>
                             </button>
                         </div>
@@ -145,7 +145,7 @@
                         </div>
                         <div class="row g-0 justify-content-between border p-1 rounded-1">
                             <!-- 문장 듣기 버튼 -->
-                            <button class="btn ttsBtn col-1 p-0">
+                            <button class="btn ttsBtn col-1 p-0 border-0">
                                 <i class="bi bi-volume-up-fill"></i>
                             </button>
                             <span class="col-11 p-0 correctedSentence">
@@ -203,7 +203,7 @@
 <script>
     const learningId = document.querySelector('#learningId').value;
     const initialAssistantTalkDiv = document.querySelector('#initialAssistantTalk');
-    const initialAssistantTalk = initialAssistantTalkDiv.innerText;
+    const initialAssistantTalk = initialAssistantTalkDiv.querySelector('.assistantTalk').innerText;
 
     let priorAssistantTalk = initialAssistantTalk;
     let audio;
@@ -341,7 +341,7 @@
             return false;
         }
         let newAssistantTalk = result.answer;
-        let correctedSentence = result.corrected;
+        let correctedSentence = result.correctedSentence;
         let explanation = result.explanation;
         let userTalk = result.userTalk;
         let sentenceId = result.sentenceId;

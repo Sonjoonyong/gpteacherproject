@@ -40,8 +40,7 @@ public class OpenAiClient {
         return message;
     }
 
-    //============================교정받기===================================
-    //======================================================================
+    // 단순 프롬프트 대화
     public String chat(String userPrompt) {
         List<JSONObject> messages = new ArrayList<>();
         JSONObject message = userMessage(userPrompt);
@@ -66,6 +65,13 @@ public class OpenAiClient {
             prompt.put("messages", messages); // required - 요청 프롬프트(과거 대화 이력 포함)
             prompt.put("temperature", 0.0); // optional - 0 ~ 2 (클수록 답변이 랜덤해짐)
 
+            /**
+             * temp
+             */
+            for (JSONObject message : messages) {
+                log.info("message.toString() = {}", message.toString());
+            }
+
             // HTTP 요청
             con.setDoOutput(true);
             con.getOutputStream().write(prompt.toString().getBytes());
@@ -76,7 +82,7 @@ public class OpenAiClient {
                     .reduce((a, b) -> a + b)
                     .get();
 
-            System.out.println("output = " + output);
+            System.out.println("Chat output = " + output);
 
             // 수신한 JSON에서 응답 메시지 파싱
             responseText = new JSONObject(output)
@@ -91,8 +97,7 @@ public class OpenAiClient {
         return responseText;
     }
 
-    //==========================음성인식=============================================
-    //===============================================================================
+    // Speech To Text(whisper API)
     public String transcript(String directory, MultipartFile audio) {
 
         String script = "";

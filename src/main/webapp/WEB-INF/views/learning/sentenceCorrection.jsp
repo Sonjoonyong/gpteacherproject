@@ -34,7 +34,7 @@
                                         ${sentence.sentenceAnswer}
                                 </span>
                             <!-- 발음해보기 버튼-->
-                            <button class="btn pronunciationBtn col-1 p-0">
+                            <button class="btn pronunciationBtn col-1 p-0 border-0">
                                 <i class="bi bi-mic" style="color: red;"></i>
                             </button>
                         </div>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="row g-0 justify-content-between border p-1 rounded-1">
                             <!-- 문장 듣기 버튼 -->
-                            <button class="btn ttsBtn col-1 p-0">
+                            <button class="btn ttsBtn col-1 p-0 border-0">
                                 <i class="bi bi-volume-up-fill"></i>
                             </button>
                             <span class="col-11 p-0 correctedSentence">

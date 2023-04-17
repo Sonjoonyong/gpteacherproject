@@ -61,3 +61,7 @@ footer {
 #initialAssistantTalk, #record, #stop, #waitingMessage, #stopDialogue {
     display: none;
 }
+
+.pronunciationBtn, .ttsBtn, *:disabled {
+    border: none;
+}
