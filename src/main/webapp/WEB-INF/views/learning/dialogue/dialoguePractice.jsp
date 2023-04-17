@@ -226,7 +226,6 @@
         </button>
     </div>
 </div>
-</div>
 <!-- 발음해보기 모달 끝 -->
 
 <%@ include file="../../fragments/footer.jsp" %>
@@ -322,7 +321,7 @@
     <!--dialogue end-->
 </template>
 
-<!--Wav 파일 업로드 라이브러리-->
+<!--Wav 파일 업로드 라이브러리 -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <!-- 발음 평가 JS -->
 <script src="/js/pronunciation.js"></script>

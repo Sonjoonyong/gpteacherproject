@@ -18,7 +18,7 @@
     <%@ include file="../fragments/bootstrapCss.jsp" %>
 
 </head>
-<body>
+<body onload="init()">
 
 <%@ include file="../fragments/header.jsp" %>
 
@@ -28,7 +28,7 @@
 
 <section class="container">
     <c:forEach var="sentence" items="${sentences}">
-        <div class="dialogue row p-2 sentence justify-content-center" id="${sentence.id}">
+        <div class="row p-2 sentence justify-content-center" id="sentence_${sentence.id}">
             <!-- sentence start -->
             <div class="col-10 my-3 shadow rounded-3">
 
@@ -91,7 +91,60 @@
 
 </section>
 
+<%@ include file="../fragments/footer.jsp" %>
+
+<!--Wav 파일 업로드 라이브러리 -->
+<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<!-- 발음 평가 -->
+<script src="/js/pronunciation.js"></script>
+
 <script>
+    function init() {
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
+                // 발음 평가용 오디오 컨텍스트 초기화
+                let audioContext = new AudioContext();
+                let input = audioContext.createMediaStreamSource(stream);
+                recorder = new Recorder(input);
+
+                // 발음 평가 모달 녹음 버튼 설정
+                setPronunciationRecordBtns();
+                // 발음 평가 버튼 설정
+                setPronunciationBtns();
+
+            }).catch(err => {
+                console.log(err);
+            });
+        } else {
+            console.log("미디어 장치 없음");
+        }
+    }
+
+    // 발음 평가 버튼 설정
+    function setPronunciationBtns() {
+        let pronunciationBtns = document.getElementsByClassName('.pronunciationBtn');
+        for (let btn of pronunciationBtns) {
+            btn.closest()
+
+            btn.onclick = () => {
+                pronunciationResultDiv.innerText = '녹음 버튼을 누르고 아래 문장을 큰 목소리로 발음해 보세요.';
+                // 발음 평가받을 스크립트 변경
+                pronunciationTargetScriptDiv.innerText = correctedSentence;
+                targetSentenceId = sentenceId;
+
+                // 발음 평가 모달 창 띄우기
+                setPronunciationBtnsRecordPossible();
+                pronunciationModal.classList.toggle('show', true);
+                body.style.overflow = 'hidden';
+
+                // 진행중인 TTS 종료
+                if (audio) {
+                    audio.pause();
+                }
+            }
+        }
+    }
+
     function statusUpdateAjax(btn) {
         let request = new XMLHttpRequest();
         let sentenceId = btn.value;
@@ -114,7 +167,6 @@
 
 </script>
 
-<%@ include file="../fragments/footer.jsp" %>
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
 </body>
