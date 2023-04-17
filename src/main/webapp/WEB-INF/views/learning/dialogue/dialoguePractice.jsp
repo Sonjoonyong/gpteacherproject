@@ -4,7 +4,6 @@
 <head>
     <title>회화 연습</title>
 
-    <%@ include file="../../fragments/bootstrapCss.jsp" %>
     <style>
         /* scrollbar track 노출 문제 해결 */
         /* Firefox */
@@ -28,10 +27,6 @@
             border: 3px solid #ffffff;
         }
 
-        .container {
-            max-width: 900px;
-        }
-
         #initialAssistantTalk, #record, #stop, #waitingMessage, #stopDialogue {
             display: none;
         }
@@ -50,66 +45,29 @@
             border-color: #5DB99D;
         }
 
-        .bi-heart-fill {
-            color: red;
-        }
-
-        .bi-archive-fill {
-            color: rgb(57, 116, 25);
-        }
-
-        #dialogueBox {
-            height: 60vh;
+        .pronunciationAccuracy {
+            font-size: 12px;
+            line-height: 24px;
+            font-weight: lighter;
+            color: rgb(35, 28, 181);
         }
 
         .assistantTalk {
             background-color: #F4F2FF;
         }
 
-        #pronunciationModal {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 2;
-
-            width: 100%;
-            height: 100%;
-
-            display: none;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        #pronunciationModal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #pronunciationModalBody {
-            position: absolute;
-            width: 500px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            background-color: white;
-        }
-
-        *:disabled {
-            border: none;
-        }
-
     </style>
 
+    <link rel="stylesheet" href="/css/pronunciationModal.css">
+
+    <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
 </head>
 <body onload="init()">
 
 <%@ include file="../../fragments/header.jsp" %>
 
-<section class="container">
+<section class="container" style="max-width: 900px;">
 
     <h3 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h3>
     <p class="text-center">영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
@@ -123,7 +81,7 @@
         </button>
     </div>
 
-    <div id="dialogueBox" class="row align-content-start overflow-scroll p-2 my-3">
+    <div id="dialogueBox" class="row align-content-start overflow-scroll p-2 my-3" style="height: 60vh;">
 
         <div id="initialAssistantTalk" class="col-10 col-lg-8 me-auto">
             <div class="row g-0">
@@ -179,60 +137,13 @@
 </section>
 
 <!-- 발음해보기 모달 -->
-<div id="pronunciationModal">
-    <div id="pronunciationModalBody" class="shadow rounded-3 p-4 gap-2">
-        <div id="pronunciationResult" class="fw-bold" style="color: #3b9d7f">
-            녹음 버튼을 누르고 아래 문장을 큰 목소리로 발음해 보세요.
-            <!-- 정확도 100% 입니다! -->
-        </div>
-        <!-- 목표 스크립트 -->
-        <div class="border p-1 rounded-1 d-flex align-self-stretch my-3 p-2">
-            <!-- 문장 듣기 버튼 -->
-            <button id="pronunciationTtsBtn" class="btn col-1 p-0 d-flex align-items-center">
-                <i class="bi bi-volume-up-fill"></i>
-            </button>
-            <div id="pronunciationTargetScript">
-                pronunciationTargetScript
-
-            </div>
-        </div>
-        <!-- 녹음 시작 -->
-        <div class="justify-content-center">
-            <button id="pronunciationRecord" class="btn rounded-circle text-center p-0 shadow">
-                <i class="bi bi-mic fs-2" style="color: white"></i>
-            </button>
-            <!-- 녹음 종료 -->
-            <button id="pronunciationStop" class="btn rounded-circle fs-5 text-center p-0 shadow">
-                <i class="bi bi-square-fill"></i>
-            </button>
-        </div>
-
-        <!-- 프로그레스 바 -->
-        <div class="d-flex justify-content-center align-items-center" style="width: 300px">
-            <div class="col-2 align-self-center"></div><!--dummy-->
-            <progress class="col-8 me-1" id="pronunciationProgress" value="0" max="10" style="display:none;"></progress>
-            <b id="pronunciationTime" class="col-2"></b>
-        </div>
-
-        <!-- 분석 중 -->
-        <div id="pronunciationWaitingMessage" class="row justify-content-center my-3">
-            <div class="col-12 text-center mb-2">
-                <div class="spinner-border text-secondary" role="status"></div>
-            </div>
-            <div class="col-12 text-center">발음을 분석 중입니다.</div>
-        </div>
-        <button id="pronunciationClose" class="btn btn-secondary">
-            닫기
-        </button>
-    </div>
-</div>
-<!-- 발음해보기 모달 끝 -->
+<%@ include file="../../fragments/pronunciationModal.jsp" %>
 
 <%@ include file="../../fragments/footer.jsp" %>
 
 <%-- 채팅 템플릿 --%>
 <template>
-    <div class="dialogue row">
+    <div class="dialogue row"> <!-- sentenceId 설정되는 태그 -->
         <!-- userTalk start -->
         <div class="col-10 ms-auto my-3 shadow rounded-3">
 
@@ -243,7 +154,6 @@
                         <div class="col-12 col-md-6 pe-1">
                             <div class="fw-bold" style="color: #2A6976;">
                                 Your sentence
-
                             </div>
                             <div class="row g-0 justify-content-between border p-1 rounded-1">
                                 <span class="yourSentence col-11 p-0">
@@ -261,8 +171,7 @@
                                 <span class="col-12 col-md-8" style="color: #16967A;">
                                     Corrected sentence
                                 </span>
-                                <span class="col-12 col-md-4 pronunciationAccuracy"
-                                      style="font-size: 12px; line-height: 24px; font-weight: lighter; color: rgb(35, 28, 181);">
+                                <span class="col-12 col-md-4 pronunciationAccuracy">
                                         <!-- 발음 정확도: 90% -->
                                 </span>
                             </div>
@@ -287,16 +196,14 @@
 
                     <div class="col-12 col-md-2">
                         <div class="row g-0">
-                            <button class="col-1 col-md-5 btn ms-md-auto" id="like"
-                                    onclick="statusUpdateAjax(this)">
-                                <i class="bi bi-heart" id="emptyHeart"></i>
-                                <i class="bi bi-heart-fill danger" id="fillHeart"></i>
+                            <button class="like col-1 col-md-5 btn ms-md-auto" onclick="statusUpdateAjax(this)">
+                                <i class="bi bi-heart"></i>
+                                <i class="bi bi-heart-fill danger" style="color: red"></i>
                             </button>
 
-
-                            <button class="col-1 col-md-5 btn" id="storage" onclick="statusUpdateAjax(this)">
-                                <i class="bi bi-archive" id="emptyStorage"></i>
-                                <i class="bi bi-archive-fill danger" id="fillStorage"></i>
+                            <button class="storage col-1 col-md-5 btn" onclick="statusUpdateAjax(this)">
+                                <i class="bi bi-archive"></i>
+                                <i class="bi bi-archive-fill danger" style="color: #397419"></i>
                             </button>
                         </div>
                     </div>
@@ -487,10 +394,8 @@
         let assistantTalkDiv = dialogueDiv.querySelector('.assistantTalk');
 
         //좋아요 & 보관함
-        let likeBtn = dialogueDiv.querySelector('#like');
-        let fillHeart = dialogueDiv.querySelector('#fillHeart');
-        let storageBtn = dialogueDiv.querySelector('#storage');
-        let fillStorage = dialogueDiv.querySelector('#fillStorage');
+        let fillHeart = dialogueDiv.querySelector('.bi-heart-fill');
+        let fillStorage = dialogueDiv.querySelector('.bi-archive-fill');
 
 
         // 결과 가져오기
@@ -510,8 +415,6 @@
         yourSentenceDiv.innerText = userTalk;
         assistantTalkDiv.innerText = newAssistantTalk;
 
-        likeBtn.value = sentenceId;
-        storageBtn.value = sentenceId;
         fillHeart.style.display = 'none';
         fillStorage.style.display = 'none';
 
@@ -562,8 +465,13 @@
 
     function statusUpdateAjax(btn) {
         let request = new XMLHttpRequest();
-        let sentenceId = btn.value;
-        let type = btn.getAttribute('id'); //like or storage
+        let sentenceId = btn.closest('.dialogue').id.replace('sentence_', '');
+        let type;
+        if (btn.classList.contains('like')) {
+            type = 'like';
+        } else {
+            type = 'storage';
+        }
 
         request.onload = () => {
             let status = request.response;

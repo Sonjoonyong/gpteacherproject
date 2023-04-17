@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +23,6 @@ public class SentenceController {
 
     private final SentenceRepository sentenceRepository;
     private final SpeakingService speakingService;
-    private final WritingService writingService;
     private final SentenceService sentenceService;
     private final OpenAiClient openAiClient;
 
@@ -43,13 +39,19 @@ public class SentenceController {
     }
 
     @ResponseBody
-    @GetMapping("/learning/sentence/statusUpdate")
-    public String updateStatus(
-            @RequestParam Long sentenceId,
-            @RequestParam String type
+    @PostMapping("/learning/sentences/{sentenceId}/like")
+    public String toggleLike(
+            @PathVariable Long sentenceId
     ) {
-        char currentStatus = sentenceService.updateStatus(sentenceId, type); //update된 상태 반환
-        return Character.toString(currentStatus);
+        return sentenceService.toggleLike(sentenceId);
+    }
+
+    @ResponseBody
+    @PostMapping("/learning/sentences/{sentenceId}/flashcard")
+    public String toggleStorage(
+            @PathVariable Long sentenceId
+    ) {
+        return sentenceService.toggleStorage(sentenceId);
     }
 
     @PostMapping("/learning/correction/script")
@@ -60,8 +62,7 @@ public class SentenceController {
             @RequestParam(required = false) LearningTestType learningTestType,
             Model model,
             HttpServletRequest request
-    ) throws IOException {
-
+    ) {
         String userScript;
 
         if (audio != null) {

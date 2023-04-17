@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Correction</title>
+    <title>문장별 분석</title>
 
     <style>
         .bi-heart-fill {
@@ -14,6 +14,8 @@
             color: rgb(57, 116, 25);
         }
     </style>
+
+    <link rel="stylesheet" href="/css/pronunciationModal.css">
 
     <%@ include file="../fragments/bootstrapCss.jsp" %>
 
@@ -30,70 +32,76 @@
     <c:forEach var="sentence" items="${sentences}">
         <div class="row p-2 sentence justify-content-center" id="sentence_${sentence.id}">
             <!-- sentence start -->
-            <div class="col-10 my-3 shadow rounded-3">
-
-                <div class="row g-0 py-3 gap-2">
-
-                    <div class="userTalk col g-0 justify-content-center">
-                        <div class="row px-0">
-                            <div class="col-12 col-md-6">
-                                <div class="fw-bold" style="color: #2A6976;">
-                                    Your sentence
-                                </div>
-                                <div class="yourSentence border p-1 rounded-1">
+            <div class="row g-0 my-1 align-items-end justify-content-between shadow rounded-3 p-3 w-75">
+                <div class="row px-0 g-0">
+                    <div class="col-12 col-md-6 pe-1">
+                        <div class="fw-bold" style="color: #2A6976;">
+                            Your sentence
+                        </div>
+                        <div class="row g-0 justify-content-between border p-1 rounded-1">
+                                <span class="yourSentence col-11 p-0">
                                         ${sentence.sentenceAnswer}
-                                </div>
-                            </div>
+                                </span>
+                            <!-- 발음해보기 버튼-->
+                            <button class="btn pronunciationBtn col-1 p-0">
+                                <i class="bi bi-mic" style="color: red;"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                            <div class="col-12 col-md-6">
-                                <div class="fw-bold" style="color: #16967A;">
+                    <div class="col-12 col-md-6 ps-1">
+                        <div class="row g-0 fw-bold justify-content-between align-content-center">
+                                <span class="col-12 col-md-8" style="color: #16967A;">
                                     Corrected sentence
-                                </div>
-                                <div class="correctedSentence border p-1 rounded-1">
-                                        ${sentence.sentenceCorrected}
-                                </div>
-                            </div>
+                                </span>
+                            <span class="col-12 col-md-4 pronunciationAccuracy"
+                                  style="font-size: 12px; line-height: 24px; font-weight: lighter; color: rgb(35, 28, 181);">
+                                        <!-- 발음 정확도: 90% -->
+                                </span>
+                        </div>
+                        <div class="row g-0 justify-content-between border p-1 rounded-1">
+                            <!-- 문장 듣기 버튼 -->
+                            <button class="btn ttsBtn col-1 p-0">
+                                <i class="bi bi-volume-up-fill"></i>
+                            </button>
+                            <span class="col-11 p-0 correctedSentence">
+                                    ${sentence.sentenceCorrected}
+                            </span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="row g-0 align-items-end justify-content-between">
-                        <div class="col-12 col-md-10">
-                            <div class="fw-bold" style="color: #2F4858;">Explanation</div>
-                            <div class="explanation border p-1 rounded-1">
-                                    ${sentence.sentenceExplanation}
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-2">
-                            <div class="row g-0">
-                                <button class="col-1 col-md-5 btn ms-md-auto" id="like" value="${sentence.id}"
-                                        onclick="statusUpdateAjax(this)">
-                                    <i class="bi bi-heart"></i>
-                                    <i class="bi bi-heart-fill danger" style="display: none;"></i>
-                                </button>
-
-
-                                <button class="col-1 col-md-5 btn" id="storage" value="${sentence.id}"
-                                        onclick="statusUpdateAjax(this)">
-                                    <i class="bi bi-archive"></i>
-                                    <i class="bi bi-archive-fill danger" style="display: none;"></i>
-                                </button>
-                            </div>
-                        </div>
+                <div class="col-12 col-md-10">
+                    <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                    <div class="explanation border p-1 rounded-1">
+                            ${sentence.sentenceExplanation}
                     </div>
+                </div>
 
+                <div class="col-12 col-md-2">
+                    <div class="row g-0">
+                        <button class="col-1 col-md-5 btn ms-md-auto like" onclick="toggleLikeAjax(this)">
+                            <i class="like bi bi-heart${not empty sentence.sentenceLike && sentence.sentenceLike == '1'.charAt(0) ? '-fill' : ''}"></i>
+                        </button>
+
+                        <button class="col-1 col-md-5 btn storage" onclick="toggleStorageAjax(this)">
+                            <i class="storage bi bi-archive${not empty sentence.flashcardId && sentence.flashcardId != -2 ? '-fill' : ''}"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- sentence end -->
     </c:forEach>
 
-
 </section>
+
+<!-- 발음해보기 모달 -->
+<%@ include file="../fragments/pronunciationModal.jsp" %>
 
 <%@ include file="../fragments/footer.jsp" %>
 
-<!--Wav 파일 업로드 라이브러리 -->
+<!-- Wav 파일 업로드 라이브러리 -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <!-- 발음 평가 -->
 <script src="/js/pronunciation.js"></script>
@@ -145,25 +153,50 @@
         }
     }
 
-    function statusUpdateAjax(btn) {
+    function toggleLikeAjax(btn) {
         let request = new XMLHttpRequest();
-        let sentenceId = btn.value;
-        let type = btn.getAttribute('id'); //like or storage
+        let sentenceId = btn.closest('.sentence').id.replace('sentence_', '');
+        let like = btn.querySelector('.like');
 
         request.onload = () => {
-            let status = request.response;
-            if (status == "1") {
-                btn.children[0].style.display = 'none'; //emptyHeart or emptyStorage
-                btn.children[1].style.display = 'block'; //fillHeart or fillStorage
+            let result = request.response;
+            if (result === '0') {
+                like.classList.toggle('bi-heart', true);
+                like.classList.toggle('bi-heart-fill', false);
+            } else if (result === '1') {
+                like.classList.toggle('bi-heart', false);
+                like.classList.toggle('bi-heart-fill', true);
             } else {
-                btn.children[0].style.display = 'block';
-                btn.children[1].style.display = 'none';
+                alert("존재하지 않는 문장입니다.");
             }
         }
 
-        request.open("GET", "/learning/sentence/statusUpdate?sentenceId=" + sentenceId + "&type=" + type);
+        request.open("POST", '/learning/sentences/'+ sentenceId +'/like');
         request.send();
     }
+
+    function toggleStorageAjax(btn) {
+        let request = new XMLHttpRequest();
+        let sentenceId = btn.closest('.sentence').id.replace('sentence_', '');
+        let like = btn.querySelector('.storage');
+
+        request.onload = () => {
+            let result = request.response;
+            if (result === '0') {
+                like.classList.toggle('bi-archive', true);
+                like.classList.toggle('bi-archive-fill', false);
+            } else if (result === '1') {
+                like.classList.toggle('bi-archive', false);
+                like.classList.toggle('bi-archive-fill', true);
+            } else {
+                alert("존재하지 않는 문장입니다.");
+            }
+        }
+
+        request.open("POST", '/learning/sentences/'+ sentenceId +'/flashcard');
+        request.send();
+    }
+
 
 </script>
 

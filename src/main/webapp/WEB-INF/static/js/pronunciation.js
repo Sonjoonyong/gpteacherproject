@@ -16,6 +16,7 @@ pronunciationTtsBtn.onclick = () => {
 
 function closePronunciationModal() {
     pronunciationModal.classList.toggle('show', false);
+    body.style.overflow = 'scroll';
 }
 
 pronunciationClose.onclick = closePronunciationModal;

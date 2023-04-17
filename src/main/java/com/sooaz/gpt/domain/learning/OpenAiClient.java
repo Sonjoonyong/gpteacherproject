@@ -93,7 +93,7 @@ public class OpenAiClient {
 
     //==========================음성인식=============================================
     //===============================================================================
-    public String transcript(String directory, MultipartFile audio) throws IOException {
+    public String transcript(String directory, MultipartFile audio) {
 
         String script = "";
 
