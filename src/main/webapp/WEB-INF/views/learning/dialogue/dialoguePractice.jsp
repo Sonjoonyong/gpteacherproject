@@ -454,7 +454,7 @@
 
                     let formData = new FormData();
                     formData.append("audio", blob);
-                    sttAjax(formData);
+                    checkProfanity(formData);
                 }
 
                 // 발음 평가용 오디오 컨텍스트 초기화
@@ -553,6 +553,27 @@
         request.send();
     }
 
+    function checkProfanity(formData) {
+        let request = new XMLHttpRequest();
+
+        request.onload = () => {
+            let result = request.response;
+            if (result.profanity == 'true') {
+                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                setBtnsRecordPossible();
+            } else {
+                let data = new FormData();
+                data.append("userTalk", result.userScript);
+                sttAjax(data);
+            }
+        }
+
+        formData.enctype = "multipart/form-data";
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
+        request.send(formData)
+    }
+
     // 유저 톡 서버에 전송 후 결과 수신
     function sttAjax(formData) {
         let request = new XMLHttpRequest();
@@ -568,7 +589,6 @@
             setBtnsRecordPossible();
         }
 
-        formData.enctype = "multipart/form-data";
         request.open("POST", "/learning/dialogue/transcript", true);
         request.send(formData);
     }
