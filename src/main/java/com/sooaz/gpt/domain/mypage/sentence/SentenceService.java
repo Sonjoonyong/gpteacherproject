@@ -26,7 +26,7 @@ public class SentenceService {
 
         } else if (type.equals("storage")) {
             if (currentStatus == '0') {
-                sentenceUpdateDto.setFlashcardId(1L); //임시 flashcardId = 1
+                sentenceUpdateDto.setFlashcardId(1L); // TODO - 임시 flashcardId = 1
             } else {
                 sentenceUpdateDto.setFlashcardId(-2L); //-2가 id로 들어오면 null로 update
             }

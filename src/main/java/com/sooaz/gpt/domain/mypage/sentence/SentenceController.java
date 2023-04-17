@@ -32,7 +32,7 @@ public class SentenceController {
     private final OpenAiClient openAiClient;
     private final PerspectiveClient perspectiveClient;
 
-    @GetMapping("/learning/sentences")
+    @GetMapping("/learning/correction/sentences")
     public String getSentenceCorrection(
             @RequestParam Long learningId,
             Model model
@@ -63,7 +63,7 @@ public class SentenceController {
         return Boolean.toString(profanityScore > 0.7);
     }
 
-    @PostMapping("/learning/sentences")
+    @PostMapping("/learning/correction/script")
     public String transcript(
             @RequestParam(required = false) MultipartFile audio,
             @RequestParam(required = false) String writingScript,
@@ -97,4 +97,24 @@ public class SentenceController {
         return "learning/learningCorrection";
     }
 
+    @ResponseBody
+    @PostMapping("/learning/sentence/profanity")
+    public String checkProfanity(
+            @RequestParam(required = false) MultipartFile audio,
+            @RequestParam(required = false) String writingScript,
+            HttpServletRequest request
+    ) throws IOException {
+        String userScript="";
+        if (audio != null) {
+            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+            userScript = openAiClient.transcript(directory, audio);
+        } else {
+            userScript = writingScript;
+        }
+        //비속어 처리
+        double profanityScore = perspectiveClient.getProfanityScore(userScript);
+        log.info("script = {}", userScript);
+        log.info("profanity = {}", profanityScore > 0.7);
+        return Boolean.toString(profanityScore > 0.7);
+    }
 }

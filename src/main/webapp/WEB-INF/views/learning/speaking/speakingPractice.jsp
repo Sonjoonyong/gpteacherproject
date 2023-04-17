@@ -47,7 +47,7 @@
 
 <body onload="mediaStart()">
 
-<form method="post" style="display: none" id="sttForm" action="/learning/sentences"
+<form method="post" style="display: none" id="sttForm" action="/learning/correction/script"
       enctype="multipart/form-data">
     <input type="file" name="audio" id="audioFile"/>
     <input type="hidden" name="question" class="question" value="${question}"/>
@@ -179,12 +179,18 @@
 
                 // 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리 **어려움**
                 mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, {'type': 'audio/webm codecs=opus'});
+
+                    let formData = new FormData();
+                    formData.append("audio", blob);
+
                     let file = new File(chunks, "answerFile");
                     console.log(chunks);
                     let temp = new DataTransfer();
                     temp.items.add(file);
                     audioFile.files = temp.files;
-                    sttForm.submit();
+                    checkProfanity(formData);
+                    // sttForm.submit();
                 }
 
             }).catch(err => {
@@ -194,6 +200,25 @@
             console.log("미디어 장치 없음");
         }
 
+    }
+
+    function checkProfanity(formData) {
+        let request = new XMLHttpRequest();
+
+        request.onload = () => {
+            let profanity = request.response;
+
+            if (profanity == 'true') {
+                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                setBtnsRecordPossible();
+            } else {
+                sttForm.submit()
+            }
+        }
+
+        formData.enctype = "multipart/form-data";
+        request.open("POST","/learning/sentence/profanity", true);
+        request.send(formData)
     }
 
     function stopRecording(mediaRecorder, timer) {

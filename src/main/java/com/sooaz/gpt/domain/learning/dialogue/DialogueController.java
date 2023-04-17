@@ -3,6 +3,8 @@ package com.sooaz.gpt.domain.learning.dialogue;
 import com.sooaz.gpt.domain.learning.AzureClient;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import java.io.IOException;
 @Slf4j
 public class DialogueController {
 
+    private final SentenceRepository sentenceRepository;
     private final DialogueService dialogueService;
     private final NcpTtsClient ncpTtsClient;
     private final AzureClient azureClient;
@@ -71,9 +74,18 @@ public class DialogueController {
     public String getPronunciationAssessment(
             MultipartFile audio,
             @RequestParam String userTalk,
+            @RequestParam Long sentenceId,
             HttpServletRequest request
     ) {
         String directory = request.getServletContext().getRealPath("/WEB-INF/files/");
-        return azureClient.pronunciationAssessment(directory, audio, userTalk);
+
+        Integer accuracyScore = azureClient.pronunciationAssessment(directory, audio, userTalk);
+
+        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
+        sentenceUpdateDto.setSentenceId(sentenceId);
+        sentenceUpdateDto.setSentenceAccuracy(accuracyScore);
+        sentenceRepository.update(sentenceUpdateDto);
+
+        return String.valueOf(accuracyScore);
     }
 }

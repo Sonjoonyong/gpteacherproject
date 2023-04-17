@@ -9,13 +9,15 @@
 
 </head>
 
-<body>
+<body onload="checkProfanity()">
 
 <%@ include file="../fragments/header.jsp" %>
 <section class="container">
 
     <h3 class="h3 text-center my-3" style="color: #5DB99D;">GPTeacher's CORRECTION</h3>
     <p class="text-center">GPT가 교정해준 문장입니다.</p>
+
+    <input type="hidden" id="profanity" value="${profanity}"/>
 
     <p>Question: ${question}</p>
     <p>Your Answer:</p>
@@ -28,7 +30,7 @@
             교정본 듣기
         </button>
 
-        <form method="get" action="/learning/sentences" class="col-1">
+        <form method="get" action="/learning/correction/sentences" class="col-1">
             <button type="submit" class="btn" style="background-color: #5DB99D; color: white; width: 120px">
                 문장별 분석
             </button>
@@ -66,6 +68,15 @@
         request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
         request.responseType = "blob";
         request.send();
+    }
+
+    function checkProfanity() {
+        let profanity = document.getElementById("profanity").value;
+        console.log(profanity);
+        if (profanity=='true') {
+            alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+            history.go(-1);
+        }
     }
 </script>
 
