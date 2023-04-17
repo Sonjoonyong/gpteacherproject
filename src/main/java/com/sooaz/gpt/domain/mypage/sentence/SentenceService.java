@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
-import com.sooaz.gpt.domain.learning.PerspectiveClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -185,14 +185,6 @@
                     let formData = new FormData();
                     formData.append("audio", blob);
                     checkProfanity(formData);
-
-                    // let file = new File(chunks, "answerFile");
-                    // console.log(chunks);
-                    // let temp = new DataTransfer();
-                    // temp.items.add(file);
-                    // audioFile.files = temp.files;
-
-                    // sttForm.submit();
                 }
 
             }).catch(err => {

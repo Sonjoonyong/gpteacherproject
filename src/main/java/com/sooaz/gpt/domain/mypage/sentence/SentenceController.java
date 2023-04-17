@@ -55,33 +55,13 @@ public class SentenceController {
         return Character.toString(currentStatus);
     }
 
-    @ResponseBody
-    @GetMapping("/learning/sentence/profanity")
-    public String checkProfanity(
-            @RequestParam String text
-    ) {
-        double profanityScore = perspectiveClient.getProfanityScore(text);
-        return Boolean.toString(profanityScore > 0.7);
-    }
-
     @PostMapping("/learning/correction/script")
     public String transcript(
-            //@RequestParam(required = false) MultipartFile audio,
             @RequestParam(required = false) String userScript,
             @RequestParam String question,
             @RequestParam(required = false) LearningTestType learningTestType,
             Model model
-            //HttpServletRequest request
-    ) throws IOException {
-
-//        String userScript;
-//
-//        if (audio != null) {
-//            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-//            userScript = openAiClient.transcript(directory, audio);
-//        } else {
-//            userScript = writingScript;
-//        }
+    ) {
 
         Learning learning = new Learning();
 
