@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.learning.writing;
 
+import com.sooaz.gpt.domain.learning.PerspectiveClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -8,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class WritingController {
 
     private final WritingService writingService;
+    private final PerspectiveClient perspectiveClient;
 
     @GetMapping("/learning/writing")
     public String getTopicForm() {
@@ -22,7 +23,7 @@ public class WritingController {
     }
 
     @PostMapping("/learning/writing")
-    public String getSpeakingForm(
+    public String getWritingForm(
             @RequestParam String topicType,
             @RequestParam(required = false) String customTopic,
             @RequestParam(required = false) String predefinedTopic,
@@ -32,12 +33,15 @@ public class WritingController {
         log.info("customTopic = {}", customTopic);
 
         String question;
+        String topic = "";
         if (topicType.equals("customTopic")) {
             question = customTopic;
         } else {
             question = writingService.getRandomQuestion(predefinedTopic);
+            topic = " - "+predefinedTopic;
         }
 
+        model.addAttribute("topic", topic);
         model.addAttribute("question", question);
 
         return "learning/writing/writingPractice";

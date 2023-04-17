@@ -1,19 +1,19 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
-import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.LearningTestType;
+import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
-import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import com.sooaz.gpt.domain.learning.PerspectiveClient;
 import java.util.List;
 
 @Controller
@@ -25,6 +25,7 @@ public class SentenceController {
     private final SpeakingService speakingService;
     private final SentenceService sentenceService;
     private final OpenAiClient openAiClient;
+    private final PerspectiveClient perspectiveClient;
 
     @GetMapping("/learning/correction/sentences")
     public String getSentenceCorrection(
@@ -56,21 +57,11 @@ public class SentenceController {
 
     @PostMapping("/learning/correction/script")
     public String transcript(
-            @RequestParam(required = false) MultipartFile audio,
-            @RequestParam(required = false) String writingScript,
+            @RequestParam(required = false) String userScript,
             @RequestParam String question,
             @RequestParam(required = false) LearningTestType learningTestType,
-            Model model,
-            HttpServletRequest request
+            Model model
     ) {
-        String userScript;
-
-        if (audio != null) {
-            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-            userScript = openAiClient.transcript(directory, audio);
-        } else {
-            userScript = writingScript;
-        }
 
         Learning learning = new Learning();
 
@@ -87,4 +78,25 @@ public class SentenceController {
         return "learning/learningCorrection";
     }
 
+    @ResponseBody
+    @PostMapping(value = "/learning/sentence/profanity")
+    public String checkProfanity(
+            @RequestParam(required = false) MultipartFile audio,
+            @RequestParam(required = false) String text,
+            HttpServletRequest request
+    ) {
+        String userScript="";
+        if (audio != null) {
+            String directory = request.getServletContext().getRealPath("/WEB-INF/files");
+            userScript = openAiClient.transcript(directory, audio);
+        } else {
+            userScript =  text;
+        }
+        double profanityScore = perspectiveClient.getProfanityScore(userScript);
+
+        JSONObject json = new JSONObject();
+        json.put("profanity", Boolean.toString(profanityScore > 0.7));
+        json.put("userScript", userScript);
+        return json.toString();
+    }
 }
