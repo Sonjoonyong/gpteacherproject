@@ -6,7 +6,12 @@
     <title>GPTeacher's CORRECTION</title>
 
     <%@ include file="../fragments/bootstrapCss.jsp" %>
+    <style>
+        .container {
+            max-width: 768px;
+        }
 
+    </style>
 </head>
 
 <body>
@@ -15,25 +20,27 @@
 <section class="container">
 
     <h3 class="h3 text-center my-3" style="color: #5DB99D;">GPTeacher's CORRECTION</h3>
-    <p class="text-center">GPT가 교정해준 문장입니다.</p>
+    <p class="text-center">GPTeaher가 교정해준 문장입니다.</p>
 
-    <p>Question: ${question}</p>
+    <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">Question: ${question}</p>
     <p>Your Answer:</p>
     <p>${userScript}</p>
     <p>GPTeacher's Correction:</p>
     <p id="correctedScript">${correctedScript}</p>
 
-    <div class="row g-0 gap-2 justify-content-center">
-        <button type="submit" class="btn col-1" id="ttsBtn" style="background-color: #5DB99D; color: white; width: 120px">
-            교정본 듣기
-        </button>
-
-        <form method="get" action="/learning/correction/sentences" class="col-1">
-            <button type="submit" class="btn" style="background-color: #5DB99D; color: white; width: 120px">
-                문장별 분석
+    <div class="d-flex justify-content-center">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3 me-3" id="ttsBtn" style="background-color: #5DB99D; color: white; width: 120px; margin-right: 30px;">
+                교정본 듣기
             </button>
-            <input type="hidden" name="learningId" value="${learningId}">
-        </form>
+
+            <form method="get" action="/learning/correction/sentences">
+                <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="background-color: #5DB99D; color: white; width: 120px">
+                    문장별 분석
+                </button>
+                <input type="hidden" name="learningId" value="${learningId}">
+            </form>
+        </div>
     </div>
 
 </section>
