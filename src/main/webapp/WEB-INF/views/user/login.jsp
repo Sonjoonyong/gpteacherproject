@@ -52,7 +52,7 @@
             <div class="row g-0">
                 <div class="col-4 text-center text-secondary py-0"><a href="/user/pwsearch">비밀번호 찾기</a></div>
                 <div class="col-4 text-center text-secondary"><a href="/user/idsearch">아이디 찾기</a></div>
-                <div class="col-4 text-center text-secondary"><a href="/user/new">회원가입</a></div>
+                <div class="col-4 text-center text-secondary"><a href="/user/signup">회원가입</a></div>
             </div>
 
             <div class="row g-0 my-3">
