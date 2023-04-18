@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class LoginInterceptor implements HandlerInterceptor {
+@Slf4j
+public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -17,11 +18,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute(SessionConst.LOGIN_USER) == null) {
-            response.sendRedirect("/user/login?redirectUri=" + requestUri);
-            return false;
+        if (session != null && session.getAttribute(SessionConst.LOGIN_USER) != null) {
+            User loginUser = (User) session.getAttribute(SessionConst.LOGIN_USER);
+            request.setAttribute("loginUser", loginUser);
         }
 
         return true;
     }
+
+
 }

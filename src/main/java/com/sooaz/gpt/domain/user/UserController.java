@@ -1,32 +1,59 @@
 package com.sooaz.gpt.domain.user;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
-    @GetMapping("/users/login")
+
+    private final UserService userService;
+
+    @GetMapping("/user/login")
     public String getLoginForm() {
         return "user/login";
     }
 
-    @PostMapping("/users/login")
+    @PostMapping("/user/login")
     public String login(
         @ModelAttribute LoginDto loginDto,
         BindingResult bindingResult,
-        @RequestParam String redirectUrl,
+        @RequestParam(defaultValue = "/") String redirectUrl,
         Model model,
         HttpServletRequest request
     ) {
+        User loginUser = userService.login(loginDto);
 
+        if (loginUser == null || bindingResult.hasErrors()) {
+            bindingResult.rejectValue("userLoginId", "아이디 또는 비밀번호가 잘못됐습니다.");
+            model.addAttribute("bindingResult", bindingResult);
+            return "user/login";
+        }
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("loginUser", loginUser);
+        log.info("user login: {}", loginUser);
 
         return "redirect:" + redirectUrl;
+    }
+
+    @GetMapping("/user/logout")
+    public String logout(
+            HttpServletRequest request
+    ) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
     }
 }

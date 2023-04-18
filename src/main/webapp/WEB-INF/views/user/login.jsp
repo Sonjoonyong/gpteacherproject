@@ -8,11 +8,7 @@
     <link rel="stylesheet" href="/css/base.css">
 
     <style>
-        nav .loginBtn, nav .signInBtn {
-            display: none;
-        }
-
-        .alarm {
+        nav .loginBtn, nav .signInBtn, alar {
             display: none;
         }
     </style>
@@ -22,23 +18,27 @@
 
 <%@ include file="../fragments/header.jsp" %>
 <section class="container" style="max-width: 500px;">
-    <form action="#" method="post" class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto"
+    <form action="/user/login" method="post" class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto"
           style="border: 2px solid #5DB99D;">
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
             <img class="col-12 mb-3" src="/images/logo.png">
 
-                <div class="alert alert-danger mb-0" role="alert" style="display: none;">
-                    에러 메시지
+            <c:if test="${bindingResult.hasErrors()}">
+                <div class="alert alert-danger mb-0" role="alert">
+                    아이디 또는 비밀번호가 맞지 않습니다.
                 </div>
-
+            </c:if>
             <div class="col-12 input-group input-group-lg p-0">
                 <span class="input-group-text w-25 fs-6">아이디</span>
-                <input type="text" class="form-control" aria-label="Sizing example input">
+                <input type="text" name="userLoginId" aria-label="Sizing example input"
+                       class="form-control"
+                       value="${bindingResult.getFieldValue('userLoginId')}">
             </div>
 
             <div class="col-12 input-group input-group-lg p-0">
                 <span class="input-group-text w-25 fs-6">비밀번호</span>
-                <input type="password" class="form-control" aria-label="Sizing example input">
+                <input type="password" name="userPassword"
+                       class="form-control ${bindingResult.hasErrors() ? 'error' : ''}" aria-label="Sizing example input">
             </div>
 
             <button type="col-12 submit" class="btn btn-lg" style="background-color: #5DB99D; color: white">로그인</button>
