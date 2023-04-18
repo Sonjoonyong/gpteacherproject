@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: gyurey
+  User: gyurey  게시물 수정 페이지
   Date: 2023/04/08
   Time: 5:25 PM
   To change this template use File | Settings | File Templates.
