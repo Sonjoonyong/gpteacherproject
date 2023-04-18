@@ -56,4 +56,17 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/user/new")
+    public String getSignupForm() {
+        return "/user/signupForm";
+    }
+
+    @PostMapping("/user/new")
+    public String signUp(
+            @ModelAttribute UserSignupDto userSignupForm
+    ) {
+
+        return "";
+    }
 }

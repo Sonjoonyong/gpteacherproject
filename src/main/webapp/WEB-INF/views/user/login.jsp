@@ -44,9 +44,9 @@
             <button type="col-12 submit" class="btn btn-lg" style="background-color: #5DB99D; color: white">로그인</button>
 
             <div class="row g-0">
-                <div class="col-4 text-center text-secondary py-0"><a href="users/search">비밀번호 찾기</a></div>
-                <div class="col-4 text-center text-secondary"><a href="users/search">아이디 찾기</a></div>
-                <div class="col-4 text-center text-secondary"><a href="users/signin">회원가입</a></div>
+                <div class="col-4 text-center text-secondary py-0"><a href="/user/pwsearch">비밀번호 찾기</a></div>
+                <div class="col-4 text-center text-secondary"><a href="/user/idsearch">아이디 찾기</a></div>
+                <div class="col-4 text-center text-secondary"><a href="/user/new">회원가입</a></div>
             </div>
 
             <div class="row g-0 my-3">
