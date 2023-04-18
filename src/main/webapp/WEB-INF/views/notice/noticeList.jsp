@@ -1,16 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gyurey
-  Date: 2023/04/08
-  Time: 5:39 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>고객센터</title>
+
+    <link rel="stylesheet" href="/css/base.css">
+    <%@ include file="../fragments/bootstrapCss.jsp" %>
 </head>
 <body>
 
+<%@ include file="../fragments/header.jsp" %>
+
+<section class="container">
+
+
+</section>
+
+<%@ include file="../fragments/footer.jsp" %>
+
+<%@ include file="../fragments/bootstrapJs.jsp" %>
 </body>
 </html>

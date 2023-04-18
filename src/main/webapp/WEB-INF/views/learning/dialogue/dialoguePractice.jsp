@@ -190,6 +190,11 @@
         </div>
     </div>
     <!--dialogue end-->
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_2and3.png" alt="Step Second" style="max-width: 100%;">
+    </div>
+
 </template>
 
 <!--Wav 파일 업로드 라이브러리 -->

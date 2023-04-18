@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>QUESTION & ANSWER</title>
 
+    <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
     <style>
