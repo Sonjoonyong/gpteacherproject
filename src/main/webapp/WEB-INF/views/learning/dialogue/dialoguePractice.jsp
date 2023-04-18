@@ -139,7 +139,7 @@
                                 <span class="col-12 col-md-8" style="color: #16967A;">
                                     Corrected sentence
                                 </span>
-                            <span class="col-12 col-md-4 pronunciationAccuracy">
+                            <span class="col-12 col-md-4 pronunciationAccuracy text-end">
                                         <!-- 발음 정확도: 90% -->
                                 </span>
                         </div>
@@ -164,7 +164,7 @@
 
                 <div class="col-12 col-md-2">
                     <div class="row g-0">
-                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLikeAjax(this)">
+                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleSentenceLikeAjax(this)">
                             <i class="like bi bi-heart"></i>
                         </button>
 
