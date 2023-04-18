@@ -22,7 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/login")
-    public String getLoginForm() {
+    public String getLoginForm(Model model) {
+        model.addAttribute("loginDto", new LoginDto());
         return "user/login";
     }
 
@@ -31,14 +32,14 @@ public class UserController {
         @Valid @ModelAttribute LoginDto loginDto,
         BindingResult bindingResult,
         @RequestParam(defaultValue = "/") String redirectUrl,
-        Model model,
         HttpServletRequest request
     ) {
-        User loginUser = userService.login(loginDto);
+        if (bindingResult.hasErrors()) {
+            return "user/login";
+        }
 
-        if (loginUser == null || bindingResult.hasErrors()) {
-            bindingResult.rejectValue("userLoginId", "아이디 또는 비밀번호가 잘못됐습니다.");
-            model.addAttribute("bindingResult", bindingResult);
+        User loginUser = userService.login(loginDto);
+        if (loginUser == null) {
             return "user/login";
         }
         
