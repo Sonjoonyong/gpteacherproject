@@ -6,6 +6,7 @@
 <head>
     <title>GPTeacher</title>
 
+    <link rel="stylesheet" href="/css/base.css">
     <%@ include file="fragments/bootstrapCss.jsp" %>
 
 </head>
@@ -13,7 +14,7 @@
 <body>
 <%@ include file="fragments/header.jsp" %>
 
-<section class="container">
+<section class="container-fluid">
 
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
