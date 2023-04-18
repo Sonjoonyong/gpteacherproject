@@ -15,4 +15,6 @@ public class Learning {
     private String learningTopic;
     private Date learningDate;
     private Character learningLike;
+    private Integer sentenceCount;
+    private Integer averageAccuracy;
 }
