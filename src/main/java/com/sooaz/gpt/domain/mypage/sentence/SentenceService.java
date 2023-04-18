@@ -1,56 +1,65 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SentenceService {
 
     private final SentenceRepository sentenceRepository;
 
-    public char updateStatus(Long sentenceId, String type) {
-        char currentStatus = getStatus(sentenceId, type); // like or flashcardId의 현재 상태 구하기
+    public String toggleLike(Long sentenceId) {
 
-        //sentenceUpdateDto 객체 생성 & 초기화
-        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
-        sentenceUpdateDto.setSentenceId(sentenceId);
-
-        if (type.equals("like")) {
-            if (currentStatus == '0') { //status change
-                sentenceUpdateDto.setSentenceLike('1');
-            } else {
-                sentenceUpdateDto.setSentenceLike('0');
-            }
-
-        } else if (type.equals("storage")) {
-            if (currentStatus == '0') {
-                sentenceUpdateDto.setFlashcardId(1L); //임시 flashcardId = 1
-            } else {
-                sentenceUpdateDto.setFlashcardId(-2L); //-2가 id로 들어오면 null로 update
-            }
+        Optional<Sentence> sentenceOptional = sentenceRepository.findById(sentenceId);
+        if (sentenceOptional.isEmpty()) {
+            log.error("존재하지 않는 문장입니다.");
+            return "2";
         }
+        Sentence sentence = sentenceOptional.get();
 
-        //sentence DB 업데이트
-        sentenceRepository.update(sentenceUpdateDto);
-        return getStatus(sentenceId, type);
+        Character like = sentence.getSentenceLike();
+
+        SentenceUpdateDto dto = new SentenceUpdateDto();
+        dto.setSentenceId(sentenceId);
+
+        if (like != null && like == '1') {
+            dto.setSentenceLike('0');
+            sentenceRepository.update(dto);
+            return "0";
+        } else {
+            dto.setSentenceLike('1');
+            sentenceRepository.update(dto);
+            return "1";
+        }
     }
 
-    private char getStatus(Long sentenceId, String type) {
-        Sentence sentence = sentenceRepository.findById(sentenceId)
-                .orElseThrow(IllegalStateException::new);
-        char result = ' ';
+    public String toggleStorage(Long sentenceId) {
 
-        if (type.equals("like")) {
-            result = sentence.getSentenceLike(); //객체의 현재 like 반환
-        } else if (type.equals("storage")) {
-            Long flashcardId = sentence.getFlashcardId(); //객체의 현재 flashcardId 반환
-            if (flashcardId==null) {
-                result = '0';
-            } else {
-                result = '1';
-            }
+        Optional<Sentence> sentenceOptional = sentenceRepository.findById(sentenceId);
+        if (sentenceOptional.isEmpty()) {
+            log.error("존재하지 않는 문장입니다.");
+            return "2";
         }
-        return result;
+        Sentence sentence = sentenceOptional.get();
+
+        Long flashcardId = sentence.getFlashcardId();
+
+        SentenceUpdateDto dto = new SentenceUpdateDto();
+        dto.setSentenceId(sentenceId);
+
+        if (flashcardId == null || flashcardId == -2L) {
+            dto.setFlashcardId(1L);
+            sentenceRepository.update(dto);
+            return "1";
+        } else {
+            dto.setFlashcardId(-2L);
+            sentenceRepository.update(dto);
+            return "0";
+        }
     }
 }

@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,14 +48,10 @@ public class DialogueController {
     @ResponseBody
     @PostMapping(value = "/learning/dialogue/transcript", produces = "application/json")
     public String transcript(
-            @RequestParam MultipartFile audio,
+            @RequestParam String userTalk,
             @RequestParam String priorAssistantTalk,
-            @RequestParam Long learningId,
-            HttpServletRequest request
-    ) throws IOException {
-
-        String directory = request.getServletContext().getRealPath("/WEB-INF/files");
-        String userTalk = openAiClient.transcript(directory, audio);
+            @RequestParam Long learningId
+    ) {
         String result = dialogueService.talk(priorAssistantTalk, userTalk, learningId);
         return result;
     }

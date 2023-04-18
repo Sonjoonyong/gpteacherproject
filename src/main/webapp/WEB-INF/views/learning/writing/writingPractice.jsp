@@ -32,11 +32,11 @@
 
         <div class="form-group">
             <label for="answer">Answer : </label>
-            <textarea class="form-control px-3 py-2 my-3 shadow" cols="100" rows="30" name="writingScript" id="answer"></textarea>
+            <textarea class="form-control px-3 py-2 my-3 shadow" cols="100" rows="30" name="userScript" id="answer"></textarea>
         </div>
 
         <div class="text-center submit-container">
-            <button type="submit" id="submitBtn" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D">교정받기</button>
+            <input type="button" id="submitBtn" value="교정받기" onclick="checkProfanity(); return false;" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D"/>
 
             <div id="waitingMessage" class="row justify-content-center" style="display:none;">
                 <div class="col-12 text-center mb-2">
@@ -45,28 +45,49 @@
                 <div class="col-12 text-center">문장을 분석중입니다.</div>
             </div>
         </div>
-
-
     </form>
 </section>
-
-<%@ include file="../../fragments/footer.jsp" %>
 
 <script>
     const form = document.querySelector("form");
     const submitBtn = document.getElementById("submitBtn");
     const waitingMessage = document.getElementById("waitingMessage");
 
-    submitBtn.addEventListener("click", (e) => {
-        e.preventDefault();
+    function showWaiting() {
         submitBtn.style.display = "none";
         waitingMessage.style.display = "block";
         setTimeout(() => {
             form.submit();
         }, 100);
-    });
+    }
+
+    function checkProfanity() {
+        let request = new XMLHttpRequest();
+
+        let writingScript = document.getElementById("answer").value;
+
+        let formData = new FormData();
+        formData.append('text', writingScript);
+        console.log(writingScript);
+
+        request.onload = () => {
+            let profanity = request.response.profanity;
+            if (profanity == "true") {
+                document.getElementById("answer").value = '';
+                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+            }
+            if (profanity == "false") {
+                showWaiting();
+            }
+        }
+
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
+        request.send(formData);
+    }
 </script>
 
+<%@ include file="../../fragments/footer.jsp" %>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
