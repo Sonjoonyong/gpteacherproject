@@ -87,6 +87,7 @@
             <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
                 <i class="bi bi-square-fill"></i>
             </button>
+            <p class="text-center" id="recordInstruction" style="display:none">버튼을 누르고 답변하시오.</p>
         </div>
 
         <div id="waitingMessage" class="row justify-content-center">
@@ -109,12 +110,14 @@
 <script>
     let startBtn = document.querySelector('#startAudio');
     let initialQuestion = document.querySelector('#question').innerText;
+    let recordInstruction = document.querySelector('#recordInstruction');
 
     startBtn.onclick = () => {
         let question = initialQuestion;
         setBtnsRecordPossible();
         startBtn.disabled = true;
         startBtn.style.display = 'none';
+        recordInstruction.style.display='block';
         ttsAjax(question);
     }
 
@@ -227,6 +230,7 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'none';
+        recordInstruction.style.display='block';
     }
 
     // 녹음 중
@@ -237,6 +241,7 @@
         stopButton.disabled = false;
         stopButton.style.display = 'block';
         waitingMessage.style.display = 'none';
+        recordInstruction.style.display='none';
     }
 
     // 대기 중
@@ -252,6 +257,7 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'block';
+        recordInstruction.style.display='none';
     }
 </script>
 

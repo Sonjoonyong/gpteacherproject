@@ -6,7 +6,11 @@
     <title>Speaking</title>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
+    <style>
+        .step{
 
+        }
+    </style>
     <style>
         .test {
             width: 350px;
