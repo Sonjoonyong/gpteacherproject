@@ -5,6 +5,7 @@
 <head>
     <title>Writing</title>
 
+    <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
     <style>

@@ -104,6 +104,11 @@
             <b id="time" class="col-2"></b>
         </div>
     </div>
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
+    </div>
+
 </section>
 <%@ include file="../../fragments/footer.jsp" %>
 
