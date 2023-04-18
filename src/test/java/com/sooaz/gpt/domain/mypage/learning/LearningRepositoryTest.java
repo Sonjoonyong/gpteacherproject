@@ -61,19 +61,29 @@ public class LearningRepositoryTest {
     }
 
     @Test
-    public void FindAll() {
+    public void Find() {
         Learning learning1 = new Learning();
         learning1.setUserId(1000000L);
         learning1.setLearningTopic("sports");
+        learning1.setLearningType(LearningType.DIALOGUE);
 
         Learning learning2 = new Learning();
         learning2.setUserId(2000000L);
         learning2.setLearningTopic("food");
+        learning2.setLearningType(LearningType.DIALOGUE);
+
+        Learning learning3 = new Learning();
+        learning3.setUserId(2000000L);
+        learning3.setLearningTopic("food");
+        learning3.setLearningType(LearningType.SPEAKING);
 
         learningRepository.save(learning1);
         learningRepository.save(learning2);
+        learningRepository.save(learning3);
 
-        List<Learning> learnings = learningRepository.findAll();
+        LearningFindDto learningFindDto = new LearningFindDto();
+        learningFindDto.setUserId(2000000L);
+        List<Learning> learnings = learningRepository.findByUserId(learningFindDto);
 
         assertEquals(2, learnings.size());
     }

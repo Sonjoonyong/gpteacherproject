@@ -12,6 +12,8 @@ public interface LearningMapper {
 
     Optional<Learning> findById(Long learningId);
 
+    List<Learning> findByUserId(LearningFindDto learningFindDto);
+
     List<Learning> findAll();
 
     void update(LearningUpdateDto learningUpdateDto);

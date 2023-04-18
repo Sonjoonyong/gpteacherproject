@@ -69,11 +69,10 @@ public class WritingService {
         return openAiClient.chat(initialInstruction);
     }
 
-    public String talk(LearningTestType learningTestType, String question, String userScript, Learning learning) {
+    public String talk(String question, String userScript, Learning learning) {
 
         learning.setUserId(1L); // TODO - 로그인 구현 후 변경
         learning.setLearningTopic(question);
-        learning.setLearningTestType(learningTestType);
         learning.setLearningType(LearningType.WRITING);
 
         learningRepository.save(learning);
