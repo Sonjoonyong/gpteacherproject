@@ -69,6 +69,11 @@
         </div>
 
     </form>
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_first.png" alt="Step First" style="max-width: 100%;">
+    </div>
+
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
