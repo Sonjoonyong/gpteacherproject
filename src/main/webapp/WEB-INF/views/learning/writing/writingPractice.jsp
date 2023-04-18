@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>QUESTION & ANSWER</title>
 
+    <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
     <style>
@@ -31,8 +32,8 @@
         <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">Question: <span>${question}</span></p>
 
         <div class="form-group">
-            <label for="answer">Answer : </label>
-            <textarea class="form-control px-3 py-2 my-3 shadow" cols="100" rows="30" name="userScript" id="answer"></textarea>
+            <label for="answer" style="font-weight: bold; color: #2A6976">Answer </label>
+            <textarea class="form-control px-3 py-2 my-3" cols="100" rows="30" name="userScript" id="answer"></textarea>
         </div>
 
         <div class="text-center submit-container">
@@ -46,6 +47,10 @@
             </div>
         </div>
     </form>
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
+    </div>
 </section>
 
 <script>

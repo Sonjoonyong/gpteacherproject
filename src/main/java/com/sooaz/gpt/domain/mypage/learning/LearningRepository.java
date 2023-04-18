@@ -22,6 +22,10 @@ public class LearningRepository {
         return learningMapper.findById(learningId);
     }
 
+    public List<Learning> findByUserId(LearningFindDto learningFindDto) {
+        return learningMapper.findByUserId(learningFindDto);
+    }
+
     public List<Learning> findAll() {
         return learningMapper.findAll();
     }

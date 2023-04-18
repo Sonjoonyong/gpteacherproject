@@ -72,7 +72,7 @@
 
                 <div class="col-12 col-md-2">
                     <div class="row g-0">
-                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLikeAjax(this)">
+                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleSentenceLikeAjax(this)">
                             <i class="like bi bi-heart${not empty sentence.sentenceLike && sentence.sentenceLike == '1'.charAt(0) ? '-fill' : ''}"></i>
                         </button>
 
@@ -85,6 +85,10 @@
         </div>
         <!-- sentence end -->
     </c:forEach>
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_fourth.png" alt="Step Fourth" style="max-width: 100%;">
+    </div>
 
 </section>
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>GPTeacher's CORRECTION</title>
 
+    <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <style>
         .container {
@@ -23,10 +24,10 @@
     <p class="text-center">GPTeaher가 교정해준 문장입니다.</p>
 
     <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">Question: ${question}</p>
-    <p>Your Answer:</p>
-    <p>${userScript}</p>
-    <p>GPTeacher's Correction:</p>
-    <p id="correctedScript">${correctedScript}</p>
+    <p style="font-weight: bold; color: #2A6976">Your Answer</p>
+    <p class="rounded-1 px-3 py-2 my-3" style="border: 1px solid #ccc">${userScript}</p>
+    <p style="font-weight: bold; color: #16967A">GPTeacher's Correction</p>
+    <p id="correctedScript" class="rounded-1 px-3 py-2 my-3" style="border: 1px solid #ccc">${correctedScript}</p>
 
     <div class="d-flex justify-content-center">
         <div class="btn-group">
@@ -43,6 +44,9 @@
         </div>
     </div>
 
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_third.png" alt="Step Third" style="max-width: 100%;">
+    </div>
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>

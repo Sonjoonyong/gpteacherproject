@@ -88,6 +88,7 @@
             <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
                 <i class="bi bi-square-fill"></i>
             </button>
+            <p class="text-center" id="recordInstruction" style="display:none">버튼을 누르고 답변하시오.</p>
         </div>
 
         <div id="waitingMessage" class="row justify-content-center">
@@ -103,6 +104,11 @@
             <b id="time" class="col-2"></b>
         </div>
     </div>
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
+    </div>
+
 </section>
 <%@ include file="../../fragments/footer.jsp" %>
 
@@ -110,6 +116,8 @@
 <script>
     let startBtn = document.querySelector('#startAudio');
     let initialQuestion = document.querySelector('#question').innerText;
+    let recordInstruction = document.querySelector('#recordInstruction');
+
 
     startBtn.onclick = () => {
         let question = initialQuestion;
@@ -131,7 +139,7 @@
     let mx = 30; // 최대 시간(초)
 
     let sttForm = document.querySelector("#sttForm");
-    //let audioFile = document.querySelector("#audioFile");
+    let audioFile = document.querySelector("#audioFile");
 
     function mediaStart() {
 
@@ -227,6 +235,7 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'none';
+        recordInstruction.style.display='block';
     }
 
     // 녹음 중
@@ -237,6 +246,7 @@
         stopButton.disabled = false;
         stopButton.style.display = 'block';
         waitingMessage.style.display = 'none';
+        recordInstruction.style.display='none';
     }
 
     // 대기 중

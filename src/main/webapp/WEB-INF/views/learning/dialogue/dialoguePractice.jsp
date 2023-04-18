@@ -190,6 +190,11 @@
         </div>
     </div>
     <!--dialogue end-->
+
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_2and3.png" alt="Step Second" style="max-width: 100%;">
+    </div>
+
 </template>
 
 <!--Wav 파일 업로드 라이브러리 -->
@@ -232,8 +237,14 @@
     }
 
     function retry() {
-        alert("잘못된 문장입니다. 다시 응답해주세요.");
-        audio && audio.pause();
+        Swal.fire({
+            icon: 'error',
+            title: '다시 입력해주세요.',
+            text: '부적절한 답변입니다.',
+        });
+        if (audio) {
+            audio.pause();
+        }
         setBtnsRecordPossible();
     }
 
@@ -471,6 +482,9 @@
     }
 
 </script>
+
+<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
