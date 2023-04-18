@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +28,9 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
-    public void save() {
+    public void crud() {
+
+        // 생성, 조회
         User user = new User();
         user.setUserLoginId("admin");
         user.setUserPassword("1234");
@@ -36,8 +40,26 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
 
-        User foundUser = userRepository.findById(user.getId());
+        User foundUser = userRepository.findById(user.getId()).get();
 
         assertEquals(foundUser.getUserLoginId(), user.getUserLoginId());
+
+        // 업데이트
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+        Date newBirthday = new Date();
+        newBirthday.setYear(2000);
+        userUpdateDto.setUserBirthday(newBirthday);
+        userUpdateDto.setUserId(user.getId());
+
+        userRepository.update(userUpdateDto);
+
+        User updatedUser = userRepository.findById(user.getId()).get();
+
+        assertEquals(newBirthday.getYear(), updatedUser.getUserBirthday().getYear());
+
+        // 삭제
+        userRepository.delete(user.getId());
+        Optional<User> userOptional = userRepository.findById(user.getId());
+        assertTrue(userOptional.isEmpty());
     }
 }

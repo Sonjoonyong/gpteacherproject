@@ -28,8 +28,37 @@
         )
     </insert>
 
+    <select id="findAll" resultType="User">
+        select * from USERS
+    </select>
+
+
     <select id="findById" parameterType="long" resultType="User">
         select * from USERS where id = #{userId}
     </select>
+
+    <select id="findByLoginId" parameterType="String" resultType="User">
+        select * from USERS where USER_LOGIN_ID = #{userLoginId}
+    </select>
+
+    <update id="update">
+        update USERS
+        <set>
+            <if test="userPassword != null">
+                user_password = #{userPassword},
+            </if>
+            <if test="userNickname != null">
+                user_nickname = #{userNickname},
+            </if>
+            <if test="userBirthday != null">
+                user_birthday = #{userBirthday},
+            </if>
+        </set>
+        where id = #{userId}
+    </update>
+
+    <delete id="delete">
+        delete from USERS where ID = #{userId}
+    </delete>
 
 </mapper>
