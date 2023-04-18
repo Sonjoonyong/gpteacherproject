@@ -28,9 +28,11 @@
                     </li>
                 </ul>
 
-                <i class="bi bi-bell fs-5 me-3 fw-bold"></i>
-                <a type="button" class="btn btn-outline-success mx-2" href="/users/login">로그인</a>
-                <a type="button" class="btn btn-outline-secondary" href="user/login/signin">회원가입</a>
+                <button class="btn p-0 border-0">
+                    <i class="alarm bi bi-bell fs-5 me-3 fw-bold"></i>
+                </button>
+                <a type="button" class="loginBtn btn btn-outline-success mx-2" href="/users/login">로그인</a>
+                <a type="button" class="signInBtn btn btn-outline-secondary" href="user/login/signin">회원가입</a>
             </div>
         </div>
     </nav>
