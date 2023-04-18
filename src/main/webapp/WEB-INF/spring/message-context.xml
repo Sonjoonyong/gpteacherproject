@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- 메세지 파일의 위치를 지정합니다. message_언어.properties 파일을 찾습니다. -->
+                <value>/WEB-INF/messages/message</value>
+            </list>
+        </property>
+
+        <!-- 파일의 기본 인코딩을 지정합니다. -->
+        <property name="defaultEncoding" value="UTF-8" />
+
+        <!-- properties 파일이 변경되었는지 확인하는 주기를 지정합니다. 60초 간격으로 지정했습니다. -->
+        <property name="cacheSeconds" value="60" />
+    </bean>
+
+</beans>
