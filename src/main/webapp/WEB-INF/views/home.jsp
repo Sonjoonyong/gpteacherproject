@@ -41,7 +41,7 @@
 <body>
 <%@ include file="fragments/header.jsp" %>
 
-<section class="container-fluid">
+<section class="container">
 
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
