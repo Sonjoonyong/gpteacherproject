@@ -16,7 +16,8 @@
             user_nickname,
             user_role,
             user_email,
-            user_birthday
+            user_birthday,
+            user_alarm_agreement
         )
         values
         (
@@ -26,7 +27,8 @@
             #{userNickname},
             #{userRole},
             #{userEmail},
-            #{userBirthday}
+            #{userBirthday},
+            #{userAlarmAgreement}
         )
     </insert>
 
@@ -54,6 +56,9 @@
             </if>
             <if test="userBirthday != null">
                 user_birthday = #{userBirthday},
+            </if>
+            <if test="userBirthday != null">
+                user_birthday = #{userAlarmAgreement},
             </if>
         </set>
         where id = #{userId}
