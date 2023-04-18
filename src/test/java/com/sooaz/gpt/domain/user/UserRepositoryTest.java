@@ -35,6 +35,7 @@ public class UserRepositoryTest {
         user.setUserLoginId("admin");
         user.setUserPassword("1234");
         user.setUserNickname("어드민");
+        user.setUserRole(UserRole.ADMIN);
         user.setUserEmail("admin@google.com");
         user.setUserBirthday(new Date());
 

@@ -15,6 +15,7 @@
     <typeHandlers>
         <typeHandler handler="com.sooaz.gpt.global.handlers.LearningTypeHandler"/>
         <typeHandler handler="com.sooaz.gpt.global.handlers.LearningTestTypeHandler"/>
+        <typeHandler handler="com.sooaz.gpt.global.handlers.UserRoleHandler"/>
     </typeHandlers>
 
 </configuration>

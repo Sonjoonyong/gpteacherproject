@@ -12,6 +12,7 @@ public class User {
     private String userLoginId;
     private String userPassword;
     private String userNickname;
+    private UserRole userRole;
     private String userEmail;
     private Date userBirthday;
 

@@ -14,6 +14,7 @@
             user_login_id,
             user_password,
             user_nickname,
+            user_role,
             user_email,
             user_birthday
         )
@@ -23,6 +24,7 @@
             #{userLoginId},
             #{userPassword},
             #{userNickname},
+            #{userRole},
             #{userEmail},
             #{userBirthday}
         )
