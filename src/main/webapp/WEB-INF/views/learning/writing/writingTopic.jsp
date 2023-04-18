@@ -81,7 +81,9 @@
             <input type="submit" value="선택한 주제로 시작" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D">
         </div>
     </form>
-
+    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+        <img src="/images/step_first.png" alt="Step First" style="max-width: 100%;">
+    </div>
 </section>
 
 <script>
