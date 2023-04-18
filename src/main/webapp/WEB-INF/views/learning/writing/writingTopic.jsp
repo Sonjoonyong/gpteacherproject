@@ -49,7 +49,7 @@
 <section class="container">
     <h3 class="h3 text-center my-3" style="color: #5DB99D">TOPIC</h3>
 
-    <form action="/learning/writing" method="post" class="row d-flex justify-content-center">
+    <form action="/learning/writing" method="post" id="customTopicForm" class="row d-flex justify-content-center">
         <div class="form-option text-center">
             <input type="hidden" name="topicType" value="customTopic">
             <label for="customTopic" class="text-center mb-2">주제를 직접 입력하여 글쓰기를 연습합니다.</label><br>
@@ -57,7 +57,7 @@
             <div class="text-center example" style="margin-top: 15px">ex) The effects of social media on mental health and interpersonal relationships.</div>
         </div>
         <div class="row justify-content-center mt-5">
-            <input type="submit" value="작성한 주제로 시작" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D">
+            <input type="button" value="작성한 주제로 시작" onclick="checkProfanity(); return false;" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D">
         </div>
     </form>
 
@@ -85,8 +85,6 @@
         <img src="/images/step_first.png" alt="Step First" style="max-width: 100%;">
     </div>
 </section>
-
-<%@ include file="../../fragments/footer.jsp" %>
 
 <script>
     function selectTopic(topic) {
@@ -116,8 +114,34 @@
 
     selectTopic('POLITICS');
 
+    function checkProfanity() {
+        let request = new XMLHttpRequest();
+
+        let form = document.getElementById('customTopicForm');
+        let topic = form.querySelector('#customTopic').value;
+
+        let formData = new FormData();
+        formData.append('text',topic);
+
+        request.onload = () => {
+            let profanity = request.response.profanity;
+            console.log(profanity);
+            if (profanity == "true") {
+                document.getElementById('customTopic').value = '';
+                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+            }
+            if (profanity == "false") {
+                form.submit();
+            }
+        }
+
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
+        request.send(formData);
+    }
 </script>
 
+<%@ include file="../../fragments/footer.jsp" %>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 

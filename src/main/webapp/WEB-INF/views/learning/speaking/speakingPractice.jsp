@@ -49,7 +49,8 @@
 
 <form method="post" style="display: none" id="sttForm" action="/learning/correction/script"
       enctype="multipart/form-data">
-    <input type="file" name="audio" id="audioFile"/>
+<%--    <input type="file" name="audio" id="audioFile"/>--%>
+    <input type="hidden" name="userScript" id="userScript"/>
     <input type="hidden" name="question" class="question" value="${question}"/>
     <input type="hidden" name="learningTestType" value="${learningTestType}"/>
 </form>
@@ -87,6 +88,7 @@
             <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
                 <i class="bi bi-square-fill"></i>
             </button>
+            <p class="text-center" id="recordInstruction" style="display:none">버튼을 누르고 답변하시오.</p>
         </div>
 
         <div id="waitingMessage" class="row justify-content-center">
@@ -109,6 +111,8 @@
 <script>
     let startBtn = document.querySelector('#startAudio');
     let initialQuestion = document.querySelector('#question').innerText;
+    let recordInstruction = document.querySelector('#recordInstruction');
+
 
     startBtn.onclick = () => {
         let question = initialQuestion;
@@ -179,12 +183,11 @@
 
                 // 녹음이 종료되면 서버로 녹음 내용을 보내고 결과를 받아오는 처리 **어려움**
                 mediaRecorder.onstop = () => {
-                    let file = new File(chunks, "answerFile");
-                    console.log(chunks);
-                    let temp = new DataTransfer();
-                    temp.items.add(file);
-                    audioFile.files = temp.files;
-                    sttForm.submit();
+                    const blob = new Blob(chunks, {'type': 'audio/webm codecs=opus'});
+
+                    let formData = new FormData();
+                    formData.append("audio", blob);
+                    checkProfanity(formData);
                 }
 
             }).catch(err => {
@@ -227,6 +230,7 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'none';
+        recordInstruction.style.display='block';
     }
 
     // 녹음 중
@@ -237,6 +241,7 @@
         stopButton.disabled = false;
         stopButton.style.display = 'block';
         waitingMessage.style.display = 'none';
+        recordInstruction.style.display='none';
     }
 
     // 대기 중
@@ -252,6 +257,26 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'block';
+    }
+
+    function checkProfanity(formData) {
+        let request = new XMLHttpRequest();
+
+        request.onload = () => {
+            let result = request.response;
+            if (result.profanity == 'true') {
+                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                setBtnsRecordPossible();
+            } else {
+                document.getElementById('userScript').value = result.userScript;
+                sttForm.submit();
+            }
+        }
+
+        formData.enctype = "multipart/form-data";
+        request.open("POST","/learning/sentence/profanity", true);
+        request.responseType = "json";
+        request.send(formData)
     }
 </script>
 
