@@ -31,7 +31,7 @@
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
             <img class="col-12 mb-3" src="/images/logo.png">
 
-            <form:errors path="">
+            <form:errors path="*">
                 <div class="alert alert-danger mb-0">
                     아이디 또는 비밀번호가 맞지 않습니다.
                 </div>
