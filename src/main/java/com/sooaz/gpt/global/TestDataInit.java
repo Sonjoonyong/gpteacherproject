@@ -21,27 +21,29 @@ public class TestDataInit {
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // 테스트 데이터 설정
         Optional<User> adminOpt = userRepository.findByLoginId("admin");
-        if (adminOpt.isEmpty()) {
-            User admin = new User();
-            admin.setUserLoginId("admin");
-            admin.setUserPassword("1234");
-            admin.setUserNickname("어드민");
-            admin.setUserRole(UserRole.ADMIN);
-            admin.setUserEmail("admin@mail.com");
-            admin.setUserBirthday(new Date());
-            userRepository.save(admin);
+        if (adminOpt.isPresent()) {
+            userRepository.delete(adminOpt.get().getId());
         }
+        User admin = new User();
+        admin.setUserLoginId("admin");
+        admin.setUserPassword("123!@#");
+        admin.setUserNickname("어드민");
+        admin.setUserRole(UserRole.ADMIN);
+        admin.setUserEmail("admin@mail.com");
+        admin.setUserBirthday(new Date());
+        userRepository.save(admin);
 
         Optional<User> userOpt = userRepository.findByLoginId("user");
-        if (userOpt.isEmpty()) {
-            User user = new User();
-            user.setUserLoginId("user");
-            user.setUserPassword("1234");
-            user.setUserNickname("홍길동");
-            user.setUserRole(UserRole.USER);
-            user.setUserEmail("user@mail.com");
-            user.setUserBirthday(new Date());
-            userRepository.save(user);
+        if (userOpt.isPresent()) {
+            userRepository.delete(userOpt.get().getId());
         }
+        User user = new User();
+        user.setUserLoginId("user");
+        user.setUserPassword("123!@#");
+        user.setUserNickname("홍길동");
+        user.setUserRole(UserRole.USER);
+        user.setUserEmail("user@mail.com");
+        user.setUserBirthday(new Date());
+        userRepository.save(user);
     }
 }
