@@ -33,17 +33,20 @@ public class DialogueService {
             "Don't append any comment except your role-play talk. " +
             "Start conversation with your first talk to me with just single sentence.";
 
-    // 유저 발화 지시문 템플릿. userRole, userTalk, assistantRole 순으로 String.format()
-    private String USER_TALK_INSTRUCTION = "This is my talk as \"%s\": \"%s\"\n\n" +
+    // 교정 요청 지시문 템플릿
+    private String CORRECTION_INSTRUCTION = "This is my talk as \"%s\": \"%s\"\n\n" +
             "And this is instruction : \n" +
-            "First, answer to my talk as \"%s\" role.\n" +
-            "Second, correct my talk in terms of grammar and clarity.\n" +
-            "Third, explain for the correction.\n" +
+            "First, correct my talk in terms of grammar and clarity.\n" +
+            "Second, explain for the correction.\n" +
             "\n" +
             "Give me response in JSON file like below without unnecessary comment:\n" +
-            "{ answer : \"your answer. Must not be empty\",\n" +
-            "corrected : \"corrected version of my talk\",\n" +
+            "{corrected : \"corrected version of my talk\",\n" +
             "explanation : \"explanation for correction\" }";
+
+    // 단순 대화 지시문 템플릿. userRole, userTalk, assistantRole 순으로 String.format()
+    private String USER_TALK_INSTRUCTION = "This is my talk as \"%s\": \"%s\"\n\n" +
+            "Answer to my talk as \"%s\" role.\n" +
+            "Do noy append unnecessary comment except your answer.";
 
     public String initDialogue(DialogueTopicDto dialogueTopicDto) {
 
@@ -69,15 +72,9 @@ public class DialogueService {
         return learningRepository.save(learning).getId();
     }
 
-    public String talk(String priorAssistantTalk, String userTalk, Long learningId) {
-        List<JSONObject> messages = new ArrayList<>();
+    private List<JSONObject> getPastMessages(Learning learning) {
 
-        Optional<Learning> learningOptional = learningRepository.findById(learningId);
-        if (learningOptional.isEmpty()) {
-            log.error("Learning optional is empty");
-            return "retry";
-        }
-        Learning learning = learningOptional.get();
+        List<JSONObject> messages = new ArrayList<>();
 
         // 최초 지시문 추가
         String learningTopic = learning.getLearningTopic();
@@ -85,8 +82,8 @@ public class DialogueService {
         try {
             learningTopicJson = new JSONObject(learningTopic);
         } catch (Exception e) {
-            log.error("Earning topic data from database is not parsable for JSON, \n", e);
-            return "retry";
+            log.error("Learning topic data from database is not parsable for JSON, \n", e);
+            return null;
         }
 
         String initialInstruction = String.format(INITIAL_INSTRUCTION,
@@ -100,92 +97,92 @@ public class DialogueService {
         messages.add(topicMessage);
 
         // 과거 대화 내역 추가
-        List<Sentence> sentences = sentenceRepository.findAllByLearningId(learningId);
+        List<Sentence> sentences = sentenceRepository.findAllByLearningId(learning.getId());
         Collections.sort(sentences, Comparator.comparing(Sentence::getId));
 
-        for (Sentence sen : sentences) {
-            String aPastAssistantTalk = sen.getSentenceQuestion();
-            String pastUserTalk = sen.getSentenceAnswer();
+        for (Sentence sentence : sentences) {
+            String pastAssistantTalk = sentence.getSentenceQuestion();
+            String pastUserTalk = sentence.getSentenceAnswer();
 
-            JSONObject assistantMessage = OpenAiClient.assistantMessage(aPastAssistantTalk);
+            JSONObject assistantMessage = OpenAiClient.assistantMessage(pastAssistantTalk);
             JSONObject userMessage = OpenAiClient.userMessage(pastUserTalk);
 
             messages.add(assistantMessage);
             messages.add(userMessage);
         }
 
-        // 지시문에 유저 답변 결합 후 추가
+        return messages;
+    }
+
+    public String talk(String priorAssistantTalk, String userTalk, Long learningId) {
+
+        Optional<Learning> learningOptional = learningRepository.findById(learningId);
+        if (learningOptional.isEmpty()) {
+            log.error("Learning optional is empty");
+            return null;
+        }
+        Learning learning = learningOptional.get();
+
+
+        // 과거 대화 내역 추출
+        List<JSONObject> messages = getPastMessages(learning);
+
+        // 교정 요청 지시문 추가
         JSONObject topicJson = new JSONObject(learning.getLearningTopic());
         String userRole = topicJson.getString("userRole");
-        String assistantRole = topicJson.getString("assistantRole");
 
+        String correctionInstruction = String.format(CORRECTION_INSTRUCTION, userRole, userTalk);
+        JSONObject correctionMessage = OpenAiClient.userMessage(correctionInstruction);
+        messages.add(correctionMessage);
+
+        String correctionStr = openAiClient.chat(messages);
+        JSONObject correctionJson;
+        try {
+             correctionJson = new JSONObject(correctionStr);
+        } catch (Exception e) {
+            log.error("error: ", e);
+            return "retry";
+        }
+
+        String correctedSentence = correctionJson.getString("corrected");
+        String explanation = correctionJson.getString("explanation");
+
+        // 교정 요청 지시문 삭제
+        messages.remove(correctionMessage);
+
+        // 단순 대화 지시문 추가
+        String assistantRole = topicJson.getString("assistantRole");
         String userTalkInstruction = String.format(USER_TALK_INSTRUCTION, userRole, userTalk, assistantRole);
         JSONObject userMessage = OpenAiClient.userMessage(userTalkInstruction);
         messages.add(userMessage);
 
         // JSON 형식 응답 수신
-        JSONObject assistantTalkJsonObject;
-        String assistantTalkJson = openAiClient.chat(messages);
-        assistantTalkJsonObject = new JSONObject(assistantTalkJson);
-
-        String assistantTalk;
-        String correctedSentence;
-        String explanation;
+        JSONObject resultJsonObject = new JSONObject();
+        String assistantTalk = processTalk(openAiClient.chat(messages));
 
         try {
-            assistantTalk = assistantTalkJsonObject.getString("answer");
-            correctedSentence = assistantTalkJsonObject.getString("corrected");
-            explanation = assistantTalkJsonObject.getString("explanation");
-
             // 새로운 sentence 저장
             Sentence sentence = new Sentence();
             sentence.setLearningId(learningId);
-            sentence.setSentenceQuestion(assistantTalk.trim());
+            sentence.setSentenceQuestion(assistantTalk);
             sentence.setSentenceCorrected(correctedSentence);
             sentence.setSentenceExplanation(explanation);
             sentence.setSentenceQuestion(priorAssistantTalk);
             sentence.setSentenceAnswer(userTalk);
             Long sentenceId = sentenceRepository.save(sentence).getId();
 
-            // assistantTalk 수정 후 JSONObject에 update
-            assistantTalk = processTalk(assistantTalk);
-            assistantTalkJsonObject.put("answer", assistantTalk);
-            assistantTalkJsonObject.put("priorAssistantTalk", priorAssistantTalk);
-            assistantTalkJsonObject.put("sentenceId", sentenceId);
-            assistantTalkJsonObject.put("userTalk", userTalk);
+            resultJsonObject.put("answer", assistantTalk);
+            resultJsonObject.put("priorAssistantTalk", priorAssistantTalk);
+            resultJsonObject.put("sentenceId", sentenceId);
+            resultJsonObject.put("userTalk", userTalk);
+            resultJsonObject.put("correctedSentence", correctedSentence);
+            resultJsonObject.put("explanation", explanation);
         } catch (Exception e) {
-            log.error("error: result string from assistant is not parsable to JSON, \n", e);
+            log.error("e = ", e);
             return "retry";
         }
 
-        return assistantTalkJsonObject.toString();
-    }
-
-    public char updateStatus(Long sentenceId, String type) {
-        char currentStatus = getStatus(sentenceId, type); // like or flashcardId의 현재 상태 구하기
-
-        //sentenceUpdateDto 객체 생성 & 초기화
-        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
-        sentenceUpdateDto.setSentenceId(sentenceId);
-
-        if (type.equals("like")) {
-            if (currentStatus == '0') { //status change
-                sentenceUpdateDto.setSentenceLike('1');
-            } else {
-                sentenceUpdateDto.setSentenceLike('0');
-            }
-
-        } else if (type.equals("storage")) {
-            if (currentStatus == '0') {
-                sentenceUpdateDto.setFlashcardId(1L); // TODO - 임시 flashcardId = 1
-            } else {
-                sentenceUpdateDto.setFlashcardId(-2L); //-2가 id로 들어오면 null로 update
-            }
-        }
-
-        //sentence DB 업데이트
-        sentenceRepository.update(sentenceUpdateDto);
-        return getStatus(sentenceId, type);
+        return resultJsonObject.toString();
     }
 
     private String getInitialInstruction(DialogueTopicDto dialogueTopicDto) {
@@ -198,28 +195,6 @@ public class DialogueService {
                 dialogueTopicDto.getUserRole(),
                 dialogueTopicDto.getAssistantRole()
         );
-    }
-
-    private char getStatus(Long sentenceId, String type) {
-        Sentence sentence = sentenceRepository.findById(sentenceId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("해당 id를 가진 sentence가 존재하지 않습니다.");
-                });
-
-        char result = ' ';
-
-        if (type.equals("like")) {
-            result = sentence.getSentenceLike(); //객체의 현재 like 반환
-        } else if (type.equals("storage")) {
-            Long flashcardId = sentence.getFlashcardId(); //객체의 현재 flashcardId 반환
-            if (flashcardId == null) {
-                result = '0';
-            } else {
-                result = '1';
-            }
-        }
-
-        return result;
     }
 
     private String processTalk(String talk) {
