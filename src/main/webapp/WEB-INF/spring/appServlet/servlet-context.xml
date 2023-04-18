@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven validator="validator" />
+    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/**" location="/WEB-INF/static/" />
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <annotation-driven validator="validator"/>
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <resources mapping="/**" location="/WEB-INF/static/"/>
 
-	<context:component-scan base-package="com.sooaz.gpt" />
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/"/>
+        <beans:property name="suffix" value=".jsp"/>
+    </beans:bean>
 
-	<!--fileupload-->
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-	</beans:bean>
+    <context:component-scan base-package="com.sooaz.gpt"/>
 
-	<!-- 비 로그인 사용자 접근 제한용 인터셉터 -->
-	<interceptors>
-		<interceptor>
-			<mapping path="/**"/>
-			<exclude-mapping path="/"/>
-			<exclude-mapping path="/user/login/**"/>
-			<exclude-mapping path="/user/idsearch"/>
-			<exclude-mapping path="/user/pwsearch"/>
-			<exclude-mapping path="/user/new/**"/>
-			<exclude-mapping path="/images/*"/>
-			<exclude-mapping path="/css/*"/>
-			<exclude-mapping path="/js/*"/>
-			<beans:bean id="loginInterceptor" class="com.sooaz.gpt.global.interceptor.LoginInterceptor" />
-		</interceptor>
-	</interceptors>
+    <!--fileupload-->
+    <beans:bean id="multipartResolver"
+                class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+    </beans:bean>
 
-	<!-- 로그인 한 경우 session에 로그인 정보를 넣어주는 인터셉터. 화면 렌더링 시 조건문에 사용 -->
-	<interceptors>
-		<interceptor>
-			<mapping path="/**"/>
-			<beans:bean id="loginCheckInterceptor" class="com.sooaz.gpt.global.interceptor.LoginCheckInterceptor" />
-		</interceptor>
-	</interceptors>
+    <!-- 비 로그인 사용자 접근 제한용 인터셉터 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/**"/>
+            <exclude-mapping path="/"/>
+            <exclude-mapping path="/user/login/**"/>
+            <exclude-mapping path="/user/idsearch"/>
+            <exclude-mapping path="/user/pwsearch"/>
+            <exclude-mapping path="/user/signup/**"/>
+            <exclude-mapping path="/images/*"/>
+            <exclude-mapping path="/css/*"/>
+            <exclude-mapping path="/js/*"/>
+            <beans:bean id="loginInterceptor" class="com.sooaz.gpt.global.interceptor.LoginInterceptor"/>
+        </interceptor>
+
+        <beans:bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <beans:property name="paramName" value="lang"/>
+        </beans:bean>
+    </interceptors>
+
+    <!-- 로그인 한 경우 session에 로그인 정보를 넣어주는 인터셉터. 화면 렌더링 시 조건문에 사용 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/**"/>
+            <beans:bean id="loginCheckInterceptor" class="com.sooaz.gpt.global.interceptor.LoginCheckInterceptor"/>
+        </interceptor>
+    </interceptors>
 
 </beans:beans>

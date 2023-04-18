@@ -25,8 +25,12 @@ public class UserRepository {
         return userMapper.findById(userId);
     }
 
-    public Optional<User> findByLoginId(String loginId) {
-        return userMapper.findByLoginId(loginId);
+    public Optional<User> findByLoginId(String userLoginId) {
+        return userMapper.findByLoginId(userLoginId);
+    }
+
+    public Optional<User> findByNickname(String userNickname) {
+        return userMapper.findByNickname(userNickname);
     }
 
     public void update(UserUpdateDto userUpdateDto) {

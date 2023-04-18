@@ -11,4 +11,5 @@ public class UserUpdateDto {
     private String userPassword;
     private String userNickname;
     private Date userBirthday;
+    private Boolean userAlarmAgreement;
 }

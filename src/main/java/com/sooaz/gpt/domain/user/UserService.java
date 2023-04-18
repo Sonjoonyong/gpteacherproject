@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -26,5 +24,13 @@ public class UserService {
                 .findAny().orElse(null);
 
         return loginUser;
+    }
+
+    public boolean isDuplicateLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId).isPresent();
+    }
+
+    public boolean isDuplicateNickname(String nickname) {
+        return userRepository.findByNickname(nickname).isPresent();
     }
 }

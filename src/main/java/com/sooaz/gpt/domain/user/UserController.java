@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.user;
 
+import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -62,19 +63,61 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/user/new")
-    public String getSignupForm() {
+    @GetMapping("/user/signup")
+    public String getSignupForm(Model model) {
+        model.addAttribute("userSignupDto", new UserSignupDto());
         return "/user/signupForm";
     }
 
-    @PostMapping("/user/new")
+    @PostMapping("/user/signup")
     public String signUp(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model,
+            HttpServletRequest request
     ) {
+
+        if (userService.isDuplicateLoginId(userSignupDto.getUserLoginId())) {
+            log.info("아이디 중복");
+            bindingResult.rejectValue("userLoginId", "duplicate","중복되는 아이디입니다.");
+        }
+
+        if (!userSignupDto.getUserPassword().equals(userSignupDto.getUserPasswordCheck())) {
+            log.info("비밀번호 불일치");
+            bindingResult.rejectValue("userPasswordCheck", "incorrect", "입력한 비밀번호와 다릅니다.");
+        }
+
+        if (!isValidEmailCode(request, userSignupDto.getUserEmailCode())) {
+            log.info("이메일 인증번호 불일치");
+            bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
+        }
+
+        if (userService.isDuplicateNickname(userSignupDto.getUserNickname())) {
+            log.info("닉네임 중복");
+            bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "user/signupForm";
+        }
+
         log.info("userSignupDto = {}", userSignupDto);
         log.info("bindingResult = {}", bindingResult);
 
-        return "home";
+        LoginDto loginDto = new LoginDto();
+        loginDto.setUserLoginId(userSignupDto.getUserLoginId());
+        model.addAttribute("loginDto", loginDto);
+
+        return "/user/login";
+    }
+
+    private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
+        HttpSession session = request.getSession();
+        String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
+        if (realEmailCode == null || !realEmailCode.equals(emailCode)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

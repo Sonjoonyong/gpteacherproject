@@ -15,6 +15,6 @@ public class User {
     private UserRole userRole;
     private String userEmail;
     private Date userBirthday;
-    private Character userAlarmAgreement;
+    private Boolean userAlarmAgreement;
 
 }

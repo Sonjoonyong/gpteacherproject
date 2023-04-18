@@ -31,7 +31,7 @@ public class TestDataInit {
         admin.setUserRole(UserRole.ADMIN);
         admin.setUserEmail("admin@mail.com");
         admin.setUserBirthday(new Date());
-        admin.setUserAlarmAgreement('1');
+        admin.setUserAlarmAgreement(true);
         userRepository.save(admin);
 
         Optional<User> userOpt = userRepository.findByLoginId("user");
@@ -45,7 +45,7 @@ public class TestDataInit {
         user.setUserRole(UserRole.USER);
         user.setUserEmail("user@mail.com");
         user.setUserBirthday(new Date());
-        user.setUserAlarmAgreement('1');
+        user.setUserAlarmAgreement(true);
         userRepository.save(user);
     }
 }
