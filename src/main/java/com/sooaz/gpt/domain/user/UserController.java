@@ -5,10 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +28,7 @@ public class UserController {
 
     @PostMapping("/user/login")
     public String login(
-        @ModelAttribute LoginDto loginDto,
+        @Valid @ModelAttribute LoginDto loginDto,
         BindingResult bindingResult,
         @RequestParam(defaultValue = "/") String redirectUrl,
         Model model,
@@ -64,9 +68,12 @@ public class UserController {
 
     @PostMapping("/user/new")
     public String signUp(
-            @ModelAttribute UserSignupDto userSignupForm
+            @Valid @ModelAttribute UserSignupDto userSignupDto,
+            BindingResult bindingResult
     ) {
+        log.info("userSignupDto = {}", userSignupDto);
+        log.info("bindingResult = {}", bindingResult);
 
-        return "";
+        return "home";
     }
 }

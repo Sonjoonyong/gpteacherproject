@@ -31,7 +31,7 @@
 
                 <c:if test="${empty loginUser}">
                     <a type="button" class="loginBtn btn btn-outline-success mx-2" href="/user/login">로그인</a>
-                    <a type="button" class="signInBtn btn btn-outline-secondary" href="/user/login/signin">회원가입</a>
+                    <a type="button" class="signInBtn btn btn-outline-secondary" href="/user/new">회원가입</a>
                 </c:if>
                 <c:if test="${not empty loginUser}">
                     <button class="btn p-0 border-0">

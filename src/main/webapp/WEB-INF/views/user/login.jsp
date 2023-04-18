@@ -18,7 +18,7 @@
 
 <%@ include file="../fragments/header.jsp" %>
 <section class="container" style="max-width: 500px;">
-    <form action="/user/login" method="post" class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto"
+    <form action="/user/login" method="post" class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-3"
           style="border: 2px solid #5DB99D;">
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
             <img class="col-12 mb-3" src="/images/logo.png">
