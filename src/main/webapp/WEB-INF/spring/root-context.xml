@@ -31,4 +31,10 @@
 	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+
+	<!-- Validator 설정-->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	<!-- 메시지 다국어 설정 (보류) -->
+<!--		<property name="validationMessageSource" ref="messageSource" />-->
+	</bean>
 </beans>
