@@ -16,7 +16,7 @@
         a { color: black; }
         a:visited { color: black; }
         a:hover { color: black; }
-        a:active { color: black; }
+        a:active { color: red; }
 
 
         .btn.btn-primary{
@@ -36,7 +36,7 @@
 
         .col-md-7{
             border: 1px solid lightgray;
-            border-radius: 20px;
+            border-radius: 10px;
             padding:20px;
         }
         .col-md-7 table thead tr{
@@ -47,28 +47,52 @@
             border-bottom : 1px solid lightgray;
             height: 40px;
         }
-        .fa-solid{
+        #icon1{
             float: left;
             margin-right: 10px;
             width: 20px;
             height: 20px;
         }
+
+         .page-link {
+             color: #000;
+             background-color: #fff;
+             border: 1px solid #ccc;
+         }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #555;
+            font-weight:bold;
+            background-color: #CFEAE2;
+            border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000;
+            background-color: #fafafa;
+            border-color: #ccc;
+        }
+
     </style>
 
 
 </head>
 <body>
 
-<%@ include file="../fragments/header.jsp" %>
+
 
 <section class="container">
+    <%@ include file="../fragments/header.jsp" %>
+
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>고객센터</h3></div>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
                 <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
+                    <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
                                 <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
@@ -106,12 +130,13 @@
                                 <td>${question.id}</td>
 
                                 <td>
-                                    <i class="fa-solid fa-lock"></i>
+                                    <i class="fa-solid fa-lock" id="icon1"></i>
                                     [${question.questionCategory}] ${question.questionTitle}
                                 </td>
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
                                 <td>
-                                        ${question.questionStatus}
+                                    <c:if test="${question.questionStatus == true}">답변중</c:if>
+                                    <c:if test="${question.questionStatus != true}">답변완료</c:if>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -138,7 +163,7 @@
                                 <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
                                     <c:choose>
                                         <c:when test="${i == pageInfo.pageNum}">
-                                            <li class="page-item active">
+                                            <li class="page-item active" id="pageicon">
                                                 <a class="page-link" href="?pageNum=${i}">${i}</a>
                                             </li>
                                         </c:when>
