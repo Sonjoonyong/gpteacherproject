@@ -70,10 +70,10 @@
                                         <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
+                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
+                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
                                     </li>
                                 </ul>
                             </div>
@@ -85,7 +85,7 @@
                             <div class="d-flex justify-content-between">
                                 <span class="boardname"><h3>고객센터</h3></span>
                                 <div>
-                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>
+                                    <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" role="button">글 작성</a>
                                 </div>
                             </div>
                             <table class="table table-striped" style="text-align: center; border:1px solid black;">

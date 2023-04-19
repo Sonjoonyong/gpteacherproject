@@ -54,10 +54,10 @@
                                 <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
                             </li>
 
                         </ul>
@@ -80,7 +80,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <a><!--삭제버튼(관리자용)--></a>
+                <form action="${pageContext.request.contextPath}/help/notice/delete/${notice.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+                    <button type="submit" class="btn list">삭제</button>
+                </form>
+
                 <a href="${pageContext.request.contextPath}/help/notice/list" class="btn list" style="">목록</a>
             </div>
 
