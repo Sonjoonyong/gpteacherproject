@@ -9,17 +9,13 @@
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
-        .container
-        .btn.list{
-            width: 70px;
-            height: 35px;
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
-            background-color: white;
+        #noticeboard{
+            border: 1px solid lightgray;
+            padding:20px;
+            border-radius: 10px;
+        }
+        #noticeboard .table thead trboardname{
+            margin-left: 20px;
         }
         .col-md-7 table tbody tr,
         .col-md-7 table tbody tr td {
@@ -29,12 +25,41 @@
             border-bottom : 1px solid lightgray;
         }
 
-        .col-md-7{
-            border: 1px solid lightgray;
-            border-radius: 20px;
-            padding:20px;
+        a { color: black; }
+        a:visited { color: black; }
+        a:hover { color: black; }
+        a:active { color: black; }
+        #searchbar fa-solid,
+        #searchbar searchbox{
+
         }
 
+        .notice-image {
+            float: left;
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .notice-title-link {
+            text-decoration: none;
+        }
+
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+            float: right;
+        }
+
+        .col-md-7 table thead tr{
+            background-color: #CFEAE2;
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+            height: 40px;
+        }
     </style>
 
 </head>
@@ -46,9 +71,9 @@
     <div class="col-12">
         <div class="row">
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>고객센터</h3></div>
+                <div class="row text-center" style="margin-top: 57px; margin-left: -71px;"><h3>고객센터</h3></div>
                 <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
+                    <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
                                 <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
@@ -59,7 +84,6 @@
                             <li class="nav-item" style="list-style: none">
                                 <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
                             </li>
-
                         </ul>
                     </div>
                 </div>
@@ -69,7 +93,7 @@
                     <thead >
 
                     </thead>
-                    <tbody >
+                    <tbody>
                     <tr>
                         <td style="width:20%;"><h4>글 제목</h4></td>
                         <td colspan="2">${notice.noticeTitle}</td>
@@ -81,10 +105,10 @@
                     </tbody>
                 </table>
                 <form action="${pageContext.request.contextPath}/help/notice/delete/${notice.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
-                    <button type="submit" class="btn list">삭제</button>
+                    <a href="${pageContext.request.contextPath}/help/notice/list" class="btn btn-primary">목록</a>
+                    <a href="${pageContext.request.contextPath}/help/notice/edit/${notice.id}" class="btn btn-primary">수정</a>
+                    <button type="submit" class="btn btn-primary">삭제</button>
                 </form>
-
-                <a href="${pageContext.request.contextPath}/help/notice/list" class="btn list" style="">목록</a>
             </div>
 
         </div>
