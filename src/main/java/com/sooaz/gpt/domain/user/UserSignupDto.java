@@ -7,7 +7,6 @@ import javax.validation.constraints.*;
 @Data
 public class UserSignupDto {
 
-    @NotBlank(message = "이메일을 입력해주세요.")
     @Email(message = "유효한 이메일 형식이 아닙니다.")
     private String userEmail;
 
@@ -23,7 +22,7 @@ public class UserSignupDto {
     @NotBlank(message = "비밀번호 확인란을 입력해주세요.")
     private String userPasswordCheck;
 
-    @Size(min = 4, max = 12, message = "4~8자 범위로 입력해주세요.")
+    @Size(min = 2, max = 8, message = "2~8자 범위로 입력해주세요.")
     private String userNickname;
 
     @NotBlank(message = "생년월일을 입력해주세요.")
