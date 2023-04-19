@@ -16,7 +16,7 @@ public class NoticeService {
     }
 
     public Notice getNoticeById(Long id) {
-        return noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Notice not found"));
+        return noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("공지를 찾을 수 없습니다."));
     }
 
     public Notice createNotice(NoticeCreateDto noticeCreateDto) {

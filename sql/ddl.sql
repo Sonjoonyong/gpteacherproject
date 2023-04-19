@@ -61,7 +61,7 @@ CREATE TABLE board_notice
 (
     id               NUMBER                 NOT NULL,
     user_id          NUMBER                 NOT NULL,
-    notice_title     VARCHAR2(50)           NOT NULL,
+    notice_title     VARCHAR2(100)          NOT NULL,
     notice_content   CLOB                   NOT NULL,
     notice_hit       NUMBER DEFAULT 0       NULL,
     notice_writedate DATE   DEFAULT SYSDATE NULL,

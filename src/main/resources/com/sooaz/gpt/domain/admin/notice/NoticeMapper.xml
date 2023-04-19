@@ -25,12 +25,12 @@
         SELECT * FROM board_notice WHERE id = #{id}
     </select>
 
-    <insert id="save" parameterType="com.sooaz.gpt.domain.admin.notice.Notice">
+    <insert id="save" parameterType="com.sooaz.gpt.domain.admin.notice.NoticeCreateDto">
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             SELECT BOARD_NOTICE_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO board_notice (id, user_id, notice_title, notice_content)
-        VALUES (#{id}, #{userId}, #{noticeTitle}, #{noticeContent})
+        VALUES (#{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{noticeTitle, jdbcType=VARCHAR}, #{noticeContent, jdbcType=VARCHAR})
     </insert>
 
     <update id="update" parameterType="com.sooaz.gpt.domain.admin.notice.Notice">
@@ -43,7 +43,7 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="long">
+    <delete id="deleteById" parameterType="long">
         DELETE FROM board_notice WHERE id = #{id}
     </delete>
 </mapper>

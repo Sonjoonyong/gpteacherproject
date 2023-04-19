@@ -2,12 +2,16 @@ package com.sooaz.gpt.domain.admin.notice;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -33,26 +37,41 @@ public class NoticeController {
         model.addAttribute("notice", noticeService.getNoticeById(id));
         return "notice/noticeView";
     }
-    
+
+    @GetMapping("/write")
+    public String showNoticeWritePage(Model model) {
+        model.addAttribute("noticeCreateDto", new NoticeCreateDto());
+        return "notice/noticeNew";
+    }
+
     @PostMapping
-    public String createNotice(@ModelAttribute NoticeCreateDto noticeCreateDto, RedirectAttributes redirectAttributes) {
-        noticeService.createNotice(noticeCreateDto);
-        redirectAttributes.addFlashAttribute("message", "Notice created successfully");
-        return "redirect:/notices";
+    public String createNotice(@ModelAttribute NoticeCreateDto noticeCreateDto, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        if (loginUser != null) {
+            noticeCreateDto.setUserId(loginUser.getId());
+            noticeService.createNotice(noticeCreateDto);
+            redirectAttributes.addFlashAttribute("message", "공지가 등록되었습니다.");
+            return "redirect:/help/notice/list";
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
+            return "redirect:/user/login";
+        }
     }
 
     @PutMapping("/{id}")
     public String updateNotice(@PathVariable Long id, @ModelAttribute NoticeUpdateDto noticeUpdateDto, RedirectAttributes redirectAttributes) {
         noticeService.updateNotice(id, noticeUpdateDto);
-        redirectAttributes.addFlashAttribute("message", "Notice updated successfully");
+        redirectAttributes.addFlashAttribute("message", "공지가 업데이트되었습니다.");
         return "redirect:/notices/" + id;
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteNotice(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/delete/{id}")
+    public String deleteNotice(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         noticeService.deleteNotice(id);
-        redirectAttributes.addFlashAttribute("message", "Notice deleted successfully");
-        return "redirect:/notices";
+        redirectAttributes.addFlashAttribute("message", "공지가 삭제되었습니다.");
+        return "redirect:/help/notice/list";
     }
 
 }
