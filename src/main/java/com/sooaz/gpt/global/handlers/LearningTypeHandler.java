@@ -21,6 +21,9 @@ public class LearningTypeHandler extends BaseTypeHandler<LearningType> {
 
     @Override
     public LearningType getNullableResult(ResultSet resultSet, String s) throws SQLException {
+        if (resultSet.getString(s) == null) {
+            return null;
+        }
         return LearningType.valueOf(resultSet.getString(s));
     }
 

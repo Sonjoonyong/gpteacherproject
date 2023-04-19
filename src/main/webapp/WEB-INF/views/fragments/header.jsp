@@ -28,9 +28,18 @@
                     </li>
                 </ul>
 
-                <i class="bi bi-bell fs-5 me-3 fw-bold"></i>
-                <a type="button" class="btn btn-outline-success mx-2" href="/users/login">로그인</a>
-                <a type="button" class="btn btn-outline-secondary" href="user/login/signin">회원가입</a>
+
+                <c:if test="${empty loginUser}">
+                    <a type="button" class="loginBtn btn btn-outline-success mx-2" href="/user/login">로그인</a>
+                    <a type="button" class="signInBtn btn btn-outline-secondary" href="/user/signup">회원가입</a>
+                </c:if>
+                <c:if test="${not empty loginUser}">
+                    <button class="btn p-0 border-0">
+                        <i class="alarm bi bi-bell fs-5 me-3 fw-bold"></i>
+                    </button>
+                    <a type="button" class="myPageBtn btn mx-2" href="/user/mypage/dashboard" style="background-color: #5DB99D; color: white;">마이페이지</a>
+                    <a type="button" class="logoutBtn btn btn-outline-secondary" href="/user/logout">로그아웃</a>
+                </c:if>
             </div>
         </div>
     </nav>
