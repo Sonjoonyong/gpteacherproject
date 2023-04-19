@@ -1,34 +1,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
+    <%@ include file="../fragments/bootstrapCss.jsp" %>
     <title>문의사항</title>
 
     <link rel="stylesheet" href="/css/base.css">
     <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico"/>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-    <!-- Bootstrap icons CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
 
     <!--추가-->
     <style>
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
-        .container
-        .btn.list{
-            width: 80px;
-            height: 35px;
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
-            background-color: white;
-
+        .col-md-7{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 750px;
 
         }
+
         .col-md-7 table tbody tr,
         .col-md-7 table tbody tr td {
             border-top : 1px solid lightgray;
@@ -37,19 +29,56 @@
             border-bottom : 1px solid lightgray;
         }
 
-        .col-md-7{
-            border: 1px solid lightgray;
-            border-radius: 20px;
-            padding:20px;
+        a { color: black; }
+        a:visited { color: black; }
+        a:hover { color: black; }
+        a:active { color: red; }
+
+        .btn.btn-primary{
+
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+
         }
+
         .col-md-7 table thead tr{
-            background-color: CFEAE2;
+            background-color: #CFEAE2;
             border-top : 1px solid lightgray;
             border-left : 1px solid white;
             border-right : 1px solid white;
             border-bottom : 1px solid lightgray;
             height: 40px;
         }
+
+        #icon1{
+            float: left;
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+         .page-link {
+             color: #000;
+             background-color: #fff;
+             border: 1px solid #ccc;
+         }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #555;
+            font-weight:bold;
+            background-color: #CFEAE2;
+            border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000;
+            background-color: #fafafa;
+            border-color: #ccc;
+        }
+
     </style>
 
 
@@ -57,32 +86,41 @@
 <body>
 
 
+
 <section class="container">
+    <%@ include file="../fragments/header.jsp" %>
+
     <div class="col-12">
         <div class="row">
+            <!--사이드바-->
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>고객센터</h3></div>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
                 <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
+                    <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+            <!--문의사항-->
             <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
-                <table class="table table-striped" style="text-align:center; border:1px solid black;" >
+                <div class="d-flex justify-content-between">
+                    <span class="boardname"><h3>문의사항</h3></span>
+                    <div>
+                        <input type="submit" class="btn btn-primary float-end" value="문의하기" style="align-content: end" />
+                    </div>
+                </div>
+                <table class="table table-striped" style="text-align:center; border:1px solid black; " >
                     <thead>
-                    <h3>문의사항</h3>
-                    <div><input type="submit" href="noticeList.html" class="btn list flot-end" style="display: float;" value="문의하기"></div><!--"문의하기"버튼 TODO-->
                     <tr>
                         <th style="width: 50px;">번호</th>
                         <th >제목</th>
@@ -91,26 +129,90 @@
                     </tr>
                     </thead>
                     <tbody >
-                    <tr>
-                        <td>1<!--번호$--></td>
-                        <td>제발 됐으면 좋겠다! <!--제목(제목입력시 결제or학습과 같은 카테고리 출력도 필요$--></td>
-                        <td>2022.02.02<!--작성일$--></td>
-                        <td>답변완료<!--상태$--></td>
-                    </tr>
+                        <c:forEach var="question" items="${pageInfo.list}">
+                            <tr>
+                                <td>${question.id}</td>
+
+                                <td>
+                                    <i class="fa-solid fa-lock" id="icon1"></i>
+                                    [${question.questionCategory}] ${question.questionTitle}
+                                </td>
+                                <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
+                                <td>
+                                    <c:if test="${question.questionStatus == true}">답변중</c:if>
+                                    <c:if test="${question.questionStatus != true}">답변완료</c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
-                <a><!--삭제버튼(관리자용)--></a>
+                <!--페이징-->
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <c:if test="${pageInfo.hasPreviousPage}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="?pageNum=1" aria-label="First">
+                                            <span aria-hidden="true">«</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
+                                            <span aria-hidden="true">‹</span>
+                                        </a>
+                                    </li>
+                                </c:if>
 
+                                <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                    <c:choose>
+                                        <c:when test="${i == pageInfo.pageNum}">
+                                            <li class="page-item active" id="pageicon">
+                                                <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                            </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                            </li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+
+                                <c:if test="${pageInfo.hasNextPage}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
+                                            <span aria-hidden="true">›</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
+                                            <span aria-hidden="true">»</span>
+                                        </a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!--검색-->
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <form action="/help/question/list" method="get" id="searchForm">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" class="searchbox" name="search" />
+                            <button type="submit">검색</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
 
+<%@ include file="../fragments/footer.jsp" %>
 
+<%@ include file="../fragments/bootstrapJs.jsp" %>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -61,9 +61,12 @@ public class UserValidationController {
                 .replaceAll("-", "").substring(0, 5);
         log.info("발급된 emailCode = {}", emailCode);
 
-        gmail.sendEmail(email, "GPTeacher 회원가입 인증코드입니다.",
+        gmail.sendEmail(
+                email,
+                "GPTeacher 회원가입 인증코드입니다.",
                 "아래 코드를 인증 창에 입력 후 회원가입을 진행하세요. \n\n" +
-                        emailCode);
+                emailCode
+        );
 
         session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
         session.setAttribute(SessionConst.EMAIL, email);

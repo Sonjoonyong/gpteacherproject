@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
@@ -75,46 +73,36 @@ public class UserController {
     public String signUp(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
-            Model model,
-            HttpServletRequest request,
-            RedirectAttributes redirectAttributes
+            HttpServletRequest request
     ) {
         String userEmail = userSignupDto.getUserEmail();
         if (userEmail != null && userService.isDuplicateEmail(userEmail)) {
-            log.info("이메일 중복");
             bindingResult.rejectValue("userEmail", "duplicate","중복되는 이메일입니다.");
         }
 
         HttpSession session = request.getSession();
         String sessionEmail = (String) session.getAttribute(SessionConst.EMAIL);
-        log.info("sessionEmail = {}", sessionEmail);
-        log.info("userEmail = {}", userEmail);
         if (sessionEmail != null && userEmail!=null && !userEmail.equals(sessionEmail)) {
-            log.info("인증된 이메일과 다름");
             bindingResult.rejectValue("userEmail", "duplicate","인증된 이메일과 다른 이메일입니다.");
         }
 
         String userLoginId = userSignupDto.getUserLoginId();
         if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
-            log.info("아이디 중복");
             bindingResult.rejectValue("userLoginId", "duplicate","중복되는 아이디입니다.");
         }
 
         String userPasswordCheck = userSignupDto.getUserPasswordCheck();
         if (userPasswordCheck != null && !userSignupDto.getUserPassword().equals(userPasswordCheck)) {
-            log.info("비밀번호 불일치");
             bindingResult.rejectValue("userPasswordCheck", "incorrect", "입력한 비밀번호와 다릅니다.");
         }
 
         String userEmailCode = userSignupDto.getUserEmailCode();
         if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
-            log.info("이메일 인증번호 불일치");
             bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
         }
 
         String userNickname = userSignupDto.getUserNickname();
         if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
-            log.info("닉네임 중복");
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
 
@@ -149,12 +137,6 @@ public class UserController {
     private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
         HttpSession session = request.getSession();
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
-        log.info("realEmailCode = {}", realEmailCode);
-        log.info("emailCode = {}", emailCode);
-        if (realEmailCode == null || !realEmailCode.equals(emailCode)) {
-            return false;
-        } else {
-            return true;
-        }
+        return realEmailCode != null && realEmailCode.equals(emailCode);
     }
 }
