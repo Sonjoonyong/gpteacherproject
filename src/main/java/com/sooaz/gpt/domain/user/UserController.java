@@ -132,7 +132,7 @@ public class UserController {
     @ResponseBody
     @GetMapping(value = "/user/signup/nicknameDupCheck", produces = "text/plain; charset=utf-8")
     public String checkNicknameDup(
-            @Size(min = 4, max = 12, message = "4~8자 범위로 입력해주세요.")
+            @Size(min = 2, max = 12, message = "2~8자 범위로 입력해주세요.")
             String userNickname
     ) {
         return String.valueOf(userService.isDuplicateNickname(userNickname));

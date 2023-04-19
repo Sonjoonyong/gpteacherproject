@@ -9,7 +9,7 @@ const submitBtn = document.querySelector('#submitBtn');
 
 // 안내문
 const userEmailCodeInstructionDiv = document.querySelector('#emailCodeInstruction');
-const idDupInstructionDiv = document.querySelector('#idDupInstruction');
+const loginIdDupInstructionDiv = document.querySelector('#loginIdDupInstruction');
 const nicknameDupInstructionDiv = document.querySelector('#nicknameDupInstruction');
 const emailDupInstructionDiv = document.querySelector('#emailDupInstruction');
 
@@ -40,24 +40,52 @@ loginIdDupCheck.onclick = () => {
 
     request.onload = () => {
         let isDuplicate = request.responseText;
-        console.log(isDuplicate);
 
         // 안내문 기본 빨간색
-        idDupInstructionDiv.classList.toggle("text-danger", true);
-        idDupInstructionDiv.classList.toggle("text-success", false);
+        loginIdDupInstructionDiv.classList.toggle("text-danger", true);
+        loginIdDupInstructionDiv.classList.toggle("text-success", false);
 
         if (isDuplicate === 'true') {
-            idDupInstructionDiv.innerText = '중복되는 아이디입니다.';
+            loginIdDupInstructionDiv.innerText = '중복되는 아이디입니다.';
         } else if (isDuplicate === 'false') {
-            idDupInstructionDiv.innerText = '사용 가능한 아이디입니다.';
-            idDupInstructionDiv.classList.toggle("text-danger", false);
-            idDupInstructionDiv.classList.toggle("text-success", true);
+            loginIdDupInstructionDiv.innerText = '사용 가능한 아이디입니다.';
+            loginIdDupInstructionDiv.classList.toggle("text-danger", false);
+            loginIdDupInstructionDiv.classList.toggle("text-success", true);
         } else {
-            idDupInstructionDiv.innerText = isDuplicate;
+            loginIdDupInstructionDiv.innerText = isDuplicate;
         }
-        idDupInstructionDiv.style.display = 'block';
+        loginIdDupInstructionDiv.style.display = 'block';
     }
+
     request.open("GET", '/user/signup/loginIdDupCheck?userLoginId=' + userLoginId);
+    request.setRequestHeader("Accept", "text/plain; charset=utf-8")
+    request.send();
+}
+
+nicknameDupCheckBtn.onclick = () => {
+    let request = new XMLHttpRequest();
+    let userNickname = userNicknameInput.value;
+
+    request.onload = () => {
+        let isDuplicate = request.responseText;
+
+        // 안내문 기본 빨간색
+        nicknameDupInstructionDiv.classList.toggle("text-danger", true);
+        nicknameDupInstructionDiv.classList.toggle("text-success", false);
+
+        if (isDuplicate === 'true') {
+            nicknameDupInstructionDiv.innerText = '중복되는 닉네임입니다.';
+        } else if (isDuplicate === 'false') {
+            nicknameDupInstructionDiv.innerText = '사용 가능한 닉네임입니다.';
+            nicknameDupInstructionDiv.classList.toggle("text-danger", false);
+            nicknameDupInstructionDiv.classList.toggle("text-success", true);
+        } else {
+            nicknameDupInstructionDiv.innerText = isDuplicate;
+        }
+        nicknameDupInstructionDiv.style.display = 'block';
+    }
+
+    request.open("GET", '/user/signup/nicknameDupCheck?userNickname=' + userNickname);
     request.setRequestHeader("Accept", "text/plain; charset=utf-8")
     request.send();
 }
