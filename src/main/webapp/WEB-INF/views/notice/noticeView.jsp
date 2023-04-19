@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>고객센터</title>
@@ -49,14 +51,15 @@
                     <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -69,16 +72,16 @@
                     <tbody >
                     <tr>
                         <td style="width:20%;"><h4>글 제목</h4></td>
-                        <td colspan="2"><!--글제목$--></td>
+                        <td colspan="2">${notice.noticeTitle}</td>
                     </tr>
                     <tr>
                         <td >글 내용</td>
-                        <td colspan="2" style="height: 200px; text-align: left;"><!--글내용$--></td>
+                        <td colspan="2" style="height: 200px; text-align: left;">${notice.noticeContent}</td>
                     </tr>
                     </tbody>
                 </table>
                 <a><!--삭제버튼(관리자용)--></a>
-                <a href="noticeList.jsp" class="btn list" style="">목록</a>
+                <a href="${pageContext.request.contextPath}/help/notice/list" class="btn list" style="">목록</a>
             </div>
 
         </div>

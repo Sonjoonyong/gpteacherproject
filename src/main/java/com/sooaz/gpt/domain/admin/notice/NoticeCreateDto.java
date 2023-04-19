@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class NoticeCreateDto {
-    private Long adminId;
+    private Long userId;
     private String noticeTitle;
     private String noticeContent;
 }

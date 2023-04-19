@@ -25,8 +25,8 @@ public class NoticeRepository {
         return Optional.ofNullable(noticeMapper.findById(id));
     }
 
-    public List<Notice> findAll() {
-        return noticeMapper.findAll();
+    public List<Notice> findAll(String search) {
+        return noticeMapper.findAll(search);
     }
 
     public void deleteById(Long id) {

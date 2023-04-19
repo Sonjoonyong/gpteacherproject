@@ -11,8 +11,8 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    public List<Notice> getAllNotices() {
-        return noticeRepository.findAll();
+    public List<Notice> getAllNotices(String search) {
+        return noticeRepository.findAll(search);
     }
 
     public Notice getNoticeById(Long id) {
@@ -21,7 +21,7 @@ public class NoticeService {
 
     public Notice createNotice(NoticeCreateDto noticeCreateDto) {
         Notice notice = new Notice();
-        notice.setAdminId(noticeCreateDto.getAdminId());
+        notice.setUserId(noticeCreateDto.getUserId());
         notice.setNoticeTitle(noticeCreateDto.getNoticeTitle());
         notice.setNoticeContent(noticeCreateDto.getNoticeContent());
         return noticeRepository.save(notice);
@@ -29,7 +29,7 @@ public class NoticeService {
 
     public Notice updateNotice(Long id, NoticeUpdateDto noticeUpdateDto) {
         Notice notice = getNoticeById(id);
-        notice.setAdminId(noticeUpdateDto.getAdminId());
+        notice.setUserId(noticeUpdateDto.getUserId());
         notice.setNoticeTitle(noticeUpdateDto.getNoticeTitle());
         notice.setNoticeContent(noticeUpdateDto.getNoticeContent());
         notice.setNoticeHit(noticeUpdateDto.getNoticeHit());
