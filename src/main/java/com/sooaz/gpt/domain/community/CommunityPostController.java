@@ -85,5 +85,5 @@ public class CommunityPostController {
         redirectAttributes.addFlashAttribute("message", "공지가 삭제되었습니다.");
         return "redirect:/help/notice/list";
     }
-
+//
 }
