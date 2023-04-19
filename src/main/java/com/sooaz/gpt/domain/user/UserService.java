@@ -33,4 +33,8 @@ public class UserService {
     public boolean isDuplicateNickname(String nickname) {
         return userRepository.findByNickname(nickname).isPresent();
     }
+
+    public boolean isDuplicateEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 }
