@@ -60,11 +60,18 @@ public class NoticeController {
         }
     }
 
-    @PutMapping("/{id}")
-    public String updateNotice(@PathVariable Long id, @ModelAttribute NoticeUpdateDto noticeUpdateDto, RedirectAttributes redirectAttributes) {
-        noticeService.updateNotice(id, noticeUpdateDto);
-        redirectAttributes.addFlashAttribute("message", "공지가 업데이트되었습니다.");
-        return "redirect:/notices/" + id;
+    @PostMapping("/update/{id}")
+    public String updateNotice(@PathVariable Long id, @ModelAttribute Notice notice, RedirectAttributes redirectAttributes) {
+        noticeService.updateNotice(id, notice);
+        redirectAttributes.addFlashAttribute("message", "공지가 업데이트 되었습니다.");
+        return "redirect:/help/notice/view?noticeId=" + id;
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Notice notice = noticeService.getNoticeById(id);
+        model.addAttribute("notice", notice);
+        return "notice/noticeEdit";
     }
 
     @PostMapping("/delete/{id}")
