@@ -37,9 +37,7 @@
     </select>
 
 
-    <select id="findById" parameterType="long" resultType="User">
-        select * from USERS where id = #{userId}
-    </select>
+
 
     <select id="findByLoginId" parameterType="String" resultType="User">
         select * from USERS where USER_LOGIN_ID = #{userLoginId}
