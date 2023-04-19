@@ -26,6 +26,30 @@ public class UserService {
         return loginUser;
     }
 
+    public void join(UserSignupDto userSignupDto) {
+        User user = new User();
+        user.setUserLoginId(userSignupDto.getUserLoginId());
+        user.setUserPassword(userSignupDto.getUserPassword());
+        user.setUserNickname(userSignupDto.getUserNickname());
+        user.setUserRole(UserRole.USER);
+        user.setUserEmail(userSignupDto.getUserEmail());
+        user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
+
+        // 생일 설정
+//        String userBirthday = userSignupDto.getUserBirthday();
+//        Date birthDay = null;
+//        try {
+//            birthDay = new SimpleDateFormat("yyyy-MM-dd").parse(userBirthday);
+//        } catch (ParseException e) {
+//            throw new IllegalArgumentException("잘못된 생일 형식입니다.", e);
+//        }
+
+//        user.setUserBirthday(birthDay);
+        user.setUserBirthday(userSignupDto.getUserBirthday());
+
+        userRepository.save(user);
+    }
+
     public boolean isDuplicateLoginId(String loginId) {
         return userRepository.findByLoginId(loginId).isPresent();
     }

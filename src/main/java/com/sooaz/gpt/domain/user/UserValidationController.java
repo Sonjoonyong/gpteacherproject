@@ -1,0 +1,68 @@
+package com.sooaz.gpt.domain.user;
+
+import com.sooaz.gpt.global.constant.SessionConst;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.UUID;
+
+@Controller
+@RequiredArgsConstructor
+@Slf4j
+@Validated
+public class UserValidationController {
+
+    private final UserService userService;
+
+    @ResponseBody
+    @GetMapping(value = "/user/signup/loginIdDupCheck")
+    public String checkIdDup(
+            @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
+            String userLoginId
+    ) {
+        return String.valueOf(userService.isDuplicateLoginId(userLoginId));
+    }
+
+    @ResponseBody
+    @GetMapping("/user/signup/nicknameDupCheck")
+    public String checkNicknameDup(
+            @Size(min = 2, max = 12, message = "2~8자 범위로 입력해주세요.")
+            String userNickname
+    ) {
+        return String.valueOf(userService.isDuplicateNickname(userNickname));
+    }
+
+    @ResponseBody
+    @GetMapping("/user/signup/emailCode")
+    public String sendEmailCode(
+            @Email(message = "유효한 이메일 형식이 아닙니다.")
+            @NotBlank(message = "이메일을 입력해주세요.")
+            String email,
+            HttpServletRequest request
+    ) {
+        if (userService.isDuplicateEmail(email)) {
+            return "이미 사용중인 이메일입니다.";
+        }
+
+        HttpSession session = request.getSession();
+        String emailCode = UUID.randomUUID().toString()
+                .replaceAll("-", "").substring(0, 5);
+        log.info("발급된 emailCode = {}", emailCode);
+        session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
+        session.setAttribute(SessionConst.EMAIL, email);
+        
+        log.info("session.getAttribute(SessionConst.EMAIL_CODE) = {}", session.getAttribute(SessionConst.EMAIL_CODE));
+        return "true";
+    }
+
+}

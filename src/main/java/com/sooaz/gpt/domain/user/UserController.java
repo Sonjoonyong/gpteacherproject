@@ -3,26 +3,19 @@ package com.sooaz.gpt.domain.user;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.UUID;
+import java.util.Date;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@Validated
 public class UserController {
 
     private final UserService userService;
@@ -81,91 +74,90 @@ public class UserController {
             Model model,
             HttpServletRequest request
     ) {
-        if (userService.isDuplicateEmail(userSignupDto.getUserEmail())) {
+        String userEmail = userSignupDto.getUserEmail();
+        if (userEmail != null && userService.isDuplicateEmail(userEmail)) {
             log.info("이메일 중복");
             bindingResult.rejectValue("userEmail", "duplicate","중복되는 이메일입니다.");
         }
 
-        if (userService.isDuplicateLoginId(userSignupDto.getUserLoginId())) {
+        HttpSession session = request.getSession();
+        String sessionEmail = (String) session.getAttribute(SessionConst.EMAIL);
+        log.info("sessionEmail = {}", sessionEmail);
+        log.info("userEmail = {}", userEmail);
+        if (sessionEmail != null && userEmail!=null && !userEmail.equals(sessionEmail)) {
+            log.info("인증된 이메일과 다름");
+            bindingResult.rejectValue("userEmail", "duplicate","인증된 이메일과 다른 이메일입니다.");
+        }
+
+        String userLoginId = userSignupDto.getUserLoginId();
+        if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
             log.info("아이디 중복");
             bindingResult.rejectValue("userLoginId", "duplicate","중복되는 아이디입니다.");
         }
 
-        if (!userSignupDto.getUserPassword().equals(userSignupDto.getUserPasswordCheck())) {
+        String userPasswordCheck = userSignupDto.getUserPasswordCheck();
+        if (userPasswordCheck != null && !userSignupDto.getUserPassword().equals(userPasswordCheck)) {
             log.info("비밀번호 불일치");
             bindingResult.rejectValue("userPasswordCheck", "incorrect", "입력한 비밀번호와 다릅니다.");
         }
 
-        if (!isValidEmailCode(request, userSignupDto.getUserEmailCode())) {
+        String userEmailCode = userSignupDto.getUserEmailCode();
+        if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
             log.info("이메일 인증번호 불일치");
             bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
         }
 
-        if (userService.isDuplicateNickname(userSignupDto.getUserNickname())) {
+        String userNickname = userSignupDto.getUserNickname();
+        if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
             log.info("닉네임 중복");
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
+
+        Date userBirthday = userSignupDto.getUserBirthday();
+        if (userBirthday == null) {
+            bindingResult.rejectValue("userBirthday", "incorrect", "생일을 입력해주세요.");
+        }
+
+//        try {
+//            Date birthDay = new SimpleDateFormat("yyyy-MM-dd").parse(userSignupDto.getUserBirthday());
+//        } catch (Exception e) {
+//
+//        }
+
 
         if (bindingResult.hasErrors()) {
             return "user/signupForm";
         }
 
-        log.info("userSignupDto = {}", userSignupDto);
-        log.info("bindingResult = {}", bindingResult);
+        userService.join(userSignupDto);
 
+        // 로그인 아이디 정보와 같이 로그인 창으로 이동
         LoginDto loginDto = new LoginDto();
-        loginDto.setUserLoginId(userSignupDto.getUserLoginId());
+        loginDto.setUserLoginId(userLoginId);
         model.addAttribute("loginDto", loginDto);
 
         return "/user/login";
     }
 
-    @ResponseBody
-    @GetMapping(value = "/user/signup/loginIdDupCheck", produces = "text/plain; charset=utf-8")
-    public String checkIdDup(
-            @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
-            String userLoginId
-    ) {
-        return String.valueOf(userService.isDuplicateLoginId(userLoginId));
-    }
 
     @ResponseBody
-    @GetMapping(value = "/user/signup/nicknameDupCheck", produces = "text/plain; charset=utf-8")
-    public String checkNicknameDup(
-            @Size(min = 2, max = 12, message = "2~8자 범위로 입력해주세요.")
-            String userNickname
-    ) {
-        return String.valueOf(userService.isDuplicateNickname(userNickname));
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    public void sendEmailCode(
-            @Email(message = "유효한 이메일 형식이 아닙니다.")
-            String email,
-            HttpServletRequest request
-    ) {
-        HttpSession session = request.getSession();
-        String emailCode = UUID.randomUUID().toString()
-                .replaceAll("-", "").substring(0, 5);
-        log.info("발급된 emailCode = {}", emailCode);
-        session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
-    }
-
-    @ResponseBody
-    @PostMapping("/signup/emailCode")
+    @PostMapping("/user/signup/emailCode")
     public String checkEmailCode(
-            String emailCode,
+            String userEmailCode,
             HttpServletRequest request
     ) {
         HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
-        return String.valueOf(emailCode.equals(realEmailCode));
+        return String.valueOf(userEmailCode.equals(realEmailCode));
     }
 
 
     private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
         HttpSession session = request.getSession();
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
+        log.info("realEmailCode = {}", realEmailCode);
+        log.info("emailCode = {}", emailCode);
         if (realEmailCode == null || !realEmailCode.equals(emailCode)) {
             return false;
         } else {

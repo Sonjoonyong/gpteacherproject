@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.ConstraintViolationException;
 
-@ControllerAdvice
 @Slf4j
+@ControllerAdvice
 public class ExceptionHandlerAdvice {
 
-    // Controller @RequestParam 유효성 검증 오류 발생 시 오류메시지 응답
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     public String handleValidationException(ConstraintViolationException e) {
@@ -24,4 +23,5 @@ public class ExceptionHandlerAdvice {
 
         return message;
     }
+
 }
