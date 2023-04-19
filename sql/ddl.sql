@@ -1,28 +1,30 @@
-DROP TABLE users;
-DROP TABLE sentence;
-DROP TABLE community_post;
-DROP TABLE board_notice;
-DROP TABLE community_reply;
-DROP TABLE learning;
-DROP TABLE admin_user;
-DROP TABLE voice_file;
-DROP TABLE board_question;
-DROP TABLE board_faq;
+DROP TABLE USERS;
+DROP TABLE SENTENCE;
+DROP TABLE COMMUNITY_POST;
+DROP TABLE BOARD_NOTICE;
+DROP TABLE COMMUNITY_REPLY;
+DROP TABLE LEARNING;
+DROP TABLE ADMIN_USER;
+DROP TABLE VOICE_FILE;
+DROP TABLE BOARD_QUESTION;
+DROP TABLE BOARD_FAQ;
 DROP TABLE FLASHCARD;
-DROP TABLE question_reply;
-DROP TABLE report_list;
-DROP TABLE bookmark;
-DROP TABLE likes;
+DROP TABLE QUESTION_REPLY;
+DROP TABLE REPORT_LIST;
+DROP TABLE BOOKMARK;
+DROP TABLE LIKES;
 
 CREATE TABLE users
 (
-    id              NUMBER               NOT NULL,
-    user_email      VARCHAR2(45)         NULL,
-    user_login_id   VARCHAR2(12)         NULL,
-    user_password   VARCHAR2(32)         NULL,
-    user_nickname   VARCHAR2(24)         NULL,
-    user_birthday   DATE                 NULL,
-    user_createdate DATE DEFAULT SYSDATE NULL
+    id                      NUMBER               NOT NULL,
+    user_email              VARCHAR2(45)         NULL,
+    user_login_id           VARCHAR2(12)         NULL,
+    user_password           VARCHAR2(32)         NULL,
+    user_nickname           VARCHAR2(24)         NULL,
+    user_role               VARCHAR2(10)         NULL,
+    user_birthday           DATE                 NULL,
+    user_createdate         DATE DEFAULT SYSDATE NULL,
+    user_alarm_agreement    CHAR(1)              NULL
 );
 
 

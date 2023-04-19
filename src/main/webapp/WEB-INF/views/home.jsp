@@ -17,12 +17,31 @@
         .int-text2{
             margin: 100px 0px 0px 130px;
         }
+        .reviewimg{
+            display: block; margin: 0px auto;
+        }
+        .applytest{
+
+            display: block;
+            height: 100px;
+            width: 750px;
+            margin: 0px auto;
+            border:0px solid white;
+            border-radius: 30px;
+            background-color: #CFEAE2;
+            background-position-y: -10px;
+        }
+        a { color: #16967A; }
+        a:visited { color: #16967A; }
+        a:hover { color: #16967A; }
+        a:active { color: #16967A; }
+
     </style>
 </head>
 <body>
 <%@ include file="fragments/header.jsp" %>
 
-<section class="container-fluid">
+<section class="container">
 
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -69,52 +88,89 @@
             <div class="col-md-12 solution" >
                 <div class="row">
                     <div class="col-md-6 ">
-                        <img src="/images/dialogueTopic.jpg" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 105px;">
+                        <img src="/images/speakingimg.png" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 105px;">
                     </div>
                     <div class="col-md-6 order-lg-2"  >
                         <div style="display: grid" class="int-text" >
-                            <h4>회화연습, 말하기연습, 글쓰기연습</h4>
-                            <h6>GPTeacher와 대화해보세요.</h6>
-                            <h6>매 문장마다 즉시 교정받을 수 있습니다.</h6>
+                            <h4>GPTeacher</h4>
+                            <h6>저희 사이트는 chatGPT를 활용한 영어교육을 지원합니다.</h6>
+                            <h6>글쓰기연습, 말하기연습, 회화연습을 선택해서 시작해보세요.</h6>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 order-lg-2">
-                        <img src="/images/dialogueTopic.jpg" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 10px;">
+                        <img src="/images/dialogueimg.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 10px;">
                     </div>
                     <div class="col-md-6" >
                         <div style="display: grid" class="int-text2">
-                            <h4>회화연습, 말하기연습, 글쓰기연습</h4>
-                            <h6>GPTeacher와 대화해보세요.</h6>
-                            <h6>매 문장마다 즉시 교정받을 수 있습니다.</h6>
+                            <h4>문장별분석기능, 음석인식기능</h4>
+                            <h6>음석인식기능 또는 직접입력을 통해 chatGPT와 대화해보세요.</h6>
+                            <h6>문장별로 교정된 내용을 확인실 수 있습니다.</h6>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="/images/dialogueTopic.jpg" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 105px;">
+                        <img src="/images/mypage.png" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 105px;">
                     </div>
                     <div class="col-md-6" >
                         <div style="display: grid" class="int-text">
-                            <h4>회화연습, 말하기연습, 글쓰기연습</h4>
-                            <h6>GPTeacher와 대화해보세요.</h6>
-                            <h6>매 문장마다 즉시 교정받을 수 있습니다.</h6>
+                            <h4>마이페이지</h4>
+                            <h6>학습이력, 나의 문장, 플래시 카드를 활용해보세요.</h6>
+                            <h6>부족한 점을 좋아요 버튼과 저장버튼을 활용해 효율적인 학습을 할 수 있습니다.</h6>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-bottom: 60px;">
                     <div class="col-md-6 order-lg-2">
-                        <img src="/images/dialogueTopic.jpg" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 10px;">
+                        <img src="/images/community.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 10px;">
                     </div>
                     <div class="col-md-6" >
                         <div style="display: grid" class="int-text2">
-                            <h4>회화연습, 말하기연습, 글쓰기연습</h4>
-                            <h6>GPTeacher와 대화해보세요.</h6>
-                            <h6>매 문장마다 즉시 교정받을 수 있습니다.</h6>
+                            <h4>커뮤니티</h4>
+                            <h6>커뮤니티를 이용해 여러 사람과 정보를 공유해보세요.</h6>
+                            <h6>어려웠던 부분을 해결할 수 있습니다.</h6>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container ">
+        <div class="row row-cols-1">
+            <div class="applytest">
+                <div calss="col " style="margin-top: 15px; text-align: center;">
+                    <h3 style="color: #2A6976">시험 접수하러 가기</h3>
+                </div>
+                <div class="col " >
+                    <ul class="nav justify-content-center gap-5">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">TOEIC</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">TOEFL</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">OPIc</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">IELTs</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col" style="text-align:center; margin-top:45px;">
+                <h3>오늘 시험후기, 커뮤니티에서 확인해보세요.</h3>
+            </div>
+            <div class="col ">
+                <img class="reviewimg" src="/images/review.png" style="width: 800px; height: 230px;">
+            </div>
+            <div class="col" style="text-align:center; margin-top:50px; ">
+                <h3>회원들의 생생한 후기도 확인해 보아요.</h3>
+            </div>
+            <div class="col">
+                <img class="reviewimg" src="/images/review.png" style="width: 800px; height: 230px;">
             </div>
         </div>
     </div>

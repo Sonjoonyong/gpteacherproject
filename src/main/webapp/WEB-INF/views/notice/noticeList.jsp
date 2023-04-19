@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+
     <style>
         #noticeboard{
             border: 1px solid lightgray;
@@ -149,6 +150,8 @@
         </div>
     </div>
 
+        </div>
+    </div>
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>

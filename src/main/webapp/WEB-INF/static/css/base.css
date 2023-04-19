@@ -65,3 +65,8 @@ footer {
 .pronunciationBtn, .ttsBtn, *:disabled {
     border: none;
 }
+
+a {
+    color: gray;
+    text-decoration: none;
+}

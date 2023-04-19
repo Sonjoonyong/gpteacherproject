@@ -139,7 +139,7 @@
                                 <span class="col-12 col-md-8" style="color: #16967A;">
                                     Corrected sentence
                                 </span>
-                            <span class="col-12 col-md-4 pronunciationAccuracy">
+                            <span class="col-12 col-md-4 pronunciationAccuracy text-end">
                                         <!-- 발음 정확도: 90% -->
                                 </span>
                         </div>
@@ -164,7 +164,7 @@
 
                 <div class="col-12 col-md-2">
                     <div class="row g-0">
-                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLikeAjax(this)">
+                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleSentenceLikeAjax(this)">
                             <i class="like bi bi-heart"></i>
                         </button>
 
@@ -317,63 +317,6 @@
         }
     }
 
-    // 발음 데이터 전송
-    function sendPronunciationToServer() {
-        // wav 파일로 전송
-        recorder && recorder.exportWAV(function (blob) {
-            // 서버로 전송
-            let formData = new FormData();
-            formData.append("audio", blob);
-            formData.append("userTalk", pronunciationTargetScriptDiv.innerText);
-            formData.append("sentenceId", targetSentenceId);
-            pronunciationAjax(formData);
-            recorder.clear();
-        });
-    }
-
-    // 발음 평가 결과 수신
-    function pronunciationAjax(formData) {
-        let request = new XMLHttpRequest();
-
-        request.onload = () => {
-            let responseText = request.responseText;
-
-            if (responseText != '다시 발음해주세요.') {
-                pronunciationResultDiv.innerHTML = '발음 정확도 <b>' + responseText + '%</b> 입니다.';
-                let targetSentence = document.querySelector('#' + 'sentence_' + targetSentenceId);
-                let pronunciationAccuracySpan = targetSentence.querySelector('.pronunciationAccuracy');
-                pronunciationAccuracySpan.innerText = '발음 정확도: ' + responseText + '%';
-            } else {
-                pronunciationResultDiv.innerText = responseText;
-            }
-
-            setPronunciationBtnsRecordPossible();
-        }
-
-        request.open("POST", "/learning/dialogue/pronunciation", true);
-        request.send(formData);
-    }
-
-    function ttsAjax(assistantTalk) {
-        if (audio) {
-            audio.pause();
-        }
-        let request = new XMLHttpRequest();
-
-        let urlSearchParams = new URLSearchParams();
-        urlSearchParams.append("assistantTalk", assistantTalk);
-
-        request.onload = () => {
-            let audioURL = URL.createObjectURL(request.response);
-            audio = new Audio(audioURL);
-            audio.play();
-        }
-
-        request.open("GET", "/learning/dialogue/tts?" + urlSearchParams.toString());
-        request.responseType = "blob";
-        request.send();
-    }
-
     function checkProfanity(formData) {
         let request = new XMLHttpRequest();
 
@@ -394,29 +337,6 @@
         request.responseType = "json";
         request.send(formData)
     }
-
-
-    function checkProfanity(formData) {
-        let request = new XMLHttpRequest();
-
-        request.onload = () => {
-            let result = request.response;
-            if (result.profanity == 'true') {
-                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
-                setBtnsRecordPossible();
-            } else {
-                let data = new FormData();
-                data.append("userTalk", result.userScript);
-                sttAjax(data);
-            }
-        }
-
-        formData.enctype = "multipart/form-data";
-        request.open("POST","/learning/sentence/profanity", true);
-        request.responseType = "json";
-        request.send(formData)
-    }
-
 
     // 유저 톡 서버에 전송 후 결과 수신
     function sttAjax(formData) {

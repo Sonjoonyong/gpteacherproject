@@ -35,7 +35,7 @@
     </select>
 
     <select id="findAllByLearningId" parameterType="long" resultType="Sentence">
-        select * from SENTENCE where LEARNING_ID = #{learningId}
+        select * from SENTENCE where LEARNING_ID = #{learningId} order by id
     </select>
 
 

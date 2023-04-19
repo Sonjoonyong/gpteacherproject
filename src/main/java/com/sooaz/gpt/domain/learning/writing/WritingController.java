@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class WritingController {
 
     private final WritingService writingService;
-    private final PerspectiveClient perspectiveClient;
 
     @GetMapping("/learning/writing")
     public String getTopicForm() {
