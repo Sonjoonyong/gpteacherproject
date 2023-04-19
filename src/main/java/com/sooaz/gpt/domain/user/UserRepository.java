@@ -41,4 +41,7 @@ public class UserRepository {
         userMapper.delete(userId);
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userMapper.findByEmail(email);
+    }
 }

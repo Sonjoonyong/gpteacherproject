@@ -49,6 +49,10 @@
         select * from USERS where USER_NICKNAME = #{userNickname}
     </select>
 
+    <select id="findByEmail" parameterType="String" resultType="User">
+        select * from USERS where USER_EMAIL = #{userEmail}
+    </select>
+
     <update id="update">
         update USERS
         <set>

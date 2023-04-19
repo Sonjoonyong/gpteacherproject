@@ -51,6 +51,10 @@ public class UserRepositoryTest {
         Optional<User> byNicknameOpt = userRepository.findByNickname(user.getUserNickname());
         assertTrue(byNicknameOpt.isPresent());
 
+        // findByEmail
+        Optional<User> byEmailOpt = userRepository.findByEmail(user.getUserEmail());
+        assertTrue(byEmailOpt.isPresent());
+
         // 업데이트
         UserUpdateDto userUpdateDto = new UserUpdateDto();
         Date newBirthday = new Date();

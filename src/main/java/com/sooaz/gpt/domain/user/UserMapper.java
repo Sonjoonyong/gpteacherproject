@@ -22,4 +22,5 @@ public interface UserMapper {
 
     void delete(Long userId);
 
+    Optional<User> findByEmail(String email);
 }
