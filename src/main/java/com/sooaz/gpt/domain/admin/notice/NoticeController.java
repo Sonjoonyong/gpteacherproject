@@ -19,20 +19,21 @@ public class NoticeController {
     @GetMapping("/list")
     public String getNotices(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+                             @RequestParam(value = "search", required = false) String search,
                              Model model) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Notice> notices = noticeService.getAllNotices();
+        List<Notice> notices = noticeService.getAllNotices(search);
         PageInfo<Notice> pageInfo = new PageInfo<>(notices);
         model.addAttribute("pageInfo", pageInfo);
         return "notice/noticeList";
     }
 
-    @GetMapping("/{id}")
-    public String getNoticeById(@PathVariable Long id, Model model) {
+    @GetMapping("/view")
+    public String getNoticeById(@RequestParam("noticeId") Long id, Model model) {
         model.addAttribute("notice", noticeService.getNoticeById(id));
-        return "notices/noticeDetail";
+        return "notice/noticeView";
     }
-
+    
     @PostMapping
     public String createNotice(@ModelAttribute NoticeCreateDto noticeCreateDto, RedirectAttributes redirectAttributes) {
         noticeService.createNotice(noticeCreateDto);

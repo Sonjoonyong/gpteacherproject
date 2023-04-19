@@ -91,7 +91,6 @@ CREATE TABLE learning
     learning_like      CHAR(1)       NULL
 );
 
-
 CREATE TABLE voice_file
 (
     id                   NUMBER        NOT NULL,
@@ -141,7 +140,6 @@ CREATE TABLE question_reply
     id                       NUMBER               NOT NULL,
     question_id              NUMBER               NOT NULL,
     user_id                  NUMBER               NULL,
-    admin_id                 NUMBER               NULL,
     question_reply_writedate DATE DEFAULT SYSDATE NULL,
     question_reply_content   VARCHAR2(300)        NOT NULL,
     question_reply_parent_id NUMBER               NOT NULL
@@ -172,7 +170,6 @@ CREATE TABLE likes
     community_post NUMBER NOT NULL
 );
 
-
 ALTER TABLE users ADD CONSTRAINT PK_USERS PRIMARY KEY (id);
 ALTER TABLE sentence ADD CONSTRAINT PK_SENTENCE PRIMARY KEY (id);
 ALTER TABLE community_post ADD CONSTRAINT PK_COMMUNITY_POST PRIMARY KEY (id);
@@ -185,7 +182,6 @@ ALTER TABLE board_faq ADD CONSTRAINT PK_BOARD_FAQ PRIMARY KEY (id);
 ALTER TABLE FLASHCARD ADD CONSTRAINT PK_FLASHCARD PRIMARY KEY (id);
 ALTER TABLE question_reply ADD CONSTRAINT PK_QUESTION_REPLY PRIMARY KEY (id);
 ALTER TABLE report_list ADD CONSTRAINT PK_REPORT_LIST PRIMARY KEY (id);
-
 
 CREATE SEQUENCE BOARD_FAQ_ID_SEQ;
 CREATE SEQUENCE BOARD_NOTICE_ID_SEQ;

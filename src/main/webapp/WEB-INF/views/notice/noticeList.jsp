@@ -36,6 +36,18 @@
         #searchbar searchbox{
 
         }
+
+        .notice-image {
+            float: left;
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .notice-title-link {
+            text-decoration: none;
+        }
+
     </style>
 
 </head>
@@ -55,13 +67,13 @@
                             <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
                                 <ul>
                                     <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
+                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
+                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="#"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
+                                        <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
                                     </li>
                                 </ul>
                             </div>
@@ -79,70 +91,84 @@
                             <table class="table table-striped" style="text-align: center; border:1px solid black;">
                                 <thead>
                                 <tr>
-                                    <th style="background-color: white; text-align: center; width: 520px;">Title</th>
-                                    <th style="background-color: white; text-align: center;">Date</th>
+                                    <th style="background-color: white; text-align: center; width: 520px;">제목</th>
+                                    <th style="background-color: white; text-align: center;">작성일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach var="notice" items="${pageInfo.list}">
                                     <tr>
-                                        <td>${notice.noticeTitle}</td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link">
+                                                <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image">
+                                                    ${notice.noticeTitle}
+                                            </a>
+                                        </td>
                                         <td><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
+
                             </table>
-                            <div class="col-md-7" style="background-color: white; margin-top: 15px;">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <c:if test="${pageInfo.hasPreviousPage}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="?pageNum=1" aria-label="First">
-                                                    <span aria-hidden="true">«</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
-                                                    <span aria-hidden="true">‹</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
+                            <div class="row">
+                                <div class="col-md-12 d-flex justify-content-center">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <c:if test="${pageInfo.hasPreviousPage}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pageNum=1" aria-label="First">
+                                                        <span aria-hidden="true">«</span>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
+                                                        <span aria-hidden="true">‹</span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
 
-                                        <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
-                                            <c:choose>
-                                                <c:when test="${i == pageInfo.pageNum}">
-                                                    <li class="page-item active">
-                                                        <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                    </li>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                    </li>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
+                                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                                <c:choose>
+                                                    <c:when test="${i == pageInfo.pageNum}">
+                                                        <li class="page-item active">
+                                                            <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                                        </li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                                        </li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
 
-                                        <c:if test="${pageInfo.hasNextPage}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
-                                                    <span aria-hidden="true">›</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
-                                                    <span aria-hidden="true">»</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </nav>
+                                            <c:if test="${pageInfo.hasNextPage}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
+                                                        <span aria-hidden="true">›</span>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
+                                                        <span aria-hidden="true">»</span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
 
-
-                            <div class="col-md-7" id="searchbar" style="background-color: white ;margin-top: 15px; display:inline-block; margin: 0px auto; ">
-                                <i class="fa-solid fa-magnifying-glass"></i>  <input type="text" class="searchbox"/>
+                            <div class="row">
+                                <div class="col-md-12 d-flex justify-content-center">
+                                    <form action="/help/notice/list" method="get" id="searchForm">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" class="searchbox" name="search" />
+                                        <button type="submit">검색</button>
+                                    </form>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
