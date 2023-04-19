@@ -13,19 +13,14 @@
 
     <!--추가-->
     <style>
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: red; }
-
-
-        .btn.btn-primary{
-
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
-            background-color: white;
+        .col-md-7{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 750px;
 
         }
+
         .col-md-7 table tbody tr,
         .col-md-7 table tbody tr td {
             border-top : 1px solid lightgray;
@@ -34,11 +29,19 @@
             border-bottom : 1px solid lightgray;
         }
 
-        .col-md-7{
-            border: 1px solid lightgray;
-            border-radius: 10px;
-            padding:20px;
+        a { color: black; }
+        a:visited { color: black; }
+        a:hover { color: black; }
+        a:active { color: red; }
+
+        .btn.btn-primary{
+
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+
         }
+
         .col-md-7 table thead tr{
             background-color: #CFEAE2;
             border-top : 1px solid lightgray;
@@ -47,6 +50,7 @@
             border-bottom : 1px solid lightgray;
             height: 40px;
         }
+
         #icon1{
             float: left;
             margin-right: 10px;
@@ -112,10 +116,10 @@
                 <div class="d-flex justify-content-between">
                     <span class="boardname"><h3>문의사항</h3></span>
                     <div>
-                        <input type="submit" class="btn btn-primary float-end" value="문의하기" style="align-content: end"/>
+                        <input type="submit" class="btn btn-primary float-end" value="문의하기" style="align-content: end" />
                     </div>
                 </div>
-                <table class="table table-striped" style="text-align:center; border:1px solid black;" >
+                <table class="table table-striped" style="text-align:center; border:1px solid black; " >
                     <thead>
                     <tr>
                         <th style="width: 50px;">번호</th>
