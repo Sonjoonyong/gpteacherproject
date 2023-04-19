@@ -11,11 +11,14 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
 
     <style>
-        #noticeboard{
+        .col-md-7{
             border: 1px solid lightgray;
-            padding:20px;
             border-radius: 10px;
+            padding:20px;
+            width: 750px;
+            min-height: 750px;
         }
+
         #noticeboard .table thead trboardname{
             margin-left: 20px;
         }
@@ -88,11 +91,11 @@
 <body>
 
 <section class="container">
+
     <%@ include file="../fragments/header.jsp" %>
+
     <div class="col-12">
         <div class="row">
-
-
                     <div class="col-md-3" id="sidebar">
                         <div class="row text-center" style="margin-top: 57px; margin-left: -71px;"><h3>고객센터</h3></div>
                         <div class="row">

@@ -9,11 +9,7 @@
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
-        #noticeboard{
-            border: 1px solid lightgray;
-            padding:20px;
-            border-radius: 10px;
-        }
+
         #noticeboard .table thead trboardname{
             margin-left: 20px;
         }
@@ -32,17 +28,6 @@
         #searchbar fa-solid,
         #searchbar searchbox{
 
-        }
-
-        .notice-image {
-            float: left;
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
-        }
-
-        .notice-title-link {
-            text-decoration: none;
         }
 
         .btn.btn-primary{
@@ -65,9 +50,10 @@
 </head>
 <body>
 
-<%@ include file="../fragments/header.jsp" %>
-
 <section class="container">
+
+    <%@ include file="../fragments/header.jsp" %>
+
     <div class="col-12">
         <div class="row">
             <div class="col-md-3" id="sidebar">
