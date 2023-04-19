@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
+import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,6 +15,8 @@ public interface SentenceMapper {
     Optional<Sentence> findById(Long sentenceId);
 
     List<Sentence> findAllByLearningId(Long learningId);
+
+    List<Sentence> findByLearningId(LearningFindDto learningFindDto);
 
     List<Sentence> findAll();
 

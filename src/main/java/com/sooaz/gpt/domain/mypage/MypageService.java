@@ -3,7 +3,6 @@ package com.sooaz.gpt.domain.mypage;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
-import com.sooaz.gpt.domain.mypage.learning.LearningUpdateDto;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +36,14 @@ public class MypageService {
                 }
             }
             learning.setSentenceCount(sentenceCount);
-            learning.setAverageAccuracy(Math.round(sumAccuracy/sentenceCount));
+            learning.setAverageAccuracy(sentenceCount != 0 ? Math.round(sumAccuracy/sentenceCount):0);
         }
         return learnings;
     }
+
+    public List<Sentence> getSentenceList(LearningFindDto learningFindDto) {
+        List<Sentence> sentences = sentenceRepository.findByLearningId(learningFindDto);
+        return sentences;
+    }
+
 }

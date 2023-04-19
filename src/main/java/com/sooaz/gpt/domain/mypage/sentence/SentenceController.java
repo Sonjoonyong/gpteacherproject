@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.mypage.sentence;
 import com.sooaz.gpt.domain.learning.LearningTestType;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
+import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class SentenceController {
 
     private final SentenceRepository sentenceRepository;
     private final SpeakingService speakingService;
+    private final WritingService writingService;
     private final SentenceService sentenceService;
     private final OpenAiClient openAiClient;
     private final PerspectiveClient perspectiveClient;
@@ -64,8 +66,11 @@ public class SentenceController {
     ) {
 
         Learning learning = new Learning();
-
-        String correctedScript = speakingService.talk(learningTestType, question, userScript, learning);
+        String correctedScript = null;
+        if(learningTestType == null) {
+            correctedScript = writingService.talk(question, userScript, learning);
+        }
+        correctedScript = speakingService.talk(learningTestType, question, userScript, learning);
 
         model.addAttribute("userScript", userScript);
         model.addAttribute("question", question);
@@ -98,5 +103,13 @@ public class SentenceController {
         json.put("profanity", Boolean.toString(profanityScore > 0.7));
         json.put("userScript", userScript);
         return json.toString();
+    }
+
+    @ResponseBody
+    @PostMapping("/learning/sentence/{sentenceId}/delete")
+    public void toggleDelete(
+            @PathVariable Long sentenceId
+    ) {
+        sentenceRepository.delete(sentenceId);
     }
 }

@@ -3,6 +3,8 @@ package com.sooaz.gpt.domain.mypage;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
+import com.sooaz.gpt.domain.mypage.sentence.Sentence;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class MypageController {
 
     private final MypageService mypageService;
+
 
     @GetMapping("/user/mypage/dashboard")
     public String getDashboard() {
@@ -45,7 +47,6 @@ public class MypageController {
             Model model
     ) {
         LearningFindDto learningFindDto = new LearningFindDto();
-        String[] sortAndOrder = sortType.split("_");
 
         learningFindDto.setUserId(1L);
         if (!learningType.equals("all")) {
@@ -55,7 +56,7 @@ public class MypageController {
         if(onlyLike != null && onlyLike.equals('1')) {
             learningFindDto.setOnlyLike(onlyLike);
         }
-        log.info("res = {}",learningFindDto);
+        //log.info("res = {}",learningFindDto);
         List<Learning> learnings = mypageService.getLearningList(learningFindDto);
         model.addAttribute("learnings", learnings);
         model.addAttribute("learningType", learningType);
@@ -65,7 +66,39 @@ public class MypageController {
     }
 
     @GetMapping("/user/mypage/sentences")
-    public String getMySentences() {
+    public String getMySentences(
+            Model model
+    ) {
+        LearningFindDto learningFindDto = new LearningFindDto();
+        learningFindDto.setUserId(1L);
+        List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
+        model.addAttribute("sentences", sentences);
+        return "mypage/learning/mySentences";
+    }
+
+    @PostMapping("/user/mypage/sentences")
+    public String getSelectedSentences(
+            @RequestParam(required = false) String learningType,
+            @RequestParam(required = false) String sortType,
+            @RequestParam(required = false) Character onlyLike,
+            Model model
+    ) {
+        LearningFindDto learningFindDto = new LearningFindDto();
+
+        learningFindDto.setUserId(1L);
+        if (!learningType.equals("all")) {
+            learningFindDto.setLearningType(LearningType.valueOf(learningType));
+        }
+        learningFindDto.setOrderBy(sortType);
+        if(onlyLike != null && onlyLike.equals('1')) {
+            learningFindDto.setOnlyLike(onlyLike);
+        }
+        //log.info("res = {}",learningFindDto);
+        List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
+        model.addAttribute("sentences", sentences);
+        model.addAttribute("learningType", learningType);
+        model.addAttribute("sortType", sortType);
+        model.addAttribute("onlyLike", onlyLike);
         return "mypage/learning/mySentences";
     }
 
