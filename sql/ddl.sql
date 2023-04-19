@@ -4,7 +4,6 @@ DROP TABLE COMMUNITY_POST;
 DROP TABLE BOARD_NOTICE;
 DROP TABLE COMMUNITY_REPLY;
 DROP TABLE LEARNING;
-DROP TABLE ADMIN_USER;
 DROP TABLE VOICE_FILE;
 DROP TABLE BOARD_QUESTION;
 DROP TABLE BOARD_FAQ;
@@ -61,7 +60,7 @@ CREATE TABLE community_post
 CREATE TABLE board_notice
 (
     id               NUMBER                 NOT NULL,
-    admin_id         NUMBER                 NOT NULL,
+    user_id          NUMBER                 NOT NULL,
     notice_title     VARCHAR2(50)           NOT NULL,
     notice_content   CLOB                   NOT NULL,
     notice_hit       NUMBER DEFAULT 0       NULL,
@@ -93,15 +92,6 @@ CREATE TABLE learning
 );
 
 
-CREATE TABLE admin_user
-(
-    id             NUMBER       NOT NULL,
-    admin_login_id VARCHAR2(45) NOT NULL,
-    admin_password VARCHAR2(45) NOT NULL,
-    admin_nickname VARCHAR2(24) NOT NULL
-);
-
-
 CREATE TABLE voice_file
 (
     id                   NUMBER        NOT NULL,
@@ -120,7 +110,7 @@ CREATE TABLE board_question
     question_content   CLOB                    NOT NULL,
     question_hit       NUMBER  DEFAULT 0       NULL,
     question_writedate DATE    DEFAULT SYSDATE NULL,
-    question_status    CHAR(1) DEFAULT 'N'     NULL,
+    question_status    CHAR(1)                 NULL,
     question_password  VARCHAR2(32)            NOT NULL
 );
 
@@ -130,7 +120,7 @@ CREATE TABLE board_question
 CREATE TABLE board_faq
 (
     id           NUMBER        NOT NULL,
-    admin_id     NUMBER        NOT NULL,
+    user_id      NUMBER        NOT NULL,
     faq_category VARCHAR2(20)  NOT NULL,
     faq_title    VARCHAR2(100) NOT NULL,
     faq_content  CLOB          NOT NULL
@@ -182,73 +172,21 @@ CREATE TABLE likes
     community_post NUMBER NOT NULL
 );
 
-ALTER TABLE users
-    ADD CONSTRAINT PK_USERS PRIMARY KEY (
-                                         id
-        );
 
-ALTER TABLE sentence
-    ADD CONSTRAINT PK_SENTENCE PRIMARY KEY (
-                                            id
-        );
-
-ALTER TABLE community_post
-    ADD CONSTRAINT PK_COMMUNITY_POST PRIMARY KEY (
-                                                  id
-        );
-
-ALTER TABLE board_notice
-    ADD CONSTRAINT PK_BOARD_NOTICE PRIMARY KEY (
-                                                id
-        );
-
-ALTER TABLE community_reply
-    ADD CONSTRAINT PK_COMMUNITY_REPLY PRIMARY KEY (
-                                                   id
-        );
-
-ALTER TABLE learning
-    ADD CONSTRAINT PK_LEARNING PRIMARY KEY (
-                                            id
-        );
-
-ALTER TABLE admin_user
-    ADD CONSTRAINT PK_ADMIN_USER PRIMARY KEY (
-                                              id
-        );
-
-ALTER TABLE voice_file
-    ADD CONSTRAINT PK_VOICE_FILE PRIMARY KEY (
-                                              id
-        );
-
-ALTER TABLE board_question
-    ADD CONSTRAINT PK_BOARD_QUESTION PRIMARY KEY (
-                                                  id
-        );
-
-ALTER TABLE board_faq
-    ADD CONSTRAINT PK_BOARD_FAQ PRIMARY KEY (
-                                             id
-        );
-
-ALTER TABLE FLASHCARD
-    ADD CONSTRAINT PK_FLASHCARD PRIMARY KEY (
-                                             id
-        );
-
-ALTER TABLE question_reply
-    ADD CONSTRAINT PK_QUESTION_REPLY PRIMARY KEY (
-                                                  id
-        );
-
-ALTER TABLE report_list
-    ADD CONSTRAINT PK_REPORT_LIST PRIMARY KEY (
-                                               id
-        );
+ALTER TABLE users ADD CONSTRAINT PK_USERS PRIMARY KEY (id);
+ALTER TABLE sentence ADD CONSTRAINT PK_SENTENCE PRIMARY KEY (id);
+ALTER TABLE community_post ADD CONSTRAINT PK_COMMUNITY_POST PRIMARY KEY (id);
+ALTER TABLE board_notice ADD CONSTRAINT PK_BOARD_NOTICE PRIMARY KEY (id);
+ALTER TABLE community_reply ADD CONSTRAINT PK_COMMUNITY_REPLY PRIMARY KEY (id);
+ALTER TABLE learning ADD CONSTRAINT PK_LEARNING PRIMARY KEY (id);
+ALTER TABLE voice_file ADD CONSTRAINT PK_VOICE_FILE PRIMARY KEY (id);
+ALTER TABLE board_question ADD CONSTRAINT PK_BOARD_QUESTION PRIMARY KEY (id);
+ALTER TABLE board_faq ADD CONSTRAINT PK_BOARD_FAQ PRIMARY KEY (id);
+ALTER TABLE FLASHCARD ADD CONSTRAINT PK_FLASHCARD PRIMARY KEY (id);
+ALTER TABLE question_reply ADD CONSTRAINT PK_QUESTION_REPLY PRIMARY KEY (id);
+ALTER TABLE report_list ADD CONSTRAINT PK_REPORT_LIST PRIMARY KEY (id);
 
 
-CREATE SEQUENCE ADMIN_ID_SEQ;
 CREATE SEQUENCE BOARD_FAQ_ID_SEQ;
 CREATE SEQUENCE BOARD_NOTICE_ID_SEQ;
 CREATE SEQUENCE BOARD_QUESTION_ID_SEQ;
