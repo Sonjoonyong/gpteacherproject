@@ -1,9 +1,6 @@
 // 버튼
 const sendEmailCodeBtn = document.querySelector('#sendEmailCode');
 const validateEmailCodeBtn = document.querySelector('#validateEmailCode');
-const loginIdDupCheck = document.querySelector('#idDupCheck');
-const nicknameDupCheckBtn = document.querySelector('#nicknameDupCheck');
-const submitBtn = document.querySelector('#submitBtn');
 
 // 안내문
 const emailCodeMsgDiv = document.querySelector('#emailCodeMsg');
@@ -18,16 +15,32 @@ const loginIdInput = document.querySelector('#userLoginId');
 const nicknameInput = document.querySelector('#userNickname');
 
 // 약관 동의
-const allTermAgreementCheckBox = document.querySelector('#userAllTermAgreement');
-
-allTermAgreementCheckBox.onclick = (e) => {
+document.querySelector('#userAllTermAgreement').onclick = (e) => {
     const value = e.currentTarget.checked;
     document.querySelectorAll('input[type="checkbox"]')
         .forEach(e => e.checked = value);
 }
 
+// 비밀번호 보기
+document.querySelectorAll('.viewPassword').forEach(el => {
+    el.onclick = (event) => {
+        const btn = event.currentTarget;
+        const input = btn.previousElementSibling;
+        const icon = btn.firstElementChild;
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.toggle('bi-eye', true);
+            icon.classList.toggle('bi-eye-slash', false);
+        } else {
+            input.type = 'password';
+            icon.classList.toggle('bi-eye', false);
+            icon.classList.toggle('bi-eye-slash', true);
+        }
+    }
+});
 
-submitBtn.onclick = (e) => {
+// 회원 가입 버튼
+document.querySelector('#submitBtn').onclick = (e) => {
     const form = e.currentTarget.closest('form');
     // input disabled 모두 해제 후 전송
     document.querySelectorAll('input[disabled]')
@@ -36,7 +49,7 @@ submitBtn.onclick = (e) => {
 }
 
 // 로그인 id 중복검사
-loginIdDupCheck.onclick = () => {
+document.querySelector('#idDupCheck').onclick = () => {
     const request = new XMLHttpRequest();
     const userLoginId = loginIdInput.value;
 
@@ -64,7 +77,7 @@ loginIdDupCheck.onclick = () => {
     request.send();
 }
 
-nicknameDupCheckBtn.onclick = () => {
+document.querySelector('#nicknameDupCheck').onclick = () => {
     const request = new XMLHttpRequest();
     const userNickname = nicknameInput.value;
 

@@ -43,7 +43,7 @@
                 </div>
                 <div id="emailMsg" class="col-12 text-danger p-0">
                     <form:errors path="userEmail" cssClass="p-0 text-danger"/>
-                    <%--이메일 관련 메시지--%>
+                        <%--이메일 관련 메시지--%>
                 </div>
 
                 <span class="col-12 p-0">이메일 인증 코드</span>
@@ -56,7 +56,7 @@
                 </div>
                 <div id="emailCodeMsg" class="col-12 text-success p-0">
                     <form:errors path="userEmailCode" cssClass="p-0 text-danger"/>
-                    <%--이메일 코드 관련 메시지.--%>
+                        <%--이메일 코드 관련 메시지.--%>
                 </div>
             </div>
 
@@ -68,7 +68,7 @@
                 </div>
                 <div id="loginIdMsg" class="col-12 text-danger p-0">
                     <form:errors path="userLoginId" cssClass="p-0 text-danger"/>
-                    <%--아이디 관련 메시지--%>
+                        <%--아이디 관련 메시지--%>
                 </div>
                 <div class="col-12 text-secondary p-0">
                     * 아이디는 영문자 및 숫자 4~12자 범위여야 합니다.<br>
@@ -77,14 +77,20 @@
 
             <div class="row">
                 <span class="col-12 p-0">비밀번호</span>
-                <div class="col-12 input-group input-group-lg p-0">
+                <div class="col-11 input-group input-group-lg p-0">
                     <form:password path="userPassword" class="form-control"/>
+                    <button class="btn btn-outline-secondary viewPassword" type="button">
+                        <i class="bi bi-eye-slash"></i>
+                    </button>
                 </div>
                 <form:errors path="userPassword" cssClass="p-0 text-danger"/>
 
                 <span class="col-12 p-0">비밀번호 확인</span>
                 <div class="col-12 input-group input-group-lg p-0">
                     <form:password path="userPasswordCheck" class="form-control"/>
+                    <button class="btn btn-outline-secondary viewPassword" type="button">
+                        <i class="bi bi-eye-slash"></i>
+                    </button>
                 </div>
                 <form:errors path="userPasswordCheck" cssClass="p-0 text-danger"/>
             </div>
@@ -97,7 +103,7 @@
                 </div>
                 <div id="nicknameMsg" class="col-12 text-danger p-0">
                     <form:errors path="userNickname" cssClass="p-0 text-danger"/>
-                    <%--닉네임 관련 메시지.--%>
+                        <%--닉네임 관련 메시지.--%>
                 </div>
             </div>
 

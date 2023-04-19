@@ -30,9 +30,11 @@ public class UserController {
     public String login(
         @Valid @ModelAttribute LoginDto loginDto,
         BindingResult bindingResult,
-        @RequestParam(defaultValue = "/") String redirectUrl,
+        @RequestParam(defaultValue = "/") String redirectUri,
         HttpServletRequest request
     ) {
+        log.info("redirectUri = {}", redirectUri);
+
         if (bindingResult.hasErrors()) {
             return "user/login";
         }
@@ -46,7 +48,7 @@ public class UserController {
         session.setAttribute("loginUser", loginUser);
         log.info("user login: {}", loginUser);
 
-        return "redirect:" + redirectUrl;
+        return "redirect:" + redirectUri;
     }
 
     @GetMapping("/user/logout")
