@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>고객센터</title>
@@ -34,6 +37,7 @@
 
         }
     </style>
+
 </head>
 <body>
 
@@ -64,54 +68,87 @@
                         </div>
                     </div>
 
-                    <div class="col-md-7" style="background-color: white ;margin-top: 100px; ">
+                    <div class="col-md-7" style="background-color: white; margin-top: 100px;">
                         <div class="noticeboard" id="noticeboard">
+                            <div class="d-flex justify-content-between">
+                                <span class="boardname"><h3>고객센터</h3></span>
+                                <div>
+                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>
+                                </div>
+                            </div>
                             <table class="table table-striped" style="text-align: center; border:1px solid black;">
                                 <thead>
                                 <tr>
-                                    <span class="boardname"><h3>공지사항</h3></span>
-                                    <th style="background-color: white; text-align: center; width: 520px;">제목</th>
-                                    <th style="background-color: white; text-align: center;">작성일</th>
+                                    <th style="background-color: white; text-align: center; width: 520px;">Title</th>
+                                    <th style="background-color: white; text-align: center;">Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>조심하세요.</td>
-                                    <td>2023.04.19</td>
-                                </tr>
-                                <tr>
-                                    <td>조심하세요.</td>
-                                    <td>2023.04.19</td>
-                                </tr>
-                                <tr>
-                                    <td>조심하세요.</td>
-                                    <td>2023.04.19</td>
-                                </tr>
-                                <tr>
-                                    <td>조심하세요.</td>
-                                    <td>2023.04.19</td>
-                                </tr>
-                                <tr>
-                                    <td>조심하세요.</td>
-                                    <td>2023.04.19</td>
-                                </tr>
+                                <c:forEach var="notice" items="${pageInfo.list}">
+                                    <tr>
+                                        <td>${notice.noticeTitle}</td>
+                                        <td><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
-                            <div class="col-md-7" style="background-color: white ;margin-top: 15px; ">
-                                <!--페이지번호입력 TODO-->
+                            <div class="col-md-7" style="background-color: white; margin-top: 15px;">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <c:if test="${pageInfo.hasPreviousPage}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pageNum=1" aria-label="First">
+                                                    <span aria-hidden="true">«</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
+                                                    <span aria-hidden="true">‹</span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+
+                                        <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                            <c:choose>
+                                                <c:when test="${i == pageInfo.pageNum}">
+                                                    <li class="page-item active">
+                                                        <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+
+                                        <c:if test="${pageInfo.hasNextPage}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
+                                                    <span aria-hidden="true">›</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
+                                                    <span aria-hidden="true">»</span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                    </ul>
+                                </nav>
                             </div>
+
+
                             <div class="col-md-7" id="searchbar" style="background-color: white ;margin-top: 15px; display:inline-block; margin: 0px auto; ">
                                 <i class="fa-solid fa-magnifying-glass"></i>  <input type="text" class="searchbox"/>
-                            </div><!--검색창 위치변경 TODO-->
-                        </div>
-
-                        <div class="col-md-7" style="background-color: white ;margin-top: 100px;"><!--글등록버튼 TODO-->
-                            <input type="submit" class="btn btn-primary pull-right" value="글등록" style="align-content: end"/>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+        </div>
+    </div>
 
         </div>
     </div>
