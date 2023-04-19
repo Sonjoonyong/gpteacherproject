@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.admin.question.QuestionMapper">
+    <resultMap id="QuestionResultMap" type="com.sooaz.gpt.domain.admin.question.Question">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id" />
+        <result property="questionCategory" column="question_category" />
+        <result property="questionTitle" column="question_title" />
+        <result property="questionContent" column="question_content" />
+        <result property="questionHit" column="question_hit" />
+        <result property="questionWriteDate" column="question_writedate" />
+        <result property="questionStatus" column="question_status" />
+        <result property="questionPassword" column="question_password" />
+
+    </resultMap>
+
+    <select id="findAll" resultMap="QuestionResultMap">
+        SELECT * FROM board_question
+        WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+        ORDER BY id desc
+
+    </select>
+
+    <select id="findById" parameterType="long" resultMap="QuestionResultMap">
+        SELECT * FROM board_question WHERE id = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.sooaz.gpt.domain.admin.question.Question">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT BOARD_QUESTION_ID_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+            INSERT INTO board_question (id, user_id,question_category ,question_title, question_content, question_password)
+            VALUES (#{id}, #{userId}, #{questionCategory}, #{questionTitle}, #{questionContent}, #{questionPassword})
+    </insert>
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.admin.question.Question">
+        UPDATE board_question
+        SET user_id =  #{userId},
+            question_category = #{questionCategory},
+            question_title = #{questionTitle},
+            question_content = #{questionContent},
+            question_hit = #{questionHit}
+
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM board_question WHERE id = #{id}
+    </delete>
+
+</mapper>
