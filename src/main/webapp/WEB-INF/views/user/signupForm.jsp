@@ -40,6 +40,9 @@
                     <button class="btn btn-outline-secondary fs-6" type="button" id="sendEmailCode">인증코드 발송</button>
                 </div>
                 <form:errors path="userEmail" cssClass="col-12 text-danger p-0"/>
+                <div id="emailDupInstruction" class="col-12 text-danger" style="display: none">
+                        <%--중복되는 이메일입니다.--%>
+                </div>
 
                 <span class="col-12 p-0">이메일 인증 코드</span>
                 <div class="col-12 input-group input-group-lg p-0">
@@ -60,6 +63,9 @@
                     <button class="btn btn-outline-secondary fs-6" type="button" id="idDupCheck">중복검사</button>
                 </div>
                 <form:errors path="userLoginId" cssClass="col-12 text-danger p-0"/>
+                <div id="idDupInstruction" class="col-12 text-danger" style="display: none">
+                    <%--중복되는 아이디입니다.--%>
+                </div>
                 <div class="col-12 text-secondary p-0">
                     * 아이디 중복 확인 바랍니다.<br>
                     * 아이디는 영문자 및 숫자 4~12자 범위여야 합니다.<br>
@@ -85,6 +91,9 @@
                 <div class="col-12 input-group input-group-lg p-0">
                     <form:input path="userNickname" type="text" name="userNickname" class="form-control"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="nicknameDupCheck">중복검사</button>
+                </div>
+                <div id="nicknameDupInstruction" class="col-12 text-danger" style="display: none">
+                        <%--중복되는 닉네임입니다.--%>
                 </div>
                 <form:errors path="userNickname" cssClass="col-12 text-danger p-0"/>
 
