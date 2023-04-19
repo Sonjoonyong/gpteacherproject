@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
@@ -74,7 +76,8 @@ public class UserController {
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
             Model model,
-            HttpServletRequest request
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
     ) {
         String userEmail = userSignupDto.getUserEmail();
         if (userEmail != null && userService.isDuplicateEmail(userEmail)) {
@@ -120,25 +123,13 @@ public class UserController {
             bindingResult.rejectValue("userBirthday", "incorrect", "생일을 입력해주세요.");
         }
 
-//        try {
-//            Date birthDay = new SimpleDateFormat("yyyy-MM-dd").parse(userSignupDto.getUserBirthday());
-//        } catch (Exception e) {
-//
-//        }
-
-
         if (bindingResult.hasErrors()) {
             return "user/signupForm";
         }
 
         userService.join(userSignupDto);
 
-        // 로그인 아이디 정보와 같이 로그인 창으로 이동
-        LoginDto loginDto = new LoginDto();
-        loginDto.setUserLoginId(userLoginId);
-        model.addAttribute("loginDto", loginDto);
-
-        return "/user/login";
+        return "redirect:/user/login";
     }
 
 
@@ -149,7 +140,7 @@ public class UserController {
             HttpServletRequest request
     ) {
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분
+        session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분 TODO - 확실하지 않음
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
     }

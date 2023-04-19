@@ -1,6 +1,7 @@
 package com.sooaz.gpt.domain.user;
 
 import com.sooaz.gpt.global.constant.SessionConst;
+import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class UserValidationController {
 
     private final UserService userService;
+    private final Gmail gmail;
 
     @ResponseBody
     @GetMapping(value = "/user/signup/loginIdDupCheck")
@@ -58,10 +60,14 @@ public class UserValidationController {
         String emailCode = UUID.randomUUID().toString()
                 .replaceAll("-", "").substring(0, 5);
         log.info("발급된 emailCode = {}", emailCode);
+
+        gmail.sendEmail(email, "GPTeacher 회원가입 인증코드입니다.",
+                "아래 코드를 인증 창에 입력 후 회원가입을 진행하세요. \n\n" +
+                        emailCode);
+
         session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
         session.setAttribute(SessionConst.EMAIL, email);
         
-        log.info("session.getAttribute(SessionConst.EMAIL_CODE) = {}", session.getAttribute(SessionConst.EMAIL_CODE));
         return "true";
     }
 

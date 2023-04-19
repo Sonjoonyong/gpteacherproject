@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.user;
 
+import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,17 +35,6 @@ public class UserService {
         user.setUserRole(UserRole.USER);
         user.setUserEmail(userSignupDto.getUserEmail());
         user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
-
-        // 생일 설정
-//        String userBirthday = userSignupDto.getUserBirthday();
-//        Date birthDay = null;
-//        try {
-//            birthDay = new SimpleDateFormat("yyyy-MM-dd").parse(userBirthday);
-//        } catch (ParseException e) {
-//            throw new IllegalArgumentException("잘못된 생일 형식입니다.", e);
-//        }
-
-//        user.setUserBirthday(birthDay);
         user.setUserBirthday(userSignupDto.getUserBirthday());
 
         userRepository.save(user);
