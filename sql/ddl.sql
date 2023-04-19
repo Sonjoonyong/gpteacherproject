@@ -61,7 +61,7 @@ CREATE TABLE community_post
 CREATE TABLE board_notice
 (
     id               NUMBER                 NOT NULL,
-    admin_id         NUMBER                 NOT NULL,
+    user_id         NUMBER                 NOT NULL,
     notice_title     VARCHAR2(50)           NOT NULL,
     notice_content   CLOB                   NOT NULL,
     notice_hit       NUMBER DEFAULT 0       NULL,
@@ -92,16 +92,6 @@ CREATE TABLE learning
     learning_like      CHAR(1)       NULL
 );
 
-
-CREATE TABLE admin_user
-(
-    id             NUMBER       NOT NULL,
-    admin_login_id VARCHAR2(45) NOT NULL,
-    admin_password VARCHAR2(45) NOT NULL,
-    admin_nickname VARCHAR2(24) NOT NULL
-);
-
-
 CREATE TABLE voice_file
 (
     id                   NUMBER        NOT NULL,
@@ -130,7 +120,7 @@ CREATE TABLE board_question
 CREATE TABLE board_faq
 (
     id           NUMBER        NOT NULL,
-    admin_id     NUMBER        NOT NULL,
+    user_id     NUMBER        NOT NULL,
     faq_category VARCHAR2(20)  NOT NULL,
     faq_title    VARCHAR2(100) NOT NULL,
     faq_content  CLOB          NOT NULL
@@ -151,7 +141,6 @@ CREATE TABLE question_reply
     id                       NUMBER               NOT NULL,
     question_id              NUMBER               NOT NULL,
     user_id                  NUMBER               NULL,
-    admin_id                 NUMBER               NULL,
     question_reply_writedate DATE DEFAULT SYSDATE NULL,
     question_reply_content   VARCHAR2(300)        NOT NULL,
     question_reply_parent_id NUMBER               NOT NULL
@@ -212,11 +201,6 @@ ALTER TABLE learning
                                             id
         );
 
-ALTER TABLE admin_user
-    ADD CONSTRAINT PK_ADMIN_USER PRIMARY KEY (
-                                              id
-        );
-
 ALTER TABLE voice_file
     ADD CONSTRAINT PK_VOICE_FILE PRIMARY KEY (
                                               id
@@ -247,8 +231,6 @@ ALTER TABLE report_list
                                                id
         );
 
-
-CREATE SEQUENCE ADMIN_ID_SEQ;
 CREATE SEQUENCE BOARD_FAQ_ID_SEQ;
 CREATE SEQUENCE BOARD_NOTICE_ID_SEQ;
 CREATE SEQUENCE BOARD_QUESTION_ID_SEQ;
