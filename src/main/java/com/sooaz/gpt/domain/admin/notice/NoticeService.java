@@ -27,15 +27,15 @@ public class NoticeService {
         return noticeRepository.save(notice);
     }
 
-    public Notice updateNotice(Long id, NoticeUpdateDto noticeUpdateDto) {
-        Notice notice = getNoticeById(id);
-        notice.setUserId(noticeUpdateDto.getUserId());
-        notice.setNoticeTitle(noticeUpdateDto.getNoticeTitle());
-        notice.setNoticeContent(noticeUpdateDto.getNoticeContent());
-        notice.setNoticeHit(noticeUpdateDto.getNoticeHit());
-        notice.setNoticeLike(noticeUpdateDto.getNoticeLike());
+    public Notice updateNotice(Long id, Notice notice) {
+        Notice existingNotice = getNoticeById(id);
+        notice.setId(id);
+        notice.setUserId(existingNotice.getUserId());
+        notice.setNoticeHit(existingNotice.getNoticeHit());
+        notice.setNoticeLike(existingNotice.getNoticeLike());
         return noticeRepository.save(notice);
     }
+
 
     public void deleteNotice(Long id) {
         noticeRepository.deleteById(id);
