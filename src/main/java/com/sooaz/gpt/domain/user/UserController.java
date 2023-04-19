@@ -3,21 +3,26 @@ package com.sooaz.gpt.domain.user;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -76,6 +81,10 @@ public class UserController {
             Model model,
             HttpServletRequest request
     ) {
+        if (userService.isDuplicateEmail(userSignupDto.getUserEmail())) {
+            log.info("이메일 중복");
+            bindingResult.rejectValue("userEmail", "duplicate","중복되는 이메일입니다.");
+        }
 
         if (userService.isDuplicateLoginId(userSignupDto.getUserLoginId())) {
             log.info("아이디 중복");
@@ -110,6 +119,49 @@ public class UserController {
 
         return "/user/login";
     }
+
+    @ResponseBody
+    @GetMapping(value = "/user/signup/loginIdDupCheck", produces = "text/plain; charset=utf-8")
+    public String checkIdDup(
+            @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
+            String userLoginId
+    ) {
+        return String.valueOf(userService.isDuplicateLoginId(userLoginId));
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/user/signup/nicknameDupCheck", produces = "text/plain; charset=utf-8")
+    public String checkNicknameDup(
+            @Size(min = 4, max = 12, message = "4~8자 범위로 입력해주세요.")
+            String userNickname
+    ) {
+        return String.valueOf(userService.isDuplicateNickname(userNickname));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    public void sendEmailCode(
+            @Email(message = "유효한 이메일 형식이 아닙니다.")
+            String email,
+            HttpServletRequest request
+    ) {
+        HttpSession session = request.getSession();
+        String emailCode = UUID.randomUUID().toString()
+                .replaceAll("-", "").substring(0, 5);
+        log.info("발급된 emailCode = {}", emailCode);
+        session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
+    }
+
+    @ResponseBody
+    @PostMapping("/signup/emailCode")
+    public String checkEmailCode(
+            String emailCode,
+            HttpServletRequest request
+    ) {
+        HttpSession session = request.getSession();
+        String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
+        return String.valueOf(emailCode.equals(realEmailCode));
+    }
+
 
     private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
         HttpSession session = request.getSession();

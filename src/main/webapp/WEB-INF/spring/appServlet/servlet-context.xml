@@ -28,6 +28,11 @@
                 class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
     </beans:bean>
 
+    <!--MethodValidationPostProcessor-->
+    <beans:bean id="methodValidationPostProcessor"
+                class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+    </beans:bean>
+
     <!-- 비 로그인 사용자 접근 제한용 인터셉터 -->
     <interceptors>
         <interceptor>
