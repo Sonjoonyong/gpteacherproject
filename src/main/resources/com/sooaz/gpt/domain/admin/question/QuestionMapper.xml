@@ -11,12 +11,14 @@
         <result property="questionWriteDate" column="question_writedate" />
         <result property="questionStatus" column="question_status" />
         <result property="questionPassword" column="question_password" />
+
     </resultMap>
 
     <select id="findAll" resultMap="QuestionResultMap">
         SELECT * FROM board_question
         WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
-        ORDER BY question_writedate DESC
+        ORDER BY id desc
+
     </select>
 
     <select id="findById" parameterType="long" resultMap="QuestionResultMap">
