@@ -11,12 +11,12 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public List<Question> getAllQuestion(String search){
+    public List<Question> getAllQuestions(String search){
         return questionRepository.findAll(search);
     }
 
     public Question getQuestionById(Long id){
-        return questionRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Question not found"));
+        return questionRepository.findById(id).orElseThrow(()->new IllegalArgumentException("공지를 찾을 수 없습니다."));
     }
 
     public Question createQuesiton(QuestionCreateDto questionCreateDto){

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <header>
     <nav class="navbar navbar-expand-lg bg-white mb-3">
-        <div class="container-fluid">
+        <div class="container-lg">
             <a class="navbar-brand" href="/">
                 <img src="/images/logo.png" alt="logo" width="200px">
             </a>

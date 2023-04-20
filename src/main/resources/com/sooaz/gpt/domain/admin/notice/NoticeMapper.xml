@@ -4,6 +4,7 @@
     <resultMap id="NoticeResultMap" type="com.sooaz.gpt.domain.admin.notice.Notice">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
+        <result property="userNickname" column="user_nickname"/>
         <result property="noticeTitle" column="notice_title"/>
         <result property="noticeContent" column="notice_content"/>
         <result property="noticeHit" column="notice_hit"/>
@@ -46,4 +47,9 @@
     <delete id="deleteById" parameterType="long">
         DELETE FROM board_notice WHERE id = #{id}
     </delete>
+
+    <update id="increaseViewCount" parameterType="long">
+        UPDATE board_notice SET notice_hit = notice_hit + 1 WHERE id = #{id}
+    </update>
+
 </mapper>

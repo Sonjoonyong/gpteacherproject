@@ -16,7 +16,8 @@
 
     <select id="findAll" resultMap="QuestionResultMap">
         SELECT * FROM board_question
-        WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+        WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%') or
+            (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(user_id) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
         ORDER BY id desc
 
     </select>
