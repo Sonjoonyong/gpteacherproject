@@ -52,7 +52,7 @@ public class MypageController {
         if (!learningType.equals("all")) {
             learningFindDto.setLearningType(LearningType.valueOf(learningType));
         }
-        learningFindDto.setOrderBy(sortType);
+        learningFindDto.setSortType(sortType);
         if(onlyLike != null && onlyLike.equals('1')) {
             learningFindDto.setOnlyLike(onlyLike);
         }
@@ -89,7 +89,7 @@ public class MypageController {
         if (!learningType.equals("all")) {
             learningFindDto.setLearningType(LearningType.valueOf(learningType));
         }
-        learningFindDto.setOrderBy(sortType);
+        learningFindDto.setSortType(sortType);
         if(onlyLike != null && onlyLike.equals('1')) {
             learningFindDto.setOnlyLike(onlyLike);
         }

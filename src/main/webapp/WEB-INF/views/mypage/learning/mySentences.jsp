@@ -12,36 +12,39 @@
 </head>
 <body onload="initSelect()">
 <%@ include file="../../fragments/header.jsp" %>
-<h3 class="h3 text-center my-3" style="color: #5DB99D;">나의 문장</h3>
 
-<section class="container" style="max-width: 900px">
+<section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-9">
-            <form action="/user/mypage/sentences" method="post" id="selectForm">
-                <input type="hidden" id="learningType" value="${learningType}">
-                <input type="hidden" id="sortType" value="${sortType}">
-                <input type="hidden" id="onlyLike" name="onlyLike" value="${onlyLike}">
-                <div class="row">
-                    <div class="col-10 col-md-2">
-                        <select name="learningType" id="learningTypeSelect" onchange="reLoad()">
-                            <option value="all">전체</option>
-                            <option value="SPEAKING">말하기 연습</option>
-                            <option value="DIALOGUE">회화 연습</option>
-                            <option value="WRITING">글쓰기 연습</option>
-                        </select>
+        <div class="col-md-8 offset-md-1">
+            <h3 class="h3 my-5" style="color: #5DB99D;">나의 문장</h3>
+            <div class="pb-2">
+                <form action="/user/mypage/sentences" method="post" id="selectForm">
+                    <input type="hidden" id="learningType" value="${learningType}">
+                    <input type="hidden" id="sortType" value="${sortType}">
+                    <input type="hidden" id="onlyLike" name="onlyLike" value="${onlyLike}">
+                    <div class="row align-items-center">
+                        <div class="col-10 col-md-2">
+                            <select class="form-select" aria-label="Default select example" name="learningType" id="learningTypeSelect" onchange="reLoad()">
+                                <option value="all">전체</option>
+                                <option value="SPEAKING">말하기 연습</option>
+                                <option value="DIALOGUE">회화 연습</option>
+                                <option value="WRITING">글쓰기 연습</option>
+                            </select>
+                        </div>
+                        <div class="col-10 col-md-2">
+                            <select class="form-select" aria-label="Default select example" name="sortType" id="sortTypeSelect" onchange="reLoad()">
+                                <option value="id_desc">최신순</option>
+                                <option value="id_asc">오래된 순</option>
+                            </select>
+                        </div>
+                        <div class="form-check col-10 col-md-4 ms-1">
+                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="likeCheck" onclick="reLoad()">
+                            <label class="form-check-label" for="flexCheckDefault">좋아요 표시만 보기</label>
+                        </div>
                     </div>
-                    <div class="col-10 col-md-2">
-                        <select name="sortType" id="sortTypeSelect" onchange="reLoad()">
-                            <option value="id_desc">최신순</option>
-                            <option value="id_asc">오래된 순</option>
-                        </select>
-                    </div>
-                    <div class="col-10 col-md-4">
-                        <input type="checkbox" id="likeCheck" onclick="reLoad()">좋아요 표시만 보기
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
 
             <c:forEach var="sentence" items="${sentences}">
                 <!-- sentence start -->
@@ -131,7 +134,7 @@
 
         let learningTypeSelect = document.getElementById('learningTypeSelect');
         let sortTypeSelect = document.getElementById('sortTypeSelect');
-        let likeCheck = document.getElementById('likeCheck');
+        let likeCheck = document.getElementById('flexCheckDefault');
 
         if (learningType != null) {
             for (let i=0; i<learningTypeSelect.options.length; i++) {
@@ -154,7 +157,7 @@
         }
     }
     function reLoad() {
-        let likeCheck = document.getElementById('likeCheck');
+        let likeCheck = document.getElementById('flexCheckDefault');
         let form = document.getElementById('selectForm');
 
         if (likeCheck.checked == true) {

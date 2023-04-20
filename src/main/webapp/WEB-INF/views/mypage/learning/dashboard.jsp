@@ -13,11 +13,17 @@
 </head>
 <body>
 <%@ include file="../../fragments/header.jsp" %>
-<section class="container" style="max-width: 900px">
+<section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-9">
-            <h3 class="h3 text-center my-3" style="color: #5DB99D;">학습관리</h3>
+        <div class="col-md-8 offset-md-1">
+            <h3 class="h3 my-5" style="color: #5DB99D;">학습 관리</h3>
+            <div>
+                <h2>최근 학습</h2>
+            </div>
+            <div>
+                <h2>연간 학습</h2>
+            </div>
         </div>
     </div>
 </section>

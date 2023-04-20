@@ -1,16 +1,30 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gyurey
-  Date: 2023/04/08
-  Time: 5:45 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>MyPage - 작성댓글</title>
+
+    <link rel="stylesheet" href="/css/base.css">
+
+    <%@ include file="../../fragments/bootstrapCss.jsp" %>
+
 </head>
 <body>
+<%@ include file="../../fragments/header.jsp" %>
+<section class="container">
+    <div class="row">
+        <%@ include file="../../fragments/mypageMenu.jsp" %>
+        <div class="col-md-8 offset-md-1">
+            <h3 class="h3 my-5" style="color: #5DB99D;">작성댓글</h3>
+
+        </div>
+    </div>
+</section>
+
+<%@ include file="../../fragments/footer.jsp" %>
+<%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>
 </html>

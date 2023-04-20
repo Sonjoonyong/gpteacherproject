@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="row row-cols-1 col-md-3 myPageMenu" style="height:400px; margin-top: 80px;">
+<div class="row row-cols-1 col-md-2 myPageMenu" style="width:240px; height:250px; margin-top: 80px;">
     <div class="col mb-4 align-self-center text-center">
-        <h3>마이페이지</h3>
+        <a class="menuAtag" href="/user/mypage/dashboard"><h3>마이페이지</h3></a>
     </div>
     <div class="accordion accordion-flush col m-1 align-self-center" id="accordionExample">
         <div class="accordion-item">
@@ -14,7 +14,7 @@
                 <div class="accordion-body">
                     <ul class="navbar-nav">
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/learnings">학습 이력</a></li>
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/sentences">나의 활동</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/sentences">나의 문장</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/flashcards">플래시 카드</a></li>
                     </ul>
                 </div>
@@ -29,8 +29,8 @@
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <ul class="navbar-nav">
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/communities">작성 글</a></li>
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/comments">작성 댓글</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/communities">내가 쓴 글</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/comments">내가 쓴 댓글</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/bookmarks">북마크</a></li>
                     </ul>
                 </div>

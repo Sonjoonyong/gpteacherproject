@@ -49,8 +49,8 @@
             and sentence_like = #{onlyLike}
         </if>
         <trim prefix="ORDER BY">
-            <if test="orderBy == 'id_asc'"> id asc</if>
-            <if test="orderBy == 'id_desc'"> id desc</if>
+            <if test='sortType == "id_asc"'> id asc</if>
+            <if test='sortType == "id_desc"'> id desc</if>
         </trim>
     </select>
 
