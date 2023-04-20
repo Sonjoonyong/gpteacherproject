@@ -56,6 +56,22 @@
             float: right;
             margin-top: 15px;
         }
+        .accordion .accordion-item .accordion-header .accordion-button{
+            background-color: white;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:hover{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:focus{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:active{
+            background-color: #CFEAE2;
+            color: white;
+        }
     </style>
 </head>
 <body>

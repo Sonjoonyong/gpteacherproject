@@ -28,6 +28,10 @@
             background-color: #5DB99D;
 
         }
+        .col-md-7 .row .clearfix #questionPassword{
+            border: 1px solid lightgray;
+        }
+
     </style>
 </head>
 <body>
@@ -66,29 +70,33 @@
                     </div>
                 </div>
             </div>
+            <!--글작성폼-->
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
 
                 <div class="create-form col-md-7">
-                    <h3>문의사항 글쓰기</h3>
+
                     <form:form action="${pageContext.request.contextPath}/help/question" method="post" modelAttribute="questionCreateDto">
-                        <div class="row">
-                            <div class="form-group " style="width:80px; ">
-                                <form:select path="questionCategory" type="text" class="form-control" id="questionTitle" required="required" >
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="FormSelectButton" style="width:80px; ">
+                                <form:select path="questionCategory"  class="select" id="questionTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
                                     <form:option value="학습"> 학습</form:option>
                                     <form:option value="결제"> 결제</form:option>
                                 </form:select>
                             </div>
-                            <div class="form-group " style="width:590px; ">
-                                <form:input path="questionTitle" type="text" placeholder="문의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:577px" />
+                            <div class="form-group " style="width:590px;  ">
+                                <form:input path="questionTitle" type="text" placeholder="문의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:589px; margin-left:-12px; " />
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="form-group" >
                                 <form:textarea path="questionContent" style="border-top: 10px;" type="text" placeholder="문의 내용을 작성해주세요." class="form-control" id="questionContent" rows="5" required="required" cssStyle="min-height: 400px"/>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="clearfix">
+                            <div class="clearfix" style="width: 250px; margin-top: 15px; ">
+                                <form:input path="questionPassword" type="text" placeholder="비밀번호" class="textbox" id="questionPassword" />
+                            </div>
+                            <div class="clearfix" style="width: 432px;">
                                 <button type="submit" class="btn btn-primary submit-btn">등록</button>
                             </div>
                         </div>
