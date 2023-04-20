@@ -133,17 +133,21 @@
                     <tbody >
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
+
                                 <td>${question.id}</td>
 
                                 <td>
+                                    <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link">
                                     <i class="fa-solid fa-lock" id="icon1"></i>
                                     [${question.questionCategory}] ${question.questionTitle}
+                                    </a>
                                 </td>
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
                                 <td>
                                     <c:if test="${question.questionStatus == true}">답변중</c:if>
                                     <c:if test="${question.questionStatus != true}">답변완료</c:if>
                                 </td>
+
                             </tr>
                         </c:forEach>
                     </tbody>
