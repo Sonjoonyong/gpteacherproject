@@ -24,7 +24,14 @@ public class MypageController {
 
 
     @GetMapping("/user/mypage/dashboard")
-    public String getDashboard() {
+    public String getDashboard(
+            Model model
+    ) {
+        LearningFindDto learningFindDto = new LearningFindDto();
+        learningFindDto.setUserId(1L);
+        learningFindDto.setSortType("id_desc");
+        List<Learning> learnings = mypageService.getLearningList(learningFindDto);
+        model.addAttribute("learnings", learnings.subList(0,2));
         return "mypage/learning/dashboard";
     }
 
