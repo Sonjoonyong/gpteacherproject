@@ -18,4 +18,13 @@
         <typeHandler handler="com.sooaz.gpt.global.handlers.UserRoleHandler"/>
     </typeHandlers>
 
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="oracle"/>
+            <property name="reasonable" value="true"/>
+            <property name="supportMethodsArguments" value="true"/>
+            <property name="params" value="count=countSql"/>
+        </plugin>
+    </plugins>
+
 </configuration>

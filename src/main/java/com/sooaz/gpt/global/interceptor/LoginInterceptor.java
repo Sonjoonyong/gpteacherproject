@@ -1,8 +1,6 @@
 package com.sooaz.gpt.global.interceptor;
 
-import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.global.constant.SessionConst;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
