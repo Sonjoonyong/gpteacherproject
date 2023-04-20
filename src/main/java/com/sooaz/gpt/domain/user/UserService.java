@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.user;
 
+import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,19 @@ public class UserService {
                 .findAny().orElse(null);
 
         return loginUser;
+    }
+
+    public void join(UserSignupDto userSignupDto) {
+        User user = new User();
+        user.setUserLoginId(userSignupDto.getUserLoginId());
+        user.setUserPassword(userSignupDto.getUserPassword());
+        user.setUserNickname(userSignupDto.getUserNickname());
+        user.setUserRole(UserRole.USER);
+        user.setUserEmail(userSignupDto.getUserEmail());
+        user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
+        user.setUserBirthday(userSignupDto.getUserBirthday());
+
+        userRepository.save(user);
     }
 
     public boolean isDuplicateLoginId(String loginId) {

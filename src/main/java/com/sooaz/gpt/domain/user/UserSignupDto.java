@@ -1,13 +1,16 @@
 package com.sooaz.gpt.domain.user;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
+import java.util.Date;
 
 @Data
 public class UserSignupDto {
 
     @Email(message = "유효한 이메일 형식이 아닙니다.")
+    @NotBlank(message = "이메일을 입력해주세요.")
     private String userEmail;
 
     @NotBlank(message = "인증 코드를 입력해주세요.")
@@ -25,15 +28,16 @@ public class UserSignupDto {
     @Size(min = 2, max = 8, message = "2~8자 범위로 입력해주세요.")
     private String userNickname;
 
-    @NotBlank(message = "생년월일을 입력해주세요.")
-    private String userBirthday;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date userBirthday;
 
-    private Boolean allTermAgreement;
-
-    @AssertTrue(message = "필수 약관에 동의해주세요.")
-    private Boolean generalTermAgreement;
+    private Boolean userAllTermAgreement;
 
     @AssertTrue(message = "필수 약관에 동의해주세요.")
-    private Boolean privacyTermAgreement;
-    private Boolean emailSubscriptionAgreement;
+    private Boolean userGeneralTermAgreement;
+
+    @AssertTrue(message = "필수 약관에 동의해주세요.")
+    private Boolean userPrivacyTermAgreement;
+
+    private Boolean userEmailAgreement;
 }
