@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.user;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Slf4j
 public class UserController {
 
+    private final GoogleOauthClient googleOauthClient;
     private final UserService userService;
 
     @GetMapping("/user/login")
@@ -86,6 +88,11 @@ public class UserController {
             bindingResult.rejectValue("userEmail", "duplicate","인증된 이메일과 다른 이메일입니다.");
         }
 
+        String userEmailCode = userSignupDto.getUserEmailCode();
+        if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
+            bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
+        }
+
         String userLoginId = userSignupDto.getUserLoginId();
         if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
             bindingResult.rejectValue("userLoginId", "duplicate","중복되는 아이디입니다.");
@@ -96,10 +103,6 @@ public class UserController {
             bindingResult.rejectValue("userPasswordCheck", "incorrect", "입력한 비밀번호와 다릅니다.");
         }
 
-        String userEmailCode = userSignupDto.getUserEmailCode();
-        if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
-            bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
-        }
 
         String userNickname = userSignupDto.getUserNickname();
         if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
@@ -131,6 +134,36 @@ public class UserController {
         session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분 TODO - 확실하지 않음
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
+    }
+
+    @GetMapping("/user/login/oauth")
+    public String getAuthCode(
+            @RequestParam String code
+    ) {
+        JSONObject resultJson = googleOauthClient.getAccessToken(code);
+
+        if (resultJson == null) {
+            log.info("토큰 발급에 실패했습니다.");
+            return "user/login";
+        }
+
+        String accessToken = resultJson.getString("access_token");
+        JSONObject userInfo = googleOauthClient.getUserInfo(accessToken);
+        log.info("userInfo = {}", userInfo);
+
+        String email = userInfo.getString("email");
+        String name = userInfo.getString("name");
+
+        if (userService.isDuplicateEmail(email)) {
+
+        }
+
+        if (userService.isDuplicateNickname(name)) {
+
+        }
+
+        log.info("code = {}", code);
+        return "home";
     }
 
 
