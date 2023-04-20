@@ -4,6 +4,7 @@
 
 <html>
 <head>
+    <%@ include file="../fragments/bootstrapCss.jsp" %>
     <title>고객센터</title>
 
     <link rel="stylesheet" href="/css/base.css">
@@ -18,7 +19,6 @@
             width: 800px;
 
         }
-
         #noticeboard .table thead trboardname{
             margin-left: 20px;
         }
@@ -75,6 +75,29 @@
             background-color: #fafafa;
             border-color: #ccc;
         }
+
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:active{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:focus {
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:hover{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+
+
     </style>
 
 </head>
