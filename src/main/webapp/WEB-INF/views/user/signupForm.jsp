@@ -14,6 +14,43 @@
         .termDesc {
             color: gray;
         }
+
+        #termModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+
+            width: 100%;
+            height: 100%;
+
+            display: none;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        #termModal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #termModalBody {
+            position: fixed;
+            width: 500px;
+            height: 600px;
+            overflow: auto;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background-color: white;
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
     </style>
 
 
@@ -152,6 +189,25 @@
     </form:form>
 
 </section>
+
+<%--약관 모달--%>
+<div id="termModal">
+    <div id="termModalBody"
+         class="shadow rounded-3 p-4 gap-2 d-flex flex-column algin-items-center justify-content-between">
+
+        <div id="generalTermContent" class="flex-column align-items-center justify-content-center">
+            <h6 class="h5">서비스 이용 약관</h6>
+            <pre class="border rounded-3 p-3"><%@ include file="./term/generalTerm.jsp" %></pre>
+        </div>
+
+        <div id="privacyTermContent" class="flex-column align-items-center justify-content-center" >
+            <h6 class="h5">개인정보 취급 방침</h6>
+            <pre class="border rounded-3 p-3"><%@ include file="./term/privacyTerm.jsp" %></pre>
+        </div>
+
+        <button id="termModalCloseBtn" class="btn btn-secondary rounded-2 w-100 m-0">확인</button>
+    </div>
+</div>
 
 <%@ include file="../fragments/footer.jsp" %>
 <%@ include file="../fragments/bootstrapJs.jsp" %>
