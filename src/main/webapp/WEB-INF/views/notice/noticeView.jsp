@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -10,15 +11,17 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
 
+        .col-md-7{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 800px;
+
+
+        }
+
         #noticeboard .table thead trboardname{
             margin-left: 20px;
-        }
-        .col-md-7 table tbody tr,
-        .col-md-7 table tbody tr td {
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
         }
 
         a { color: black; }
@@ -37,7 +40,8 @@
             float: right;
         }
 
-        .col-md-7 table thead tr{
+        .col-md-7 table thead tr,
+        .col-md-7 table thead tr td{
             background-color: #CFEAE2;
             border-top : 1px solid lightgray;
             border-left : 1px solid white;
@@ -45,49 +49,97 @@
             border-bottom : 1px solid lightgray;
             height: 40px;
         }
+
+        .col-md-7 table tbody tr,
+        .col-md-7 table tbody tr td {
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+            background-color: white;
+
+        }
+        /* noticeContent부분 */
+        .col-md-7 table tbody tr td{
+            background-color: white;
+
+        }
+        .accordion .accordion-item .accordion-header .accordion-button{
+            background-color: white;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:hover{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:focus{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:active{
+            background-color: #CFEAE2;
+            color: white;
+        }
+
     </style>
 
 </head>
 <body>
 
-<section class="container">
+<%@ include file="../fragments/header.jsp" %>
 
-    <%@ include file="../fragments/header.jsp" %>
+<section class="container">
 
     <div class="col-12">
         <div class="row">
+            <!--사이드바-->
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px; margin-left: -71px;"><h3>고객센터</h3></div>
-                <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
-                        <ul>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
-                            </li>
-                        </ul>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" style="background-color: #CFEAE2">
+                                    공지사항
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
+                                    자주묻는 질문
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'">
+                                    문의사항
+                                </button>
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
-                <table class="table table-striped" style="text-align:center; border:1px solid black;" >
-                    <thead >
+            <div class="col-md-7" style="margin-top: 110px; ">
+                <table class="table" style="text-align:start; border:1px solid black;" >
+                    <thead style="margin-bottom: 20px;">
+                        <tr>
+                            <td colspan="2">${notice.noticeTitle}</td>
+                        </tr>
 
                     </thead>
                     <tbody>
                     <tr>
-                        <td style="width:20%;"><h4>글 제목</h4></td>
-                        <td colspan="2">${notice.noticeTitle}</td>
+                        <td>작성자: ${notice.userNickname}</td>
+                        <td colspan="2" style="text-align: right">
+                            <fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy-MM-dd" />
+                            조회수: ${notice.noticeHit}
+                        </td>
                     </tr>
                     <tr>
-                        <td >글 내용</td>
-                        <td colspan="2" style="height: 200px; text-align: left;">${notice.noticeContent}</td>
-                    </tr>
+                            <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${notice.noticeContent}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <form action="${pageContext.request.contextPath}/help/notice/delete/${notice.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">

@@ -7,7 +7,7 @@
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <title>문의사항</title>
 
-    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/base.css"/>
     <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico"/>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
 
@@ -17,7 +17,7 @@
             border: 1px solid lightgray;
             border-radius: 10px;
             padding:20px;
-            width: 750px;
+            width: 800px;
 
         }
 
@@ -33,14 +33,6 @@
         a:visited { color: black; }
         a:hover { color: black; }
         a:active { color: red; }
-
-        .btn.btn-primary{
-
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
-            background-color: white;
-
-        }
 
         .col-md-7 table thead tr{
             background-color: #CFEAE2;
@@ -78,7 +70,6 @@
             background-color: #fafafa;
             border-color: #ccc;
         }
-
     </style>
 
 
@@ -86,28 +77,39 @@
 <body>
 
 
+<%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
-    <%@ include file="../fragments/header.jsp" %>
+
 
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
             <div class="col-md-3" id="sidebar">
                 <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
-                <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
-                        <ul>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
-                            </li>
-                        </ul>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'">
+                                    공지사항
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
+                                    자주묻는 질문
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" style="background-color: #CFEAE2">
+                                    문의사항
+                                </button>
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,7 +118,7 @@
                 <div class="d-flex justify-content-between">
                     <span class="boardname"><h3>문의사항</h3></span>
                     <div>
-                        <input type="submit" class="btn btn-primary float-end" value="문의하기" style="align-content: end" />
+                        <a href="${pageContext.request.contextPath}/help/question/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
                     </div>
                 </div>
                 <table class="table table-striped" style="text-align:center; border:1px solid black; " >
@@ -131,17 +133,21 @@
                     <tbody >
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
+
                                 <td>${question.id}</td>
 
                                 <td>
+                                    <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
                                     <i class="fa-solid fa-lock" id="icon1"></i>
                                     [${question.questionCategory}] ${question.questionTitle}
+                                    </a>
                                 </td>
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
                                 <td>
                                     <c:if test="${question.questionStatus == true}">답변중</c:if>
                                     <c:if test="${question.questionStatus != true}">답변완료</c:if>
                                 </td>
+
                             </tr>
                         </c:forEach>
                     </tbody>

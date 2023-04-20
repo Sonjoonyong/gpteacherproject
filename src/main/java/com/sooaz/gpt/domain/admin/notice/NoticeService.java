@@ -1,5 +1,7 @@
 package com.sooaz.gpt.domain.admin.notice;
 
+import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,18 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
+    private final UserRepository userRepository;
     public List<Notice> getAllNotices(String search) {
         return noticeRepository.findAll(search);
     }
 
     public Notice getNoticeById(Long id) {
-        return noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("공지를 찾을 수 없습니다."));
+        Notice notice = noticeRepository.findById(id).get();
+        System.out.println(notice);
+        User user = userRepository.findById(notice.getUserId()).get();
+        System.out.println(user);
+        notice.setUserNickname(user.getUserNickname());
+        return notice;
     }
 
     public Notice createNotice(NoticeCreateDto noticeCreateDto) {
@@ -36,8 +44,12 @@ public class NoticeService {
         return noticeRepository.save(notice);
     }
 
-
     public void deleteNotice(Long id) {
         noticeRepository.deleteById(id);
     }
+
+    public void increaseViewCount(Long id) {
+        noticeRepository.increaseViewCount(id);
+    }
+
 }

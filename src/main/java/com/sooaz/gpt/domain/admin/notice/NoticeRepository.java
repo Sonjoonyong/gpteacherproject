@@ -32,4 +32,9 @@ public class NoticeRepository {
     public void deleteById(Long id) {
         noticeMapper.deleteById(id);
     }
+
+    public void increaseViewCount(Long id) {
+        noticeMapper.increaseViewCount(id);
+    }
+
 }
