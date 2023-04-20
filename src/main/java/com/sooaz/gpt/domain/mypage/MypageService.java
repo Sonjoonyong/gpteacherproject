@@ -1,5 +1,7 @@
 package com.sooaz.gpt.domain.mypage;
 
+import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPostRepository;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
@@ -18,6 +20,7 @@ import java.util.ListIterator;
 public class MypageService {
     private final LearningRepository learningRepository;
     private final SentenceRepository sentenceRepository;
+    private final CommunityPostRepository communityPostRepository;
 
     public List<Learning> getLearningList(LearningFindDto learningFindDto) {
         List<Learning> learnings = learningRepository.findByUserId(learningFindDto);
@@ -44,6 +47,16 @@ public class MypageService {
     public List<Sentence> getSentenceList(LearningFindDto learningFindDto) {
         List<Sentence> sentences = sentenceRepository.findByLearningId(learningFindDto);
         return sentences;
+    }
+
+    public List<Community> getPostList(Long userId) {
+        List<Community> communities = communityPostRepository.findByUserId(userId);
+        return communities;
+    }
+
+    public List<Community> getBookmarkList(Long userId) {
+        List<Community> communities = communityPostRepository.findBookmarksByUserId(userId);
+        return communities;
     }
 
 }

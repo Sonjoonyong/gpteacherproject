@@ -1,10 +1,12 @@
 package com.sooaz.gpt.domain.mypage;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.community.Community;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
-import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -145,7 +147,15 @@ public class MypageController {
     }
 
     @GetMapping("/user/mypage/communities")
-    public String getMyCommunities() {
+    public String getMyCommunities(
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Community> communities = mypageService.getPostList(1L); //임시 user id
+        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myPosts";
     }
 
@@ -155,7 +165,15 @@ public class MypageController {
     }
 
     @GetMapping("/user/mypage/bookmarks")
-    public String getMyBookmarks() {
+    public String getMyBookmarks(
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Community> communities = mypageService.getBookmarkList(1L); //임시 user id
+        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myBookmarks";
     }
 

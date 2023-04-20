@@ -25,5 +25,11 @@ public class CommunityPostRepository {
         return Optional.ofNullable(communityMapper.findById(id));
     }
     public List<Community> findAll(String search) {return communityMapper.findAll(search);}
+    public List<Community> findByUserId(Long userId) {
+        return communityMapper.findByUserId(userId);
+    }
+    public List<Community> findBookmarksByUserId(Long userId){
+        return communityMapper.findBookmarksByUserId(userId);
+    }
     public void deleteById(Long id) {communityMapper.delete(id);}
 }

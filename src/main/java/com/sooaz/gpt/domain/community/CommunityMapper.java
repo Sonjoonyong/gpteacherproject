@@ -17,6 +17,9 @@ public interface CommunityMapper {
 
     List<Community> findAll(@Param("search") String search);
 
+    List<Community> findByUserId(Long userId);
+
+    List<Community> findBookmarksByUserId(Long userId);
 
     void update(CommunityUpdateDto communityUpdateDto);
 
