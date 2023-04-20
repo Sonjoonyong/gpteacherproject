@@ -18,4 +18,5 @@ public class Community {
     public void setCommunityPostWriteDate(Date communiytPostWriteDate) {this.communityPostWirtedate = communiytPostWriteDate;}
     private Boolean communityPostLike;
     //
+    //
 }
