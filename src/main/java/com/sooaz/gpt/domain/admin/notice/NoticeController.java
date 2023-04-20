@@ -34,6 +34,7 @@ public class NoticeController {
 
     @GetMapping("/view")
     public String getNoticeById(@RequestParam("noticeId") Long id, Model model) {
+        noticeService.increaseViewCount(id);
         model.addAttribute("notice", noticeService.getNoticeById(id));
         return "notice/noticeView";
     }

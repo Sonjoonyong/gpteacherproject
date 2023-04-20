@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -85,9 +86,9 @@
 </head>
 <body>
 
-<section class="container">
+<%@ include file="../fragments/header.jsp" %>
 
-    <%@ include file="../fragments/header.jsp" %>
+<section class="container">
 
     <div class="col-12">
         <div class="row">
@@ -126,10 +127,17 @@
                         <tr>
                             <td colspan="2">${notice.noticeTitle}</td>
                         </tr>
+
                     </thead>
                     <tbody>
-                        <tr >
-
+                    <tr>
+                        <td>작성자: ${notice.userNickname}</td>
+                        <td colspan="2" style="text-align: right">
+                            <fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy-MM-dd" />
+                            조회수: ${notice.noticeHit}
+                        </td>
+                    </tr>
+                    <tr>
                             <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${notice.noticeContent}</td>
                         </tr>
                     </tbody>

@@ -8,12 +8,9 @@ public class Notice {
     private Long id;
     private Long userId;
     private String noticeTitle;
+    private String userNickname;
     private String noticeContent;
     private Integer noticeHit;
     private Date noticeWriteDate;
-
-    public void setNoticeWriteDate(Date noticeWriteDate) {
-        this.noticeWriteDate = noticeWriteDate;
-    }
     private Integer noticeLike;
 }
