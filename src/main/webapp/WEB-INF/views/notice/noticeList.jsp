@@ -75,6 +75,22 @@
             background-color: #fafafa;
             border-color: #ccc;
         }
+
+        .btn.btn-primary:active{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:focus {
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:hover{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
     </style>
 
 </head>
