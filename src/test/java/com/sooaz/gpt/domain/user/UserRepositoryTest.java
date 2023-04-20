@@ -4,13 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -39,7 +37,7 @@ public class UserRepositoryTest {
         user.setUserRole(UserRole.ADMIN);
         user.setUserEmail("admin@google.com");
         user.setUserBirthday(new Date());
-        user.setUserAlarmAgreement(true);
+        user.setUserEmailAgreement(true);
 
         userRepository.save(user);
 
