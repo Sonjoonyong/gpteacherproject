@@ -78,6 +78,10 @@
 
 <%@ include file="../fragments/footer.jsp" %>
 
+<script>
+    document.querySelector('#userLoginId').focus();
+</script>
+
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
 </body>
