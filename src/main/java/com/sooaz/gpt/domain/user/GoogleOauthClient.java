@@ -84,6 +84,7 @@ public class GoogleOauthClient {
             }
         } catch (Exception e) {
             log.error("e = ", e);
+            return null;
         }
 
         return null;

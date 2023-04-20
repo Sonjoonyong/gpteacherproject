@@ -29,13 +29,13 @@ public class UserService {
 
     public void join(UserSignupDto userSignupDto) {
         User user = new User();
+        user.setUserEmail(userSignupDto.getUserEmail());
         user.setUserLoginId(userSignupDto.getUserLoginId());
         user.setUserPassword(userSignupDto.getUserPassword());
         user.setUserNickname(userSignupDto.getUserNickname());
         user.setUserRole(UserRole.USER);
-        user.setUserEmail(userSignupDto.getUserEmail());
-        user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
         user.setUserBirthday(userSignupDto.getUserBirthday());
+        user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
 
         userRepository.save(user);
     }

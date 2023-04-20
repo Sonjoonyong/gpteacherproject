@@ -8,18 +8,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
 
-    private final GoogleOauthClient googleOauthClient;
     private final UserService userService;
 
     @GetMapping("/user/login")
@@ -135,37 +136,6 @@ public class UserController {
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
     }
-
-    @GetMapping("/user/login/oauth")
-    public String getAuthCode(
-            @RequestParam String code
-    ) {
-        JSONObject resultJson = googleOauthClient.getAccessToken(code);
-
-        if (resultJson == null) {
-            log.info("토큰 발급에 실패했습니다.");
-            return "user/login";
-        }
-
-        String accessToken = resultJson.getString("access_token");
-        JSONObject userInfo = googleOauthClient.getUserInfo(accessToken);
-        log.info("userInfo = {}", userInfo);
-
-        String email = userInfo.getString("email");
-        String name = userInfo.getString("name");
-
-        if (userService.isDuplicateEmail(email)) {
-
-        }
-
-        if (userService.isDuplicateNickname(name)) {
-
-        }
-
-        log.info("code = {}", code);
-        return "home";
-    }
-
 
     private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
         HttpSession session = request.getSession();

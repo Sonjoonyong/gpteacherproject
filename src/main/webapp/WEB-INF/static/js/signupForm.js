@@ -52,6 +52,10 @@ document.querySelector('#termModalCloseBtn').onclick = () => {
     toggleTermModal(false);
 }
 
+// 비밀번호 에러 메시지가 있을 경우 비밀번호 안내 문구 숨김
+document.querySelector('#userPassword') &&
+    (document.querySelector('#passwordInstruction').style.display = 'none');
+
 // 비밀번호 보기
 document.querySelectorAll('.viewPassword').forEach(el => {
     el.onclick = (event) => {

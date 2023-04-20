@@ -107,8 +107,8 @@
                     <form:errors path="userLoginId" cssClass="p-0 text-danger"/>
                         <%--아이디 관련 메시지--%>
                 </div>
-                <div class="col-12 text-secondary p-0">
-                    * 아이디는 영문자 및 숫자 4~12자 범위여야 합니다.<br>
+                <div id="loginIdInstruction" class="col-12 text-secondary p-0">
+                    * 아이디는 영문자 및 숫자 6~12자 범위여야 합니다.<br>
                 </div>
             </div>
 
@@ -121,6 +121,9 @@
                     </button>
                 </div>
                 <form:errors path="userPassword" cssClass="p-0 text-danger"/>
+                <div id="passwordInstruction" class="col-12 text-secondary p-0">
+                    비밀번호는 6~12자리의 영문자, 숫자 및 특수문자($@$!%*#?&)를 포함해 입력해주세요.
+                </div>
 
                 <span class="col-12 p-0">비밀번호 확인</span>
                 <div class="col-12 input-group input-group-lg p-0">
