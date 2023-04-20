@@ -76,6 +76,11 @@
             border-color: #ccc;
         }
 
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
         .btn.btn-primary:active{
             border: 1px solid #5DB99D;
             color: #5DB99D;
@@ -91,6 +96,8 @@
             color: #5DB99D;
             background-color: white;
         }
+
+
     </style>
 
 </head>

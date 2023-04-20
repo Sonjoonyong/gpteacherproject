@@ -1,7 +1,6 @@
 package com.sooaz.gpt.domain.user;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -15,6 +14,6 @@ public class User {
     private UserRole userRole;
     private String userEmail;
     private Date userBirthday;
-    private Boolean userAlarmAgreement;
+    private Boolean userEmailAgreement;
 
 }

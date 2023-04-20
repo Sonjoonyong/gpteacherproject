@@ -17,7 +17,7 @@
             user_role,
             user_email,
             user_birthday,
-            user_alarm_agreement
+            user_email_agreement
         )
         values
         (
@@ -28,7 +28,7 @@
             #{userRole},
             #{userEmail},
             #{userBirthday},
-            #{userAlarmAgreement}
+            #{userEmailAgreement}
         )
     </insert>
 
@@ -37,9 +37,7 @@
     </select>
 
 
-    <select id="findById" parameterType="long" resultType="User">
-        select * from USERS where id = #{userId}
-    </select>
+
 
     <select id="findByLoginId" parameterType="String" resultType="User">
         select * from USERS where USER_LOGIN_ID = #{userLoginId}
@@ -65,8 +63,8 @@
             <if test="userBirthday != null">
                 user_birthday = #{userBirthday},
             </if>
-            <if test="userAlarmAgreement != null">
-                user_birthday = #{userAlarmAgreement},
+            <if test="userEmailAgreement != null">
+                user_birthday = #{userEmailAgreement},
             </if>
         </set>
         where id = #{userId}
