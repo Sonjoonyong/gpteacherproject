@@ -10,15 +10,17 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
 
+        .col-md-7{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 800px;
+
+
+        }
+
         #noticeboard .table thead trboardname{
             margin-left: 20px;
-        }
-        .col-md-7 table tbody tr,
-        .col-md-7 table tbody tr td {
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
         }
 
         a { color: black; }
@@ -37,7 +39,8 @@
             float: right;
         }
 
-        .col-md-7 table thead tr{
+        .col-md-7 table thead tr,
+        .col-md-7 table thead tr td{
             background-color: #CFEAE2;
             border-top : 1px solid lightgray;
             border-left : 1px solid white;
@@ -45,6 +48,38 @@
             border-bottom : 1px solid lightgray;
             height: 40px;
         }
+
+        .col-md-7 table tbody tr,
+        .col-md-7 table tbody tr td {
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+            background-color: white;
+
+        }
+        /* noticeContent부분 */
+        .col-md-7 table tbody tr td{
+            background-color: white;
+
+        }
+        .accordion .accordion-item .accordion-header .accordion-button{
+            background-color: white;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:hover{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:focus{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:active{
+            background-color: #CFEAE2;
+            color: white;
+        }
+
     </style>
 
 </head>
@@ -85,20 +120,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
-                <table class="table table-striped" style="text-align:center; border:1px solid black;" >
-                    <thead >
-
+            <div class="col-md-7" style="margin-top: 110px; ">
+                <table class="table" style="text-align:start; border:1px solid black;" >
+                    <thead style="margin-bottom: 20px;">
+                        <tr>
+                            <td colspan="2">${notice.noticeTitle}</td>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td style="width:20%;"><h4>글 제목</h4></td>
-                        <td colspan="2">${notice.noticeTitle}</td>
-                    </tr>
-                    <tr>
-                        <td >글 내용</td>
-                        <td colspan="2" style="height: 200px; text-align: left;">${notice.noticeContent}</td>
-                    </tr>
+                        <tr >
+
+                            <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${notice.noticeContent}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <form action="${pageContext.request.contextPath}/help/notice/delete/${notice.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
