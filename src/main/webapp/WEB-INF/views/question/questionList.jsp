@@ -137,7 +137,7 @@
                                 <td>${question.id}</td>
 
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link">
+                                    <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
                                     <i class="fa-solid fa-lock" id="icon1"></i>
                                     [${question.questionCategory}] ${question.questionTitle}
                                     </a>
