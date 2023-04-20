@@ -1,4 +1,4 @@
-document.querySelector('#startAudio').addEventListener("click", () => {
+                                                      document.querySelector('#startAudio').addEventListener("click", () => {
     let assistantTalk = document.getElementsByClassName('question')[0].innerText;
     ttsAjax(assistantTalk);
 })
