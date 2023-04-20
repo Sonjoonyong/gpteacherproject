@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.mypage;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
@@ -160,7 +161,15 @@ public class MypageController {
     }
 
     @GetMapping("/user/mypage/comments")
-    public String getMyComments() {
+    public String getMyComments(
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(1L); //임시 user id
+        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
+        model.addAttribute("pageInfo",pageInfo);
         return "mypage/activity/myComments";
     }
 

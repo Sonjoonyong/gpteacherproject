@@ -2,6 +2,9 @@ package com.sooaz.gpt.domain.mypage;
 
 import com.sooaz.gpt.domain.community.Community;
 import com.sooaz.gpt.domain.community.CommunityPostRepository;
+import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
+import com.sooaz.gpt.domain.community.communityreply.CommunityReplyRepository;
+import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
@@ -11,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -21,6 +25,7 @@ public class MypageService {
     private final LearningRepository learningRepository;
     private final SentenceRepository sentenceRepository;
     private final CommunityPostRepository communityPostRepository;
+    private final CommunityReplyRepository communityReplyRepository;
 
     public List<Learning> getLearningList(LearningFindDto learningFindDto) {
         List<Learning> learnings = learningRepository.findByUserId(learningFindDto);
@@ -57,6 +62,26 @@ public class MypageService {
     public List<Community> getBookmarkList(Long userId) {
         List<Community> communities = communityPostRepository.findBookmarksByUserId(userId);
         return communities;
+    }
+
+    public List<MyReplyDto> getMyCommentList(Long userId) {
+        List<CommunityReply> communityReplies = communityReplyRepository.findByUserId(userId);
+        List<MyReplyDto> myReplyDtos = new ArrayList<MyReplyDto>();
+
+        for (CommunityReply communityReply : communityReplies) {
+            MyReplyDto myReplyDto = new MyReplyDto();
+
+            Long communityPostId = communityReply.getCommunityPostId();
+            myReplyDto.setId(communityReply.getId());
+            myReplyDto.setCommunityPostId(communityPostId);
+            myReplyDto.setCommunityReplyContent(communityReply.getCommunityReplyContent());
+            myReplyDto.setCommunityReplyWritedate(communityReply.getCommunityReplyWritedate());
+
+            Community community = communityPostRepository.findById(communityPostId).get();
+            myReplyDto.setCommunityPostTitle(community.getCommunityPostTitle());
+            myReplyDtos.add(myReplyDto);
+        }
+        return myReplyDtos;
     }
 
 }

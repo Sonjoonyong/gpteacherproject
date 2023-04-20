@@ -16,29 +16,11 @@
             min-height: 750px;
         }
 
-        .col-md-7 table thead tr{
-            background-color: #CFEAE2;
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
-            height: 40px;
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
         }
-
-        .myPostList table tbody tr,
-        .myPostList table tbody tr td{
-            background-color: #CFEAE2;
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
-            height: 40px;
-        }
-
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
 
         .page-link {
             color: #000;
@@ -60,6 +42,10 @@
             background-color: #fafafa;
             border-color: #ccc;
         }
+        .tableATag {
+            text-decoration: none;
+            color: #373737;
+        }
     </style>
 
     <link rel="stylesheet" href="/css/base.css">
@@ -74,30 +60,47 @@
         <%@ include file="../../fragments/mypageMenu.jsp" %>
         <div class="col-md-8 offset-md-1 myPostList">
             <h3 class="h3 my-4">작성글</h3>
-            <table class="table table-striped" style="text-align: center; border:1px solid black;">
-                <thead>
-                    <tr>
-                        <th style="text-align: center; width: 500px;">제목</th>
-                        <th style="text-align: center;">작성일</th>
-                        <th style="text-align: center;">조회</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="post" items="${pageInfo.list}">
+            <form>
+                <table class="table" style="text-align: center; table-layout:fixed;">
+                    <thead>
                         <tr>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/community/view?communityId=${post.id}" style="text-decoration: none;">${post.communityPostTitle}</a>
-                            </td>
-                            <td>
-                                <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>
-                            </td>
-                            <td>
-                                <span>${post.communityPostHit}</span>
-                            </td>
+                            <th scope="col" style="width: 50px;"></th>
+                            <th scope="col" style="width: 475px;">제목</th>
+                            <th scope="col" style="width: 125px;">작성일</th>
+                            <th scope="col" style="width: 50px;">조회</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <c:forEach var="post" items="${pageInfo.list}">
+                            <tr>
+                                <td>
+                                    <input class="form-check-input" type="checkbox" value="${post.id}">
+                                </td>
+                                <td style="text-overflow:ellipsis; overflow:hidden;">
+                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
+                                </td>
+                                <td>
+                                    <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>
+                                </td>
+                                <td>
+                                    <span>${post.communityPostHit}</span>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                <div class="row mb-2 justify-content-between">
+                    <div class="col-md-4 form-check">
+                        <input class="form-check-input" type="checkbox" style="margin-left:10px;">
+                        <label class="form-check-label ms-3">
+                            전체 선택
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" class="btn btn-primary" value="삭제하기" />
+                    </div>
+                </div>
+            </form>
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <nav aria-label="Page navigation">

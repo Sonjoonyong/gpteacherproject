@@ -7,6 +7,47 @@
     <meta charset="UTF-8">
     <title>MyPage - 북마크</title>
 
+    <style>
+        .myBookmarkList{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 750px;
+            min-height: 750px;
+        }
+
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+
+        .page-link {
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #555;
+            font-weight:bold;
+            background-color: #CFEAE2;
+            border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000;
+            background-color: #fafafa;
+            border-color: #ccc;
+        }
+        .tableATag {
+            text-decoration: none;
+            color: #373737;
+        }
+    </style>
+
     <link rel="stylesheet" href="/css/base.css">
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
@@ -17,28 +58,46 @@
 <section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-8 offset-md-1">
+        <div class="col-md-8 offset-md-1 myBookmarkList">
             <h3 class="h3 my-5" style="color: #5DB99D;">북마크한 글</h3>
-            <table class="table table-striped" style="text-align: center; border:1px solid black;">
-                <thead>
-                    <tr>
-                        <th style="text-align: center; width: 500px;">제목</th>
-                        <th style="text-align: center;">작성일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="post" items="${pageInfo.list}">
+            <form action="/" method="post">
+                <table class="table" style="text-align: center; table-layout:fixed;">
+                    <thead>
                         <tr>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/community/view?communityId=${post.id}" style="text-decoration: none;">${post.communityPostTitle}</a>
-                            </td>
-                            <td>
-                                <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>
-                            </td>
+                            <th scope="col" style="width: 50px;"></th>
+                            <th scope="col" style="width: 500px;">제목</th>
+                            <th scope="col" style="width: 150px;">작성일</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <c:forEach var="post" items="${pageInfo.list}">
+                            <tr>
+                                <td>
+                                    <input class="form-check-input" type="checkbox" value="${post.id}">
+                                </td>
+                                <td style="text-overflow:ellipsis; overflow:hidden;">
+                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
+                                </td>
+                                </td>
+                                <td>
+                                    <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                <div class="row mb-2 justify-content-between">
+                    <div class="col-md-4 form-check">
+                        <input class="form-check-input" type="checkbox" style="margin-left:10px;">
+                        <label class="form-check-label ms-3">
+                            전체 선택
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" class="btn btn-primary" value="삭제하기" />
+                    </div>
+                </div>
+            </form>
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <nav aria-label="Page navigation">
