@@ -136,10 +136,10 @@
                                         <td>
                                             <a href="${pageContext.request.contextPath}/community/view?communityId=${community.id}" class="community-title-link">
                                                 <img src="/images/community_titleimage.png" alt="Community" class="notice-image">
-                                                    ${community.communityTitle}
+                                                    ${community.communityPostTitle}
                                             </a>
                                         </td>
-                                        <td><fmt:formatDate value="${community.communityPostWriteDate}" pattern="yyyy.MM.dd" /></td>
+                                        <td><fmt:formatDate value="${community.communityPostWritedate}" pattern="yyyy.MM.dd" /></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

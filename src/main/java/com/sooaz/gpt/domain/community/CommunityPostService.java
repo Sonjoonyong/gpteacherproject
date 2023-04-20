@@ -1,8 +1,5 @@
 package com.sooaz.gpt.domain.community;
 
-import com.sooaz.gpt.domain.community.Community;
-import com.sooaz.gpt.domain.community.CommunityPostDto;
-import com.sooaz.gpt.domain.community.CommunityPostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +24,8 @@ public class CommunityPostService {
     public Community createCommunity(CommunityPostDto communityPostDto) {
         Community community = new Community();
         community.setUserId(communityPostDto.getUserId());
-        community.setCommunityTitle(communityPostDto.getCommunityTitle());
-        community.setCommunityContent(communityPostDto.getCommunityContent());
+        community.setCommunityPostTitle(communityPostDto.getCommunityTitle());
+        community.setCommunityPostContent(communityPostDto.getCommunityContent());
         return communityPostRepository.save(community);
     }
     public Community updateCommunity(Long id, Community community) {
