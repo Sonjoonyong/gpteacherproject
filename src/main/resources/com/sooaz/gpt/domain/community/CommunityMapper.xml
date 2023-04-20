@@ -4,48 +4,94 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sooaz.gpt.domain.community.communityMapper">
-   <insert id="save">
-        <selectKey keyProperty="id" resultType="long" order="BEFORE">
-            select COMMUNITY_ID_SEQ.nextval from dual
-        </selectKey>
-        insert into COMMUNITY(
-            id,
-            user_id,
-            community_post_category,
-            community_post_title,
-            community_post_content,
-            community_post_hit,
-            community_post_writedate,
-            community_post_like
-            )
-            values(
-            #{id},
-            #{user_id},
-            #{communityPostCategory},
-            #{communityPostTitle},
-            #{communityPostContent},
-            #{communityPostHit},
-            #{communityPostWritedate},
-            #{communityPostLike}
-       )
-   </insert>
+    <resultMap id="CommunityResultMap" type="com.sooaz.gpt.domain.community.Comuunity">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="communityPostTitle" column="community_post_title"/>
+        <result property="communityPostContent" column="community_post_content"/>
+        <result property="communityPostHit" column="community_post_hit"/>
+        <result property="communityPostWirtedat" column="community_post_writedate"/>
+        <result property="communityPostLike" column="community_post_like"/>
+    </resultMap>
+<!--   <insert id="save">-->
+<!--        <selectKey keyProperty="id" resultType="long" order="BEFORE">-->
+<!--            select COMMUNITY_ID_SEQ.nextval from dual-->
+<!--        </selectKey>-->
+<!--        insert into COMMUNITY(-->
+<!--            id,-->
+<!--            user_id,-->
+<!--            community_post_category,-->
+<!--            community_post_title,-->
+<!--            community_post_content,-->
+<!--            community_post_hit,-->
+<!--            community_post_writedate,-->
+<!--            community_post_like-->
+<!--            )-->
+<!--            values(-->
+<!--            #{id},-->
+<!--            #{user_id},-->
+<!--            #{communityPostCategory},-->
+<!--            #{communityPostTitle},-->
+<!--            #{communityPostContent},-->
+<!--            #{communityPostHit},-->
+<!--            #{communityPostWritedate},-->
+<!--            #{communityPostLike}-->
+<!--       )-->
+<!--   </insert>-->
 
-    <select id="findById" parameterType="long" resultType="Community">
-        select * from COMMUNITY where id = #{communityId}
+    <select id="findById" parameterType="long" resultMap="CommunityResultMap">
+        SELECT * FROM community_post WHERE id = #{id}
     </select>
+<!--    <select id="findById" parameterType="long" resultType="Community">-->
+<!--        select * from COMMUNITY where id = #{communityId}-->
+<!--    </select>-->
 
-    <select id="findAll" resultType="Community">
-        select * from COMMUNITY
+
+    <select id="findAll" resultMap="CommunityResultMap">
+        SELECT * FROM community_post
+        WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(community_post_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+        ORDER BY community_post_writedate DESC
     </select>
-    <update id="update">
-        update COMMUNITY
-        <set>
-            <if test="communityPostLike != null">
-                community_post_like = #{communitypostlike}
-            </if>
-        </set>
-        where id = #{communityId}
+<!--    <select id="findAll" resultType="Community">-->
+<!--        select * from COMMUNITY-->
+<!--    </select>-->
+
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.Community">
+        UPDATE community_post
+        SET user_id = #{userId},
+            community_post_title = #{communityPostTitle},
+            community_post_content = #{communityPostContent},
+            community_post_hit = #{communityPostHit},
+            community_post_like  = #{communityPostLike},
+            community_post_writedate = #{communityPostWirtedate},
+            community_post_category = #{communityPostCategory}
+        WHERE id = #{id}
     </update>
+<!--    <update id="update">-->
+<!--        update COMMUNITY-->
+<!--        <set>-->
+<!--            <if test="communityPostLike != null">-->
+<!--                community_post_like = #{communitypostlike}-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where id = #{communityId}-->
+<!--    </update>-->
+
+    <select id="count" resultType="int">
+        SELECT count(0) FROM community_post
+    </select>
+
+    <insert id="save" parameterType="com.sooaz.gpt.domain.community.Community">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT COMMNUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO community_post (id, user_id, community_post_title, community_post_content)
+        VALUES (#{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{communityTitle, jdbcType=VARCHAR}, #{communityContent, jdbcType=VARCHAR})
+    </insert>
+
+
+
     <delete id="delete" parameterType="long">
         delete from COMMUNITY where id = #{communityId}
     </delete>

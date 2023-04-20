@@ -10,23 +10,25 @@
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
-        #noticeboard{
+        .col-md-7{
             border: 1px solid lightgray;
+            border-radius: 10px;
             padding:20px;
+            width: 750px;
+            min-height: 750px;
         }
+
         #noticeboard .table thead trboardname{
             margin-left: 20px;
         }
-        #noticeboard .table thead th,
-        #noticeboard .table thead tr,
-        #noticeboard .table tbody th,
-        #noticeboard .table tbody tr{
+        .col-md-7 table tbody tr,
+        .col-md-7 table tbody tr td {
             border-top : 1px solid lightgray;
             border-left : 1px solid white;
             border-right : 1px solid white;
             border-bottom : 1px solid lightgray;
-
         }
+
         a { color: black; }
         a:visited { color: black; }
         a:hover { color: black; }
@@ -47,7 +49,43 @@
             text-decoration: none;
         }
 
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+
+        .col-md-7 table thead tr{
+            background-color: #CFEAE2;
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+            height: 40px;
+        }
+
+        .page-link {
+            color: #000;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #555;
+            font-weight:bold;
+            background-color: #CFEAE2;
+            border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000;
+            background-color: #fafafa;
+            border-color: #ccc;
+        }
     </style>
+
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
@@ -75,14 +113,14 @@
                     </div>
 
                     <div class="col-md-7" style="background-color: white; margin-top: 100px;">
-                        <div class="noticeboard" id="noticeboard">
+                        <div class="communitypost" id="communitypost">
                             <div class="d-flex justify-content-between">
                                 <span class="boardname"><h3>커뮤니티</h3></span>
 <%--                                <div>--%>
 <%--                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>--%>
 <%--                                </div>--%>
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" role="button">글작성</a>
+                                    <a href="${pageContext.request.contextPath}/community/write" class="btn btn-primary float-end" role="button">글작성</a>
                                 </div>
                             </div>
                             <table class="table table-striped" style="text-align: center; border:1px solid black;">
@@ -158,7 +196,7 @@
 
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-center">
-                                    <form action="/help/notice/list" method="get" id="searchForm">
+                                    <form action="/community/list" method="get" id="searchForm">
                                         <i class="fa-solid fa-magnifying-glass"></i>
                                         <input type="text" class="searchbox" name="search" />
                                         <button type="submit">검색</button>
@@ -172,7 +210,6 @@
             </div>
         </div>
     </div>
-
     </div>
     </div>
 </section>

@@ -25,7 +25,7 @@ public class CommunityPostController {
     public String getCommunity( @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                 @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
                                 @RequestParam(value = "search", required = false) String search,
-                             Model model) {
+                                Model model) {
         PageHelper.startPage(pageNum, pageSize);
         List<Community> community = CommunityPostService.getAllCommunity(search);
         PageInfo<Community> pageInfo = new PageInfo<>(community);
@@ -54,7 +54,7 @@ public class CommunityPostController {
         User loginUser = (User) session.getAttribute("loginUser");
 
         if (loginUser != null) {
-           communityPostDto.setUserId(loginUser.getId());
+            communityPostDto.setUserId(loginUser.getId());
 //           커뮤니티 dto 가면 작동을 안 함 이유를 모르겠음
             communityPostService.createNotice(cummunityPostDto);
             redirectAttributes.addFlashAttribute("message", "게시글가 등록되었습니다.");
@@ -67,23 +67,23 @@ public class CommunityPostController {
 
 //    @PostMapping("/update/{id}")
 //    public String updateCommunity(@PathVariable Long id, @ModelAttribute Notice notice, RedirectAttributes redirectAttributes) {
-//        communityService.updateCommunity(id, community);
-//        redirectAttributes.addFlashAttribute("message", "공지가 업데이트 되었습니다.");
-//        return "redirect:/help/notice/view?noticeId=" + id;
-//    }  이건 관리자 전용 게시글 같음
+//       communityService.updateCommunity(id, community);
+//       redirectAttributes.addFlashAttribute("message", "게시글이 업데이트 되었습니다.");
+//      return "redirect:/help/notice/view?noticeId=" + id;
+//    }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Notice notice = noticeService.getNoticeById(id);
-        model.addAttribute("notice", notice);
-        return "notice/noticeEdit";
+        Community community = communityService.getCommunityById(id);
+        model.addAttribute("community", community);
+        return "community/postEdit";
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteNotice(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        noticeService.deleteNotice(id);
-        redirectAttributes.addFlashAttribute("message", "공지가 삭제되었습니다.");
-        return "redirect:/help/notice/list";
+    public String deleteCommunity(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        communityService.deleteCommunity(id);
+        redirectAttributes.addFlashAttribute("message", "게시글이 삭제되었습니다.");
+        return "redirect:/community/postlist";
     }
-//
+
 }
