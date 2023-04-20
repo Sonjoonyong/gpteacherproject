@@ -21,6 +21,38 @@ document.querySelector('#userAllTermAgreement').onclick = (e) => {
         .forEach(e => e.checked = value);
 }
 
+// 약관 모달
+const generalTermContent = document.querySelector('#generalTermContent');
+const privacyTermContent = document.querySelector('#privacyTermContent');
+const termModal = document.querySelector('#termModal');
+const termModalBody = document.querySelector('#termModalBody');
+
+function toggleTermModal(boolean) {
+    termModal.classList.toggle("show", boolean);
+    termModalBody.scrollTop = 0;
+}
+
+document.querySelector('#generalTermDetail').onclick = () => {
+    toggleTermModal(true);
+    generalTermContent.style.display = 'block';
+    privacyTermContent.style.display = 'none';
+
+}
+document.querySelector('#privacyTermDetail').onclick = () => {
+    toggleTermModal(true);
+    generalTermContent.style.display = 'none';
+    privacyTermContent.style.display = 'block';
+}
+
+document.querySelector('#termModalCloseBtn').onclick = () => {
+    toggleTermModal(false);
+}
+
+
+
+
+
+
 // 비밀번호 보기
 document.querySelectorAll('.viewPassword').forEach(el => {
     el.onclick = (event) => {

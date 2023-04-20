@@ -90,7 +90,7 @@
                         </div>
                         <div class="form-group">
                             <label for="communityContent">글 내용 :</label>
-                            <form:textarea path="communityContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${community.communityContent}" />
+                            <form:textarea path="communityPostContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${community.communityPostContent}" />
                         </div>
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary submit-btn">수정</button>
