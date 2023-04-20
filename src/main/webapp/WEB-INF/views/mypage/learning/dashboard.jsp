@@ -6,10 +6,6 @@
     <meta charset="UTF-8">
     <title>MyPage - 학습이력</title>
 
-    <style>
-
-    </style>
-
     <link rel="stylesheet" href="/css/base.css">
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
@@ -17,11 +13,13 @@
 </head>
 <body>
 <%@ include file="../../fragments/header.jsp" %>
-<%@ include file="../../fragments/mypageMenu.jsp" %>
-<h3 class="h3 text-center my-3" style="color: #5DB99D;">학습관리</h3>
-
 <section class="container" style="max-width: 900px">
-
+    <div class="row">
+        <%@ include file="../../fragments/mypageMenu.jsp" %>
+        <div class="col-md-9">
+            <h3 class="h3 text-center my-3" style="color: #5DB99D;">학습관리</h3>
+        </div>
+    </div>
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
