@@ -68,6 +68,7 @@ CREATE TABLE board_notice
     notice_like      NUMBER DEFAULT 0       NULL
 );
 
+
 CREATE TABLE community_reply
 (
     id                         NUMBER               NOT NULL,

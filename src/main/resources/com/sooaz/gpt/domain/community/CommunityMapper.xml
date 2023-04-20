@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.sooaz.gpt.domain.community.communityMapper">
-    <resultMap id="CommunityResultMap" type="com.sooaz.gpt.domain.community.Comuunity">
+<mapper namespace="com.sooaz.gpt.domain.community.CommunityMapper">
+    <resultMap id="CommunityResultMap" type="com.sooaz.gpt.domain.community.Community">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="communityPostTitle" column="community_post_title"/>
         <result property="communityPostContent" column="community_post_content"/>
         <result property="communityPostHit" column="community_post_hit"/>
-        <result property="communityPostWirtedat" column="community_post_writedate"/>
+        <result property="communityPostWritedate" column="community_post_writedate"/>
         <result property="communityPostLike" column="community_post_like"/>
     </resultMap>
 <!--   <insert id="save">-->

@@ -1,7 +1,7 @@
 package com.sooaz.gpt.domain.community;
 
-import com.sooaz.gpt.domain.admin.notice.Notice;
-import com.sooaz.gpt.domain.admin.notice.NoticeMapper;
+import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityMapper;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,8 +17,6 @@ public class CommunityPostRepository {
     public Community save(Community community) {
         if (community.getId() == null) {
             communityMapper.save(community);
-        } else {
-            communityMapper.update(community);
         }
         return community;
     }
@@ -26,6 +24,6 @@ public class CommunityPostRepository {
     public Optional<Community> findById(Long id) {
         return Optional.ofNullable(communityMapper.findById(id));
     }
-    public List<Notice> findAll(String search) {return communityMapper.findAll(search);}
+    public List<Community> findAll(String search) {return communityMapper.findAll(search);}
     public void deleteById(Long id) {communityMapper.delete(id);}
 }

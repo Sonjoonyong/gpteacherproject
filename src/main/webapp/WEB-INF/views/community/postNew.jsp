@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
 
-        #noticeboard .table thead trboardname{
+        #communityboard .table thead trboardname{
             margin-left: 20px;
         }
         .col-md-7 table tbody tr,
@@ -59,7 +59,7 @@
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
-section class="container">
+<section class="container">
 <div class="col-12">
     <div class="row">
         <div class="col-md-3" id="sidebar">
@@ -68,11 +68,11 @@ section class="container">
                 <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
                     <ul>
                         <li class="nav-item" style="list-style: none">
-                            <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
+                            <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
                             <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
                         </li>
                         <li class="nav-item" style="list-style: none">
-                            <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> WeeklyTop10</a>
+                            <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 글작성</a>
                         </li>
                     </ul>
                 </div>
@@ -84,11 +84,11 @@ section class="container">
                 <form:form action="${pageContext.request.contextPath}/community" method="post" modelAttribute="communityPostDto">
                     <div class="form-group">
                         <label for="communityPostTitle">제목 :</label>
-                        <form:input path="communityPostTitle" type="text" class="form-control" id="communityPostTitle" required="required"/>
+                        <form:input path="communityTitle" type="text" class="form-control" id="communityPostTitle" required="required"/>
                     </div>
                     <div class="form-group">
                         <label for="communityPostContent">내용 :</label>
-                        <form:textarea path="communityPostContent" class="form-control" id="communityPostContent" rows="5" required="required" cssStyle="min-height: 400px"/>
+                        <form:textarea path="communityContent" class="form-control" id="communityPostContent" rows="5" required="required" cssStyle="min-height: 400px"/>
                     </div>
                     <div class="clearfix">
                         <button type="submit" class="btn btn-primary submit-btn">등록</button>
@@ -100,6 +100,7 @@ section class="container">
 </div>
 </section>
 <%@ include file="../fragments/footer.jsp" %>
+
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 </body>
 </html>

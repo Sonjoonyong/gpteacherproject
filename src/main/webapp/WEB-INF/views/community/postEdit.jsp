@@ -65,18 +65,15 @@
     <div class="col-12">
         <div class="row">
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>커뮤니티</h3></div>
                 <div class="row">
                     <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/notice/list"><i class="fa-solid fa-chevron-right"></i> 공지사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/faq/list"><i class="fa-solid fa-chevron-right"></i> 자주묻는 질문</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/help/question/list"><i class="fa-solid fa-chevron-right"></i> 문의사항</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> Weekly Top10</a>
                             </li>
                         </ul>
                     </div>
@@ -85,15 +82,15 @@
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
                 <h3>글 수정</h3>
                 <div class="create-form">
-                    <form:form action="${pageContext.request.contextPath}/help/notice/update/${notice.id}" method="post" modelAttribute="notice">
+                    <form:form action="${pageContext.request.contextPath}/community/update/${community.id}" method="post" modelAttribute="community">
                         <form:hidden path="id" />
                         <div class="form-group">
-                            <label for="noticeTitle">글 제목 :</label>
-                            <form:input path="noticeTitle" type="text" class="form-control" id="noticeTitle" value="${notice.noticeTitle}" required="required"/>
+                            <label for="communityTitle">글 제목 :</label>
+                            <form:input path="communityTitle" type="text" class="form-control" id="communityTitle" value="${community.communityTitle}" required="required"/>
                         </div>
                         <div class="form-group">
-                            <label for="noticeContent">글 내용 :</label>
-                            <form:textarea path="noticeContent" class="form-control" id="noticeContent" rows="5" required="required" cssStyle="min-height: 400px" value="${notice.noticeContent}" />
+                            <label for="communityContent">글 내용 :</label>
+                            <form:textarea path="communityContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${community.communityContent}" />
                         </div>
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary submit-btn">수정</button>

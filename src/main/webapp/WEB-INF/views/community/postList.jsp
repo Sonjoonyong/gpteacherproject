@@ -18,7 +18,7 @@
             min-height: 750px;
         }
 
-        #noticeboard .table thead trboardname{
+        #communityboard .table thead trboardname{
             margin-left: 20px;
         }
         .col-md-7 table tbody tr,
@@ -134,12 +134,12 @@
                                 <c:forEach var="community" items="${pageInfo.list}">
                                     <tr>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="community-title-link">
-                                                <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image">
-                                                    ${notice.noticeTitle}
+                                            <a href="${pageContext.request.contextPath}/community/view?communityId=${community.id}" class="community-title-link">
+                                                <img src="/images/community_titleimage.png" alt="Community" class="notice-image">
+                                                    ${community.communityTitle}
                                             </a>
                                         </td>
-                                        <td><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
+                                        <td><fmt:formatDate value="${community.communityPostWriteDate}" pattern="yyyy.MM.dd" /></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

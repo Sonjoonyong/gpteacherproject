@@ -2,8 +2,8 @@ package com.sooaz.gpt.domain.community;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sooaz.gpt.domain.admin.notice.Notice;
-import com.sooaz.gpt.domain.admin.notice.NoticeCreateDto;
+import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPostDto;
 import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,22 +17,24 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
-@RequestMapping("/community/list")
+@RequiredArgsConstructor //생성자를 자동 생성해줌
+@RequestMapping("/community")
 @Slf4j
 public class CommunityPostController {
+
+    private final CommunityPostService communityPostService;//생성자가 없다 자동으로 스프링으로 생성자 주입
     @GetMapping("/list")
     public String getCommunity( @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                 @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
                                 @RequestParam(value = "search", required = false) String search,
                                 Model model) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> community = CommunityPostService.getAllCommunity(search);
+        List<Community> community = communityPostService.getAllCommunity(search);
         PageInfo<Community> pageInfo = new PageInfo<>(community);
         model.addAttribute("pageInfo", pageInfo);
-        return "community/postlist";
+        return "community/postList";
     }
-}
+
 
 
 
@@ -56,7 +58,7 @@ public class CommunityPostController {
         if (loginUser != null) {
             communityPostDto.setUserId(loginUser.getId());
 //           커뮤니티 dto 가면 작동을 안 함 이유를 모르겠음
-            communityPostService.createNotice(cummunityPostDto);
+            communityPostService.createCommunity(communityPostDto);
             redirectAttributes.addFlashAttribute("message", "게시글가 등록되었습니다.");
             return "redirect:/community/list";
         } else {
@@ -74,14 +76,14 @@ public class CommunityPostController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Community community = communityService.getCommunityById(id);
+        Community community = communityPostService.getCommunityById(id);
         model.addAttribute("community", community);
         return "community/postEdit";
     }
 
     @PostMapping("/delete/{id}")
     public String deleteCommunity(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        communityService.deleteCommunity(id);
+        communityPostService.deleteCommunity(id);
         redirectAttributes.addFlashAttribute("message", "게시글이 삭제되었습니다.");
         return "redirect:/community/postlist";
     }

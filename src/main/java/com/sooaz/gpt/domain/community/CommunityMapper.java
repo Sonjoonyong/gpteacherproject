@@ -1,6 +1,6 @@
 package com.sooaz.gpt.domain.community;
 
-import com.sooaz.gpt.domain.admin.notice.Notice;
+import com.sooaz.gpt.domain.community.Community;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningUpdateDto;
 import org.apache.ibatis.annotations.Mapper;

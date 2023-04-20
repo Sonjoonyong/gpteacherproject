@@ -15,6 +15,6 @@ public class Community {
     private String communityContent;
     private Integer communityPostHit;
     private Date communityPostWirtedate;
-    public void setNoticeWriteDate(Date noticeWriteDate) {this.communityPostWirtedate = noticeWriteDate;}
+    public void setCommunityPostWriteDate(Date communiytPostWriteDate) {this.communityPostWirtedate = communiytPostWriteDate;}
     private Boolean communityPostLike;
 }

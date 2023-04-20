@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
 
-        #noticeboard .table thead trboardname{
+        #communityboard .table thead trboardname{
             margin-left: 20px;
         }
         .col-md-7 table tbody tr,
