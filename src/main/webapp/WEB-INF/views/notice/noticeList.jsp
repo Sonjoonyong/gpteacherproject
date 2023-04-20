@@ -16,7 +16,7 @@
             border-radius: 10px;
             padding:20px;
             width: 800px;
-
+            min-height: 750px;
         }
 
         #noticeboard .table thead trboardname{
@@ -83,6 +83,7 @@
 <%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
+
 
     <div class="col-12">
         <div class="row">

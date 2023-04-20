@@ -10,6 +10,42 @@
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
+
+        #noticeboard .table thead trboardname{
+            margin-left: 20px;
+        }
+        .col-md-7 table tbody tr,
+        .col-md-7 table tbody tr td {
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+        }
+
+        a { color: black; }
+        a:visited { color: black; }
+        a:hover { color: black; }
+        a:active { color: black; }
+        #searchbar fa-solid,
+        #searchbar searchbox{
+
+        }
+
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+
+        .col-md-7 table thead tr{
+            background-color: #CFEAE2;
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+            height: 40px;
+        }
+
         .create-form {
             border: 1px solid lightgray;
             border-radius: 5px;
@@ -24,9 +60,11 @@
 </head>
 <body>
 
-<%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
+
+    <%@ include file="../fragments/header.jsp" %>
+
     <div class="col-12">
         <div class="row">
             <!--사이드바-->

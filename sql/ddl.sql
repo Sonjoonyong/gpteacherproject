@@ -23,7 +23,7 @@ CREATE TABLE users
     user_role               VARCHAR2(10)         NULL,
     user_birthday           DATE                 NULL,
     user_createdate         DATE DEFAULT SYSDATE NULL,
-    user_alarm_agreement    CHAR(1)              NULL
+    user_email_agreement    CHAR(1)              NULL
 );
 
 
