@@ -76,9 +76,9 @@
 </head>
 <body>
 
-<section class="container">
+<%@ include file="../fragments/header.jsp" %>
 
-    <%@ include file="../fragments/header.jsp" %>
+<section class="container">
 
     <div class="col-12">
         <div class="row">

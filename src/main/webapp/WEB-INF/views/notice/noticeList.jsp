@@ -174,7 +174,7 @@
                                 <c:forEach var="notice" items="${pageInfo.list}">
                                     <tr>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link">
+                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link" style="margin-right: 30px">
                                                 <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image">
                                                     ${notice.noticeTitle}
                                             </a>
