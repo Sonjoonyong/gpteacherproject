@@ -24,7 +24,7 @@
 
 <%@ include file="../fragments/header.jsp" %>
 <section class="container" style="max-width: 500px;">
-    <form:form modelAttribute="loginDto" method="post" action="/user/login"
+    <form:form modelAttribute="loginDto" method="post"
         class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-3"
         style="border: 2px solid #5DB99D;">
 
