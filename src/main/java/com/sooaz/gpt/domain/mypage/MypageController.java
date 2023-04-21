@@ -147,6 +147,7 @@ public class MypageController {
         return "mypage/account/changePassword";
     }
 
+    // 나의 활동 -------------------------------------------
     @GetMapping("/user/mypage/communities")
     public String getMyCommunities(
             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -158,6 +159,15 @@ public class MypageController {
         PageInfo<Community> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myPosts";
+    }
+
+    @PostMapping("/user/mypage/communities")
+    public String deletePost(
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deletePostsById(deleteId); //postId list, userId
+        return "redirect:/user/mypage/communities";
     }
 
     @GetMapping("/user/mypage/comments")
@@ -173,6 +183,15 @@ public class MypageController {
         return "mypage/activity/myComments";
     }
 
+    @PostMapping("/user/mypage/comments")
+    public String deleteComments(
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deleteCommentsById(deleteId); //commentId list, userId
+        return "redirect:/user/mypage/comments";
+    }
+
     @GetMapping("/user/mypage/bookmarks")
     public String getMyBookmarks(
             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -184,6 +203,15 @@ public class MypageController {
         PageInfo<Community> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myBookmarks";
+    }
+
+    @PostMapping("/user/mypage/bookmarks")
+    public String deleteBookmarks(
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deleteBookmarks(deleteId, 1L); //postId list, userId
+        return "redirect:/user/mypage/bookmarks";
     }
 
 }

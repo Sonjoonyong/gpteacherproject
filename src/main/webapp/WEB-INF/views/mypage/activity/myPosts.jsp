@@ -58,9 +58,9 @@
 <section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-8 offset-md-1 myPostList">
-            <h3 class="h3 my-4">작성글</h3>
-            <form>
+        <div class="col-md-8 offset-md-1 p-4 myPostList">
+            <h2 class="h3 my-4" style="color: #5DB99D;">작성글</h2>
+            <form action="/user/mypage/communities" method="post">
                 <table class="table" style="text-align: center; table-layout:fixed;">
                     <thead>
                         <tr>
@@ -74,7 +74,7 @@
                         <c:forEach var="post" items="${pageInfo.list}">
                             <tr>
                                 <td>
-                                    <input class="form-check-input" type="checkbox" value="${post.id}">
+                                    <input class="form-check-input" type="checkbox" name="deleteId" value="${post.id}">
                                 </td>
                                 <td style="text-overflow:ellipsis; overflow:hidden;">
                                     <a href="${pageContext.request.contextPath}/community/view?communityId=${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
@@ -91,13 +91,13 @@
                 </table>
                 <div class="row mb-2 justify-content-between">
                     <div class="col-md-4 form-check">
-                        <input class="form-check-input" type="checkbox" style="margin-left:10px;">
+                        <input class="form-check-input" type="checkbox" onclick="selectAll(this)" style="margin-left:10px;">
                         <label class="form-check-label ms-3">
                             전체 선택
                         </label>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="btn btn-primary" value="삭제하기" />
+                        <input type="submit" class="btn btn-primary" value="글 삭제" onclick="return deleteSubmit(this)"/>
                     </div>
                 </div>
             </form>
@@ -154,6 +154,8 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script src="/js/checkboxDeleteForm.js"></script>
+
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>
