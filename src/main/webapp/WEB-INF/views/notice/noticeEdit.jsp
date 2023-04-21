@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
 
         #noticeboard .table thead trboardname{
@@ -161,7 +163,11 @@
             const noticeContent = editor.getMarkdown();
 
             if (noticeContent.trim() === '') {
-                alert('내용을 입력해주세요.');
+                Swal.fire({
+                    icon: 'error',
+                    title: '',
+                    text: '내용을 입력해주세요.',
+                });
                 return;
             }
 
