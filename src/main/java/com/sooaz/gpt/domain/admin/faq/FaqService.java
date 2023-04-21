@@ -1,5 +1,7 @@
 package com.sooaz.gpt.domain.admin.faq;
 
+import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +12,17 @@ import java.util.List;
 public class FaqService {
 
     private final FaqRepository faqRepository;
+    private final UserRepository userRepository;
 
     public List<Faq> getAllFaqs(String search) {
         return faqRepository.findAll(search);
     }
 
     public Faq getFaqById(Long id) {
-        return faqRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("공지를 찾을 수 없습니다."));
+        Faq faq = faqRepository.findById(id).get();
+        User user = userRepository.findById(faq.getUserId()).get();
+        faq.setUserNickname(user.getUserNickname());
+        return faq;
     }
 
     public Faq createFaq(FaqCreateDto faqCreateDto) {
@@ -24,6 +30,7 @@ public class FaqService {
         faq.setUserId(faqCreateDto.getUserId());
         faq.setFaqTitle(faqCreateDto.getFaqTitle());
         faq.setFaqContent(faqCreateDto.getFaqContent());
+        faq.setFaqCategory(faqCreateDto.getFaqCategory());
         return faqRepository.save(faq);
     }
 
@@ -31,8 +38,6 @@ public class FaqService {
         Faq existingFaq = getFaqById(id);
         faq.setId(id);
         faq.setUserId(existingFaq.getUserId());
-        faq.setFaqTitle(existingFaq.getFaqTitle());
-        faq.setFaqContent(existingFaq.getFaqContent());
         return faqRepository.save(faq);
     }
 

@@ -6,6 +6,7 @@ import lombok.Data;
 public class Faq {
     private Long id;
     private Long userId;
+    private String userNickname;
     private String faqCategory;
     private String faqTitle;
     private String faqContent;

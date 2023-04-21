@@ -342,7 +342,7 @@
     function sttAjax(formData) {
         let request = new XMLHttpRequest();
         formData.append("priorAssistantTalk", priorAssistantTalk);
-        formData.append("learningId", learningId);
+        formData.append("learningId", learningId    );
         request.responseType = "json";
 
         request.onload = () => {
