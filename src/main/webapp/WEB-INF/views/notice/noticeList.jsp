@@ -112,7 +112,20 @@
             background-color: #CFEAE2;
             color: white;
         }
-
+        .searchbox{
+            border-top: 1px solid white;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom:1px solid lightslategray;
+        }
+        #searchForm button{
+            margin-left: 10px;
+            border: 1px solid #7AD4B9;
+            color: white;
+            background-color: #7AD4B9;
+            float :right;
+            border-radius: 5px;
+        }
 
     </style>
 
@@ -160,10 +173,12 @@
                             <div class="d-flex justify-content-between">
                                 <span class="boardname"><h3>공지사항</h3></span>
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
+                                    <c:if test="${loginUser.userRole == 'ADMIN'}">
+                                        <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
+                                    </c:if>
                                 </div>
                             </div>
-                            <table class="table table-striped" style="text-align: center; border:1px solid black;">
+                            <table class="table " style="text-align: center; border:1px solid black;">
                                 <thead>
                                 <tr>
                                     <th style="text-align: center; ">제목</th>

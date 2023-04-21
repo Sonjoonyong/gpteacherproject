@@ -20,9 +20,7 @@ public class NoticeService {
 
     public Notice getNoticeById(Long id) {
         Notice notice = noticeRepository.findById(id).get();
-        System.out.println(notice);
         User user = userRepository.findById(notice.getUserId()).get();
-        System.out.println(user);
         notice.setUserNickname(user.getUserNickname());
         return notice;
     }

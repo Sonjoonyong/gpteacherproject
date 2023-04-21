@@ -32,7 +32,7 @@
         a { color: black; }
         a:visited { color: black; }
         a:hover { color: black; }
-        a:active { color: red; }
+        a:active { color: black; }
 
         .col-md-7 table thead tr{
             background-color: #CFEAE2;
@@ -69,6 +69,20 @@
             color: #000;
             background-color: #fafafa;
             border-color: #ccc;
+        }
+        .searchbox{
+            border-top: 1px solid white;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom:1px solid lightslategray;
+        }
+        #searchForm button{
+            margin-left: 10px;
+            border: 1px solid #7AD4B9;
+            color: white;
+            background-color: #7AD4B9;
+            float :right;
+            border-radius: 5px;
         }
     </style>
 
@@ -121,7 +135,7 @@
                         <a href="${pageContext.request.contextPath}/help/question/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
                     </div>
                 </div>
-                <table class="table table-striped" style="text-align:center; border:1px solid black; " >
+                <table class="table " style="text-align:center; border:1px solid black; " >
                     <thead>
                     <tr>
                         <th style="width: 50px;">번호</th>
@@ -145,7 +159,7 @@
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
                                 <td>
                                     <c:if test="${question.questionStatus == true}">답변중</c:if>
-                                    <c:if test="${question.questionStatus != true}">답변완료</c:if>
+                                    <c:if test="${question.questionStatus != true}">답변중</c:if>
                                 </td>
 
                             </tr>

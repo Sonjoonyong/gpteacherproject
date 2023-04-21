@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sooaz.gpt.domain.admin.AdminMapper">
+    <resultMap id="monthlyUserCountResultMap" type="com.sooaz.gpt.domain.admin.trend.MonthlyUserCount">
+        <result property="year" column="year"/>
+        <result property="month" column="month"/>
+        <result property="count" column="count"/>
+    </resultMap>
+
+    <resultMap id="ageGroupCountResultMap" type="com.sooaz.gpt.domain.admin.trend.AgeGroupCount">
+        <result property="ageGroup" column="age_group"/>
+        <result property="count" column="count"/>
+    </resultMap>
+
+    <select id="getMonthlyUserCounts" resultMap="monthlyUserCountResultMap">
+        SELECT EXTRACT(YEAR FROM user_createdate) AS year,
+               EXTRACT(MONTH FROM user_createdate) AS month,
+               COUNT(*) AS count
+        FROM users
+        GROUP BY EXTRACT(YEAR FROM user_createdate), EXTRACT(MONTH FROM user_createdate)
+        ORDER BY year, month
+    </select>
+
+    <select id="getAgeGroupCounts" resultMap="ageGroupCountResultMap">
+        SELECT
+            CASE
+                WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 0 AND 9 THEN '0-9'
+                WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 10 AND 19 THEN '10-19'
+                WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 20 AND 29 THEN '20-29'
+                WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 30 AND 39 THEN '30-39'
+                WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 40 AND 49 THEN '40-49'
+                ELSE '50+'
+                END AS age_group,
+            COUNT(*) AS count
+        FROM
+            users
+        GROUP BY
+            CASE
+            WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 0 AND 9 THEN '0-9'
+            WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 10 AND 19 THEN '10-19'
+            WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 20 AND 29 THEN '20-29'
+            WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 30 AND 39 THEN '30-39'
+            WHEN FLOOR(MONTHS_BETWEEN(SYSDATE, user_birthday) / 12) BETWEEN 40 AND 49 THEN '40-49'
+            ELSE '50+'
+        END
+        ORDER BY
+    age_group
+    </select>
+</mapper>

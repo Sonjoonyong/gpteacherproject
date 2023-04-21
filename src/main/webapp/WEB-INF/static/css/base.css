@@ -71,6 +71,10 @@ a {
     text-decoration: none;
 }
 
+.menuAtag {
+    color: #373737;
+    text-decoration: none;
+}
 .btn.btn-primary{
     border: 1px solid #5DB99D;
     color: #5DB99D;

@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
 
         #noticeboard .table thead trboardname{
@@ -122,7 +128,8 @@
                         </div>
                         <div class="form-group">
                             <label for="noticeContent">내용 :</label>
-                            <form:textarea path="noticeContent" class="form-control" id="noticeContent" rows="5" required="required" cssStyle="min-height: 400px"/>
+                            <div id="editor"></div>
+                            <form:hidden path="noticeContent" id="hiddenNoticeContent" />
                         </div>
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary submit-btn">등록</button>
@@ -137,5 +144,37 @@
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<!-- Toast UI Editor -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            height: '400px'
+        });
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const noticeContent = editor.getMarkdown();
+
+            if (noticeContent.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: '',
+                    text: '내용을 입력해주세요.',
+                });
+                return;
+            }
+
+            document.querySelector('#hiddenNoticeContent').value = noticeContent;
+            form.submit();
+        });
+    });
+</script>
+
+
 </body>
 </html>

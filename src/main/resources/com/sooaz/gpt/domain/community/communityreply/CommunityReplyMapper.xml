@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.community.communityreply.CommunityReplyMapper">
+
+    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
+        select * from COMMUNITY_REPLY where user_id = #{userId} order by id desc
+    </select>
+
+    <delete id="delete" parameterType="long">
+        delete from COMMUNITY_REPLY where id = #{communityReplyId}
+    </delete>
+</mapper>

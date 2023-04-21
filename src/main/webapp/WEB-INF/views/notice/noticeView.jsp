@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+
+    <!-- Toast UI Editor Viewer -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.js"></script>
+
     <style>
 
         .col-md-7{
@@ -132,20 +137,25 @@
                     <tbody>
                     <tr>
                         <td>작성자: ${notice.userNickname}</td>
-                        <td colspan="2" style="text-align: right">
-                            <fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy-MM-dd" />
-                            조회수: ${notice.noticeHit}
+                        <td style="text-align: right">
+                            <fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy-MM-dd" />&nbsp;조회수: ${notice.noticeHit}
                         </td>
                     </tr>
+
                     <tr>
-                            <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${notice.noticeContent}</td>
-                        </tr>
+                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left;">
+                            <div id="noticeContentView">${notice.noticeContent}</div>
+                        </td>
+                    </tr>
+
                     </tbody>
                 </table>
                 <form action="${pageContext.request.contextPath}/help/notice/delete/${notice.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
                     <a href="${pageContext.request.contextPath}/help/notice/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/help/notice/edit/${notice.id}" class="btn btn-primary">수정</a>
-                    <button type="submit" class="btn btn-primary">삭제</button>
+                    <c:if test="${loginUser.userRole == 'ADMIN'}">
+                        <a href="${pageContext.request.contextPath}/help/notice/edit/${notice.id}" class="btn btn-primary">수정</a>
+                        <button type="submit" class="btn btn-primary">삭제</button>
+                    </c:if>
                 </form>
             </div>
 
@@ -156,5 +166,19 @@
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<!-- Toast UI Editor Viewer -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const noticeContent = document.getElementById('noticeContentView').innerHTML;
+        const viewer = new toastui.Editor({
+            el: document.getElementById('noticeContentView'),
+            initialValue: noticeContent,
+            height: 'auto',
+            viewer: true
+        });
+    });
+</script>
+
 </body>
 </html>
