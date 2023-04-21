@@ -6,6 +6,8 @@
 <head>
     <title>로그인</title>
 
+    <meta name="google-signin-client_id" content="267882054644-vu2virieofr6r971p1ht9fhgo7qkp4t8.apps.googleusercontent.com">
+
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <link rel="stylesheet" href="/css/base.css">
 
@@ -67,9 +69,11 @@
                 <div class="col-1">
                     <img class="p-2" src="/images/google_logo.png" height="40">
                 </div>
-                <span class="col-11 text-center text-secondary d-flex justify-content-center align-items-center">
+                <button id="loginWithGoogle" type="button"
+                        class="btn col-11 text-center text-secondary d-flex justify-content-center align-items-center"
+                        style="background-color: white">
                         Login with google
-                </span>
+                </button>
             </div>
         </div>
 
@@ -77,6 +81,26 @@
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>
+
+<%--- Google 3P Authorization JS 라이브러리--%>
+<script src="https://accounts.google.com/gsi/client"></script>
+
+<script>
+    document.querySelector('#userLoginId').focus();
+
+    const client = google.accounts.oauth2.initCodeClient({
+        client_id: '267882054644-vu2virieofr6r971p1ht9fhgo7qkp4t8.apps.googleusercontent.com',
+        scope: 'openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        ux_mode: 'redirect',
+        redirect_uri: "http://localhost:8080/user/login/oauth",
+        state: 'YOUR_BINDING_VALUE',
+        access_type: 'offline'
+    });
+
+    document.querySelector('#loginWithGoogle').onclick = () => {
+        client.requestCode();
+    }
+</script>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 

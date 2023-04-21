@@ -3,15 +3,18 @@ package com.sooaz.gpt.domain.user;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -86,6 +89,11 @@ public class UserController {
             bindingResult.rejectValue("userEmail", "duplicate","인증된 이메일과 다른 이메일입니다.");
         }
 
+        String userEmailCode = userSignupDto.getUserEmailCode();
+        if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
+            bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
+        }
+
         String userLoginId = userSignupDto.getUserLoginId();
         if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
             bindingResult.rejectValue("userLoginId", "duplicate","중복되는 아이디입니다.");
@@ -96,10 +104,6 @@ public class UserController {
             bindingResult.rejectValue("userPasswordCheck", "incorrect", "입력한 비밀번호와 다릅니다.");
         }
 
-        String userEmailCode = userSignupDto.getUserEmailCode();
-        if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
-            bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
-        }
 
         String userNickname = userSignupDto.getUserNickname();
         if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
@@ -132,7 +136,6 @@ public class UserController {
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
     }
-
 
     private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
         HttpSession session = request.getSession();

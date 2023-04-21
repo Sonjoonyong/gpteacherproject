@@ -1,7 +1,6 @@
 // 발음 평가 녹음 관련
 let recorder;
 let targetSentenceId;
-document.querySelector('pronunciation')
 const pronunciationRecordButton = document.querySelector('#pronunciationRecord');
 const pronunciationStopButton = document.querySelector('#pronunciationStop');
 const pronunciationWaitingMessage = document.querySelector('#pronunciationWaitingMessage');
