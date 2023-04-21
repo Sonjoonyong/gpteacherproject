@@ -32,7 +32,7 @@
         a { color: black; }
         a:visited { color: black; }
         a:hover { color: black; }
-        a:active { color: red; }
+        a:active { color: black; }
 
         .col-md-7 table thead tr{
             background-color: #CFEAE2;
@@ -145,7 +145,7 @@
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
                                 <td>
                                     <c:if test="${question.questionStatus == true}">답변중</c:if>
-                                    <c:if test="${question.questionStatus != true}">답변완료</c:if>
+                                    <c:if test="${question.questionStatus != true}">답변중</c:if>
                                 </td>
 
                             </tr>
