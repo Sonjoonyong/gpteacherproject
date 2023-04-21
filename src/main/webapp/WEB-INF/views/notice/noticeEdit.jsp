@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
     <style>
 
         #noticeboard .table thead trboardname{
@@ -122,7 +127,8 @@
                         </div>
                         <div class="form-group">
                             <label for="noticeContent">글 내용 :</label>
-                            <form:textarea path="noticeContent" class="form-control" id="noticeContent" rows="5" required="required" cssStyle="min-height: 400px" value="${notice.noticeContent}" />
+                            <div id="editor" data-escaped-content='<c:out value="${notice.noticeContent}" />'></div>
+                            <form:hidden path="noticeContent" id="hiddenNoticeContent" />
                         </div>
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary submit-btn">수정</button>
@@ -137,5 +143,27 @@
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<!-- Toast UI Editor -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            initialValue: document.querySelector('#editor').dataset.escapedContent.replace(/\\n/g, '\n'), // 특수문자로 인한 syntax 에러 방지
+            height: '400px'
+        });
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const noticeContent = editor.getMarkdown();
+            document.querySelector('#hiddenNoticeContent').value = noticeContent;
+            form.submit();
+        });
+    });
+</script>
+
 </body>
 </html>
