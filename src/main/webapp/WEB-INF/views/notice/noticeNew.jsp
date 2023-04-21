@@ -144,7 +144,7 @@
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
-<!-- Toast UI Editor Initialization -->
+<!-- Toast UI Editor -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const editor = new toastui.Editor({
@@ -158,11 +158,18 @@
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const noticeContent = editor.getMarkdown();
+
+            if (noticeContent.trim() === '') {
+                alert('내용을 입력해주세요.');
+                return;
+            }
+
             document.querySelector('#hiddenNoticeContent').value = noticeContent;
             form.submit();
         });
     });
 </script>
+
 
 </body>
 </html>
