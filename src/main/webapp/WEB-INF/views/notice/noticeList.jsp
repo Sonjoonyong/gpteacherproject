@@ -160,7 +160,9 @@
                             <div class="d-flex justify-content-between">
                                 <span class="boardname"><h3>공지사항</h3></span>
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
+                                    <c:if test="${loginUser.userRole == 'ADMIN'}">
+                                        <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
+                                    </c:if>
                                 </div>
                             </div>
                             <table class="table table-striped" style="text-align: center; border:1px solid black;">

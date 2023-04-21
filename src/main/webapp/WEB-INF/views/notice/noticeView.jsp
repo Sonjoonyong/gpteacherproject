@@ -144,8 +144,10 @@
                 </table>
                 <form action="${pageContext.request.contextPath}/help/notice/delete/${notice.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
                     <a href="${pageContext.request.contextPath}/help/notice/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/help/notice/edit/${notice.id}" class="btn btn-primary">수정</a>
-                    <button type="submit" class="btn btn-primary">삭제</button>
+                    <c:if test="${loginUser.userRole == 'ADMIN'}">
+                        <a href="${pageContext.request.contextPath}/help/notice/edit/${notice.id}" class="btn btn-primary">수정</a>
+                        <button type="submit" class="btn btn-primary">삭제</button>
+                    </c:if>
                 </form>
             </div>
 
