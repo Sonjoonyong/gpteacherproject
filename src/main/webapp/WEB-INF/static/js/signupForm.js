@@ -26,10 +26,14 @@ const generalTermContent = document.querySelector('#generalTermContent');
 const privacyTermContent = document.querySelector('#privacyTermContent');
 const termModal = document.querySelector('#termModal');
 const termModalBody = document.querySelector('#termModalBody');
+const body = document.querySelector('body');
 
 function toggleTermModal(boolean) {
     termModal.classList.toggle("show", boolean);
     termModalBody.scrollTop = 0;
+    // 모달에 따른 body 스크롤 설정
+    boolean && (body.style.overflow = 'hidden');
+    boolean || (body.style.overflow = 'scroll');
 }
 
 document.querySelector('#generalTermDetail').onclick = () => {
@@ -48,10 +52,9 @@ document.querySelector('#termModalCloseBtn').onclick = () => {
     toggleTermModal(false);
 }
 
-
-
-
-
+// 비밀번호 에러 메시지가 있을 경우 비밀번호 안내 문구 숨김
+document.querySelector('#userPassword') &&
+    (document.querySelector('#passwordInstruction').style.display = 'none');
 
 // 비밀번호 보기
 document.querySelectorAll('.viewPassword').forEach(el => {

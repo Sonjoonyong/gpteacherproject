@@ -48,17 +48,16 @@
             <beans:bean id="loginInterceptor" class="com.sooaz.gpt.global.interceptor.LoginInterceptor"/>
         </interceptor>
 
+        <!-- 로그인 한 경우 session에 로그인 정보를 넣어주는 인터셉터. 화면 렌더링 시 조건문에 사용 -->
+        <interceptor>
+            <mapping path="/**"/>
+            <beans:bean id="loginCheckInterceptor" class="com.sooaz.gpt.global.interceptor.LoginCheckInterceptor"/>
+        </interceptor>
+
         <beans:bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <beans:property name="paramName" value="lang"/>
         </beans:bean>
     </interceptors>
 
-    <!-- 로그인 한 경우 session에 로그인 정보를 넣어주는 인터셉터. 화면 렌더링 시 조건문에 사용 -->
-    <interceptors>
-        <interceptor>
-            <mapping path="/**"/>
-            <beans:bean id="loginCheckInterceptor" class="com.sooaz.gpt.global.interceptor.LoginCheckInterceptor"/>
-        </interceptor>
-    </interceptors>
 
 </beans:beans>
