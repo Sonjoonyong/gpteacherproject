@@ -24,7 +24,11 @@ public class UserService {
         }
 
         User loginUser = userRepository.findByLoginId(loginId).stream()
-                .filter(user -> user.getUserPassword().equals(password))
+                .filter(user -> {
+                    String salt = user.getUserPasswordSalt();
+                    String hashedPassword = passwordHasher.hash(password, salt);
+                    return user.getUserPassword().equals(hashedPassword);
+                })
                 .findAny().orElse(null);
 
         return loginUser;

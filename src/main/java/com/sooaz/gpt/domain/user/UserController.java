@@ -41,6 +41,7 @@ public class UserController {
 
         User loginUser = userService.login(loginDto);
         if (loginUser == null) {
+            bindingResult.reject("invalid", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "user/login";
         }
         
