@@ -1,18 +1,22 @@
 package com.sooaz.gpt.domain.mypage;
 
+import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPostRepository;
+import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
+import com.sooaz.gpt.domain.community.communityreply.CommunityReplyRepository;
+import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
-import com.sooaz.gpt.domain.mypage.learning.LearningUpdateDto;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +24,8 @@ import java.util.Optional;
 public class MypageService {
     private final LearningRepository learningRepository;
     private final SentenceRepository sentenceRepository;
+    private final CommunityPostRepository communityPostRepository;
+    private final CommunityReplyRepository communityReplyRepository;
 
     public List<Learning> getLearningList(LearningFindDto learningFindDto) {
         List<Learning> learnings = learningRepository.findByUserId(learningFindDto);
@@ -38,8 +44,44 @@ public class MypageService {
                 }
             }
             learning.setSentenceCount(sentenceCount);
-            learning.setAverageAccuracy(Math.round(sumAccuracy/sentenceCount));
+            learning.setAverageAccuracy(sentenceCount != 0 ? Math.round(sumAccuracy/sentenceCount):0);
         }
         return learnings;
     }
+
+    public List<Sentence> getSentenceList(LearningFindDto learningFindDto) {
+        List<Sentence> sentences = sentenceRepository.findByLearningId(learningFindDto);
+        return sentences;
+    }
+
+    public List<Community> getPostList(Long userId) {
+        List<Community> communities = communityPostRepository.findByUserId(userId);
+        return communities;
+    }
+
+    public List<Community> getBookmarkList(Long userId) {
+        List<Community> communities = communityPostRepository.findBookmarksByUserId(userId);
+        return communities;
+    }
+
+    public List<MyReplyDto> getMyCommentList(Long userId) {
+        List<CommunityReply> communityReplies = communityReplyRepository.findByUserId(userId);
+        List<MyReplyDto> myReplyDtos = new ArrayList<MyReplyDto>();
+
+        for (CommunityReply communityReply : communityReplies) {
+            MyReplyDto myReplyDto = new MyReplyDto();
+
+            Long communityPostId = communityReply.getCommunityPostId();
+            myReplyDto.setId(communityReply.getId());
+            myReplyDto.setCommunityPostId(communityPostId);
+            myReplyDto.setCommunityReplyContent(communityReply.getCommunityReplyContent());
+            myReplyDto.setCommunityReplyWritedate(communityReply.getCommunityReplyWritedate());
+
+            Community community = communityPostRepository.findById(communityPostId).get();
+            myReplyDto.setCommunityPostTitle(community.getCommunityPostTitle());
+            myReplyDtos.add(myReplyDto);
+        }
+        return myReplyDtos;
+    }
+
 }

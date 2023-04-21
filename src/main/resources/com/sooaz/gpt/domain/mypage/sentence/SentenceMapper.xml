@@ -38,6 +38,22 @@
         select * from SENTENCE where LEARNING_ID = #{learningId} order by id
     </select>
 
+    <select id="findByLearningId" resultType="Sentence">
+        select * from SENTENCE
+        where learning_id in (select id from LEARNING where user_id = #{userId}
+        <if test="learningType != null">
+            and learning_type = #{learningType}
+        </if>
+        )
+        <if test="onlyLike != null">
+            and sentence_like = #{onlyLike}
+        </if>
+        <trim prefix="ORDER BY">
+            <if test='sortType == "id_asc"'> id asc</if>
+            <if test='sortType == "id_desc"'> id desc</if>
+        </trim>
+    </select>
+
 
     <update id="update">
         update SENTENCE

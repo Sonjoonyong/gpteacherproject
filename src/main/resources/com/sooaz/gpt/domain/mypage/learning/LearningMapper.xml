@@ -29,7 +29,7 @@
     </insert>
 
     <select id="findById" parameterType="long" resultType="Learning">
-        select * from LEARNING where id = #{learningId}
+        select * from LEARNING where id = #{learningId} order by id desc
     </select>
 
     <select id="findByUserId" resultType="Learning">
@@ -41,8 +41,8 @@
             and learning_like = #{onlyLike}
         </if>
         <trim prefix="ORDER BY">
-            <if test="orderBy == 'id_asc'"> id asc</if>
-            <if test="orderBy == 'id_desc'"> id desc</if>
+            <if test='sortType == "id_asc"'> id asc</if>
+            <if test='sortType == "id_desc"'> id desc</if>
         </trim>
     </select>
 

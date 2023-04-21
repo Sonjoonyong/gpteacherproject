@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
+import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,10 @@ public class SentenceRepository {
 
     public List<Sentence> findAllByLearningId(Long learningId) {
         return sentenceMapper.findAllByLearningId(learningId);
+    }
+
+    public List<Sentence> findByLearningId(LearningFindDto learningFindDto) {
+        return sentenceMapper.findByLearningId(learningFindDto);
     }
 
     public void update(SentenceUpdateDto sentenceUpdateDto) {
