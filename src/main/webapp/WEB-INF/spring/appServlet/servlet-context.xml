@@ -59,5 +59,6 @@
         </beans:bean>
     </interceptors>
 
+    <beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 
 </beans:beans>
