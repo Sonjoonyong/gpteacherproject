@@ -6,6 +6,7 @@ package com.sooaz.gpt.domain.community;
 
 @Data
 public class Community {
+    //
     private Long id;
     private Long userId;
     private String communityPostCategory;
