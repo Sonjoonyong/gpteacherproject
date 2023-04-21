@@ -13,6 +13,7 @@
             id,
             user_login_id,
             user_password,
+            user_password_salt,
             user_nickname,
             user_role,
             user_email,
@@ -24,6 +25,7 @@
             #{id},
             #{userLoginId},
             #{userPassword},
+            #{userPasswordSalt},
             #{userNickname},
             #{userRole},
             #{userEmail},
@@ -59,8 +61,14 @@
             <if test="userPassword != null">
                 user_password = #{userPassword},
             </if>
+            <if test="userPasswordSalt != null">
+                user_password = #{userPasswordSalt},
+            </if>
             <if test="userNickname != null">
                 user_nickname = #{userNickname},
+            </if>
+            <if test="userRole != null">
+                user_role = #{userRole},
             </if>
             <if test="userBirthday != null">
                 user_birthday = #{userBirthday},

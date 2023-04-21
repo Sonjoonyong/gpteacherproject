@@ -10,6 +10,7 @@ public class User {
     private Long id;
     private String userLoginId;
     private String userPassword;
+    private String userPasswordSalt;
     private String userNickname;
     private UserRole userRole;
     private String userEmail;
