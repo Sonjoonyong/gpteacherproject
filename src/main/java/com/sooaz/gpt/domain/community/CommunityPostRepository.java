@@ -31,5 +31,6 @@ public class CommunityPostRepository {
     public List<Community> findBookmarksByUserId(Long userId){
         return communityMapper.findBookmarksByUserId(userId);
     }
-    public void deleteById(Long communityId) {communityMapper.delete(communityId);}
+    public void deleteById(Long id) {
+        communityMapper.delete(id);}
 }

@@ -15,7 +15,7 @@ public class CommunityReplyRepository {
         return communityReplyMapper.findByUserId(userId);
     }
 
-    public void Delete(Long communityReplyId) {
+    public void delete(Long communityReplyId) {
         communityReplyMapper.delete(communityReplyId);
     }
 }

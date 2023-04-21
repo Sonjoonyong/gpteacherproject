@@ -101,7 +101,7 @@
 
 
     <delete id="delete" parameterType="long">
-        delete from COMMUNITY where id = #{communityId}
+        delete from COMMUNITY_POST where id = #{id}
     </delete>
 
 

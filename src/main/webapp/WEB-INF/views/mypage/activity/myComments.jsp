@@ -58,14 +58,14 @@
 <section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-8 offset-md-1 myCommentList">
-            <h3 class="h3 my-5" style="color: #5DB99D;">작성댓글</h3>
-            <form action="/" method="post">
+        <div class="col-md-8 offset-md-1 p-4 myCommentList">
+            <h2 class="h3 my-5" style="color: #5DB99D;">작성댓글</h2>
+            <form action="/user/mypage/comments" method="post">
                 <div>
                     <c:forEach var="comment" items="${pageInfo.list}">
                         <div class="row comment mb-3" style="border-bottom: #555555 1px">
                             <div class="col-1 px-4 pt-2">
-                                <input class="form-check-input" type="checkbox" value="${comment.id}" style="display: inline-block; vertical-align: middle">
+                                <input class="form-check-input" type="checkbox" name="deleteId" value="${comment.id}" style="display: inline-block; vertical-align: middle">
                             </div>
                             <div class="col-11 p-1">
                                 <div class="row justify-content-between">
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${comment.communityPostId}" class="tableATag">${comment.communityPostTitle}</a>
+                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
                                 </div>
                             </div>
                         </div>
@@ -83,13 +83,13 @@
                 </div>
                 <div class="row mb-2 mx-1 justify-content-between">
                     <div class="col-md-4">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input" type="checkbox" onclick="selectAll(this)">
                         <label class="form-check-label ms-3">
                             전체 선택
                         </label>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="btn btn-primary" value="삭제하기" />
+                        <input type="submit" class="btn btn-primary" value="댓글 삭제" onclick="return deleteSubmit(this)" />
                     </div>
                 </div>
             </form>
@@ -146,6 +146,8 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script src="/js/checkboxDeleteForm.js"></script>
+
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>

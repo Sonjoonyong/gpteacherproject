@@ -2,6 +2,8 @@ package com.sooaz.gpt.domain.mypage;
 
 import com.sooaz.gpt.domain.community.Community;
 import com.sooaz.gpt.domain.community.CommunityPostRepository;
+import com.sooaz.gpt.domain.community.bookmark.Bookmark;
+import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
 import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
 import com.sooaz.gpt.domain.community.communityreply.CommunityReplyRepository;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
@@ -26,6 +28,7 @@ public class MypageService {
     private final SentenceRepository sentenceRepository;
     private final CommunityPostRepository communityPostRepository;
     private final CommunityReplyRepository communityReplyRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     public List<Learning> getLearningList(LearningFindDto learningFindDto) {
         List<Learning> learnings = learningRepository.findByUserId(learningFindDto);
@@ -82,6 +85,27 @@ public class MypageService {
             myReplyDtos.add(myReplyDto);
         }
         return myReplyDtos;
+    }
+
+    public void deletePostsById(List<Long> postIds) {
+        for(Long id : postIds) {
+            communityPostRepository.deleteById(id);
+        }
+    }
+
+    public void deleteCommentsById(List<Long> commentIds) {
+        for(Long id : commentIds) {
+            communityReplyRepository.delete(id);
+        }
+    }
+
+    public void deleteBookmarks(List<Long> postIds, Long userId) {
+        for(Long id : postIds) {
+            Bookmark bookmark = new Bookmark();
+            bookmark.setCommunityPostId(id);
+            bookmark.setUserId(userId);
+            bookmarkRepository.delete(bookmark);
+        }
     }
 
 }
