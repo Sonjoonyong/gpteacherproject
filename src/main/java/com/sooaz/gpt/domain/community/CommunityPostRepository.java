@@ -14,9 +14,12 @@ import java.util.Optional;
 public class CommunityPostRepository {
     private final CommunityMapper communityMapper;
 
+
     public Community save(Community community) {
         if (community.getId() == null) {
             communityMapper.save(community);
+        } else {
+            communityMapper.update(community);
         }
         return community;
     }
@@ -34,3 +37,4 @@ public class CommunityPostRepository {
     public void deleteById(Long id) {
         communityMapper.delete(id);}
 }
+

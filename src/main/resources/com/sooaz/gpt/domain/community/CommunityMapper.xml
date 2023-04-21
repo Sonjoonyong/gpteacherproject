@@ -6,6 +6,7 @@
 <mapper namespace="com.sooaz.gpt.domain.community.CommunityMapper">
     <resultMap id="CommunityResultMap" type="com.sooaz.gpt.domain.community.Community">
         <id property="id" column="id"/>
+        <result property="communityPostCategory" column="community_post_category"/>
         <result property="userId" column="user_id"/>
         <result property="communityPostTitle" column="community_post_title"/>
         <result property="communityPostContent" column="community_post_content"/>
@@ -13,38 +14,11 @@
         <result property="communityPostWritedate" column="community_post_writedate"/>
         <result property="communityPostLike" column="community_post_like"/>
     </resultMap>
-<!--   <insert id="save">-->
-<!--        <selectKey keyProperty="id" resultType="long" order="BEFORE">-->
-<!--            select COMMUNITY_ID_SEQ.nextval from dual-->
-<!--        </selectKey>-->
-<!--        insert into COMMUNITY(-->
-<!--            id,-->
-<!--            user_id,-->
-<!--            community_post_category,-->
-<!--            community_post_title,-->
-<!--            community_post_content,-->
-<!--            community_post_hit,-->
-<!--            community_post_writedate,-->
-<!--            community_post_like-->
-<!--            )-->
-<!--            values(-->
-<!--            #{id},-->
-<!--            #{user_id},-->
-<!--            #{communityPostCategory},-->
-<!--            #{communityPostTitle},-->
-<!--            #{communityPostContent},-->
-<!--            #{communityPostHit},-->
-<!--            #{communityPostWritedate},-->
-<!--            #{communityPostLike}-->
-<!--       )-->
-<!--   </insert>-->
 
     <select id="findById" parameterType="long" resultMap="CommunityResultMap">
         SELECT * FROM community_post WHERE id = #{id}
     </select>
-<!--    <select id="findById" parameterType="long" resultType="Community">-->
-<!--        select * from COMMUNITY where id = #{communityId}-->
-<!--    </select>-->
+
 
 
     <select id="findAll" resultMap="CommunityResultMap">
@@ -52,9 +26,10 @@
         WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(community_post_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
         ORDER BY community_post_writedate DESC
     </select>
-<!--    <select id="findAll" resultType="Community">-->
-<!--        select * from COMMUNITY-->
-<!--    </select>-->
+
+    <select id="count" resultType="long">
+        SELECT count(0) FROM community_post
+    </select>
 
     <select id="findByUserId" parameterType="long" resultMap="CommunityResultMap">
         select * from community_post where user_id = #{userId} order by id desc
@@ -76,26 +51,17 @@
             community_post_category = #{communityPostCategory}
         WHERE id = #{id}
     </update>
-<!--    <update id="update">-->
-<!--        update COMMUNITY-->
-<!--        <set>-->
-<!--            <if test="communityPostLike != null">-->
-<!--                community_post_like = #{communitypostlike}-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        where id = #{communityId}-->
-<!--    </update>-->
 
-    <select id="count" resultType="int">
-        SELECT count(0) FROM community_post
-    </select>
+
 
     <insert id="save" parameterType="com.sooaz.gpt.domain.community.Community">
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
-            SELECT COMMNUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
+            SELECT COMMUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO community_post (id, user_id, community_post_title, community_post_content)
-        VALUES (#{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{communityTitle, jdbcType=VARCHAR}, #{communityContent, jdbcType=VARCHAR})
+        INSERT INTO community_post (id, user_id, community_post_title, community_post_content,community_post_category)
+        VALUES (
+        #{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{communityPostTitle, jdbcType=VARCHAR}, #{communityPostContent, jdbcType=VARCHAR},#{communityPostCategory, jdbcType=VARCHAR}
+        )
     </insert>
 
 
@@ -104,7 +70,9 @@
         delete from COMMUNITY_POST where id = #{id}
     </delete>
 
-
+    <update id="increaseViewCount" parameterType="long">
+        UPDATE COMMUNITY_POST SET community_post_hit = community_post_hit + 1 WHERE id = #{id}
+    </update>
 
 
 </mapper>

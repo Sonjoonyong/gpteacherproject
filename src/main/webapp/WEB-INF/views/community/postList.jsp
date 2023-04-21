@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Community</title>
+    <title>커뮤니티</title>
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
@@ -14,10 +14,8 @@
             border: 1px solid lightgray;
             border-radius: 10px;
             padding:20px;
-            width: 750px;
-            min-height: 750px;
+            width: 800px;
         }
-
         #communityboard .table thead trboardname{
             margin-left: 20px;
         }
@@ -28,31 +26,21 @@
             border-right : 1px solid white;
             border-bottom : 1px solid lightgray;
         }
-
         a { color: black; }
         a:visited { color: black; }
         a:hover { color: black; }
         a:active { color: black; }
-        #searchbar fa-solid,
-        #searchbar searchbox{
-
-        }
-
-        .notice-image {
+        /*#searchbar fa-solid,*/
+        /*#searchbar searchbox{*/
+        /*}*/
+        .community-image {
             float: left;
             margin-right: 10px;
             width: 20px;
             height: 20px;
         }
-
-        .notice-title-link {
+        .community-title-link {
             text-decoration: none;
-        }
-
-        .btn.btn-primary{
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
-            background-color: white;
         }
 
         .col-md-7 table thead tr{
@@ -69,7 +57,6 @@
             background-color: #fff;
             border: 1px solid #ccc;
         }
-
         .page-item.active .page-link {
             z-index: 1;
             color: #555;
@@ -78,11 +65,46 @@
             border-color: #ccc;
 
         }
-
         .page-link:focus, .page-link:hover {
             color: #000;
             background-color: #fafafa;
             border-color: #ccc;
+        }
+        .btn.btn-primary{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:active{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:focus {
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .btn.btn-primary:hover{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button{
+            background-color: white;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:hover{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:focus{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:active{
+            background-color: #CFEAE2;
+            color: white;
         }
     </style>
 
@@ -92,120 +114,121 @@
 <section class="container">
     <div class="col-12">
         <div class="row">
-            <div class="col-12">
-                <div class="row">
-
-                    <div class="col-md-3" id="sidebar">
-                        <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>Community</h3></div>
-                        <div class="row">
-                            <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
-                                <ul>
-                                    <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-<%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
-                                    </li>
-                                    <li class="nav-item" style="list-style: none">
-                                        <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> WeeklyTop10</a>
-                                    </li>
-                                </ul>
-                            </div>
+            <!--사이드바-->
+            <div class="col-md-3" id="sidebar">
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>Community</h3></div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/list'" style="background-color: #CFEAE2">
+                                    커뮤니티
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/?'">
+                                    WeeklyTop10
+                                </button>
+                            </h2>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!--고객센터-->
+            <div class="col-md-7" style="background-color: white; margin-top: 55px;">
+                <div class="communitypost" id="communitypost">
+                    <div class="d-flex justify-content-between">
+                        <span class="boardname"><h3>커뮤니티</h3></span>
+                        <%--                                <div>--%>
+                        <%--                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>--%>
+                        <%--                                </div>--%>
+                        <div>
+                            <a href="${pageContext.request.contextPath}/community/write" class="btn btn-primary float-end" style="align-content: end" role="button">글작성</a>
+                        </div>
+                    </div>
+                    <table class="table table-striped" style="text-align: center; border:1px solid black;">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center; ">제목</th>
+                            <th style="text-align: center; width:100px; margin-right: 5px;">작성일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="community" items="${pageInfo.list}">
+                            <tr>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${community.id}" class="community-title-link" style="margin-right: 30px">
+                                            <%--                                                <img src="/images/community_titleimage.png" alt="Community" class="notice-image">--%>
+                                            ${community.communityPostTitle}
+                                    </a>
+                                </td>
+                                <td><fmt:formatDate value="${community.communityPostWritedate}" pattern="yyyy.MM.dd" /></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
 
-                    <div class="col-md-7" style="background-color: white; margin-top: 100px;">
-                        <div class="communitypost" id="communitypost">
-                            <div class="d-flex justify-content-between">
-                                <span class="boardname"><h3>커뮤니티</h3></span>
-<%--                                <div>--%>
-<%--                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>--%>
-<%--                                </div>--%>
-                                <div>
-                                    <a href="${pageContext.request.contextPath}/community/write" class="btn btn-primary float-end" role="button">글작성</a>
-                                </div>
-                            </div>
-                            <table class="table table-striped" style="text-align: center; border:1px solid black;">
-                                <thead>
-                                <tr>
-                                    <th style="background-color: white; text-align: center; width: 520px;">제목</th>
-                                    <th style="background-color: white; text-align: center;">작성일</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="community" items="${pageInfo.list}">
-                                    <tr>
-                                        <td>
-                                            <a href="${pageContext.request.contextPath}/community/view?communityId=${community.id}" class="community-title-link">
-                                                <img src="/images/community_titleimage.png" alt="Community" class="notice-image">
-                                                    ${community.communityPostTitle}
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <c:if test="${pageInfo.hasPreviousPage}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=1" aria-label="First">
+                                                <span aria-hidden="true">«</span>
                                             </a>
-                                        </td>
-                                        <td><fmt:formatDate value="${community.communityPostWritedate}" pattern="yyyy.MM.dd" /></td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
+                                                <span aria-hidden="true">‹</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
 
-                            </table>
-                            <div class="row">
-                                <div class="col-md-12 d-flex justify-content-center">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            <c:if test="${pageInfo.hasPreviousPage}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=1" aria-label="First">
-                                                        <span aria-hidden="true">«</span>
-                                                    </a>
+                                    <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                        <c:choose>
+                                            <c:when test="${i == pageInfo.pageNum}">
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="?pageNum=${i}">${i}</a>
                                                 </li>
+                                            </c:when>
+                                            <c:otherwise>
                                                 <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
-                                                        <span aria-hidden="true">‹</span>
-                                                    </a>
+                                                    <a class="page-link" href="?pageNum=${i}">${i}</a>
                                                 </li>
-                                            </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
 
-                                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
-                                                <c:choose>
-                                                    <c:when test="${i == pageInfo.pageNum}">
-                                                        <li class="page-item active">
-                                                            <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                        </li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="page-item">
-                                                            <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                        </li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-
-                                            <c:if test="${pageInfo.hasNextPage}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
-                                                        <span aria-hidden="true">›</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
-                                                        <span aria-hidden="true">»</span>
-                                                    </a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 d-flex justify-content-center">
-                                    <form action="/community/list" method="get" id="searchForm">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                        <input type="text" class="searchbox" name="search" />
-                                        <button type="submit">검색</button>
-                                    </form>
-                                </div>
-                            </div>
-
+                                    <c:if test="${pageInfo.hasNextPage}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
+                                                <span aria-hidden="true">›</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
+                                                <span aria-hidden="true">»</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <form action="/community/list" method="get" id="searchForm">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" class="searchbox" name="search" />
+                                <button type="submit">검색</button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -7,6 +7,8 @@ public class CommunityPostDto {
     private Long userId;
     private String communityTitle;
     private String communityContent;
-
+    private String communityPostCategory;
+    private String communityPassword;
 
 }
+

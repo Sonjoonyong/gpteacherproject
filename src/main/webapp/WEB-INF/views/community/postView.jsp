@@ -1,3 +1,6 @@
+postView.jsp
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -9,15 +12,17 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
 
+        .col-md-7{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 800px;
+
+
+        }
+
         #communityboard .table thead trboardname{
             margin-left: 20px;
-        }
-        .col-md-7 table tbody tr,
-        .col-md-7 table tbody tr td {
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
         }
 
         a { color: black; }
@@ -36,13 +41,45 @@
             float: right;
         }
 
-        .col-md-7 table thead tr{
+        .col-md-7 table thead tr,
+        .col-md-7 table thead tr td{
             background-color: #CFEAE2;
             border-top : 1px solid lightgray;
             border-left : 1px solid white;
             border-right : 1px solid white;
             border-bottom : 1px solid lightgray;
             height: 40px;
+        }
+
+        .col-md-7 table tbody tr,
+        .col-md-7 table tbody tr td {
+            border-top : 1px solid lightgray;
+            border-left : 1px solid white;
+            border-right : 1px solid white;
+            border-bottom : 1px solid lightgray;
+            background-color: white;
+
+        }
+        /* noticeContent부분 */
+        .col-md-7 table tbody tr td{
+            background-color: white;
+
+        }
+        .accordion .accordion-item .accordion-header .accordion-button{
+            background-color: white;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:hover{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:focus{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:active{
+            background-color: #CFEAE2;
+            color: white;
         }
     </style>
 
@@ -54,50 +91,69 @@
 <section class="container">
     <div class="col-12">
         <div class="row">
+            <!--사이드바-->
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>Community</h3></div>
-                <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
-                        <ul>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                                <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> WeeklyTop10</a>
-                            </li>
-                        </ul>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>커뮤니티</h3></div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/list'" style="background-color: #CFEAE2">
+                                    커뮤니티
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/?'">
+                                    WeeklyTop10
+                                </button>
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
-                <table class="table table-striped" style="text-align:center; border:1px solid black;" >
-                    <thead >
-
+            <div class="col-md-7" style="margin-top: 110px; ">
+                <table class="table" style="text-align:start; border:1px solid black;" >
+                    <thead style="margin-bottom: 20px;">
+                    <tr>
+                        <td colspan="2">${community.communityPostTitle}</td>
+                    </tr>
                     </thead>
                     <tbody >
                     <tr>
-                        <td style="width:20%;"><h4>글 제목</h4></td>
-                        <td colspan="2">${community.communityPostTitle}</td>
+                        <td>작성자: ${notice.userNickname}</td>
+                        <td colspan="2" style="text-align: right">
+                            <fmt:formatDate value="${community.communityPostWritedate}" pattern="yyyy-MM-dd" />
+                            조회수: ${community.communityPostHit}
+                        </td>
                     </tr>
                     <tr>
-                        <td >글 내용</td>
-                        <td colspan="2" style="height: 200px; text-align: left;">${community.communityPostContent}</td>
+                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${community.communityPostContent}</td>
                     </tr>
                     </tbody>
                 </table>
-                <form action="${pageContext.request.contextPath}/community/?/delete${community.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/community/delete/${community.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
                     <a href="${pageContext.request.contextPath}/community/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/community/?/edit${community.id}" class="btn btn-primary">수정</a>
-                    <button type="submit" class="btn list">삭제</button>
+                    <a href="${pageContext.request.contextPath}/community/edit/${community.id}" class="btn btn-primary">수정</a>
+                    <button type="submit" class="btn btn-primary">삭제</button>
+
                 </form>
-
-                <a href="${pageContext.request.contextPath}/community/list" class="btn list" style="">목록</a>
+                <div class="col-12 col-md-2">
+                    <div class="row g-0">
+                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleSentenceLikeAjax(this)">
+                            <i class="like bi bi-heart${not empty sentence.sentenceLike && sentence.sentenceLike == '1'.charAt(0) ? '-fill' : ''}"></i>
+                        </button>
+                        <button class="col-1 col-md-5 btn" onclick="toggleStorageAjax(this)">
+                            <i class="storage bi bi-archive${not empty sentence.flashcardId && sentence.flashcardId != -2 ? '-fill' : ''}"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
+
 
 <%@ include file="../fragments/footer.jsp" %>
 

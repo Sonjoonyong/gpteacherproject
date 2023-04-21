@@ -21,8 +21,9 @@ public interface CommunityMapper {
 
     List<Community> findBookmarksByUserId(Long userId);
 
-    void update(CommunityUpdateDto communityUpdateDto);
+    void update(Community community);
 
     void delete(Long Id);
 
 }
+

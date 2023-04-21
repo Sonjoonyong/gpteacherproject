@@ -55,49 +55,74 @@
             float: right;
             margin-top: 15px;
         }
+        .accordion .accordion-item .accordion-header .accordion-button{
+            background-color: white;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:hover{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:focus{
+            background-color: #CFEAE2;
+            color: black;
+        }
+        .accordion .accordion-item .accordion-header .accordion-button:active{
+            background-color: #CFEAE2;
+            color: white;
+        }
     </style>
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
 <section class="container">
-<div class="col-12">
-    <div class="row">
-        <div class="col-md-3" id="sidebar">
-            <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>Community</h3></div>
-            <div class="row">
-                <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
-                    <ul>
-                        <li class="nav-item" style="list-style: none">
-                            <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                            <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
-                        </li>
-                        <li class="nav-item" style="list-style: none">
-                            <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 글작성</a>
-                        </li>
-                    </ul>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-md-3" id="sidebar">
+                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>Community</h3></div>
+                <div class="row">
+                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
+                        <ul>
+                            <li class="nav-item" style="list-style: none">
+                                <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
+                                <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
+                            </li>
+                            <li class="nav-item" style="list-style: none">
+                                <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 성</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7" style="background-color: white; margin-top: 55px;">
+                <h3>글 작성</h3>
+                <div class="create-form">
+                    <form:form action="/community/write" method="post" modelAttribute="communityPostDto">
+                        <div class="FormSelectButton" style="width:80px; ">
+                            <form:select path="communityPostCategory"  class="select" id="communityPostTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
+                                <form:option value="TOEIC"> 토익</form:option>
+                                <form:option value="TOEFL"> 토플</form:option>
+                                <form:option value="OPIC"> 오픽</form:option>
+                                <form:option value="IELTS"> 아이엘츠</form:option>
+                            </form:select>
+                        </div>
+                        <div>
+                            <label for="communityPostTitle">제목 :</label>
+                            <form:input path="communityTitle" type="text" class="form-control" id="communityPostTitle" required="required"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="communityPostContent">내용 :</label>
+                            <form:textarea path="communityContent" class="form-control" id="communityPostContent" rows="5" required="required" cssStyle="min-height: 400px"/>
+                        </div>
+                        <div class="clearfix">
+                            <button type="submit" class="btn btn-primary submit-btn">등록</button>
+                        </div>
+                    </form:form>
                 </div>
             </div>
         </div>
-        <div class="col-md-7" style="background-color: white; margin-top: 55px;">
-            <h3>글 작성</h3>
-            <div class="create-form">
-                <form:form action="${pageContext.request.contextPath}/community" method="post" modelAttribute="communityPostDto">
-                    <div class="form-group">
-                        <label for="communityPostTitle">제목 :</label>
-                        <form:input path="communityTitle" type="text" class="form-control" id="communityPostTitle" required="required"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="communityPostContent">내용 :</label>
-                        <form:textarea path="communityContent" class="form-control" id="communityPostContent" rows="5" required="required" cssStyle="min-height: 400px"/>
-                    </div>
-                    <div class="clearfix">
-                        <button type="submit" class="btn btn-primary submit-btn">등록</button>
-                    </div>
-                </form:form>
-            </div>
-        </div>
     </div>
-</div>
 </section>
 <%@ include file="../fragments/footer.jsp" %>
 
