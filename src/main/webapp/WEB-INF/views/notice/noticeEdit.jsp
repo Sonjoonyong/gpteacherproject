@@ -159,6 +159,12 @@
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const noticeContent = editor.getMarkdown();
+
+            if (noticeContent.trim() === '') {
+                alert('내용을 입력해주세요.');
+                return;
+            }
+
             document.querySelector('#hiddenNoticeContent').value = noticeContent;
             form.submit();
         });
