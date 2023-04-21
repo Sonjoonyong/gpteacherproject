@@ -2,10 +2,12 @@ package com.sooaz.gpt.domain.user;
 
 import com.sooaz.gpt.global.constant.SessionConst;
 import com.sooaz.gpt.global.email.Gmail;
+import com.sooaz.gpt.global.security.PasswordHasher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,48 +15,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Optional;
 import java.util.UUID;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@Valid
 public class UserSearchController {
 
     private final Gmail gmail;
     private final UserService userService;
+    private final PasswordHasher passwordHasher;
 
     @GetMapping("/user/idsearch")
     public String getIdSearchForm() {
         return "user/idSearch";
     }
-
-
-    @ResponseBody
-    @PostMapping("/user/idsearch")
-    public String idSearch(
-            @Email(message = "유효한 이메일 형식이 아닙니다.")
-            @NotBlank(message = "이메일을 입력해주세요.")
-            String email,
-            HttpServletRequest request
-    ) {
-        Optional<User> userOpt = userService.findByEmail(email);
-        if (userOpt.isPresent()) {
-            String userLoginId = userOpt.get().getUserLoginId();
-            gmail.sendEmail(
-                    email,
-                    "GPTeacher 아이디입니다.",
-                    userLoginId.substring(0, 5) + "*".repeat(userLoginId.length() - 4) // 앞 4자리만 표기
-            );
-
-            return "true";
-        }
-
-        return "false";
-    }
-
 
     @ResponseBody
     @GetMapping("/user/idsearch/emailCode")
@@ -118,12 +99,70 @@ public class UserSearchController {
 
         User user = userService.findByEmail(email).orElse(null);
         String userLoginId = user.getUserLoginId();
-        String maskedId = userLoginId.substring(0, 5) + "*".
-                repeat(userLoginId.length() - 3);
+        String maskedId = userLoginId.substring(0, 4) +
+                "*".repeat(userLoginId.length() - 4);
 
         resultJson.put("result", true);
         resultJson.put("userLoginId", maskedId);
 
+        return resultJson.toString();
+    }
+
+    @GetMapping("/user/pwsearch")
+    public String getPwSearchForm() {
+        return "user/pwSearch";
+    }
+
+    @ResponseBody
+    @PostMapping("/user/pwsearch")
+    public String pwSearch(
+            @RequestParam String userLoginId,
+            @RequestParam String userEmail
+    ) {
+        log.info("userLoginId = {}", userLoginId);
+        log.info("userEmail = {}", userEmail);
+
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("result", false);
+
+        Optional<User> userOpt = userService.findByLoginId(userLoginId);
+        if (userOpt.isEmpty()) {
+            resultJson.put("errorMsg", "존재하지 않는 아이디입니다.");
+        }
+
+        User user = userOpt.get();
+        String foundEmail = user.getUserEmail();
+        if (!userEmail.equals(foundEmail)) {
+            resultJson.put("errorMsg", "아이디 또는 이메일이 잘못됐습니다.");
+        }
+
+        if (userLoginId.length() == 36) { // Oauth 가입자일 경우
+            resultJson.put("errorMsg", "구글 등 다른 사이트를 통해 가입된 계정입니다.");
+        }
+
+        if (resultJson.has("errorMsg")) {
+            return resultJson.toString();
+        }
+
+        String newPassword = UUID.randomUUID().toString()
+                .replaceAll("-", "").substring(0, 10);
+        log.info("발급된 임시 비밀번호 = {}", newPassword);
+
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+        userUpdateDto.setUserId(user.getId());
+        userUpdateDto.setUserPassword(
+                passwordHasher.hash(newPassword, user.getUserPasswordSalt())
+        );
+        userService.update(userUpdateDto);
+
+        gmail.sendEmail(
+                userEmail,
+                "[GPTeacher] 재발급된 비밀번호입니다.",
+                "아래 비밀번호로 접속 후 비밀번호를 변경해주세요. \n\n" +
+                newPassword
+        );
+
+        resultJson.put("result", true);
         return resultJson.toString();
     }
 

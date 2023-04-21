@@ -21,9 +21,9 @@
 
 <%@ include file="../fragments/header.jsp" %>
 
-<section class="container" style="max-width: 500px">
+<section class="container" style="max-width: 550px;">
 
-    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5"
+    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 mb-5"
          style="border: 2px solid #5DB99D; min-height: 500px;">
         <h3 class="h3 col-12 text-center">아이디 찾기</h3>
 
@@ -61,8 +61,8 @@
             </div>
         </div>
 
-        <a href="/user/pwsearch" id="submitBtn" type="col-12" class="btn btn-lg mt-auto"
-           style="background-color: #5DB99D; color: white">비밀번호 재발급
+        <a href="/user/pwsearch" id="submitBtn" type="col-12" class="btn btn-md btn-secondary mt-auto">
+            비밀번호 재발급 받으러 가기
         </a>
 
     </div>

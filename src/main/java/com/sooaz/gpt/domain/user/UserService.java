@@ -13,6 +13,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -24,6 +25,7 @@ public class UserService {
         return login(loginId, password);
     }
 
+    @Transactional(readOnly = true)
     public User login(String loginId, String password) {
         if (loginId == null) {
             return null;
@@ -40,7 +42,6 @@ public class UserService {
         return loginUser;
     }
 
-    @Transactional
     public void join(UserSignupDto userSignupDto) {
         User user = new User();
         user.setUserEmail(userSignupDto.getUserEmail());
@@ -60,16 +61,30 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
+
     public Optional<User> findById(Long userId) {
         return userRepository.findById(userId);
     }
 
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<User> findByLoginId(String userLoginId) {
+        return userRepository.findByLoginId(userLoginId);
+    }
+
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+
+    public void update(UserUpdateDto userUpdateDto) {
+        userRepository.update(userUpdateDto);
     }
 
     public boolean isDuplicateLoginId(String loginId) {
