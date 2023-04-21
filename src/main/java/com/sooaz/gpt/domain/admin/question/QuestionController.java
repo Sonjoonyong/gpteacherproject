@@ -37,6 +37,7 @@ public class QuestionController {
     @GetMapping("/view")
     public String getQuestionById(@RequestParam Long questionId, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
         HttpSession session = request.getSession();
+
         User loginUser = (User) session.getAttribute(SessionConst.LOGIN_USER);
         if (loginUser.getUserRole()== UserRole.ADMIN || loginUser.getId().equals(questionService.getQuestionById(questionId).getUserId()) ){
             model.addAttribute("question",questionService.getQuestionById(questionId));

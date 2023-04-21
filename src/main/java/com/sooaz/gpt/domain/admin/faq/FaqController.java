@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.admin.faq;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.domain.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,9 +40,16 @@ public class FaqController {
     }
 
     @GetMapping("/write")
-    public String showFaqWritePage(Model model) {
-        model.addAttribute("faqCreateDto", new FaqCreateDto());
-        return "faq/faqNew";
+    public String showFaqWritePage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        if (loginUser != null && UserRole.ADMIN.equals(loginUser.getUserRole())) {
+            model.addAttribute("faqCreateDto", new FaqCreateDto());
+            return "faq/faqNew";
+        } else {
+            return "redirect:/help/faq/list";
+        }
     }
 
     @PostMapping

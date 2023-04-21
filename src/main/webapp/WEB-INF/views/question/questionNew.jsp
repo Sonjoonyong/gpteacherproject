@@ -8,7 +8,13 @@
 
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
+
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <!--fontawesome-->
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+
     <style>
         .create-form {
             border: 1px solid lightgray;
@@ -76,22 +82,26 @@
                 <div class="create-form col-md-7">
 
                     <form:form action="${pageContext.request.contextPath}/help/question" method="post" modelAttribute="questionCreateDto">
+                        <!--제목, 카테고리-->
                         <div class="row" style="margin-top: 5px;">
+                            <!--카테고리-->
                             <div class="FormSelectButton" style="width:80px; ">
-                                <form:select path="questionCategory"  class="select" id="questionTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
+                                <form:select path="questionCategory"  class="select" id="questionCategory" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
                                     <form:option value="학습"> 학습</form:option>
                                     <form:option value="결제"> 결제</form:option>
                                 </form:select>
                             </div>
+                            <!--제목-->
                             <div class="form-group " style="width:590px;  ">
                                 <form:input path="questionTitle" type="text" placeholder="문의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:589px; margin-left:-12px; " />
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 10px;">
-                            <div class="form-group" >
-                                <form:textarea path="questionContent" style="border-top: 10px;" type="text" placeholder="문의 내용을 작성해주세요." class="form-control" id="questionContent" rows="5" required="required" cssStyle="min-height: 400px"/>
-                            </div>
+                        <!--내용-->
+                        <div class="form-group" style="margin-top: 10px;">
+                            <div id="editor"></div>
+                            <form:hidden path="questionContent" id="hiddenQuestionContent" />
                         </div>
+                        <!--등록번튼&비밀번호-->
                         <div class="row">
                             <div class="clearfix" style="width: 250px; margin-top: 15px; ">
                                 <form:input path="questionPassword" type="text" placeholder="비밀번호" class="textbox" id="questionPassword" required="required"/>
@@ -110,5 +120,24 @@
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<!-- Toast UI Editor Initialization -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            height: '400px'
+        });
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const noticeContent = editor.getMarkdown();
+            document.querySelector('#hiddenNoticeContent').value = noticeContent;
+            form.submit();
+        });
+    });
+</script>
 </body>
 </html>

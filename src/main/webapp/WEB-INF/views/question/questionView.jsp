@@ -89,7 +89,10 @@
 
 <section class="container">
 
+    <form role="form" method="post">
+        <input type="hidden" name="" value="" >
 
+    </form>
 
     <div class="col-12">
         <div class="row">
@@ -100,7 +103,7 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" style="background-color: #CFEAE2">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" >
                                     공지사항
                                 </button>
                             </h2>
@@ -114,7 +117,7 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" style="background-color: #CFEAE2">
                                     문의사항
                                 </button>
                             </h2>
