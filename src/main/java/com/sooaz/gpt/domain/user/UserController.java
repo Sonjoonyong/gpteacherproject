@@ -1,20 +1,24 @@
 package com.sooaz.gpt.domain.user;
 
 import com.sooaz.gpt.global.constant.SessionConst;
+import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,15 +26,15 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final Gmail gmail;
 
     @GetMapping("/user/login")
     public String getLoginForm(
             Model model,
-            @RequestParam(required = false) Boolean oauthLoginFail, // 일반 회원가입 유저가 Oauth 로그인 시
             HttpServletRequest request
     ) {
+        // 일반 회원가입 유저가 Oauth 로그인 시
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-        log.info("flashMap = {}", flashMap);
         if (flashMap != null && !flashMap.isEmpty()) {
             model.addAttribute("oauthLoginFail", flashMap.get("oauthLoginFail"));
         }

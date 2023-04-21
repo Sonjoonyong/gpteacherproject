@@ -3,10 +3,10 @@ const sendEmailCodeBtn = document.querySelector('#sendEmailCode');
 const validateEmailCodeBtn = document.querySelector('#validateEmailCode');
 
 // 안내문
+const emailMsgDiv = document.querySelector('#emailMsg');
 const emailCodeMsgDiv = document.querySelector('#emailCodeMsg');
 const loginIdMsgDiv = document.querySelector('#loginIdMsg');
 const nicknameMsgDiv = document.querySelector('#nicknameMsg');
-const emailMsgDiv = document.querySelector('#emailMsg');
 
 // input
 const emailInput = document.querySelector('#userEmail');

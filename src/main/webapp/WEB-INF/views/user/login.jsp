@@ -6,8 +6,6 @@
 <head>
     <title>로그인</title>
 
-    <meta name="google-signin-client_id" content="267882054644-vu2virieofr6r971p1ht9fhgo7qkp4t8.apps.googleusercontent.com">
-
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <link rel="stylesheet" href="/css/base.css">
 
@@ -58,8 +56,8 @@
             <button type="col-12 submit" class="btn btn-lg" style="background-color: #5DB99D; color: white">로그인</button>
 
             <div class="row g-0">
-                <div class="col-4 text-center text-secondary py-0"><a href="/user/pwsearch">비밀번호 찾기</a></div>
                 <div class="col-4 text-center text-secondary"><a href="/user/idsearch">아이디 찾기</a></div>
+                <div class="col-4 text-center text-secondary py-0"><a href="/user/pwsearch">비밀번호 찾기</a></div>
                 <div class="col-4 text-center text-secondary"><a href="/user/signup">회원가입</a></div>
             </div>
 
@@ -99,7 +97,6 @@
         scope: 'openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
         ux_mode: 'redirect',
         redirect_uri: "http://localhost:8080/user/login/oauth",
-        state: 'YOUR_BINDING_VALUE',
         access_type: 'offline'
     });
 

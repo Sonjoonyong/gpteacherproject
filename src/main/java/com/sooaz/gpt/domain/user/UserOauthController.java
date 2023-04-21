@@ -57,7 +57,7 @@ public class UserOauthController {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
-            // 비밀번호 "OAUTH"로 로그인 시도 -> Oauth 가입 계정이면 성공
+            // 비밀번호 "OAUTH"로 자동 로그인 시도 -> Oauth 가입 계정이면 성공
             if (userService.login(user.getUserLoginId(), "OAUTH") != null) {
                 session.setAttribute(SessionConst.LOGIN_USER, user);
                 return "redirect:/";

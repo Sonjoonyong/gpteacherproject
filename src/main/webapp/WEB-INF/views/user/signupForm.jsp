@@ -7,7 +7,7 @@
     <title>회원가입</title>
 
     <style>
-        nav .loginBtn, nav .signInBtn, alar {
+        nav .loginBtn, nav .signInBtn, nav .alarm {
             display: none;
         }
 
