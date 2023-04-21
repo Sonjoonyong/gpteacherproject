@@ -11,6 +11,7 @@ public class Question {
     private Long id;
     private Long userId;
     //private UserRole userRole;
+    private String userNickname;
     private String questionCategory;
     private String questionTitle;
     private String questionContent;

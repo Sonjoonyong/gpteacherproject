@@ -40,12 +40,12 @@
             question_category = #{questionCategory},
             question_title = #{questionTitle},
             question_content = #{questionContent},
-            question_hit = #{questionHit}
+            question_password=#{questionPassword}
 
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="long">
+    <delete id="deleteById" parameterType="long">
         DELETE FROM board_question WHERE id = #{id}
     </delete>
 
