@@ -7,6 +7,7 @@ import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
 import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
 import com.sooaz.gpt.domain.community.communityreply.CommunityReplyRepository;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
+import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
@@ -14,6 +15,7 @@ import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,6 +50,21 @@ public class MypageService {
             }
             learning.setSentenceCount(sentenceCount);
             learning.setAverageAccuracy(sentenceCount != 0 ? Math.round(sumAccuracy/sentenceCount):0);
+
+            // learningType 별 질문/상황을 Topic에 저장
+            if(learning.getLearningType() == LearningType.DIALOGUE) {
+                String learningTopic = learning.getLearningTopic();
+                JSONObject learningTopicJson;
+                try {
+                    learningTopicJson = new JSONObject(learningTopic);
+                } catch (Exception e) {
+                    log.error("Learning topic data from database is not parsable for JSON, \n", e);
+                    return null;
+                }
+                String getSituation = learningTopicJson.getString("situation");
+                getSituation += " at the "+learningTopicJson.getString("place");
+                learning.setLearningTopic(getSituation);
+            }
         }
         return learnings;
     }

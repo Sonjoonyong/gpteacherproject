@@ -5,6 +5,7 @@ import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
 import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
+import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -59,6 +60,7 @@ public class SentenceController {
 
     @PostMapping("/learning/correction/script")
     public String transcript(
+            @SessionAttribute User loginUser,
             @RequestParam(required = false) String userScript,
             @RequestParam String question,
             @RequestParam(required = false) LearningTestType learningTestType,
@@ -66,11 +68,13 @@ public class SentenceController {
     ) {
 
         Learning learning = new Learning();
+        Long userId = loginUser.getId();
         String correctedScript = null;
         if(learningTestType == null) {
-            correctedScript = writingService.talk(question, userScript, learning);
+            correctedScript = writingService.talk(question, userScript, learning, userId);
+        } else {
+            correctedScript = speakingService.talk(learningTestType, question, userScript, learning, userId);
         }
-        correctedScript = speakingService.talk(learningTestType, question, userScript, learning);
 
         model.addAttribute("userScript", userScript);
         model.addAttribute("question", question);

@@ -1,5 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +59,7 @@
                                 </c:if>
                             </div>
                             <div class="col-12 col-md-6" style="color: #373737">
-                                    ${learning.learningDate}
+                                    <fmt:formatDate value="${learning.learningDate}" pattern="yyy.MM.dd"/>
                             </div>
                             <div class="col-12 col-md-2">
                                 <div class="row g-0">
@@ -73,7 +74,14 @@
                             </div>
                         </div>
                         <div class="row rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff; background-color: #7B61FF30">
-                            <div class="col-10 col-md-2"> Question </div>
+                            <div class="col-10 col-md-2">
+                                <c:if test="${learning.learningType == 'DIALOGUE'}">
+                                    Situation
+                                </c:if>
+                                <c:if test="${learning.learningType != 'DIALOGUE'}">
+                                    Question
+                                </c:if>
+                            </div>
                             <div class="col-10 col-md-8">"${learning.learningTopic}"</div>
                         </div>
                         <div class="row">

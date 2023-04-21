@@ -5,6 +5,7 @@ import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
+import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -33,11 +34,12 @@ public class DialogueController {
 
     @PostMapping("/learning/dialogue")
     public String getPracticeForm(
+            @SessionAttribute User loginUser,
             @ModelAttribute DialogueTopicDto dialogueTopicDto,
             Model model
     ) {
         String assistantTalk = dialogueService.initDialogue(dialogueTopicDto);
-        Long learningId = dialogueService.saveLearning(dialogueTopicDto);
+        Long learningId = dialogueService.saveLearning(dialogueTopicDto, loginUser.getId());
 
         model.addAttribute("assistantTalk", assistantTalk);
         model.addAttribute("learningId", learningId);

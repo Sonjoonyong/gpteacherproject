@@ -8,6 +8,7 @@ import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
+import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -28,22 +30,29 @@ public class MypageController {
 
     @GetMapping("/user/mypage/dashboard")
     public String getDashboard(
+            @SessionAttribute User loginUser,
             Model model
     ) {
         LearningFindDto learningFindDto = new LearningFindDto();
-        learningFindDto.setUserId(1L);
+        learningFindDto.setUserId(loginUser.getId());
         learningFindDto.setSortType("id_desc");
         List<Learning> learnings = mypageService.getLearningList(learningFindDto);
-        model.addAttribute("learnings", learnings.subList(0,2));
+        if (learnings.size() >= 2) {
+            model.addAttribute("learnings", learnings.subList(0, 2));
+        } else {
+            model.addAttribute("learnings", learnings);
+        }
         return "mypage/learning/dashboard";
     }
 
     @GetMapping("/user/mypage/learnings")
     public String getMyLearnings(
+            @SessionAttribute User loginUser,
             Model model
     ) {
         LearningFindDto learningFindDto = new LearningFindDto();
-        learningFindDto.setUserId(1L);
+        learningFindDto.setUserId(loginUser.getId());
+        learningFindDto.setSortType("id_desc");
         List<Learning> learnings = mypageService.getLearningList(learningFindDto);
         model.addAttribute("learnings", learnings);
         return "mypage/learning/learningHistory";
@@ -51,6 +60,7 @@ public class MypageController {
 
     @PostMapping("/user/mypage/learnings")
     public String getSelectedLearnings(
+            @SessionAttribute User loginUser,
             @RequestParam(required = false) String learningType,
             @RequestParam(required = false) String sortType,
             @RequestParam(required = false) Character onlyLike,
@@ -58,7 +68,7 @@ public class MypageController {
     ) {
         LearningFindDto learningFindDto = new LearningFindDto();
 
-        learningFindDto.setUserId(1L);
+        learningFindDto.setUserId(loginUser.getId());
         if (!learningType.equals("all")) {
             learningFindDto.setLearningType(LearningType.valueOf(learningType));
         }
@@ -77,10 +87,11 @@ public class MypageController {
 
     @GetMapping("/user/mypage/sentences")
     public String getMySentences(
+            @SessionAttribute User loginUser,
             Model model
     ) {
         LearningFindDto learningFindDto = new LearningFindDto();
-        learningFindDto.setUserId(1L);
+        learningFindDto.setUserId(loginUser.getId());
         List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
         model.addAttribute("sentences", sentences);
         return "mypage/learning/mySentences";
@@ -88,6 +99,7 @@ public class MypageController {
 
     @PostMapping("/user/mypage/sentences")
     public String getSelectedSentences(
+            @SessionAttribute User loginUser,
             @RequestParam(required = false) String learningType,
             @RequestParam(required = false) String sortType,
             @RequestParam(required = false) Character onlyLike,
@@ -95,7 +107,7 @@ public class MypageController {
     ) {
         LearningFindDto learningFindDto = new LearningFindDto();
 
-        learningFindDto.setUserId(1L);
+        learningFindDto.setUserId(loginUser.getId());
         if (!learningType.equals("all")) {
             learningFindDto.setLearningType(LearningType.valueOf(learningType));
         }
@@ -122,6 +134,7 @@ public class MypageController {
         return "";
     }
 
+    //계정 관리---------------------------------------------------
     @GetMapping("/user/mypage/withdraw")
     public String getWithdrawForm() {
         return "mypage/account/withdraw";
@@ -147,15 +160,17 @@ public class MypageController {
         return "mypage/account/changePassword";
     }
 
+
     // 나의 활동 -------------------------------------------
     @GetMapping("/user/mypage/communities")
     public String getMyCommunities(
+            @SessionAttribute User loginUser,
             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
             Model model
     ) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> communities = mypageService.getPostList(1L); //임시 user id
+        List<Community> communities = mypageService.getPostList(loginUser.getId());
         PageInfo<Community> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myPosts";
@@ -172,12 +187,13 @@ public class MypageController {
 
     @GetMapping("/user/mypage/comments")
     public String getMyComments(
+            @SessionAttribute User loginUser,
             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
             Model model
     ) {
         PageHelper.startPage(pageNum, pageSize);
-        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(1L); //임시 user id
+        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(loginUser.getId());
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
         return "mypage/activity/myComments";
@@ -194,12 +210,13 @@ public class MypageController {
 
     @GetMapping("/user/mypage/bookmarks")
     public String getMyBookmarks(
+            @SessionAttribute User loginUser,
             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
             Model model
     ) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> communities = mypageService.getBookmarkList(1L); //임시 user id
+        List<Community> communities = mypageService.getBookmarkList(loginUser.getId());
         PageInfo<Community> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myBookmarks";
@@ -207,10 +224,11 @@ public class MypageController {
 
     @PostMapping("/user/mypage/bookmarks")
     public String deleteBookmarks(
+            @SessionAttribute User loginUser,
             @RequestParam List<Long> deleteId
     ) {
         log.info("checkList = {}",deleteId);
-        mypageService.deleteBookmarks(deleteId, 1L); //postId list, userId
+        mypageService.deleteBookmarks(deleteId, loginUser.getId()); //postId list, userId
         return "redirect:/user/mypage/bookmarks";
     }
 
