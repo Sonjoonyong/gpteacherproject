@@ -18,7 +18,10 @@ public class UserService {
     public User login(LoginDto loginDto) {
         String loginId = loginDto.getUserLoginId();
         String password = loginDto.getUserPassword();
+        return login(loginId, password);
+    }
 
+    public User login(String loginId, String password) {
         if (loginId == null) {
             return null;
         }

@@ -52,11 +52,12 @@ public class UserValidationController {
             String email,
             HttpServletRequest request
     ) {
+        HttpSession session = request.getSession();
+
         if (userService.isDuplicateEmail(email)) {
             return "이미 사용중인 이메일입니다.";
         }
 
-        HttpSession session = request.getSession();
         String emailCode = UUID.randomUUID().toString()
                 .replaceAll("-", "").substring(0, 5);
         log.info("발급된 emailCode = {}", emailCode);

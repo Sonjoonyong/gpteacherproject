@@ -38,6 +38,12 @@
                     아이디 또는 비밀번호가 맞지 않습니다.
                 </div>
             </form:errors>
+            <c:if test="${not empty oauthLoginFail}">
+                <div class="alert alert-danger mb-0">
+                    일반 회원가입이 된 이메일입니다. <br>
+                    아이디와 비밀번호를 통해 로그인 해주세요.
+                </div>
+            </c:if>
 
             <div class="col-12 input-group input-group-lg p-0">
                 <span class="input-group-text w-25 fs-6">아이디</span>
