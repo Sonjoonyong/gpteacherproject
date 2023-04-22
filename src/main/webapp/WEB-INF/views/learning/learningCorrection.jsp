@@ -1,6 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>GPTeacher's CORRECTION</title>
@@ -31,7 +30,7 @@
 
     <div class="d-flex justify-content-center">
         <div class="btn-group">
-            <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3 me-3" id="ttsBtn" style="background-color: #5DB99D; color: white; width: 120px; margin-right: 30px;">
+            <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" id="ttsBtn" style="background-color: #5DB99D; color: white; width: 120px; height: 40px; margin-right: 30px;">
                 교정본 듣기
             </button>
 
