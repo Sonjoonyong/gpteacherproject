@@ -1,6 +1,7 @@
 package com.sooaz.gpt.domain.user;
 
 import com.sooaz.gpt.global.constant.SessionConst;
+import com.sooaz.gpt.global.security.GoogleOauthClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -39,7 +41,8 @@ public class UserOauthController {
 
         if (resultJson == null) {
             log.info("토큰 발급에 실패했습니다.");
-            return "user/login";
+            redirectAttributes.addAttribute("oauthLoginFail", true);
+            return "redirect:/user/login";
         }
 
         String accessToken = resultJson.getString("access_token");
@@ -51,10 +54,19 @@ public class UserOauthController {
 
         HttpSession session = request.getSession();
         Optional<User> userOpt = repository.findByEmail(email);
+        // DB에 등록된 email
         if (userOpt.isPresent()) {
-            // DB에 등록된 email -> 로그인 성공
-            session.setAttribute(SessionConst.LOGIN_USER, userOpt.get());
-            return "redirect:/";
+            User user = userOpt.get();
+
+            // 비밀번호 "OAUTH"로 자동 로그인 시도 -> Oauth 가입 계정이면 성공
+            if (userService.login(user.getUserLoginId(), "OAUTH") != null) {
+                session.setAttribute(SessionConst.LOGIN_USER, user);
+                return "redirect:/";
+            } else { // 일반 가입 계정이면 로그인 실패
+                redirectAttributes.addFlashAttribute("oauthLoginFail", true);
+                return "redirect:/user/login";
+            }
+
         } else {
             // DB에 없는 email -> email 인증처리 후 회원가입 창으로
             session.setAttribute(SessionConst.EMAIL, email);
@@ -110,9 +122,9 @@ public class UserOauthController {
 
         String userEmail = (String) session.getAttribute(SessionConst.EMAIL);
         userSignupDto.setUserEmail(userEmail);
-        // loginId는 Oauth id로
-        userSignupDto.setUserLoginId(oauthId.substring(0, Math.min(12, oauthId.length())));
-        // 로그인창 비밀번호 입력은 최소 6자리이기 때문에 아래 비밀번호로 로그인할 수 없음
+        // loginId는 UUID로 지정하여 일반 로그인이 불가능하도록 함
+        userSignupDto.setUserLoginId(UUID.randomUUID().toString());
+        // Oauth 가입자는 비밀번호를 OAUTH로 지정, 이후 자동 로그인에 사용
         userSignupDto.setUserPassword("OAUTH");
         userSignupDto.setUserNickname(userNickname);
         userSignupDto.setUserBirthday(userBirthday);

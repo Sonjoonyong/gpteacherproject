@@ -4,12 +4,16 @@ import com.sooaz.gpt.global.security.PasswordHasher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -18,7 +22,11 @@ public class UserService {
     public User login(LoginDto loginDto) {
         String loginId = loginDto.getUserLoginId();
         String password = loginDto.getUserPassword();
+        return login(loginId, password);
+    }
 
+    @Transactional(readOnly = true)
+    public User login(String loginId, String password) {
         if (loginId == null) {
             return null;
         }
@@ -51,6 +59,32 @@ public class UserService {
         user.setUserPasswordSalt(passwordSalt);
 
         userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> findByLoginId(String userLoginId) {
+        return userRepository.findByLoginId(userLoginId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+
+    public void update(UserUpdateDto userUpdateDto) {
+        userRepository.update(userUpdateDto);
     }
 
     public boolean isDuplicateLoginId(String loginId) {

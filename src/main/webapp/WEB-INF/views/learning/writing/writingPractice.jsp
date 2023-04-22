@@ -14,9 +14,19 @@
             max-width: 900px;
         }
 
+        .wrapper {
+            position: relative;
+        }
+
         #waitingMessage {
             display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
         }
+
     </style>
 
 </head>
@@ -24,6 +34,7 @@
 
 <%@ include file="../../fragments/header.jsp" %>
 <section class="container">
+    <div class="wrapper">
     <h1 class="h3 text-center my-3" style="color: #5DB99D">QUESTION & ANSWER</h1>
 
     <form action="/learning/correction/script" method="post">
@@ -50,6 +61,7 @@
 
     <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
         <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
+    </div>
     </div>
 </section>
 

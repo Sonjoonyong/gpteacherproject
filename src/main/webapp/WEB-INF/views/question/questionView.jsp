@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -89,7 +90,10 @@
 
 <section class="container">
 
+    <form role="form" method="post">
+        <input type="hidden" name="" value="" >
 
+    </form>
 
     <div class="col-12">
         <div class="row">
@@ -100,7 +104,7 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" style="background-color: #CFEAE2">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" >
                                     공지사항
                                 </button>
                             </h2>
@@ -114,7 +118,7 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" style="background-color: #CFEAE2">
                                     문의사항
                                 </button>
                             </h2>
@@ -130,6 +134,12 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td>작성자: ${question.userNickname}</td>
+                        <td style="text-align: right">
+                           작성일 : <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" />
+                        </td>
+                    </tr>
                     <tr >
 
                         <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td>

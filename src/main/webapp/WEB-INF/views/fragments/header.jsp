@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <header>
     <nav class="navbar navbar-expand-lg bg-white mb-3">
         <div class="container-lg">
@@ -37,9 +38,17 @@
                     <button class="btn p-0 border-0">
                         <i class="alarm bi bi-bell fs-5 me-3 fw-bold"></i>
                     </button>
-                    <a type="button" class="myPageBtn btn mx-2" href="/user/mypage/dashboard" style="background-color: #5DB99D; color: white;">마이페이지</a>
+                    <c:choose>
+                        <c:when test="${loginUser.userRole == 'ADMIN'}">
+                            <a type="button" class="myPageBtn btn mx-2" href="/admin/trend" style="background-color: #716FAA; color: white;">관리페이지</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a type="button" class="myPageBtn btn mx-2" href="/user/mypage/dashboard" style="background-color: #5DB99D; color: white;">마이페이지</a>
+                        </c:otherwise>
+                    </c:choose>
                     <a type="button" class="logoutBtn btn btn-outline-secondary" href="/user/logout">로그아웃</a>
                 </c:if>
+
             </div>
         </div>
     </nav>

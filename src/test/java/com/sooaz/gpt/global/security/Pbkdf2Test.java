@@ -11,7 +11,7 @@ public class Pbkdf2Test {
     @Test
     public void hash() {
 
-        String password = "qwe123!@#";
+        String password = "123!@#";
         String salt1 = UUID.randomUUID().toString();
         String salt2 = UUID.randomUUID().toString();
 
@@ -21,10 +21,10 @@ public class Pbkdf2Test {
         String hashedPassword1 = pbkdf2.hash(password, salt1);
         String hashedPassword2 = pbkdf2.hash(password, salt2);
 
+        System.out.println("salt1 = " + salt1);
+        System.out.println("salt2 = " + salt2);
         System.out.println("hashedPassword1 = " + hashedPassword1);
         System.out.println("hashedPassword2 = " + hashedPassword2);
-        System.out.println("hashedPassword1.length() = " + hashedPassword1.length());
-        System.out.println("hashedPassword2.length() = " + hashedPassword2.length());
 
         assertNotEquals(hashedPassword1, hashedPassword2);
 

@@ -6,19 +6,15 @@
         <result property="userId" column="user_id"/>
         <result property="faqTitle" column="faq_title"/>
         <result property="faqContent" column="faq_content"/>
-        <result property="faqHit" column="faq_hit"/>
-        <result property="faqWriteDate" column="faq_writedate"/>
-        <result property="faqLike" column="faq_like"/>
+        <result property="faqCategory" column="faq_category"/>
     </resultMap>
 
     <select id="findAll" resultMap="FaqResultMap">
         SELECT * FROM board_faq
-        WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(faq_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+        WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(faq_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%') or
+            (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(faq_category) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%') or
+            (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(user_id) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
         ORDER BY id DESC
-    </select>
-
-    <select id="count" resultType="int">
-        SELECT count(0) FROM board_faq
     </select>
 
     <select id="findById" parameterType="long" resultMap="FaqResultMap">
@@ -29,8 +25,8 @@
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             SELECT BOARD_FAQ_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO board_faq (id, user_id, faq_category, faq_title, faq_content)
-        VALUES (#{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT},#{faqCategory, jdbcType=VARCHAR} , #{faqTitle, jdbcType=VARCHAR}, #{faqContent, jdbcType=VARCHAR})
+        INSERT INTO board_faq (id, user_id, faq_title, faq_content, faq_category)
+        VALUES (#{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{faqTitle, jdbcType=VARCHAR}, #{faqContent, jdbcType=VARCHAR}, #{faqCategory, jdbcType=VARCHAR})
     </insert>
 
     <update id="update" parameterType="com.sooaz.gpt.domain.admin.faq.Faq">
