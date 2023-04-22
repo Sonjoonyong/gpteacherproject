@@ -19,6 +19,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordHasher passwordHasher;
 
+    public boolean isCorrectPassword(User user, String inputPassord) {
+        String passwordSalt = user.getUserPasswordSalt();
+        String hashedPassword = passwordHasher.hash(inputPassord, passwordSalt);
+        return user.getUserPassword().equals(hashedPassword);
+    }
+
     public User login(LoginDto loginDto) {
         String loginId = loginDto.getUserLoginId().toLowerCase();
         String password = loginDto.getUserPassword();
@@ -32,11 +38,7 @@ public class UserService {
         }
 
         User loginUser = userRepository.findByLoginId(loginId).stream()
-                .filter(user -> {
-                    String salt = user.getUserPasswordSalt();
-                    String hashedPassword = passwordHasher.hash(password, salt);
-                    return user.getUserPassword().equals(hashedPassword);
-                })
+                .filter(user -> isCorrectPassword(user, password))
                 .findAny().orElse(null);
 
         return loginUser;

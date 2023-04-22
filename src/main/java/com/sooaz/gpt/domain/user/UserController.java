@@ -29,7 +29,7 @@ public class UserController {
     ) {
         // 일반 회원가입 유저가 Oauth 로그인 시
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-        if (flashMap != null && !flashMap.isEmpty()) {
+        if (flashMap != null && flashMap.containsKey("oauthLoginFail")) {
             model.addAttribute("oauthLoginFail", flashMap.get("oauthLoginFail"));
         }
 
@@ -83,6 +83,7 @@ public class UserController {
     public String signUp(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
             HttpServletRequest request
     ) {
         String userEmail = userSignupDto.getUserEmail();
@@ -113,7 +114,10 @@ public class UserController {
 
 
         String userNickname = userSignupDto.getUserNickname();
-        if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
+        if (userNickname != null
+                && !userNickname.equals(loginUser.getUserNickname()) // 본인 닉네임일 경우 허용
+                && userService.isDuplicateNickname(userNickname)
+        ) {
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
 

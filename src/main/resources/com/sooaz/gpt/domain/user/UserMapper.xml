@@ -74,7 +74,7 @@
                 user_birthday = #{userBirthday},
             </if>
             <if test="userEmailAgreement != null">
-                user_birthday = #{userEmailAgreement},
+                user_email_agreement = #{userEmailAgreement},
             </if>
         </set>
         where id = #{userId}

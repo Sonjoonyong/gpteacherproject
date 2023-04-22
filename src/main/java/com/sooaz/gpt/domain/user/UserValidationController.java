@@ -38,9 +38,10 @@ public class UserValidationController {
     @ResponseBody
     @GetMapping("/user/signup/nicknameDupCheck")
     public String checkNicknameDup(
-            @Size(min = 2, max = 12, message = "2~8자 범위로 입력해주세요.")
+            @Size(min = 2, max = 8, message = "2~8자 범위로 입력해주세요.")
             String userNickname
     ) {
+        // (String) true: 중복, false: 사용 가능, 그 외: 오류 메시지(ExceptionHandlerAdvice 참조)
         return String.valueOf(userService.isDuplicateNickname(userNickname));
     }
 
