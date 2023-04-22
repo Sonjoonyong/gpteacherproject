@@ -14,6 +14,8 @@
                 <div class="accordion-body">
                     <ul class="navbar-nav">
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/trend">유저 동향</a></li>
+
+
                     </ul>
                 </div>
             </div>
@@ -29,6 +31,7 @@
                     <ul class="navbar-nav">
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/users">사용자 조회</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/blockusers">차단 사용자 관리</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -44,6 +47,7 @@
                     <ul class="navbar-nav">
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/reportpostlist">신고 글 목록</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/reportreplylist">신고 댓글 목록</a></li>
+
                     </ul>
                 </div>
             </div>
