@@ -1,7 +1,6 @@
 package com.sooaz.gpt.domain.user;
 
 import com.sooaz.gpt.global.constant.SessionConst;
-import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final Gmail gmail;
 
     @GetMapping("/user/login")
     public String getLoginForm(
@@ -103,7 +101,7 @@ public class UserController {
             bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
         }
 
-        String userLoginId = userSignupDto.getUserLoginId();
+        String userLoginId = userSignupDto.getUserLoginId().toLowerCase();
         if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
             bindingResult.rejectValue("userLoginId", "duplicate", "중복되는 아이디입니다.");
         }

@@ -20,7 +20,7 @@ public class UserService {
     private final PasswordHasher passwordHasher;
 
     public User login(LoginDto loginDto) {
-        String loginId = loginDto.getUserLoginId();
+        String loginId = loginDto.getUserLoginId().toLowerCase();
         String password = loginDto.getUserPassword();
         return login(loginId, password);
     }

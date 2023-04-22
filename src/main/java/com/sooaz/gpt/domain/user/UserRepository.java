@@ -13,6 +13,8 @@ public class UserRepository {
     private final UserMapper userMapper;
 
     public User save(User user) {
+        // 로그인 아이디는 소문자로 처리
+        user.setUserLoginId(user.getUserLoginId().toLowerCase());
         userMapper.save(user);
         return user;
     }
@@ -26,7 +28,7 @@ public class UserRepository {
     }
 
     public Optional<User> findByLoginId(String userLoginId) {
-        return userMapper.findByLoginId(userLoginId);
+        return userMapper.findByLoginId(userLoginId.toLowerCase());
     }
 
     public Optional<User> findByNickname(String userNickname) {
