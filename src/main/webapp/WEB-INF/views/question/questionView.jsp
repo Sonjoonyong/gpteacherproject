@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -133,6 +134,12 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td>작성자: ${question.userNickname}</td>
+                        <td style="text-align: right">
+                           작성일 : <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" />
+                        </td>
+                    </tr>
                     <tr >
 
                         <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td>
