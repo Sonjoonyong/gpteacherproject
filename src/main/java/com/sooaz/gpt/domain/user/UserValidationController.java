@@ -71,6 +71,7 @@ public class UserValidationController {
 
         session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
         session.setAttribute(SessionConst.EMAIL, email);
+        session.setMaxInactiveInterval(60 * 3); // 이메일 인증번호 유효시간 3분
 
         return "true";
     }

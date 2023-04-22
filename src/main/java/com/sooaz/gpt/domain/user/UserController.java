@@ -13,12 +13,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -145,7 +141,6 @@ public class UserController {
             HttpServletRequest request
     ) {
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분 TODO - 확실하지 않음
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
     }

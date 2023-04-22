@@ -62,28 +62,27 @@
 
 <%@ include file="../fragments/header.jsp" %>
 
-<section class="container" style="max-width: 550px">
+<section class="container d-flex" style="max-width: 550px">
 
-    <form class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 mb-5"
-        style="border: 2px solid #5DB99D; min-height: 500px;">
+    <form class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3"
+          style="border: 2px solid #5DB99D; min-height: 500px;">
 
-        <h3 class="h3 col-12 text-center">비밀번호 재발급</h3>
+        <div class="row g-0 justify-content-center">
+            <img class="col-9" src="/images/logo.png">
+            <h3 class="h3 col-12 text-center">비밀번호 재발급</h3>
+        </div>
 
         <span class="col-12 p-0">아이디</span>
-        <div class="col-12">
-            <div class="input-group input-group-lg p-0 mb-3">
-                <input id="userLoginId" name="userLoginId" class="form-control"/>
-            </div>
+        <div class="input-group input-group-lg p-0 mb-3">
+            <input id="userLoginId" name="userLoginId" class="form-control"/>
         </div>
 
         <span class="col-12 p-0">이메일</span>
-        <div class="col-12">
-            <div class="input-group input-group-lg p-0 mb-3">
-                <input id="userEmail" name="userEmail" class="text-danger form-control"/>
-                <button class="btn btn-outline-secondary fs-6" type="button" id="sendNewPw">
-                    재발급
-                </button>
-            </div>
+        <div class="input-group input-group-lg p-0 mb-3">
+            <input id="userEmail" name="userEmail" class="text-danger form-control"/>
+            <button class="btn btn-outline-secondary fs-6" type="button" id="sendNewPw">
+                재발급
+            </button>
         </div>
 
         <div id="userPasswordMsg" class="col-12 py-5 text-center">
