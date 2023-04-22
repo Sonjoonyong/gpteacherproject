@@ -1,6 +1,3 @@
-postView.jsp
-
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -11,7 +8,64 @@ postView.jsp
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
+        /* 글 내용의 경계선 표시 */
+        .content{
+            border: 1px dotted #cecece;
+        }
+        /* 글 내용안에 있는 이미지의 크기 제한 */
+        .content img{
+            max-width: 100%;
+        }
+        /* 댓글에 관련된 css */
+        .comments ul{
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+        .comments ul li{
+            border-top: 1px solid #888; /* li 의 윗쪽 경계선 */
+        }
+        .comments dt{
+            margin-top: 5px;
+        }
+        .comments dd{
+            margin-left: 26px;
+        }
+        .comments form textarea, .comments form button{
+            float: left;
+        }
+        .comments li{
+            clear: left;
+        }
+        .comments form textarea{
+            width: 85%;
+            height: 100px;
+        }
+        .comments form button{
+            width: 15%;
+            height: 100px;
+        }
+        /* 댓글에 댓글을 다는 폼과 수정폼을 일단 숨긴다. */
+        .comment form{
+            display: none;
+        }
+        .comment{
+            position: relative;
+        }
+        .comment .reply_icon{
+            width: 8px;
+            height: 8px;
+            position: absolute;
+            top: 10px;
+            left: 30px;
+        }
+        .comments .user-img{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
 
+        /*여기까지가 원래 없던 내용*/
         .col-md-7{
             border: 1px solid lightgray;
             border-radius: 10px;
@@ -153,6 +207,21 @@ postView.jsp
         </div>
     </div>
 </section>
+<section>
+    <div class="reply">
+        <!-- 원글에 댓글을 작성할 수 있는 폼 -->
+        <div class="comment_form">
+            <form action="comment_insert.do" method="post">
+                <textarea rows="content">댓글을 입력하시오</textarea>
+                <button type="submit" class="btn btn-primary">등록</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+
 
 
 <%@ include file="../fragments/footer.jsp" %>
@@ -160,3 +229,31 @@ postView.jsp
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 </body>
 </html>
+
+
+
+
+
+<%--${communityreply.communityReplyContent}--%>
+<%--${communityreply.communityReplyWritedate}--%>
+<%--${communityreply.communityReplyParentsId}--%>
+<%--${communityreply.communityPostId}--%>
+
+
+<%--<section class="replyContainer">--%>
+<%--    <form action="${pageContext.request.contextPath}/community/view/${community.id}" method="post" onsubmit="return confirm('댓글을 등록하시겠습니까?');" style="display:inline;">--%>
+<%--        <button type="submit" class="btn btn-primary">등록</button>--%>
+<%--    </form>--%>
+<%--</section>--%>
+
+
+
+<%--<section>--%>
+<%--    <div class="col-md-7" style="margin-top: 110px; ">--%>
+<%--        <form method="post" id="replyForm">--%>
+<%--            <input type="hidden" name="no" value="${communityreply.communityPostId}">--%>
+<%--            <textarea name="reply" id="reply"></textarea>--%>
+<%--            <button type="submit" class="btn btn-primary">등록</button>--%>
+<%--        </form>--%>
+<%--    </div>--%>
+<%--</section>--%>

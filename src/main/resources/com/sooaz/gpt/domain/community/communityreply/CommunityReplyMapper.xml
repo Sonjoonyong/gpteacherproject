@@ -3,10 +3,48 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sooaz.gpt.domain.community.communityreply.CommunityReplyMapper">
+    <resultMap id="CommunityReplyResultMap" type="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="communityPostId" column="community_post_id"/>
+        <result property="communityReplyParentsId" column="community_reply_parents_id"/>
+        <result property="communityReplyContent" column="community_reply_content"/>
+        <result property="communityReplyWritedate" column="community_reply_writedate"/>
 
-    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
-        select * from COMMUNITY_REPLY where user_id = #{userId} order by id desc
+    </resultMap>
+    <select id="findById" parameterType="long" resultType="CommunityReply">
+        select * from COMMUNITY_REPLY where id = #{Id} order by id desc
+--             order by id desc는 뭔가?
     </select>
+
+    <select id="findByUserId" parameterType="long" resultMap="CommunityReplyResultMap">
+        select * from community_reply where user_id = #{userId} order by id desc
+    </select>
+
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        UPDATE community_reply
+        SET user_id = #{userId},
+            community_reply_parentsid = #{communityReplyParentsId},
+            community_reply_content  = #{communityReplyContent},
+            community_reply_writedate = #{communityReplyWirtedate},
+            community_post_id = #{communityPostId}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT COMMUNITY_REPLY_ID_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO community_reply (id, user_id, community_reply_content, community_reply_parentsid,)
+--                향후 writedate필요시 주입
+        VALUES (
+        #{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{communityReplyContent, jdbcType=VARCHAR}, #{communityReplyContent, jdbcType=VARCHAR},#{communityReplyParentsId, jdbcType=BIGINT}
+--         jdbcType=BIGINT은 NUMBER의미
+        )
+    </insert>
+
+
 
     <delete id="delete" parameterType="long">
         delete from COMMUNITY_REPLY where id = #{communityReplyId}

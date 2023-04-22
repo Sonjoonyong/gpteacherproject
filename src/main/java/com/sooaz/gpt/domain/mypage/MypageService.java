@@ -95,7 +95,7 @@ public class MypageService {
 
     public void deleteCommentsById(List<Long> commentIds) {
         for(Long id : commentIds) {
-            communityReplyRepository.delete(id);
+            communityReplyRepository.deleteById(id);
         }
     }
 
