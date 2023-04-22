@@ -98,4 +98,8 @@ public class UserService {
     public boolean isDuplicateEmail(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
+    public void delete(Long userId) {
+        userRepository.delete(userId);
+    }
 }

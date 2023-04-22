@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>아이디 찾</title>
+    <title>아이디 찾기</title>
 
     <style>
         nav .loginBtn, nav .signInBtn, nav .alarm {
