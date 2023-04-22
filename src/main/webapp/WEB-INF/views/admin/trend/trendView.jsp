@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>유저 동향</title>
+    <title>User Trends</title>
 
     <link rel="stylesheet" href="/css/base.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,50 +14,54 @@
 
 <%@ include file="../../fragments/header.jsp" %>
 <section class="container">
+    <div class="row">
+        <%@ include file="../../fragments/adminMenu.jsp" %>
+        <div class="col-md-8 offset-md-1">
+            <h1 class="h3 my-5" style="color: #5DB99D;">사용자 통계</h1>
 
-<h1>사용자 동향</h1>
-
-<h2>월별 가입자 분석</h2>
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>년</th>
-            <th>월</th>
-            <th>가입자</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${monthlyUserCounts}" var="monthlyUserCount">
-            <tr>
-                <td>${monthlyUserCount.year}</td>
-                <td>${monthlyUserCount.month}</td>
-                <td>${monthlyUserCount.count}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <div>
-        <canvas id="monthlyUserCountsChart" width="400" height="200"></canvas>
-    </div>
-<h2>연령별 사용자 분석</h2>
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>연령대</th>
-            <th>가입자</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${ageGroupCounts}" var="ageGroupCount">
-            <tr>
-                <td>${ageGroupCount.ageGroup}</td>
-                <td>${ageGroupCount.count}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <div>
-        <canvas id="ageGroupCountsChart" width="400" height="200"></canvas>
+            <h2 class="my-3" style="color: #2F4858;">월별 사용자 분석</h2>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>년도</th>
+                    <th>월</th>
+                    <th>가입자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${monthlyUserCounts}" var="monthlyUserCount">
+                    <tr>
+                        <td>${monthlyUserCount.year}</td>
+                        <td>${monthlyUserCount.month}</td>
+                        <td>${monthlyUserCount.count}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <div>
+                <canvas id="monthlyUserCountsChart" width="400" height="200"></canvas>
+            </div>
+            <h2 class="my-3" style="color: #2F4858;">연령별 사용자 분석</h2>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>연령대</th>
+                    <th>사용자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${ageGroupCounts}" var="ageGroupCount">
+                    <tr>
+                        <td>${ageGroupCount.ageGroup}</td>
+                        <td>${ageGroupCount.count}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <div>
+                <canvas id="ageGroupCountsChart" width="400" height="200"></canvas>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -74,7 +78,7 @@
         data: {
             labels: monthlyUserCountsLabels,
             datasets: [{
-                label: '월별 사용자',
+                label: '월별 가입자',
                 data: monthlyUserCountsData,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
@@ -84,18 +88,13 @@
         options: {
             scales: {
                 y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
+                    beginAtZero: true
                 }
-            },
-            maintainAspectRatio: false
+            }
         }
     });
 
-
-    // 원그래프
+    // 원 그래프
     const ageGroupCounts = JSON.parse('${ageGroupCountsJson}');
     const ageGroupCountsLabels = ageGroupCounts.map(({ ageGroup }) => ageGroup);
     const ageGroupCountsData = ageGroupCounts.map(({ count }) => count);
@@ -106,15 +105,14 @@
         data: {
             labels: ageGroupCountsLabels,
             datasets: [{
-                label: 'User Age Groups',
                 data: ageGroupCountsData,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(153, 102, 255, 0.5)',
-                    'rgba(255, 159, 64, 0.5)'
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -126,14 +124,6 @@
                 ],
                 borderWidth: 1
             }]
-        },
-        options: {
-            maintainAspectRatio: false
         }
     });
-
 </script>
-<%@ include file="../../fragments/bootstrapJs.jsp" %>
-
-</body>
-</html>
