@@ -1,67 +1,34 @@
-// var data = [{
-//     "date":"2023-04-10",
-//     "total":"2"
-// }, {
-//     "date":"2023-04-09",
-//     "total":"10"
-// }, {
-//     "date":"2023-03-11",
-//     "total":"15"
-// }, {
-//     "date":"2023-04-05",
-//     "total":"21"
-// }]
-
-/* globals d3 */
-
 var calendarHeatmap = {
 
     settings: {
-        gutter: 5,
-        item_gutter: 1,
-        width: 1000,
+        gutter: 3,
+        width: 800,
         height: 200,
         item_size: 10,
         label_padding: 40,
-        max_block_height: 20,
-        transition_duration: 500,
-        tooltip_width: 250,
-        tooltip_padding: 15,
+        transition_duration: 500
     },
 
-
-    /**
-     * Initialize
-     */
-    init: function(data, container, color, handler) {
+    init: function(data) {
         // Set calendar data
         calendarHeatmap.data = data;
 
         // Set calendar container
-        calendarHeatmap.container = container;
+        calendarHeatmap.container = 'calendar';
 
         // Set calendar color
-        calendarHeatmap.color = color || '#16967A';
-
-        calendarHeatmap.selected = {};
-
-        // Set handler function
-        calendarHeatmap.handler = handler;
+        calendarHeatmap.color = '#16967A';
 
         // No transition to start with
         calendarHeatmap.in_transition = false;
 
-        // Create html elementsfor the calendar
+        // Create html elements for the calendar
         calendarHeatmap.createElements();
 
         // Draw the chart
         calendarHeatmap.drawYearOverview();
     },
 
-
-    /**
-     * Create html elements for the calendar
-     */
     createElements: function() {
         if (calendarHeatmap.container != null) {
             // Access container for calendar
@@ -91,11 +58,11 @@ var calendarHeatmap = {
         // Calculate dimensions based on available width
         var calcDimensions = function() {
 
-            var dayIndex = Math.round((moment() - moment().subtract(1, 'year').startOf('week')) / 86400000);
+            var dayIndex = Math.round((moment() - moment().subtract(1, 'year').startOf('week')) / 86400000); //총 일 수
             var colIndex = Math.trunc(dayIndex / 7);
-            var numWeeks = colIndex + 1;
+            var numWeeks = colIndex + 1; //총 주 수
 
-            calendarHeatmap.settings.width = container.offsetWidth < 1000 ? 1000 : container.offsetWidth;
+            calendarHeatmap.settings.width = container.offsetWidth;// > 1000 ? 1000 : container.offsetWidth;
             calendarHeatmap.settings.item_size = ((calendarHeatmap.settings.width - calendarHeatmap.settings.label_padding) / numWeeks - calendarHeatmap.settings.gutter);
             calendarHeatmap.settings.height = calendarHeatmap.settings.label_padding + 7 * (calendarHeatmap.settings.item_size + calendarHeatmap.settings.gutter);
             svg.attr('width', calendarHeatmap.settings.width)
@@ -111,14 +78,11 @@ var calendarHeatmap = {
         };
     },
 
-    /**
-     * Draw year overview
-     */
     drawYearOverview: function() {
-        // Define start and end date of the selected year
-        var start_of_year = moment(calendarHeatmap.selected.date).startOf('year');
-        var end_of_year = moment(calendarHeatmap.selected.date).endOf('year');
-
+        // Define start and end date
+        var start_of_year = moment().subtract(1, 'year').startOf('week').toDate(); //1년전 오늘이 있는 주의 일요일부터
+        var end_of_year = moment().endOf('day').toDate(); //오늘까지
+        console.log(start_of_year);
         // Filter data down to the selected year
         var year_data = calendarHeatmap.data.filter(function(d) {
             return start_of_year <= moment(d.date) && moment(d.date) < end_of_year;
@@ -130,10 +94,10 @@ var calendarHeatmap = {
         });
 
         var color = d3.scaleLinear()
-            .range(['#ffffff', calendarHeatmap.color || '#16967A'])
-            .domain([-0.15 * max_value, max_value]);
+            .range(['#c5e5de', calendarHeatmap.color || '#16967A'])
+            .domain([1, max_value]);
 
-        var calcItemX = function(d) {
+        var calcItemX = function(d) { //좌표상 x 구하기
             var date = moment(d.date);
             var dayIndex = Math.round((date - moment(start_of_year).startOf('week')) / 86400000);
             var colIndex = Math.trunc(dayIndex / 7);
@@ -142,38 +106,33 @@ var calendarHeatmap = {
         var calcItemY = function(d) {
             return calendarHeatmap.settings.label_padding + moment(d.date).weekday() * (calendarHeatmap.settings.item_size + calendarHeatmap.settings.gutter);
         };
-        var calcItemSize = function(d) {
-            if (max_value <= 0) { return calendarHeatmap.settings.item_size; }
-            return calendarHeatmap.settings.item_size * 0.75 + (calendarHeatmap.settings.item_size * d.total / max_value) * 0.25;
+        var calcItemSize = function() {
+            return calendarHeatmap.settings.item_size;
         };
 
-        calendarHeatmap.items.selectAll('.item-circle').remove();
-        calendarHeatmap.items.selectAll('.item-circle')
+        //calendarHeatmap.items.selectAll('.item-rect').remove();
+        calendarHeatmap.items.selectAll('.item-rect')
             .data(year_data)
             .enter()
             .append('rect')
-            .attr('class', 'item item-circle')
+            .attr('class', 'item item-rect')
             .style('opacity', 0)
             .attr('x', function(d) {
-                return calcItemX(d) + (calendarHeatmap.settings.item_size - calcItemSize(d)) / 2;
+                return calcItemX(d) + (calendarHeatmap.settings.item_size - calcItemSize()) / 2;
             })
             .attr('y', function(d) {
-                return calcItemY(d) + (calendarHeatmap.settings.item_size - calcItemSize(d)) / 2;
+                return calcItemY(d) + (calendarHeatmap.settings.item_size - calcItemSize()) / 2;
             })
-            .attr('rx', function(d) {
-                return calcItemSize(d);
+            .attr('width', function() {
+                return calcItemSize();
             })
-            .attr('ry', function(d) {
-                return calcItemSize(d);
+            .attr('height', function() {
+                return calcItemSize();
             })
-            .attr('width', function(d) {
-                return calcItemSize(d);
-            })
-            .attr('height', function(d) {
-                return calcItemSize(d);
-            })
+            .attr('rx', 2)
+            .attr('ry', 2)
             .attr('fill', function(d) {
-                return (d.total > 0) ? color(d.total) : 'transparent';
+                return (d.total == 0) ? '#f3f3f3' : color(d.total);
             })
             .transition()
             .delay(function() {
@@ -201,7 +160,8 @@ var calendarHeatmap = {
             });
 
         // Add month labels
-        var month_labels = d3.timeMonths(start_of_year, end_of_year);
+        var month_labels = d3.timeMonths(moment(start_of_year).startOf('month'), end_of_year);
+        console.log(month_labels);
         var monthScale = d3.scaleLinear()
             .range([0, calendarHeatmap.settings.width])
             .domain([0, month_labels.length]);
@@ -215,12 +175,33 @@ var calendarHeatmap = {
                 return Math.floor(calendarHeatmap.settings.label_padding / 3) + 'px';
             })
             .text(function(d) {
-                return d.toLocaleDateString('en-us', { month: 'short' });
+                return d.toLocaleDateString('ko-KR', { month: 'long' });
             })
             .attr('x', function(d, i) {
                 return monthScale(i) + (monthScale(i) - monthScale(i - 1)) / 2;
             })
-            .attr('y', calendarHeatmap.settings.label_padding / 2);
+            .attr('y', calendarHeatmap.settings.label_padding / 2)
+            .on('mouseenter', function(d) {
+                if (calendarHeatmap.in_transition) { return; }
+
+                var selected_month = moment(d);
+                calendarHeatmap.items.selectAll('.item-rect')
+                    .transition()
+                    .duration(calendarHeatmap.settings.transition_duration)
+                    .ease(d3.easeLinear)
+                    .style('opacity', function(d) {
+                        return moment(d.date).isSame(selected_month, 'month') ? 1 : 0.1;
+                    });
+            })
+            .on('mouseout', function() {
+                if (calendarHeatmap.in_transition) { return; }
+
+                calendarHeatmap.items.selectAll('.item-rect')
+                    .transition()
+                    .duration(calendarHeatmap.settings.transition_duration)
+                    .ease(d3.easeLinear)
+                    .style('opacity', 1);
+            });
 
         // Add day labels
         var day_labels = d3.timeDays(moment().startOf('week'), moment().endOf('week'));
@@ -250,7 +231,7 @@ var calendarHeatmap = {
                 if (calendarHeatmap.in_transition) { return; }
 
                 var selected_day = moment(d);
-                calendarHeatmap.items.selectAll('.item-circle')
+                calendarHeatmap.items.selectAll('.item-rect')
                     .transition()
                     .duration(calendarHeatmap.settings.transition_duration)
                     .ease(d3.easeLinear)
@@ -260,12 +241,6 @@ var calendarHeatmap = {
             })
             .on('mouseout', function() {
                 if (calendarHeatmap.in_transition) { return; }
-
-                calendarHeatmap.items.selectAll('.item-circle')
-                    .transition()
-                    .duration(calendarHeatmap.settings.transition_duration)
-                    .ease(d3.easeLinear)
-                    .style('opacity', 1);
             });
     }
 };

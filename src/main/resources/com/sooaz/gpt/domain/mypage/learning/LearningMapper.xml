@@ -52,6 +52,10 @@
         select * from LEARNING
     </select>
 
+    <select id="countByLearningDate" resultType="int">
+        select count(id) from LEARNING where userid = #{userId} and learning_date = #{learningDate}
+    </select>
+
     <update id="update">
         update LEARNING
         <set>

@@ -67,7 +67,7 @@
             </div>
             <div>
                 <h4 class="my-3" style="color: #2F4858">연간 학습</h4>
-                <div id="calendar"></div>
+                <div id="calendar" class="py-3"></div>
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
     (function () {
         // Initialize random data for the demo
         var now = moment().endOf('day').toDate();
-        var time_ago = moment().startOf('day').subtract(10, 'year').toDate();
+        var time_ago = moment().startOf('day').subtract(1, 'year').toDate();
         var example_data = d3.timeDays(time_ago, now).map(function (dateElement, index) {
             return {
                 date: dateElement,
@@ -109,19 +109,8 @@
             }.init();
         });
 
-        // Set the div target id
-        var div_id = 'calendar';
-
-        // Set custom color for the calendar heatmap
-        var color = '#16967A';
-
-        // Handler function
-        var print = function (val) {
-            console.log(val);
-        };
-
         // Initialize calendar heatmap
-        calendarHeatmap.init(example_data, div_id, color, print);
+        calendarHeatmap.init(example_data);
     })();
 </script>
 

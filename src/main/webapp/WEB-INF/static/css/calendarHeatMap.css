@@ -9,6 +9,11 @@
 }
 .calendar-heatmap .label {
     cursor: pointer;
-    fill: rgb(170, 170, 170);
+    fill: #cccccc;
     font-family: Helvetica, arial, 'Open Sans', sans-serif;
+}
+
+#calendar {
+    border: 1px solid lightgray;
+    border-radius: 10px;
 }

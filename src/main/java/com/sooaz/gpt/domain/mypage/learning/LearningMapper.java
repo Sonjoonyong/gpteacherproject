@@ -2,6 +2,7 @@ package com.sooaz.gpt.domain.mypage.learning;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ public interface LearningMapper {
     List<Learning> findByUserId(LearningFindDto learningFindDto);
 
     List<Learning> findAll();
+
+    int countByLearningDate(Long userId, Date learningDate);
 
     void update(LearningUpdateDto learningUpdateDto);
 

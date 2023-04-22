@@ -125,4 +125,10 @@ public class MypageService {
         }
     }
 
+    public void getCalendarHeatmapData(Long usrId) {
+
+
+        //int total = learningRepository.countByLearningDate(userId,);
+    }
+
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,10 @@ public class LearningRepository {
 
     public List<Learning> findAll() {
         return learningMapper.findAll();
+    }
+
+    public int countByLearningDate(Long userId, Date learningDate) {
+        return learningMapper.countByLearningDate(userId, learningDate);
     }
 
     public void update(LearningUpdateDto learningUpdateDto) {
