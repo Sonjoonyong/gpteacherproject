@@ -17,7 +17,7 @@ CREATE TABLE users
 (
     id                      NUMBER               NOT NULL,
     user_email              VARCHAR2(45)         NULL,
-    user_login_id           VARCHAR2(12)         NULL,
+    user_login_id           VARCHAR2(36)         NULL,
     user_password           CHAR(64)         NULL,
     user_password_salt      CHAR(36)         NULL,
     user_nickname           VARCHAR2(24)         NULL,
