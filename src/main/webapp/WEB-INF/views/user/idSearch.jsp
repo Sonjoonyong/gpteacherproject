@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <a href="/user/pwsearch" id="submitBtn" type="col-12" class="btn btn-md btn-secondary mt-auto">
+        <a href="/user/pwsearch" id="submitBtn" class="btn btn-md btn-secondary mt-auto">
             비밀번호 재발급 받으러 가기
         </a>
 
