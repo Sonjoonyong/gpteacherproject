@@ -53,7 +53,7 @@
     </select>
 
     <select id="countByLearningDate" resultType="int">
-        select count(id) from LEARNING where userid = #{userId} and learning_date = #{learningDate}
+        select count(id) from LEARNING where user_id = #{param1} and to_char(learning_date, 'yyyy-MM-dd') = #{param2}
     </select>
 
     <update id="update">

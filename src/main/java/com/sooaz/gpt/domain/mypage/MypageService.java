@@ -15,12 +15,12 @@ import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -125,10 +125,28 @@ public class MypageService {
         }
     }
 
-    public void getCalendarHeatmapData(Long usrId) {
+    public JSONArray getCalendarHeatmapData(Long userId) {
+        JSONArray learningCountByDateData = new JSONArray();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar end = Calendar.getInstance(); //현재 날짜
+        Calendar start = Calendar.getInstance(); //1년 전 날짜
 
+        end.setTime(new Date());
+        start.add(end.YEAR, -1);
 
-        //int total = learningRepository.countByLearningDate(userId,);
+        try {
+            while(!start.after(end)) {
+                String date = dateFormat.format(start.getTime());
+                int total = learningRepository.countByLearningDate(userId, date);
+                JSONObject oneDayLearning = new JSONObject();
+                oneDayLearning.put("date", date);
+                oneDayLearning.put("total", total);
+                learningCountByDateData.put(oneDayLearning);
+                start.add(Calendar.DATE, 1);
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return learningCountByDateData;
     }
-
 }

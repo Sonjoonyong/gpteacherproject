@@ -31,7 +31,7 @@ public class LearningRepository {
         return learningMapper.findAll();
     }
 
-    public int countByLearningDate(Long userId, Date learningDate) {
+    public int countByLearningDate(Long userId, String learningDate) {
         return learningMapper.countByLearningDate(userId, learningDate);
     }
 

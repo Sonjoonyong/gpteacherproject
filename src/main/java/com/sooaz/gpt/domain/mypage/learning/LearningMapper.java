@@ -17,7 +17,7 @@ public interface LearningMapper {
 
     List<Learning> findAll();
 
-    int countByLearningDate(Long userId, Date learningDate);
+    int countByLearningDate(Long userId, String learningDate);
 
     void update(LearningUpdateDto learningUpdateDto);
 

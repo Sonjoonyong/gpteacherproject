@@ -10,23 +10,14 @@ var calendarHeatmap = {
     },
 
     init: function(data) {
-        // Set calendar data
-        calendarHeatmap.data = data;
+        calendarHeatmap.data = data;            // Set calendar data
+        calendarHeatmap.container = 'calendar'; // Set calendar container
+        calendarHeatmap.color = '#16967A';      // Set calendar color
+        calendarHeatmap.in_transition = false;  // No transition to start with
 
-        // Set calendar container
-        calendarHeatmap.container = 'calendar';
+        calendarHeatmap.createElements();       // Create html elements for the calendar
 
-        // Set calendar color
-        calendarHeatmap.color = '#16967A';
-
-        // No transition to start with
-        calendarHeatmap.in_transition = false;
-
-        // Create html elements for the calendar
-        calendarHeatmap.createElements();
-
-        // Draw the chart
-        calendarHeatmap.drawYearOverview();
+        calendarHeatmap.drawYearOverview();     // Draw the chart
     },
 
     createElements: function() {
@@ -132,7 +123,7 @@ var calendarHeatmap = {
             .attr('rx', 2)
             .attr('ry', 2)
             .attr('fill', function(d) {
-                return (d.total == 0) ? '#f3f3f3' : color(d.total);
+                return (d.total == 0 || d == null) ? '#f3f3f3' : color(d.total);
             })
             .transition()
             .delay(function() {

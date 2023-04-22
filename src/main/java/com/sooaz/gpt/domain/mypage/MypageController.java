@@ -11,6 +11,7 @@ import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,10 @@ public class MypageController {
         } else {
             model.addAttribute("learnings", learnings);
         }
+
+        // 잔디심기 데이터 넘겨주기
+        JSONArray data = mypageService.getCalendarHeatmapData(loginUser.getId());
+        model.addAttribute("data",data);
         return "mypage/learning/dashboard";
     }
 
