@@ -116,6 +116,12 @@ public class MypageService {
         }
     }
 
+    public void deleteCommentsByPostId(List<Long> communityPostId) {
+        for(Long id : communityPostId) {
+            communityReplyRepository.deleteByPostId(id);
+        }
+    }
+
     public void deleteBookmarks(List<Long> postIds, Long userId) {
         for(Long id : postIds) {
             Bookmark bookmark = new Bookmark();

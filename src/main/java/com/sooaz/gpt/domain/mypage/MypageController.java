@@ -188,7 +188,7 @@ public class MypageController {
     ) {
         log.info("checkList = {}",deleteId);
         mypageService.deletePostsById(deleteId); //postId list, userId
-        //mypageService.deleteCommentsById(deleteId);
+        mypageService.deleteCommentsByPostId(deleteId);
         mypageService.deleteBookmarks(deleteId, loginUser.getId());
         return "redirect:/user/mypage/communities";
     }

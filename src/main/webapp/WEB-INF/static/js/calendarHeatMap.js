@@ -1,3 +1,4 @@
+//참고 문서 : https://github.com/g1eb/calendar-heatmap
 var calendarHeatmap = {
 
     settings: {
