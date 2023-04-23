@@ -20,15 +20,15 @@ public class QuestionRepository {
         }
         return question;
     }
-
     public Optional<Question> findById(Long id){
         return Optional.ofNullable(questionMapper.findById(id));
     }
-
     public List<Question> findAll(String search){
         return questionMapper.findAll(search);
     }
     public void deleteById(Long id){
         questionMapper.deleteById(id);
     }
+
+
 }

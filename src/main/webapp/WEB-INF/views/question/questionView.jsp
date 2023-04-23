@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <html>
 <head>
     <title>고객센터</title>
@@ -80,6 +82,18 @@
             background-color: #CFEAE2;
             color: white;
         }
+        #questionReplyContent{
+            width: 30%;
+            height: 40px;
+            margin-top: 20px;
+            border: 1px solid black;
+        }
+        #replyList>li{
+            width: 50%;
+            height: 60px;
+            padding:10px 0;
+            border-bottom: 1px solid black;
+        }
 
     </style>
 
@@ -134,12 +148,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>작성자: ${question.userNickname}</td>
-                        <td style="text-align: right">
-                           작성일 : <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" />
-                        </td>
-                    </tr>
                     <tr >
 
                         <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td>
@@ -151,11 +159,69 @@
                     <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary">수정</a>
                     <button type="submit" class="btn btn-primary">삭제</button>
                 </form>
+
+            </div>
+            <!--댓글-->
+            <div class="col-md-7">
+                <div class="row">
+                    <form method="POST" id="replyForm">
+                        <input type="hidden" name="questionId" value="${question.id}" >  <!-- 원글 글번호 -->
+                        <textarea name="questionReplyContent" id="questionReplyContent"></textarea>
+                        <button type="submit">댓글등록</button>
+                    </form>
+                </div>
+                <div class="row">
+                    <ul id="replyList" >
+                        <li>
+                            yd1064 (2022-02-02 12:12:12) 수정, 삭제
+                            <p> 코멘트<br>
+                            </p>
+                        </li>
+                        <li>
+                            yd1064 (2022-02-02 12:12:12) 수정, 삭제
+                            <p> 코멘트<br>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
     </div>
 </section>
+
+<!--댓글-->
+<script>
+    console.log("1단계");
+    $(function(){
+        $("#replyForm").submit(function(){
+            console.log("2단계");
+            if ($("#questionReplyContent").val() == "") {
+                alert("댓글 입력후 등록하세요.");
+                return false;
+            }
+            var query = $(this).serialize();
+            console.log("query:"+ query);
+
+            $.ajax({
+                url : "/replySend"
+                , data : query
+                , type : "POST"
+                , success : function(result) {
+                    $("#questionReplyContent").val("");
+                    console.log(result);
+
+                }, error : function(e) {
+                    console.log(e.responseText);
+                }
+            });
+            // 원래대로라면, form 의 submit 처리가 끝나면 action 값에 따라 페이지 이동하게 된다.
+            // 페이지가 이동하면 boardView.jsp 를 처음부터 다시 읽어오는 것이 되므로
+            // 화면변화를 주지 않기 위해 false 를 리턴한다.
+            return false;
+        });
+    });
+</script>
 
 <%@ include file="../fragments/footer.jsp" %>
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sooaz.gpt.domain.admin.reply.ReplyMapper">
+
+    <insert id="replyInsert">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT QUESTION_REPLY_ID_SEQ.nextval from dual
+        </selectKey>
+        INSERT INTO QUESTION_REPLY (
+            id,
+            question_id,
+            question_reply_content,
+            user_id
+
+        )
+        VALUES (
+            #{id},
+            #{questionId},
+            #{questionReplyContent},
+            #{userId}
+
+        )
+    </insert>
+
+</mapper>
