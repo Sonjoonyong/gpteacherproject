@@ -46,7 +46,7 @@
                 <div class="accordion-body">
                     <ul class="navbar-nav">
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/edit">회원 정보 수정</a></li>
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/pwdEdit">비밀번호 변경</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/edit/pw">비밀번호 변경</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/withdraw">회원 탈퇴</a></li>
                     </ul>
                 </div>

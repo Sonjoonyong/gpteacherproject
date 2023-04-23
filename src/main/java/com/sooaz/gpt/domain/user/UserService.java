@@ -86,6 +86,13 @@ public class UserService {
 
 
     public void update(UserUpdateDto userUpdateDto) {
+        String newPassword = userUpdateDto.getUserPassword();
+        String passwordSalt = userUpdateDto.getUserPasswordSalt();
+        if (newPassword != null) {
+            String hashedPassword = passwordHasher.hash(newPassword, passwordSalt);
+            userUpdateDto.setUserPassword(hashedPassword);
+        }
+
         userRepository.update(userUpdateDto);
     }
 

@@ -17,8 +17,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -158,9 +160,51 @@ public class MypageAccountController {
         return String.valueOf(userService.isDuplicateNickname(userNickname));
     }
 
-    @GetMapping("/user/mypage/pwdEdit")
-    public String getChangePwdForm() {
+    @GetMapping("/user/mypage/edit/pw")
+    public String getChangePwForm(
+            HttpServletRequest request,
+            Model model
+    ) {
+        model.addAttribute("userEditPwDto", new UserEditPwDto());
+
+        // 성공 시
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+        if (flashMap != null && flashMap.containsKey("isEditSucceed")) {
+            model.addAttribute("isEditSucceed", flashMap.get("isEditSucceed"));
+        }
+
         return "mypage/account/changePassword";
+    }
+
+    @PostMapping("/user/mypage/edit/pw")
+    public String changePw(
+            @Valid @ModelAttribute UserEditPwDto userEditPwDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        String userNewPassword = userEditPwDto.getUserNewPassword();
+        String userNewPasswordCheck = userEditPwDto.getUserNewPasswordCheck();
+
+        if (!bindingResult.hasFieldErrors("userNewPassword")
+            && !userNewPassword.equals(userNewPasswordCheck)
+        ) {
+            bindingResult.rejectValue("userNewPasswordCheck", "새 비밀번호와 다릅니다.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "mypage/account/changePassword";
+        }
+
+        UserUpdateDto userUpdateDto = new UserUpdateDto();
+        userUpdateDto.setUserId(loginUser.getId());
+        userUpdateDto.setUserPassword(userNewPassword);
+        userUpdateDto.setUserPasswordSalt(UUID.randomUUID().toString());
+        userService.update(userUpdateDto);
+
+        redirectAttributes.addFlashAttribute("isEditSucceed", true);
+
+        return "redirect:/user/mypage/edit/pw";
     }
 
 }

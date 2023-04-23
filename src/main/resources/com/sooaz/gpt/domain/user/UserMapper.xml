@@ -62,7 +62,7 @@
                 user_password = #{userPassword},
             </if>
             <if test="userPasswordSalt != null">
-                user_password = #{userPasswordSalt},
+                user_password_salt = #{userPasswordSalt},
             </if>
             <if test="userNickname != null">
                 user_nickname = #{userNickname},
