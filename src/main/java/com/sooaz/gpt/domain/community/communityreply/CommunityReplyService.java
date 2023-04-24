@@ -22,7 +22,7 @@ public class CommunityReplyService {
 //            return communityReplyRepository.save(communityReply);
 //        }
     public void deleteCommunityReply(Long id) {
-
+    //
         communityReplyRepository.deleteById(id);
     }
 //        public CommunityReply editCommunityReply(Long id, CommunityReply communityReply) {
