@@ -12,41 +12,76 @@
         <result property="communityReplyWritedate" column="community_reply_writedate"/>
 
     </resultMap>
-    <select id="findById" parameterType="long" resultType="CommunityReply">
-        select * from COMMUNITY_REPLY where id = #{Id} order by id desc
---             order by id desc는 뭔가?
+<!--    <select id="findById" parameterType="long" resultType="CommunityReply">-->
+<!--        select * from COMMUNITY_REPLY where id = #{Id} order by id desc-->
+<!--&#45;&#45;             order by id desc는 뭔가?-->
+<!--    </select>-->
+
+<!--    <select id="findByUserId" parameterType="long" resultMap="CommunityReplyResultMap">-->
+<!--        select * from community_reply where user_id = #{userId} order by id desc-->
+<!--    </select>-->
+
+
+<!--    <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">-->
+<!--        UPDATE community_reply-->
+<!--        SET user_id = #{userId},-->
+<!--            community_reply_parentsid = #{communityReplyParentsId},-->
+<!--            community_reply_content  = #{communityReplyContent},-->
+<!--            community_reply_writedate = #{communityReplyWirtedate},-->
+<!--            community_post_id = #{communityPostId}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
+
+<!--    <insert id="save" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">-->
+<!--        <selectKey keyProperty="id" resultType="long" order="BEFORE">-->
+<!--            SELECT COMMUNITY_REPLY_ID_SEQ.NEXTVAL FROM DUAL-->
+<!--        </selectKey>-->
+<!--        INSERT INTO community_reply (id, user_id, community_reply_content, community_reply_parentsid,commuity_reply_writedate)-->
+<!--&#45;&#45;                향후 writedate필요시 주입-->
+<!--        VALUES (-->
+<!--        #{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{communityReplyContent, jdbcType=VARCHAR}, #{communityReplyContent, jdbcType=VARCHAR},#{communityReplyParentsId, jdbcType=BIGINT}-->
+<!--&#45;&#45;         jdbcType=BIGINT은 NUMBER의미-->
+<!--        )-->
+<!--    </insert>-->
+
+
+
+<!--    <delete id="delete" parameterType="long">-->
+<!--        delete from COMMUNITY_REPLY where id = #{communityReplyId}-->
+<!--    </delete>-->
+
+
+
+
+
+<!--111111111111112222233445556662433148317463647361463614736769164736891469614786873469364796387469376497-->
+
+
+    <!-- 댓글 조회 -->
+    <select id="replyList" parameterType="int" resultType="CommunityReply">
+        select
+            communityReplyContent
+        from Community_reply
+        where id = #{communityPostId}
+--         where 댓글번호 표시일지 아님 다른거 넣어도 되는지
     </select>
 
-    <select id="findByUserId" parameterType="long" resultMap="CommunityReplyResultMap">
-        select * from community_reply where user_id = #{userId} order by id desc
-    </select>
-
-
-    <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
-        UPDATE community_reply
-        SET user_id = #{userId},
-            community_reply_parentsid = #{communityReplyParentsId},
-            community_reply_content  = #{communityReplyContent},
-            community_reply_writedate = #{communityReplyWirtedate},
-            community_post_id = #{communityPostId}
-        WHERE id = #{id}
-    </update>
-
-    <insert id="save" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
-        <selectKey keyProperty="id" resultType="long" order="BEFORE">
-            SELECT COMMUNITY_REPLY_ID_SEQ.NEXTVAL FROM DUAL
-        </selectKey>
-        INSERT INTO community_reply (id, user_id, community_reply_content, community_reply_parentsid,)
---                향후 writedate필요시 주입
-        VALUES (
-        #{id, jdbcType=BIGINT}, #{userId, jdbcType=BIGINT}, #{communityReplyContent, jdbcType=VARCHAR}, #{communityReplyContent, jdbcType=VARCHAR},#{communityReplyParentsId, jdbcType=BIGINT}
---         jdbcType=BIGINT은 NUMBER의미
-        )
+    <!-- 댓글 작성 -->
+    <insert id="replyWrite" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        insert into Community_reply(communityReplyContent)
+            value( #{communityReplyContent})
     </insert>
 
+    <!-- 댓글 수정 -->
+    <update id="replyedit" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        update Community_reply set
+            communityReplyContent=#{communityReplyContent}
 
+    </update>
 
-    <delete id="delete" parameterType="long">
-        delete from COMMUNITY_REPLY where id = #{communityReplyId}
+    <!-- 댓글 삭제 -->
+    <delete id="replyDelete" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        delete from Community_reply
+            where id = #{community_reply_id}
     </delete>
 </mapper>

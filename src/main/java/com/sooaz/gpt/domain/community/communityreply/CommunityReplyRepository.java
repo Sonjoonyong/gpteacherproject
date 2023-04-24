@@ -12,11 +12,11 @@ public class CommunityReplyRepository {
 
     private final CommunityReplyMapper communityReplyMapper;
 
-    public CommunityReply save(CommunityReply communityReply) {
+    public CommunityReply insert(CommunityReply communityReply) {
         if (communityReply.getId() == null) {
-            communityReplyMapper.save(communityReply);
+            communityReplyMapper.insert(communityReply);
         } else {
-            communityReplyMapper.update(communityReply);
+//            communityReplyMapper.update(communityReply);
         }
         return communityReply;
     }
