@@ -14,7 +14,7 @@ public class CommunityReplyRepository {
 
     public CommunityReply insert(CommunityReply communityReply) {
         if (communityReply.getId() == null) {
-            communityReplyMapper.insert(communityReply);
+            communityReplyMapper.save(communityReply);
         } else {
 //            communityReplyMapper.update(communityReply);
         }

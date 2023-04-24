@@ -11,9 +11,6 @@ public interface CommunityReplyMapper {
     List<CommunityReply> findByUserId(Long userId);
     void save(CommunityReply communityReply);
     void update(CommunityReply communityReply);
-
-    void insert(CommunityReply communityReply);
-
     void select(CommunityReply communityReply);
 
     void delete(Long communityReplyId);

@@ -27,3 +27,53 @@ DELETE FROM QUESTION_REPLY WHERE 1 = 1;
 DELETE FROM REPORT_LIST WHERE 1 = 1;
 DELETE FROM BOOKMARK WHERE 1 = 1;
 DELETE FROM LIKES WHERE 1 = 1;
+
+INSERT INTO USERS (
+    ID,
+    USER_EMAIL,
+    USER_LOGIN_ID,
+    USER_PASSWORD,
+    USER_PASSWORD_SALT,
+    USER_NICKNAME,
+    USER_ROLE,
+    USER_BIRTHDAY,
+    USER_CREATEDATE,
+    USER_EMAIL_AGREEMENT
+)
+VALUES (
+           USERS_ID_SEQ.nextval,
+           'admin@gpteacher.com',
+           'admin',
+           '71b0f7e1a6223ce5a5e9722bd00d3b77837ccf18a63c809316ebab446daf19e7',
+           '5d9fec42-fba4-49d4-9ccc-1bfa21f2a2e0',
+           '어드민',
+           'ADMIN',
+           SYSDATE,
+           SYSDATE,
+           1
+       );
+
+INSERT INTO USERS (
+    ID,
+    USER_EMAIL,
+    USER_LOGIN_ID,
+    USER_PASSWORD,
+    USER_PASSWORD_SALT,
+    USER_NICKNAME,
+    USER_ROLE,
+    USER_BIRTHDAY,
+    USER_CREATEDATE,
+    USER_EMAIL_AGREEMENT
+)
+VALUES (
+           USERS_ID_SEQ.nextval,
+           'user@gpteacher.com',
+           'user',
+           '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060',
+           'e993212e-c625-4f60-8295-d287f5c9b82e',
+           '토익100점',
+           'USER',
+           SYSDATE,
+           SYSDATE,
+           1
+       );

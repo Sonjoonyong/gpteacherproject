@@ -5,6 +5,7 @@ import com.sooaz.gpt.domain.admin.faq.Faq;
 import com.sooaz.gpt.domain.admin.faq.FaqCreateDto;
 import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.domain.user.UserRole;
+import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,38 +19,38 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/communityReply")
-@RestController
+//@RequestMapping("/community")
 @Slf4j
 public class CommunityReplyController {
 
     private final CommunityReplyService communityReplyService;
 
 
+    @PostMapping("/community/{communityPostId}/reply")
+    public String reply(
+            @PathVariable Long communityPostId,
+            @RequestParam String communityReplyContent,
+            HttpServletRequest request
+//            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
 
-    @GetMapping("/view")
-    public String getCommunityReplyById(@RequestParam("communityId") Long id, Model model) {
-        model.addAttribute("communityReply", communityReplyService);
-        //아이디별로 댓글 달기는 나중에 연구
-        // 댓글 조회
-        Object communityreply = null;
-        //communityreply = CommunityReplyService.select(communityReplyContent);
-        model.addAttribute("reply", communityreply);
-        return "community/postView";
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute(SessionConst.LOGIN_USER);
+
+
+        if (loginUser == null) {
+            return "redirect:/community/view?communityPostId=" + communityPostId;
+        }
+
+        // 댓글 달기
+        CommunityReply communityReply = new CommunityReply();
+        communityReply.setUserId(loginUser.getId());
+        communityReply.setCommunityReplyContent(communityReplyContent);
+        communityReply.setCommunityPostId(communityPostId);
+        communityReplyService.reply(communityReply);
+
+        return "redirect:/community/view?communityId=" + communityPostId;
     }
-    @GetMapping("/write")
-    public String showCommunityReplyWritePage(Model model) {
-
-        return "community/postView";//replynew는 없을 거 같아서 변경 X
-    }
-
-
-    @PostMapping("/write")
-    public String createCommunityReply(@ModelAttribute CommunityReply communityReply) {
-
-        return "community/postView";
-    }
-
 
 
 

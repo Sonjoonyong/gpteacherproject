@@ -202,9 +202,9 @@
                     </tr>
                     </tbody>
                 </table>
-                <form action="${pageContext.request.contextPath}/community/delete/${community.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
-                    <a href="${pageContext.request.contextPath}/community/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/community/edit/${community.id}" class="btn btn-primary">수정</a>
+                <form action="/community/delete/${community.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+                    <a href="/community/list" class="btn btn-primary">목록</a>
+                    <a href="/community/edit/${community.id}" class="btn btn-primary">수정</a>
                     <button type="submit" class="btn btn-primary">삭제</button>
 
                 </form>
@@ -250,7 +250,7 @@
 <%--    <li>두번째 댓글</li>--%>
 <%--    <li>세번째 댓글</li>--%>
 
-    <c:forEach items="${cpmmunityreply}" var="reply">
+    <c:forEach items="${communityreply}" var="reply">
 <%--        여기서 아이템을 뭐로 쓸까?--%>
         <li>
             <div>
@@ -267,13 +267,9 @@
 
     <div>
 
-        <form method="post" action="/community/view">
-
+        <form method="post" action="/community/${community.id}/reply">
             <p>
-                <label>댓글 작성자</label> <input type="text" name="writer">
-            </p>
-            <p>
-                <textarea rows="5" cols="50" name="content"></textarea>
+                <textarea rows="5" cols="50" name="communityReplyContent"></textarea>
             </p>
             <p>
                 <button type="submit">댓글 작성</button>

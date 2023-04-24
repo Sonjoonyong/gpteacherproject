@@ -67,9 +67,28 @@
     </select>
 
     <!-- 댓글 작성 -->
-    <insert id="replyWrite" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
-        insert into Community_reply(communityReplyContent)
-            value( #{communityReplyContent})
+    <insert id="save" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReply">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select COMMUNITY_REPLY_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into Community_reply
+        (
+            id,
+            user_id,
+            community_post_id,
+            community_reply_content,
+            community_reply_writedate,
+            community_reply_parents_id
+        )
+        values
+        (
+            #{id},
+            #{userId},
+            #{communityPostId},
+            #{communityReplyContent},
+            SYSDATE,
+            #{id}
+        )
     </insert>
 
     <!-- 댓글 수정 -->

@@ -1,6 +1,5 @@
 package com.sooaz.gpt.domain.community.communityreply;
-import com.sooaz.gpt.domain.admin.faq.Faq;
-import com.sooaz.gpt.domain.community.Community;
+
 import com.sooaz.gpt.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,12 @@ import org.springframework.stereotype.Service;
 public class CommunityReplyService {
     private final CommunityReplyRepository communityReplyRepository;
     private final UserRepository userRepository;//?
-//    public CommunityReply getCommunityReplyById(Long id) {
+
+    public CommunityReply reply(CommunityReply communityReply) {
+        return communityReplyRepository.insert(communityReply);
+    }
+
+    //    public CommunityReply getCommunityReplyById(Long id) {
 //       return communityReplyRepository.findById(id).orElseThrow(()
 //               -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
 //    }
@@ -22,10 +26,11 @@ public class CommunityReplyService {
 //            return communityReplyRepository.save(communityReply);
 //        }
     public void deleteCommunityReply(Long id) {
-    //
+        //
         communityReplyRepository.deleteById(id);
     }
-//        public CommunityReply editCommunityReply(Long id, CommunityReply communityReply) {
+
+    //        public CommunityReply editCommunityReply(Long id, CommunityReply communityReply) {
 //            CommunityReply existingCommunityReply = getCommunityReplyById(id);
 //            communityReply.setId(id);
 //            communityReply.setUserId(existingCommunityReply.getUserId());
@@ -42,5 +47,5 @@ public class CommunityReplyService {
         communityReply.setCommunityReplyParentsId(communityReply.getCommunityReplyParentsId());
         return communityReplyRepository.insert(communityReply);
     }
-    }
+}
 
