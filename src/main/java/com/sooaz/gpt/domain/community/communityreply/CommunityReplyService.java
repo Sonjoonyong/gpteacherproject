@@ -11,7 +11,7 @@ public class CommunityReplyService {
     private final UserRepository userRepository;//?
 
     public CommunityReply reply(CommunityReply communityReply) {
-        return communityReplyRepository.insert(communityReply);
+        return communityReplyRepository.replyInsert(communityReply);
     }
 
     //    public CommunityReply getCommunityReplyById(Long id) {
@@ -45,7 +45,7 @@ public class CommunityReplyService {
         communityReply.setCommunityReplyWritedate(communityReply.getCommunityReplyWritedate());
         communityReply.setCommunityReplyContent(communityReply.getCommunityReplyContent());
         communityReply.setCommunityReplyParentsId(communityReply.getCommunityReplyParentsId());
-        return communityReplyRepository.insert(communityReply);
+        return communityReplyRepository.replyInsert(communityReply);
     }
 }
 

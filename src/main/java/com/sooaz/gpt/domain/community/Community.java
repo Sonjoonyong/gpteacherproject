@@ -8,6 +8,7 @@ package com.sooaz.gpt.domain.community;
 public class Community {
     private Long id;
     private Long userId;
+    private String userNickname;
     private String communityPostCategory;
     private String communityPostTitle;
     private String communityPostContent;

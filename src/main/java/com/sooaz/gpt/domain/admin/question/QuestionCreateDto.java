@@ -12,3 +12,5 @@ public class QuestionCreateDto {
     private String questionPassword;
 
 }
+
+

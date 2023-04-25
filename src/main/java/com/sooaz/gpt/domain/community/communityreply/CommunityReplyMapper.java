@@ -2,6 +2,7 @@ package com.sooaz.gpt.domain.community.communityreply;
 
 import com.sooaz.gpt.domain.community.Community;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -9,11 +10,11 @@ import java.util.List;
 public interface CommunityReplyMapper {
     CommunityReply findById(Long Id);
     List<CommunityReply> findByUserId(Long userId);
-    void save(CommunityReply communityReply);
-    void update(CommunityReply communityReply);
-    void select(CommunityReply communityReply);
+    void replyInsert(CommunityReply communityReply);
+    void replyUpdate(CommunityReply communityReply);
+    List<CommunityReply> replyListSelect(@RequestParam("communityReplyId")Long communityReplyId);
 
-    void delete(Long communityReplyId);
+    void ReplyDelete(Long communityReplyId);
 }
 
 

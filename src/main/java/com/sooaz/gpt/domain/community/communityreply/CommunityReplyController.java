@@ -25,33 +25,66 @@ public class CommunityReplyController {
 
     private final CommunityReplyService communityReplyService;
 
-
-    @PostMapping("/community/{communityPostId}/reply")
-    public String reply(
-            @PathVariable Long communityPostId,
-            @RequestParam String communityReplyContent,
-            HttpServletRequest request
-//            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
-    ) {
-
+    @PostMapping("/replySend")
+    public String replySend(CommunityReply communityreply, HttpServletRequest request, @RequestParam("communityReplyId") Long communityReplId){
         HttpSession session = request.getSession();
-        User loginUser = (User) session.getAttribute(SessionConst.LOGIN_USER);
+        User loginUser = (User) session.getAttribute("loginUser");
+        communityreply.setUserId(loginUser.getId());
 
+        CommunityReply result = communityReplyService.replyInsert(communityreply);
 
-        if (loginUser == null) {
-            return "redirect:/community/view?communityPostId=" + communityPostId;
-        }
-
-        // 댓글 달기
-        CommunityReply communityReply = new CommunityReply();
-        communityReply.setUserId(loginUser.getId());
-        communityReply.setCommunityReplyContent(communityReplyContent);
-        communityReply.setCommunityPostId(communityPostId);
-        communityReplyService.reply(communityReply);
-
-        return "redirect:/community/view?communityId=" + communityPostId;
+        return result+"";
     }
 
+
+    @GetMapping("/community/communityReplyList")
+    public List<communityReply> replyList(@RequestParam("communityReplyId")Long communityReplId){
+        return communityReplyService.replyListSelect(communityReplyId);
+    }
+
+    @PostMapping("/replyEdit")
+    public String replyEdit(CommunityReply communityreply, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+        communityreply.setUserId(loginUser.getId());
+        CommunityReply result = communityReplyService.replyUpdate(communityreply);
+        return String.valueOf(result);
+    }
+
+    @GetMapping("/replyDelete")
+    public String replyDelete(CommunityReply communityreply, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+        communityreply.setUserId(loginUser.getId());
+        CommunityReply result = communityReplyService.replyDelete(communityreply);
+        return String.valueOf(result);
+    }
+//    @PostMapping("/community/{communityPostId}/reply")
+//    public String reply(
+//            @PathVariable Long communityPostId,
+//            @RequestParam String communityReplyContent,
+//            HttpServletRequest request
+////            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+//    ) {
+//
+//        HttpSession session = request.getSession();
+//        User loginUser = (User) session.getAttribute(SessionConst.LOGIN_USER);
+//
+//
+//        if (loginUser == null) {
+//            return "redirect:/community/view?communityPostId=" + communityPostId;
+//        }
+//
+//        // 댓글 달기
+//        CommunityReply communityReply = new CommunityReply();
+//        communityReply.setUserId(loginUser.getId());
+//        communityReply.setCommunityReplyContent(communityReplyContent);
+//        communityReply.setCommunityPostId(communityPostId);
+//        communityReplyService.reply(communityReply);
+//
+//        return "redirect:/community/view?communityId=" + communityPostId;
+//    }
+//
 
 
 

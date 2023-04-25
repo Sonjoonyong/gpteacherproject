@@ -12,13 +12,18 @@ public class CommunityReplyRepository {
 
     private final CommunityReplyMapper communityReplyMapper;
 
-    public CommunityReply insert(CommunityReply communityReply) {
-        if (communityReply.getId() == null) {
-            communityReplyMapper.save(communityReply);
-        } else {
-//            communityReplyMapper.update(communityReply);
-        }
-        return communityReply;
+//    public CommunityReply insert(CommunityReply communityReply) {
+//        if (communityReply.getId() == null) {
+//            communityReplyMapper.save(communityReply);
+//        } else {
+////            communityReplyMapper.update(communityReply);
+//        }
+//        return communityReply;
+//    }
+
+    public CommunityReply replyInsert(CommunityReply communityreply){
+        communityReplyMapper.replyInsert(communityreply);
+        return communityreply;
     }
     public Optional<CommunityReply> findById(Long id) {
         return Optional.ofNullable(communityReplyMapper.findById(id));
