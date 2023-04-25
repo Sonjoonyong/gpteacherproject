@@ -23,7 +23,7 @@
             <div>
                 <h4 class="my-3" style="color: #2F4858">최근 학습</h4>
                 <c:forEach var="learning" items="${learnings}">
-                    <div class="row p-2 pe-5 justify-content-center">
+                    <div class="row g-0 justify-content-center">
                         <div class="row g-0 learning my-1 shadow rounded-3 p-3" id="learning_${learning.id}">
                             <div class="row g-0 justify-content-between ">
                                 <div class="row g-0 col-md-3">
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="row g-0 rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff; background-color: #7B61FF30">
-                                <div class="col-md-2 align-self-center text-center">
+                                <div class="col-md-2 align-self-center text-center fw-bold">
                                     <c:if test="${learning.learningType == 'DIALOGUE'}">
                                         Situation
                                     </c:if>
@@ -56,7 +56,9 @@
                                         Question
                                     </c:if>
                                 </div>
-                                <div class="col-md-10">"${learning.learningTopic}"</div>
+                                <div class="col-md-10">
+                                    <a href="/learning/correction/sentences?learningId=${learning.id}" style="text-decoration:none; color: #7054ff;">"${learning.learningTopic}"</a>
+                                </div>
                             </div>
                             <div class="row g-0 px-1">
                                 <div class="col-10 col-md-4" style="color: rgb(35, 28, 181);">

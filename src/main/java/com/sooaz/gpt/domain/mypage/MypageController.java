@@ -54,7 +54,7 @@ public class MypageController {
             @SessionAttribute User loginUser,
             Model model
     ) {
-        PageHelper.startPage(1, 5);
+        PageHelper.startPage(1, 3);
 
         LearningFindDto learningFindDto = new LearningFindDto();
         learningFindDto.setUserId(loginUser.getId());
@@ -75,7 +75,7 @@ public class MypageController {
             @RequestParam(required = false, defaultValue = "0") Character onlyLike,
             Model model
     ) {
-        PageHelper.startPage(pageNum, 5);
+        PageHelper.startPage(pageNum, 3);
         LearningFindDto learningFindDto = new LearningFindDto();
 
         learningFindDto.setUserId(loginUser.getId());
