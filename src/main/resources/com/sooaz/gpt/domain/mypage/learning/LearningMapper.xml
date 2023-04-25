@@ -15,7 +15,8 @@
             <if test="learningTestType != null">
                 learning_test_type,
             </if>
-            learning_type
+            learning_type,
+            learning_date
         )
         values (
             #{id},
@@ -24,7 +25,8 @@
             <if test="learningTestType != null">
                 #{learningTestType},
             </if>
-            #{learningType}
+            #{learningType},
+            #{learningDate, jdbcType = DATE}
         )
     </insert>
 
@@ -48,6 +50,10 @@
 
     <select id="findAll" resultType="Learning">
         select * from LEARNING
+    </select>
+
+    <select id="countByLearningDate" resultType="int">
+        select count(id) from LEARNING where user_id = #{param1} and to_char(learning_date, 'yyyy-MM-dd') = #{param2}
     </select>
 
     <update id="update">
