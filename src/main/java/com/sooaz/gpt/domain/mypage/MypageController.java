@@ -2,7 +2,7 @@ package com.sooaz.gpt.domain.mypage;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPost;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
@@ -147,8 +147,8 @@ public class MypageController {
             Model model
     ) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> communities = mypageService.getPostList(loginUser.getId());
-        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        List<CommunityPost> communities = mypageService.getPostList(loginUser.getId());
+        PageInfo<CommunityPost> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myPosts";
     }
@@ -196,8 +196,8 @@ public class MypageController {
             Model model
     ) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> communities = mypageService.getBookmarkList(loginUser.getId());
-        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        List<CommunityPost> communities = mypageService.getBookmarkList(loginUser.getId());
+        PageInfo<CommunityPost> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         return "mypage/activity/myBookmarks";
     }

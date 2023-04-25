@@ -1,17 +1,18 @@
 package com.sooaz.gpt.domain.community;
 
-import lombok.Data;
+        import lombok.Data;
 
-import java.util.Date;
+        import java.util.Date;
 
 @Data
-public class Community {
+public class CommunityPost {
     private Long id;
     private Long userId;
+    private String userNickname;
     private String communityPostCategory;
     private String communityPostTitle;
     private String communityPostContent;
-    private Integer communityPostHit;
+    private Long communityPostHit;
     private Date communityPostWritedate;
     private Boolean communityPostLike;
 }

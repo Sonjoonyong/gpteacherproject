@@ -76,7 +76,7 @@
                                     <input class="form-check-input" type="checkbox" name="deleteId" value="${post.id}">
                                 </td>
                                 <td style="text-overflow:ellipsis; overflow:hidden;">
-                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
+                                    <a href="${pageContext.request.contextPath}/communityPost/view?communityId=${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
                                 </td>
                                 </td>
                                 <td>

@@ -4,11 +4,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sooaz.gpt.domain.community.communityreply.CommunityReplyMapper">
 
-    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
-        select * from COMMUNITY_REPLY where user_id = #{userId} order by id desc
+    <!-- 댓글 작성 -->
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select COMMUNITY_REPLY_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into Community_reply (
+            id,
+            user_id,
+            community_post_id,
+            community_reply_content,
+            community_reply_writedate,
+            community_reply_parents_id
+        )
+        values (
+            #{id},
+            #{userId},
+            #{communityPostId},
+            #{communityReplyContent},
+            SYSDATE,
+            #{id}
+        )
+    </insert>
+
+    <select id="findById">
+        select * from community_reply where id = #{id}
     </select>
 
-    <delete id="delete" parameterType="long">
-        delete from COMMUNITY_REPLY where id = #{communityReplyId}
+    <!-- 댓글 조회 -->
+    <select id="findByCommunityPostId" parameterType="int">
+        select
+            communityReplyContent
+        from Community_reply
+        where id = #{communityPostId}
+    </select>
+    <!-- 댓글 수정 -->
+    <update id="update">
+        update Community_reply set
+            communityReplyContent=#{communityReplyContent}
+
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delete">
+        delete from Community_reply
+            where id = #{community_reply_id}
     </delete>
 </mapper>

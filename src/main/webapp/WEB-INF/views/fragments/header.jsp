@@ -22,7 +22,7 @@
                         <a class="nav-link active" aria-current="page" href="/learning/writing">글쓰기 연습</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/community/list">커뮤니티</a>
+                        <a class="nav-link active" aria-current="page" href="/communityPost/list">커뮤니티</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/help/notice/list">고객센터</a>
