@@ -1,9 +1,6 @@
 package com.sooaz.gpt.domain.community;
 
-import com.sooaz.gpt.domain.community.Community;
-import com.sooaz.gpt.domain.community.CommunityMapper;
 import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,29 +9,29 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class CommunityPostRepository {
-    private final CommunityMapper communityMapper;
 
+    private final CommunityPostMapper communityPostMapper;
 
-    public Community save(Community community) {
-        if (community.getId() == null) {
-            communityMapper.save(community);
+    public CommunityPost save(CommunityPost communityPost) {
+        if (communityPost.getId() == null) {
+            communityPostMapper.save(communityPost);
         } else {
-            communityMapper.update(community);
+            communityPostMapper.update(communityPost);
         }
-        return community;
+        return communityPost;
     }
 
-    public Optional<Community> findById(Long id) {
-        return Optional.ofNullable(communityMapper.findById(id));
+    public Optional<CommunityPost> findById(Long id) {
+        return Optional.ofNullable(communityPostMapper.findById(id));
     }
-    public List<Community> findAll(String search) {return communityMapper.findAll(search);}
-    public List<Community> findByUserId(Long userId) {
-        return communityMapper.findByUserId(userId);
+    public List<CommunityPost> findAll(String search) {return communityPostMapper.findAll(search);}
+    public List<CommunityPost> findByUserId(Long userId) {
+        return communityPostMapper.findByUserId(userId);
     }
-    public List<Community> findBookmarksByUserId(Long userId){
-        return communityMapper.findBookmarksByUserId(userId);
+    public List<CommunityPost> findBookmarksByUserId(Long userId){
+        return communityPostMapper.findBookmarksByUserId(userId);
     }
     public void deleteById(Long id) {
-        communityMapper.delete(id);}
+        communityPostMapper.delete(id);}
 }
 

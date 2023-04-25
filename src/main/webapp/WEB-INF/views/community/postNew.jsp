@@ -84,11 +84,11 @@
                     <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                                <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/communityPost/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
+                                <%--                                         원래 위에가 /communityPost/list 이고 밑에가 /communityPost/? 이다--%>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 성</a>
+                                <a class="nav-link " href="${pageContext.request.contextPath}/communityPost/?"><i class="fa-solid fa-chevron-right"></i> 성</a>
                             </li>
                         </ul>
                     </div>
@@ -97,7 +97,7 @@
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
                 <h3>글 작성</h3>
                 <div class="create-form">
-                    <form:form action="/community/write" method="post" modelAttribute="communityPostDto">
+                    <form:form action="/communityPost/write" method="post" modelAttribute="communityPostDto">
                         <div class="FormSelectButton" style="width:80px; ">
                             <form:select path="communityPostCategory"  class="select" id="communityPostTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
                                 <form:option value="TOEIC"> 토익</form:option>

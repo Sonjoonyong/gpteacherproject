@@ -102,7 +102,7 @@
             //댓글리스트
             function replyList(){
                 $.ajax({
-                    url : "/community/communityReplyList"
+                    url : "/communityPost/communityReplyList"
                     , data : {
                         questionId : ${question.id}
                     }
@@ -225,19 +225,19 @@
         <div class="row">
             <!--사이드바-->
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>community</h3></div>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>communityPost</h3></div>
                 <div class="row" style="margin-top: 15px;">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/postList'" >
-                                    community
+                                <button class="accordion-button " type="button" onclick="location.href='/communityPost/postList'" >
+                                    communityPost
                                 </button>
                             </h2>
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/?'">
+                                <button class="accordion-button " type="button" onclick="location.href='/communityPost/?'">
                                     Weekly top10
                                 </button>
                             </h2>
@@ -250,24 +250,24 @@
                 <table class="table" style="text-align:start; border:1px solid black;" >
                     <thead style="margin-bottom: 20px;">
                     <tr>
-                        <td colspan="2">${community.communityPostTitle}</td>
+                        <td colspan="2">${communityPost.communityPostTitle}</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>작성자: ${community.userNickname}</td>
+                        <td>작성자: ${communityPost.userNickname}</td>
                         <td style="text-align: right">
-                            <fmt:formatDate value="${community.communityPostWritedate}" pattern="yyyy-MM-dd" />&nbsp;
+                            <fmt:formatDate value="${communityPost.communityPostWritedate}" pattern="yyyy-MM-dd" />&nbsp;
                         </td>
                     </tr>
                     <tr >
-                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${community.communityPostContent}</td>
+                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${communityPost.communityPostContent}</td>
                     </tr>
                     </tbody>
                 </table>
-                <form action="${pageContext.request.contextPath}/community/?/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
-                    <a href="${pageContext.request.contextPath}/community/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/community/?/edit/${question.id}" class="btn btn-primary">수정</a>
+                <form action="/communityPost/?/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+                    <a href="/communityPost/list" class="btn btn-primary">목록</a>
+                    <a href="/communityPost/?/edit/${question.id}" class="btn btn-primary">수정</a>
                     <button type="submit" class="btn btn-primary">삭제</button>
                 </form>
 
@@ -278,7 +278,7 @@
             <div class="col-md-7" >
                 <div class="row">
                     <form method="POST" id="replyForm">
-                        <input type="hidden" name="questionId" value="${community.id}" >  <!-- 원글 글번호 -->
+                        <input type="hidden" name="questionId" value="${communityPost.id}" >  <!-- 원글 글번호 -->
                         <textarea name="communityReplyContent" id="communityReplyContent"></textarea>
                         <button class='btn btn-primary' type="submit">댓글등록</button>
                     </form>

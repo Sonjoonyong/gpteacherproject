@@ -8,8 +8,7 @@
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             select USERS_ID_SEQ.nextval from dual
         </selectKey>
-        insert into USERS
-        (
+        insert into USERS (
             id,
             user_login_id,
             user_password,
@@ -20,8 +19,7 @@
             user_birthday,
             user_email_agreement
         )
-        values
-        (
+        values (
             #{id},
             #{userLoginId},
             #{userPassword},

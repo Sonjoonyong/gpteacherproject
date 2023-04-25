@@ -90,14 +90,14 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/list'" style="background-color: #CFEAE2">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/communityPost/list'" style="background-color: #CFEAE2">
                                     커뮤니티
                                 </button>
                             </h2>
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/community/list'">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/communityPost/list'">
                                     커뮤니티
                                 </button>
                             </h2>
@@ -108,15 +108,15 @@
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
                 <h3>글 수정</h3>
                 <div class="create-form">
-                    <form:form action="${pageContext.request.contextPath}/community/write/${community.id}" method="post" modelAttribute="community">
+                    <form:form action="${pageContext.request.contextPath}/communityPost/write/${communityPost.id}" method="post" modelAttribute="communityPost">
                         <form:hidden path="id" />
                         <div class="form-group">
                             <label for="communityTitle">글 제목 :</label>
-                            <form:input path="communityPostTitle" type="text" class="form-control" id="communityTitle" value="${community.communityPostTitle}" required="required"/>
+                            <form:input path="communityPostTitle" type="text" class="form-control" id="communityTitle" value="${communityPost.communityPostTitle}" required="required"/>
                         </div>
                         <div class="form-group">
                             <label for="communityContent">글 내용 :</label>
-                            <form:textarea path="communityPostContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${community.communityPostContent}" />
+                            <form:textarea path="communityPostContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${communityPost.communityPostContent}" />
 
                         </div>
                         <div class="clearfix">

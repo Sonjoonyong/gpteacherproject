@@ -3,7 +3,6 @@ package com.sooaz.gpt.domain.community;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.user.User;
-import com.sooaz.gpt.domain.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,8 +28,8 @@ public class CommunityPostController {
                                @RequestParam(value = "search", required = false) String search,
                                Model model) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> community = communityPostService.getAllCommunity(search);
-        PageInfo<Community> pageInfo = new PageInfo<>(community);
+        List<CommunityPost> communityPost = communityPostService.getAllCommunity(search);
+        PageInfo<CommunityPost> pageInfo = new PageInfo<>(communityPost);
         model.addAttribute("pageInfo", pageInfo);
         return "community/postList";
     }
@@ -75,8 +74,8 @@ public class CommunityPostController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Community community = communityPostService.getCommunityById(id);
-        model.addAttribute("community", community);
+        CommunityPost communityPost = communityPostService.getCommunityById(id);
+        model.addAttribute("community", communityPost);
         return "community/postEdit";
     }
 //    public String showEditForm(@PathVariable("id") Long id, Model model, HttpServletRequest request) {

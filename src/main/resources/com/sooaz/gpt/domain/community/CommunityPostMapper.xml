@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sooaz.gpt.domain.community.CommunityPostMapper">
+
+    <insert id="save" parameterType="com.sooaz.gpt.domain.community.CommunityPost">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT COMMUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO community_post (
+        id,
+        user_id,
+        community_post_title,
+        community_post_content,
+        community_post_category
+        )
+        VALUES (
+        #{id},
+        #{userId},
+        #{communityPostTitle},
+        #{communityPostContent},
+        #{communityPostCategory}
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="CommunityPost">
+        SELECT * FROM community_post WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultType="CommunityPost">
+        SELECT * FROM community_post
+        WHERE (#{search} IS NULL OR LOWER(community_post_title) LIKE '%' || LOWER(#{search}) || '%')
+        ORDER BY community_post_writedate DESC
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT count(0) FROM community_post
+    </select>
+
+    <select id="findByUserId" parameterType="long" resultType="CommunityPost">
+        select * from community_post where user_id = #{userId} order by id desc
+    </select>
+
+    <select id="findBookmarksByUserId" parameterType="long" resultType="CommunityPost">
+        select * from community_post where id in (select community_post_id from bookmark where user_id = #{userId}) order by id desc
+    </select>
+
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.CommunityPost">
+        UPDATE community_post
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="communityPostTitle != null">
+                community_post_title = #{communityPostTitle},
+            </if>
+            <if test="communityPostContent != null">
+                community_post_content = #{communityPostContent},
+            </if>
+            <if test="communityPostHit != null">
+                community_post_hit = #{communityPostHit},
+            </if>
+            <if test="communityPostLike != null">
+                community_post_like = #{communityPostLike},
+            </if>
+            <if test="communityPostWritedate != null">
+                community_post_writedate = #{communityPostWritedate},
+            </if>
+            <if test="communityPostCategory != null">
+                community_post_category = #{communityPostCategory}
+            </if>
+            WHERE id = #{id}
+        </set>
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from COMMUNITY_POST where id = #{id}
+    </delete>
+
+    <update id="increaseViewCount" parameterType="long">
+        UPDATE COMMUNITY_POST SET community_post_hit = community_post_hit + 1 WHERE id = #{id}
+    </update>
+
+
+</mapper>

@@ -12,17 +12,8 @@ public class CommunityReplyRepository {
 
     private final CommunityReplyMapper communityReplyMapper;
 
-//    public CommunityReply insert(CommunityReply communityReply) {
-//        if (communityReply.getId() == null) {
-//            communityReplyMapper.save(communityReply);
-//        } else {
-////            communityReplyMapper.update(communityReply);
-//        }
-//        return communityReply;
-//    }
-
-    public CommunityReply replyInsert(CommunityReply communityreply){
-        communityReplyMapper.replyInsert(communityreply);
+    public CommunityReply save(CommunityReply communityreply){
+        communityReplyMapper.save(communityreply);
         return communityreply;
     }
     public Optional<CommunityReply> findById(Long id) {
@@ -35,7 +26,8 @@ public class CommunityReplyRepository {
     public void deleteById(Long Id) {
         communityReplyMapper.delete(Id);
     }
-//    (Long communityReplyId) {
-//        communityReplyMapper.delete(communityReplyId);
-//    } 위에를 이걸로 대체할 수 있다
+
+    public List<CommunityReply> findByCommunityPostId(Long communityPostId) {
+        return communityReplyMapper.findByCommunityPostId(communityPostId);
+    }
 }
