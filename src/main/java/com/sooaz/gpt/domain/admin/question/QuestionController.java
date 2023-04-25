@@ -7,6 +7,7 @@ import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.domain.user.UserRole;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
+import oracle.ucp.proxy.annotation.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class QuestionController {
                               Model model){
         PageHelper.startPage(pageNum, pageSize);
         List<Question> questions = questionService.getAllQuestions(search);
+
+
+
         PageInfo<Question> pageInfo = new PageInfo<>(questions);
         model.addAttribute("pageInfo",pageInfo);
         return "question/questionList";
@@ -37,8 +41,9 @@ public class QuestionController {
     @GetMapping("/view")
     public String getQuestionById(@RequestParam Long questionId, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
         HttpSession session = request.getSession();
-
         User loginUser = (User) session.getAttribute(SessionConst.LOGIN_USER);
+        model.addAttribute("loginUser", loginUser);
+
         if (loginUser.getUserRole()== UserRole.ADMIN || loginUser.getId().equals(questionService.getQuestionById(questionId).getUserId()) ){
             model.addAttribute("question",questionService.getQuestionById(questionId));
             return "question/questionView";
@@ -70,8 +75,6 @@ public class QuestionController {
         }
     }
 
-
-
     @PostMapping("/update/{id}")
     public String updateQuestion(@PathVariable Long id, @ModelAttribute Question question, RedirectAttributes redirectAttributes){
         questionService.updateQuestion(id, question);
@@ -86,11 +89,20 @@ public class QuestionController {
         return "question/questionEdit";
     }
 
+
     @PostMapping("/delete/{id}")
     public String deleteQuestion(@PathVariable Long id, @ModelAttribute QuestionUpdateDto questionUpdateDto, RedirectAttributes redirectAttributes){
         questionService.deleteQuestion(id);
         redirectAttributes.addFlashAttribute("message", "Question deleted successfully");
         return "redirect:/help/question/list";
+    }
+
+    //@PostMapping("/statusUpdate/{id}")
+    @RequestMapping(value="/statusUpdate/{id}", method=RequestMethod.POST)
+    public String statusUpdate(@PathVariable Long id, @ModelAttribute Question question, RedirectAttributes redirectAttributes){
+        questionService.statusUpdate(id, question);
+        redirectAttributes.addFlashAttribute("message","업데이트 성공");
+        return "redirect:/help/question/view?questionId=" + id;
     }
 
 

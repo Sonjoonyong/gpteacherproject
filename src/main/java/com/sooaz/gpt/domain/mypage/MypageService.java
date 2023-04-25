@@ -7,6 +7,7 @@ import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
 import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
 import com.sooaz.gpt.domain.community.communityreply.CommunityReplyRepository;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
+import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
@@ -14,11 +15,12 @@ import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,21 @@ public class MypageService {
             }
             learning.setSentenceCount(sentenceCount);
             learning.setAverageAccuracy(sentenceCount != 0 ? Math.round(sumAccuracy/sentenceCount):0);
+
+            // learningType 별 질문/상황을 Topic에 저장
+            if(learning.getLearningType() == LearningType.DIALOGUE) {
+                String learningTopic = learning.getLearningTopic();
+                JSONObject learningTopicJson;
+                try {
+                    learningTopicJson = new JSONObject(learningTopic);
+                } catch (Exception e) {
+                    log.error("Learning topic data from database is not parsable for JSON, \n", e);
+                    return null;
+                }
+                String getSituation = learningTopicJson.getString("situation");
+                getSituation += " at the "+learningTopicJson.getString("place");
+                learning.setLearningTopic(getSituation);
+            }
         }
         return learnings;
     }
@@ -108,4 +125,28 @@ public class MypageService {
         }
     }
 
+    public JSONArray getCalendarHeatmapData(Long userId) {
+        JSONArray learningCountByDateData = new JSONArray();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar end = Calendar.getInstance(); //현재 날짜
+        Calendar start = Calendar.getInstance(); //1년 전 날짜
+
+        end.setTime(new Date());
+        start.add(end.YEAR, -1);
+
+        try {
+            while(!start.after(end)) {
+                String date = dateFormat.format(start.getTime());
+                int total = learningRepository.countByLearningDate(userId, date);
+                JSONObject oneDayLearning = new JSONObject();
+                oneDayLearning.put("date", date);
+                oneDayLearning.put("total", total);
+                learningCountByDateData.put(oneDayLearning);
+                start.add(Calendar.DATE, 1);
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return learningCountByDateData;
+    }
 }

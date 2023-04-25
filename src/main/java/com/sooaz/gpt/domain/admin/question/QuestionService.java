@@ -45,4 +45,13 @@ public class QuestionService {
     public void deleteQuestion(Long id){
         questionRepository.deleteById(id);
     }
+
+    public Question statusUpdate(Long id, Question question){
+        Question existingQuestion = getQuestionById(id);
+        question.setId(id);
+        question.setUserId(existingQuestion.getUserId());
+        return questionRepository.statusUpdate(question);
+    }
+
+
 }

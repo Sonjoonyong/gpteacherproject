@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -69,11 +70,12 @@ public class WritingService {
         return openAiClient.chat(initialInstruction);
     }
 
-    public String talk(String question, String userScript, Learning learning) {
+    public String talk(String question, String userScript, Learning learning, Long userId) {
 
-        learning.setUserId(1L); // TODO - 로그인 구현 후 변경
+        learning.setUserId(userId);
         learning.setLearningTopic(question);
         learning.setLearningType(LearningType.WRITING);
+        learning.setLearningDate(new Date());
 
         learningRepository.save(learning);
 

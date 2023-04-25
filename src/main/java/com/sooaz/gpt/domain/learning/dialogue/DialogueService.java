@@ -6,7 +6,6 @@ import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
-import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -54,7 +53,7 @@ public class DialogueService {
         return processTalk(openAiClient.chat(initialInstruction));
     }
 
-    public Long saveLearning(DialogueTopicDto dialogueTopicDto) {
+    public Long saveLearning(DialogueTopicDto dialogueTopicDto, Long userId) {
 
         // 대화 주제를 JSON으로 저장
         JSONObject topicJson = new JSONObject();
@@ -65,9 +64,10 @@ public class DialogueService {
         topicJson.put("option", dialogueTopicDto.getOption());
 
         Learning learning = new Learning();
-        learning.setUserId(1L);
+        learning.setUserId(userId);
         learning.setLearningType(LearningType.DIALOGUE);
         learning.setLearningTopic(topicJson.toString());
+        learning.setLearningDate(new Date());
 
         return learningRepository.save(learning).getId();
     }

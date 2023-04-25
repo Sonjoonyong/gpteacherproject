@@ -1,0 +1,19 @@
+.calendar-heatmap {
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+.calendar-heatmap .item {
+    cursor: pointer;
+}
+.calendar-heatmap .label {
+    cursor: pointer;
+    fill: #cccccc;
+    font-family: Helvetica, arial, 'Open Sans', sans-serif;
+}
+
+#calendar {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}

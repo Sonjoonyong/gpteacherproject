@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sooaz.gpt.domain.admin.reply.ReplyMapper">
+    <insert id="replyInsert">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT QUESTION_REPLY_ID_SEQ.nextval from dual
+        </selectKey>
+        INSERT INTO QUESTION_REPLY (
+            id,
+            question_id,
+            question_reply_content,
+            user_id
+        )
+        VALUES (
+            #{id},
+            #{questionId},
+            #{questionReplyContent},
+            #{userId}
+        )
+    </insert>
+
+    <select id="replyListSelect" resultType="com.sooaz.gpt.domain.admin.reply.ReplyListDto">
+        SELECT Q.id, question_id, question_reply_content, U.user_nickname , question_reply_writedate FROM QUESTION_REPLY Q
+        JOIN USERS U ON Q.user_id = U.id
+        WHERE question_id = ${questionId}
+        ORDER BY question_reply_writedate desc
+    </select>
+
+    <update id="replyUpdate" >
+        UPDATE QUESTION_REPLY SET question_reply_content=#{questionReplyContent}
+        WHERE id=#{id} AND user_id= #{userId}
+    </update>
+
+    <delete id="replyDelete">
+        DELETE FROM QUESTION_REPLY
+        WHERE id=#{id} and user_id=#{userId}
+    </delete>
+
+</mapper>
