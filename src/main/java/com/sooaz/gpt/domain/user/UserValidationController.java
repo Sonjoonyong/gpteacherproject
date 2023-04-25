@@ -32,15 +32,16 @@ public class UserValidationController {
             @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
             String userLoginId
     ) {
-        return String.valueOf(userService.isDuplicateLoginId(userLoginId));
+        return String.valueOf(userService.isDuplicateLoginId(userLoginId.toLowerCase()));
     }
 
     @ResponseBody
     @GetMapping("/user/signup/nicknameDupCheck")
     public String checkNicknameDup(
-            @Size(min = 2, max = 12, message = "2~8자 범위로 입력해주세요.")
+            @Size(min = 2, max = 8, message = "2~8자 범위로 입력해주세요.")
             String userNickname
     ) {
+        // (String) true: 중복, false: 사용 가능, 그 외: 오류 메시지(ExceptionHandlerAdvice 참조)
         return String.valueOf(userService.isDuplicateNickname(userNickname));
     }
 
@@ -52,11 +53,12 @@ public class UserValidationController {
             String email,
             HttpServletRequest request
     ) {
+        HttpSession session = request.getSession();
+
         if (userService.isDuplicateEmail(email)) {
             return "이미 사용중인 이메일입니다.";
         }
 
-        HttpSession session = request.getSession();
         String emailCode = UUID.randomUUID().toString()
                 .replaceAll("-", "").substring(0, 5);
         log.info("발급된 emailCode = {}", emailCode);
@@ -65,12 +67,13 @@ public class UserValidationController {
                 email,
                 "GPTeacher 회원가입 인증코드입니다.",
                 "아래 코드를 인증 창에 입력 후 회원가입을 진행하세요. \n\n" +
-                emailCode
+                        emailCode
         );
 
         session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
         session.setAttribute(SessionConst.EMAIL, email);
-        
+        session.setMaxInactiveInterval(60 * 3); // 이메일 인증번호 유효시간 3분
+
         return "true";
     }
 

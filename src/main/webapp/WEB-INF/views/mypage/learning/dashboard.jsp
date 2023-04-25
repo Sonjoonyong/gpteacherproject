@@ -1,5 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <title>MyPage - 학습이력</title>
 
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/calendarHeatMap.css">
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -31,7 +33,7 @@
                                     </c:if>
                                 </div>
                                 <div class="col-12 col-md-6" style="color: #373737">
-                                        ${learning.learningDate}
+                                    <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>
                                 </div>
                                 <div class="col-12 col-md-2">
                                     <div class="row g-0">
@@ -65,9 +67,7 @@
             </div>
             <div>
                 <h4 class="my-3" style="color: #2F4858">연간 학습</h4>
-                <div>
-                    잔디 심기...
-                </div>
+                <div id="calendar" class="py-3"></div>
             </div>
         </div>
     </div>
@@ -76,8 +76,16 @@
 <%@ include file="../../fragments/footer.jsp" %>
 <script src="/js/toggleLikeAjax.js"></script>
 <script src="/js/toggleDeleteAjax.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.2/d3.min.js" charset="utf-8"></script>
+<script src="/js/calendarHeatMap.js"></script>
+
+<script>
+    var jsonData = JSON.parse('${data}');
+    calendarHeatmap.init(jsonData);
+
+</script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
-
 </body>
 </html>

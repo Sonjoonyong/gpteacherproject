@@ -13,6 +13,9 @@
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
   <!--fontawesome-->
   <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+  <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
     .create-form {
       border: 1px solid lightgray;
@@ -98,7 +101,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="clearfix" style="width: 432px;">
+              <div class="clearfix">
                 <button type="submit" class="btn btn-primary submit-btn">등록</button>
               </div>
             </div>
@@ -125,8 +128,16 @@
     const form = document.querySelector('form');
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const noticeContent = editor.getMarkdown();
-      document.querySelector('#hiddenNoticeContent').value = noticeContent;
+      const faqContent = editor.getMarkdown();
+      if (faqContent.trim() === '') {
+        Swal.fire({
+          icon: 'error',
+          title: '',
+          text: '내용을 입력해주세요.',
+        });
+        return;
+      }
+      document.querySelector('#hiddenFaqContent').value = faqContent;
       form.submit();
     });
   });

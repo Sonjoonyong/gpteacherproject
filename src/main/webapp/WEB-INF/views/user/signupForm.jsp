@@ -7,7 +7,7 @@
     <title>회원가입</title>
 
     <style>
-        nav .loginBtn, nav .signInBtn, alar {
+        nav .loginBtn, nav .signInBtn, nav .alarm {
             display: none;
         }
 
@@ -68,7 +68,10 @@
                class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto mb-5"
                style="border: 2px solid #5DB99D;">
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
-            <img class="col-12 mb-3" src="/images/logo.png">
+            <div class="row g-0 justify-content-center">
+                <img class="col-9" src="/images/logo.png">
+                <h3 class="h3 col-12 text-center">회원가입</h3>
+            </div>
 
             <div class="row">
                 <span class="col-12 p-0">이메일</span>
@@ -203,7 +206,7 @@
             <pre class="border rounded-3 p-3"><%@ include file="./term/generalTerm.jsp" %></pre>
         </div>
 
-        <div id="privacyTermContent" class="flex-column align-items-center justify-content-center" >
+        <div id="privacyTermContent" class="flex-column align-items-center justify-content-center">
             <h6 class="h5">개인정보 취급 방침</h6>
             <pre class="border rounded-3 p-3"><%@ include file="./term/privacyTerm.jsp" %></pre>
         </div>

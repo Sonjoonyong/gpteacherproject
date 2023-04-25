@@ -7,11 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,20 +23,27 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/login")
-    public String getLoginForm(Model model) {
+    public String getLoginForm(
+            Model model,
+            HttpServletRequest request
+    ) {
+        // 일반 회원가입 유저가 Oauth 로그인 시
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+        if (flashMap != null && flashMap.containsKey("oauthLoginFail")) {
+            model.addAttribute("oauthLoginFail", flashMap.get("oauthLoginFail"));
+        }
+
         model.addAttribute("loginDto", new LoginDto());
         return "user/login";
     }
 
     @PostMapping("/user/login")
     public String login(
-        @Valid @ModelAttribute LoginDto loginDto,
-        BindingResult bindingResult,
-        @RequestParam(defaultValue = "/") String redirectUri,
-        HttpServletRequest request
+            @Valid @ModelAttribute LoginDto loginDto,
+            BindingResult bindingResult,
+            @RequestParam(defaultValue = "/") String redirectUri,
+            HttpServletRequest request
     ) {
-        log.info("redirectUri = {}", redirectUri);
-
         if (bindingResult.hasErrors()) {
             return "user/login";
         }
@@ -44,7 +53,7 @@ public class UserController {
             bindingResult.reject("invalid", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "user/login";
         }
-        
+
         HttpSession session = request.getSession();
         session.setAttribute("loginUser", loginUser);
         log.info("user login: {}", loginUser);
@@ -74,17 +83,18 @@ public class UserController {
     public String signUp(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
             HttpServletRequest request
     ) {
         String userEmail = userSignupDto.getUserEmail();
         if (userEmail != null && userService.isDuplicateEmail(userEmail)) {
-            bindingResult.rejectValue("userEmail", "duplicate","중복되는 이메일입니다.");
+            bindingResult.rejectValue("userEmail", "duplicate", "중복되는 이메일입니다.");
         }
 
         HttpSession session = request.getSession();
         String sessionEmail = (String) session.getAttribute(SessionConst.EMAIL);
-        if (sessionEmail != null && userEmail!=null && !userEmail.equals(sessionEmail)) {
-            bindingResult.rejectValue("userEmail", "duplicate","인증된 이메일과 다른 이메일입니다.");
+        if (sessionEmail != null && userEmail != null && !userEmail.equals(sessionEmail)) {
+            bindingResult.rejectValue("userEmail", "duplicate", "인증된 이메일과 다른 이메일입니다.");
         }
 
         String userEmailCode = userSignupDto.getUserEmailCode();
@@ -92,9 +102,9 @@ public class UserController {
             bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
         }
 
-        String userLoginId = userSignupDto.getUserLoginId();
+        String userLoginId = userSignupDto.getUserLoginId().toLowerCase();
         if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
-            bindingResult.rejectValue("userLoginId", "duplicate","중복되는 아이디입니다.");
+            bindingResult.rejectValue("userLoginId", "duplicate", "중복되는 아이디입니다.");
         }
 
         String userPasswordCheck = userSignupDto.getUserPasswordCheck();
@@ -104,7 +114,10 @@ public class UserController {
 
 
         String userNickname = userSignupDto.getUserNickname();
-        if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
+        if (userNickname != null
+                && !userNickname.equals(loginUser.getUserNickname()) // 본인 닉네임일 경우 허용
+                && userService.isDuplicateNickname(userNickname)
+        ) {
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
 
@@ -130,7 +143,6 @@ public class UserController {
             HttpServletRequest request
     ) {
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분 TODO - 확실하지 않음
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
     }
