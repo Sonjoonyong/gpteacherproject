@@ -157,11 +157,11 @@
                                     </a>
                                 </td>
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
+
                                 <td>
                                     <c:if test="${question.questionStatus == true}">답변중</c:if>
                                     <c:if test="${question.questionStatus != true}">답변중</c:if>
                                 </td>
-
                             </tr>
                         </c:forEach>
                     </tbody>

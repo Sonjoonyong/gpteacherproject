@@ -112,11 +112,8 @@
     <script>
         console.log("1단계");
         $(function(){
-
-
             //댓글리스트
             function replyList(){
-
                 $.ajax({
                     url : "/help/replyList"
                     , data : {
@@ -130,6 +127,7 @@
                             let date = new Date(rDto.questionReplyWriteDate);
                             let newDate = date.toISOString().split('T')[0];
                             console.log(i, rDto);
+
                             //댓글리스트폼
                             tag += "<li>";
                                 tag += "<div>";
@@ -289,6 +287,12 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td>작성자: ${question.userNickname}</td>
+                        <td style="text-align: right">
+                            <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy-MM-dd" />&nbsp;
+                        </td>
+                    </tr>
                     <tr >
                         <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td>
                     </tr>
