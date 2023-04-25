@@ -32,6 +32,7 @@
         border: 1px solid #ccc;
         padding: 20px;
         border-radius: 5px;
+        margin-top: 70px;
         margin-bottom: 50px;
     }
 
@@ -43,6 +44,7 @@
         padding: 8px;
     }
 
+
 </style>
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -53,8 +55,8 @@
     <div class="row">
         <%@ include file="../../fragments/adminMenu.jsp" %>
         <div class="col-md-8 offset-md-1">
-            <h1 class="h3 my-5" style="color: #716FAA;">사용자 통계</h1>
                 <div class="wrapper">
+                    <h1 class="h3" style="color: #716FAA;">사용자 통계</h1>
                     <div class="select-container">
                         <select id="chartSelector" class="form-select mb-4">
                             <option value="monthly" selected>월별 가입자 분석</option>
