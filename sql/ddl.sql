@@ -151,8 +151,8 @@ CREATE TABLE report_list
 (
     id                  NUMBER               NOT NULL,
     user_id             NUMBER               NOT NULL,
-    reported_subject    VARCHAR2(20)         NULL,
-    reported_subject_id NUMBER               NULL,
+    report_subject      VARCHAR2(20)         NULL,
+    report_subject_id   NUMBER               NULL,
     report_reason       VARCHAR2(45)         NOT NULL,
     report_date         DATE DEFAULT SYSDATE NULL
 );

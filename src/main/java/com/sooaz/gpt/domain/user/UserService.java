@@ -19,8 +19,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordHasher passwordHasher;
 
+    public boolean isCorrectPassword(User user, String inputPassord) {
+        String passwordSalt = user.getUserPasswordSalt();
+        String hashedPassword = passwordHasher.hash(inputPassord, passwordSalt);
+        return user.getUserPassword().equals(hashedPassword);
+    }
+
     public User login(LoginDto loginDto) {
-        String loginId = loginDto.getUserLoginId();
+        String loginId = loginDto.getUserLoginId().toLowerCase();
         String password = loginDto.getUserPassword();
         return login(loginId, password);
     }
@@ -32,11 +38,7 @@ public class UserService {
         }
 
         User loginUser = userRepository.findByLoginId(loginId).stream()
-                .filter(user -> {
-                    String salt = user.getUserPasswordSalt();
-                    String hashedPassword = passwordHasher.hash(password, salt);
-                    return user.getUserPassword().equals(hashedPassword);
-                })
+                .filter(user -> isCorrectPassword(user, password))
                 .findAny().orElse(null);
 
         return loginUser;
@@ -84,6 +86,13 @@ public class UserService {
 
 
     public void update(UserUpdateDto userUpdateDto) {
+        String newPassword = userUpdateDto.getUserPassword();
+        String passwordSalt = userUpdateDto.getUserPasswordSalt();
+        if (newPassword != null) {
+            String hashedPassword = passwordHasher.hash(newPassword, passwordSalt);
+            userUpdateDto.setUserPassword(hashedPassword);
+        }
+
         userRepository.update(userUpdateDto);
     }
 
@@ -97,5 +106,9 @@ public class UserService {
 
     public boolean isDuplicateEmail(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    public void delete(Long userId) {
+        userRepository.delete(userId);
     }
 }

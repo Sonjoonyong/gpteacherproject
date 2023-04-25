@@ -16,6 +16,7 @@ sendNewPw.onclick = () => {
     const request = new XMLHttpRequest();
     const userLoginId = loginIdInput.value;
     const userEmail = emailInput.value;
+    sendNewPw.disabled = true;
 
     let queryParam = new URLSearchParams();
     queryParam.append("userLoginId", userLoginId);
@@ -23,17 +24,21 @@ sendNewPw.onclick = () => {
 
     request.onload = () => {
         // result:true - 재발급 성공, false - 실패
+        console.log(request.responseText);
         const responseJson = JSON.parse(request.responseText);
 
         if (responseJson.result === true) {
             emailInput.disabled = true;
             loginIdInput.disabled = true;
             sendNewPw.disabled = true;
+            userPasswordMsgDiv.classList.toggle("text-danger", false);
             userPasswordMsgDiv.innerText = "이메일로 비밀번호가 재발급되었습니다.";
             gotoIdsearchBtn.style.display = 'none';
             gotoLoginBtn.style.display = 'block';
         } else {
             userPasswordMsgDiv.innerText = responseJson.errorMsg;
+            userPasswordMsgDiv.classList.toggle("text-danger", true);
+            sendNewPw.disabled = false;
         }
     }
 
