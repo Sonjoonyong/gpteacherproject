@@ -31,7 +31,7 @@ public class QuestionService {
         question.setQuestionCategory(questionCreateDto.getQuestionCategory());
         question.setQuestionTitle(questionCreateDto.getQuestionTitle());
         question.setQuestionContent(questionCreateDto.getQuestionContent());
-        question.setQuestionPassword(questionCreateDto.getQuestionPassword());
+
         return questionRepository.save(question);
     }
 

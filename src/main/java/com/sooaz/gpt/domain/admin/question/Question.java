@@ -16,7 +16,7 @@ public class Question {
     private Integer questionHit;
     private Date questionWriteDate;
     private Boolean questionStatus;
-    private String questionPassword;
+
 
 
 }
