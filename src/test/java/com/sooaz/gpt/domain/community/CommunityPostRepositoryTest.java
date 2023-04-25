@@ -47,8 +47,10 @@ public class CommunityPostRepositoryTest {
         assertEquals(newPost.getCommunityPostTitle(), foundPost.getCommunityPostTitle());
 
         // 업데이트
-        newPost.setCommunityPostTitle("revised title");
-        communityPostRepository.save(newPost);
+        CommunityPostUpdateDto updateDto = new CommunityPostUpdateDto();
+        updateDto.setCommunityPostTitle("revised title");
+
+        communityPostRepository.update(updateDto);
         CommunityPost updatedPost = communityPostRepository.findById(newPost.getId()).orElseThrow(IllegalStateException::new);
         assertEquals(newPost.getCommunityPostTitle(), updatedPost.getCommunityPostTitle());
 

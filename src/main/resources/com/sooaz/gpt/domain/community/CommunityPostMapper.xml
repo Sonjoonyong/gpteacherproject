@@ -26,7 +26,7 @@
     </insert>
 
     <select id="findById" parameterType="long" resultType="CommunityPost">
-        SELECT * FROM community_post WHERE id = #{id}
+        SELECT * FROM community_post WHERE id = #{communityPostId}
     </select>
 
     <select id="findAll" resultType="CommunityPost">
@@ -48,12 +48,9 @@
     </select>
 
 
-    <update id="update" parameterType="com.sooaz.gpt.domain.community.CommunityPost">
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.CommunityPostUpdateDto">
         UPDATE community_post
         <set>
-            <if test="userId != null">
-                user_id = #{userId},
-            </if>
             <if test="communityPostTitle != null">
                 community_post_title = #{communityPostTitle},
             </if>
@@ -66,9 +63,6 @@
             <if test="communityPostLike != null">
                 community_post_like = #{communityPostLike},
             </if>
-            <if test="communityPostWritedate != null">
-                community_post_writedate = #{communityPostWritedate},
-            </if>
             <if test="communityPostCategory != null">
                 community_post_category = #{communityPostCategory}
             </if>
@@ -77,12 +71,7 @@
     </update>
 
     <delete id="delete" parameterType="long">
-        delete from COMMUNITY_POST where id = #{id}
+        delete from COMMUNITY_POST where id = #{communityPostId}
     </delete>
-
-    <update id="increaseViewCount" parameterType="long">
-        UPDATE COMMUNITY_POST SET community_post_hit = community_post_hit + 1 WHERE id = #{id}
-    </update>
-
 
 </mapper>

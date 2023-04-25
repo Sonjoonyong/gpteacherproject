@@ -9,7 +9,7 @@ import java.util.List;
 public interface CommunityPostMapper {
     void save(CommunityPost communityPost);
 
-    CommunityPost findById(Long Id);
+    CommunityPost findById(Long communityPostId);
 
     List<CommunityPost> findAll(String search);
 
@@ -17,9 +17,9 @@ public interface CommunityPostMapper {
 
     List<CommunityPost> findBookmarksByUserId(Long userId);
 
-    void update(CommunityPost communityPost);
+    void update(CommunityPostUpdateDto communityPostUpdateDto);
 
-    void delete(Long id);
+    void delete(Long communityPostId);
 
 }
 

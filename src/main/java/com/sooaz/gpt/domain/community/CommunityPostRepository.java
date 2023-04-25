@@ -13,25 +13,32 @@ public class CommunityPostRepository {
     private final CommunityPostMapper communityPostMapper;
 
     public CommunityPost save(CommunityPost communityPost) {
-        if (communityPost.getId() == null) {
-            communityPostMapper.save(communityPost);
-        } else {
-            communityPostMapper.update(communityPost);
-        }
+        communityPostMapper.save(communityPost);
         return communityPost;
+    }
+
+    public void update(CommunityPostUpdateDto communityPostUpdateDto) {
+        communityPostMapper.update(communityPostUpdateDto);
     }
 
     public Optional<CommunityPost> findById(Long id) {
         return Optional.ofNullable(communityPostMapper.findById(id));
     }
-    public List<CommunityPost> findAll(String search) {return communityPostMapper.findAll(search);}
+
+    public List<CommunityPost> findAll(String search) {
+        return communityPostMapper.findAll(search);
+    }
+
     public List<CommunityPost> findByUserId(Long userId) {
         return communityPostMapper.findByUserId(userId);
     }
-    public List<CommunityPost> findBookmarksByUserId(Long userId){
+
+    public List<CommunityPost> findBookmarksByUserId(Long userId) {
         return communityPostMapper.findBookmarksByUserId(userId);
     }
+
     public void deleteById(Long id) {
-        communityPostMapper.delete(id);}
+        communityPostMapper.delete(id);
+    }
 }
 
