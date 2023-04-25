@@ -50,6 +50,12 @@
             background-color: white;
             float: right;
         }
+        .btn.btn-success{
+            border: 1px solid #5DB99D;
+            color: #5DB99D;
+            background-color: white;
+            float: left;
+        }
 
         .col-md-7 table thead tr,
         .col-md-7 table thead tr td{
@@ -299,15 +305,15 @@
 
                 <c:if test="${loginUser.userRole == 'ADMIN'}">
                     <form action="${pageContext.request.contextPath}/help/question/statusUpdate/${question.id}" method="POST">
-                        <button type="submit" class="btn btn-primary">답변상태변경</button>
+                        <button type="submit" class="btn btn-success">답변상태변경</button>
                     </form>
                 </c:if>
 
 
-                <form action="${pageContext.request.contextPath}/help/question/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;"> <!--게시글삭제버튼-->
-                    <a href="${pageContext.request.contextPath}/help/question/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary">수정</a> <!--게시글수정버튼-->
-                    <button type="submit" class="btn btn-primary">삭제</button>
+                <form action="${pageContext.request.contextPath}/help/question/delete/${question.id}"  method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;"> <!--게시글삭제버튼-->
+                    <a href="${pageContext.request.contextPath}/help/question/list" class="btn btn-primary" style="margin-right: 5px;">목록</a>
+                    <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary" style="margin-right: 5px;">수정</a> <!--게시글수정버튼-->
+                    <button type="submit" class="btn btn-primary" style="margin-right: 5px;">삭제</button>
                 </form>
 
             </div>
