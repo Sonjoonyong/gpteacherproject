@@ -18,7 +18,5 @@ public class Question {
     private Boolean questionStatus;
     private String questionPassword;
 
-    
-
 
 }

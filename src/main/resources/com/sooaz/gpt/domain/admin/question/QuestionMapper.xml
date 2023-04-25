@@ -19,7 +19,6 @@
             (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(user_id) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%') or
             (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_category) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
         ORDER BY id desc
-
     </select>
 
     <select id="findById" parameterType="long" resultMap="QuestionResultMap">
@@ -30,8 +29,8 @@
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             SELECT BOARD_QUESTION_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-            INSERT INTO board_question (id, user_id,question_category ,question_title, question_content, question_password)
-            VALUES (#{id}, #{userId}, #{questionCategory}, #{questionTitle}, #{questionContent}, #{questionPassword})
+            INSERT INTO board_question (id, user_id,question_category ,question_title, question_content, question_password, question_status)
+            VALUES (#{id}, #{userId}, #{questionCategory}, #{questionTitle}, #{questionContent}, #{questionPassword}, '0')
     </insert>
 
     <update id="update" parameterType="com.sooaz.gpt.domain.admin.question.Question">
@@ -41,12 +40,17 @@
             question_title = #{questionTitle},
             question_content = #{questionContent},
             question_password=#{questionPassword}
-
         WHERE id = #{id}
     </update>
 
     <delete id="deleteById" parameterType="long">
         DELETE FROM board_question WHERE id = #{id}
     </delete>
+
+    <update id="statusUpdate" parameterType="com.sooaz.gpt.domain.admin.question.Question">
+        UPDATE board_question
+        SET question_status = '1'
+        WHERE id = #{id}
+    </update>
 
 </mapper>

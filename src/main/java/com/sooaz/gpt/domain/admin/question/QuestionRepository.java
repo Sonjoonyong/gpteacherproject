@@ -30,5 +30,10 @@ public class QuestionRepository {
         questionMapper.deleteById(id);
     }
 
+    public Question statusUpdate(Question question){
+        questionMapper.statusUpdate(question);
+        return question;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <html>
@@ -105,7 +106,6 @@
             margin-top: 10px;
             list-style: none;
         }
-
     </style>
 
     <!--댓글-->
@@ -127,7 +127,6 @@
                             let date = new Date(rDto.questionReplyWriteDate);
                             let newDate = date.toISOString().split('T')[0];
                             console.log(i, rDto);
-
                             //댓글리스트폼
                             tag += "<li>";
                                 tag += "<div>";
@@ -229,7 +228,6 @@
                         }
                     });
                 }
-
             });
 
             replyList();
@@ -283,30 +281,39 @@
                 <table class="table" style="text-align:start; border:1px solid black;" >
                     <thead style="margin-bottom: 20px;">
                     <tr>
-                        <td colspan="2">${question.questionTitle}</td>
+                        <td colspan="2">${question.questionTitle}</td> <!--게시글제목-->
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>작성자: ${question.userNickname}</td>
+                        <td>작성자: ${question.userNickname}</td> <!--게시글작성자-->
                         <td style="text-align: right">
-                            <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy-MM-dd" />&nbsp;
+                            <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy-MM-dd" />&nbsp; <!--게시글작성일-->
                         </td>
                     </tr>
                     <tr >
-                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td>
+                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td> <!--게시글내용-->
                     </tr>
                     </tbody>
                 </table>
-                <form action="${pageContext.request.contextPath}/help/question/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+
+                <c:if test="${loginUser.userRole == 'ADMIN'}">
+                    <form action="${pageContext.request.contextPath}/help/question/statusUpdate/${question.id}" method="POST">
+                        <button type="submit" class="btn btn-primary">답변상태변경</button>
+                    </form>
+                </c:if>
+
+
+                <form action="${pageContext.request.contextPath}/help/question/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;"> <!--게시글삭제버튼-->
                     <a href="${pageContext.request.contextPath}/help/question/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary">수정</a>
+                    <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary">수정</a> <!--게시글수정버튼-->
                     <button type="submit" class="btn btn-primary">삭제</button>
                 </form>
 
             </div>
             <div class="col-md-3" >
             </div>
+
             <!--댓글-->
             <div class="col-md-7" >
                 <div class="row">
@@ -318,7 +325,6 @@
                 </div>
                 <div class="row">
                     <ul id="replyList" >
-
 
                     </ul>
                 </div>
