@@ -110,8 +110,7 @@ CREATE TABLE board_question
     question_content   CLOB                    NOT NULL,
     question_hit       NUMBER  DEFAULT 0       NULL,
     question_writedate DATE    DEFAULT SYSDATE NULL,
-    question_status    CHAR(1)                 NULL,
-    question_password  VARCHAR2(32)            NOT NULL
+    question_status    CHAR(1)                 NULL
 );
 
 
