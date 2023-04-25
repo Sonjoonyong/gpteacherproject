@@ -13,6 +13,31 @@
         <result property="count" column="count"/>
     </resultMap>
 
+    <resultMap id="userViewResultMap" type="com.sooaz.gpt.domain.admin.user.UserView">
+        <id property="id" column="id"/>
+        <result property="userLoginId" column="user_login_id"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userPasswordSalt" column="user_password_salt"/>
+        <result property="userNickname" column="user_nickname"/>
+        <result property="userRole" column="user_role"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userBirthday" column="user_birthday"/>
+        <result property="userEmailAgreement" column="user_email_agreement"/>
+        <result property="userCreatedate" column="user_createdate"/>
+    </resultMap>
+
+    <select id="getUserViewList" resultMap="userViewResultMap">
+        SELECT * FROM users
+        <where>
+            <if test="search != null">
+                (LOWER(user_login_id) LIKE LOWER('%' || #{search} || '%')
+                OR LOWER(user_nickname) LIKE LOWER('%' || #{search} || '%')
+                OR LOWER(user_email) LIKE LOWER('%' || #{search} || '%'))
+            </if>
+        </where>
+        ORDER BY id
+    </select>
+
     <select id="getMonthlyUserCounts" resultMap="monthlyUserCountResultMap">
         SELECT EXTRACT(YEAR FROM user_createdate) AS year,
                EXTRACT(MONTH FROM user_createdate) AS month,

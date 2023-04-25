@@ -35,6 +35,14 @@
         margin-bottom: 50px;
     }
 
+    .table-hover thead th {
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #716FAA;
+        color: white;
+        padding: 8px;
+    }
+
 </style>
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -49,13 +57,16 @@
                 <div class="wrapper">
                     <div class="select-container">
                         <select id="chartSelector" class="form-select mb-4">
-                            <option value="monthly" selected>월별 사용자 분석</option>
+                            <option value="monthly" selected>월별 가입자 분석</option>
                             <option value="ageGroup">연령별 사용자 분석</option>
                         </select>
                     </div>
 
                     <div id="monthlyUserAnalysis" class="chart-container">
-                        <table class="table table-striped table-hover">
+                        <div>
+                            <canvas id="monthlyUserCountsChart" width="400" height="200"></canvas>
+                        </div>
+                        <table class="table table-hover" style="margin-top: 50px">
                             <thead>
                             <tr>
                                 <th>년도</th>
@@ -73,14 +84,14 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                        <div>
-                            <canvas id="monthlyUserCountsChart" width="400" height="200"></canvas>
-                        </div>
 
                     </div>
 
                     <div id="ageGroupAnalysis" class="chart-container" style="display:none;">
-                        <table class="table table-striped table-hover">
+                        <div>
+                            <canvas id="ageGroupCountsChart" width="400" height="200"></canvas>
+                        </div>
+                        <table class="table table-hover" style="margin-top: 50px">
                             <thead>
                             <tr>
                                 <th>연령대</th>
@@ -96,9 +107,6 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                        <div>
-                            <canvas id="ageGroupCountsChart" width="400" height="200"></canvas>
-                        </div>
                     </div>
                 </div>
         </div>
@@ -143,8 +151,8 @@
             datasets: [{
                 label: '월별 가입자',
                 data: monthlyUserCountsData,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: '#CFEAE2',
+                borderColor: '#5DB99D',
                 borderWidth: 1
             }]
         },
