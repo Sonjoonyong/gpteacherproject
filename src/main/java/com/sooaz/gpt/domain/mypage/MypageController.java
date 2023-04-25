@@ -86,7 +86,6 @@ public class MypageController {
         if(onlyLike != null && onlyLike.equals('1')) {
             learningFindDto.setOnlyLike(onlyLike);
         }
-        //log.info("res = {}",learningFindDto);
         List<Learning> learnings = mypageService.getLearningList(learningFindDto);
         PageInfo<Learning> pageInfo = new PageInfo<>(learnings);
         model.addAttribute("pageInfo",pageInfo);
@@ -134,11 +133,9 @@ public class MypageController {
         if(onlyLike != null && onlyLike.equals('1')) {
             learningFindDto.setOnlyLike(onlyLike);
         }
-        //log.info("res = {}",learningFindDto);
         List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
         PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
         model.addAttribute("pageInfo",pageInfo);
-        log.info("pageInfo = {}",pageInfo);
 
         model.addAttribute("learningType", learningType);
         model.addAttribute("sortType", sortType);

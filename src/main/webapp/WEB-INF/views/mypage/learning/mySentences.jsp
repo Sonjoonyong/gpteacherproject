@@ -26,7 +26,7 @@
                     <input type="hidden" id="onlyLike" name="onlyLike" value="${onlyLike}">
                     <input type="hidden" id="pageNum" name="pageNum">
                     <div class="row align-items-center">
-                        <div class="col-10 col-md-2">
+                        <div class="col-10 col-md-3">
                             <select class="form-select" aria-label="Default select example" name="learningType" id="learningTypeSelect" onchange="reLoad()">
                                 <option value="all">전체</option>
                                 <option value="SPEAKING">말하기 연습</option>
@@ -122,12 +122,12 @@
                         <ul class="pagination">
                             <c:if test="${pageInfo.hasPreviousPage}">
                                 <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(1)" aria-label="First">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(1)" aria-label="First">
                                         <span aria-hidden="true">«</span>
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(${pageInfo.prePage})" aria-label="Previous">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.prePage})" aria-label="Previous">
                                         <span aria-hidden="true">‹</span>
                                     </a>
                                 </li>
@@ -137,12 +137,12 @@
                                 <c:choose>
                                     <c:when test="${i == pageInfo.pageNum}">
                                         <li class="page-item active">
-                                            <a class="page-link" href="javascript:void(0)" onclick="pageChange(${i})">${i}</a>
+                                            <a class="page-link" href="javascript:void(0)" onclick="reLoad(${i})">${i}</a>
                                         </li>
                                     </c:when>
                                     <c:otherwise>
                                         <li class="page-item">
-                                            <a class="page-link" href="javascript:void(0)" onclick="pageChange(${i})">${i}</a>
+                                            <a class="page-link" href="javascript:void(0)" onclick="reLoad(${i})">${i}</a>
                                         </li>
                                     </c:otherwise>
                                 </c:choose>
@@ -150,12 +150,12 @@
 
                             <c:if test="${pageInfo.hasNextPage}">
                                 <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(${pageInfo.nextPage})" aria-label="Next">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.nextPage})" aria-label="Next">
                                         <span aria-hidden="true">›</span>
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(${pageInfo.pages})" aria-label="Last">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.pages})" aria-label="Last">
                                         <span aria-hidden="true">»</span>
                                     </a>
                                 </li>
@@ -217,19 +217,7 @@
         }
         init(); //발음 평가 관련 초기화 작업
     }
-    function reLoad() {
-        let likeCheck = document.getElementById('flexCheckDefault');
-        let form = document.getElementById('selectForm');
-
-        if (likeCheck.checked == true) {
-            document.getElementById('onlyLike').value = '1';
-        } else {
-            document.getElementById('onlyLike').value = null;
-        }
-        form.submit();
-    }
-
-    function pageChange(pageNum) {
+    function reLoad(pageNum) {
         let likeCheck = document.getElementById('flexCheckDefault');
         let form = document.getElementById('selectForm');
 
@@ -239,7 +227,9 @@
             document.getElementById('onlyLike').value = null;
         }
 
-        document.getElementById('pageNum').value = pageNum;
+        if(pageNum != null) {
+            document.getElementById('pageNum').value = pageNum;
+        }
 
         form.submit();
     }
