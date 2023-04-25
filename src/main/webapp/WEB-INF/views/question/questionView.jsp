@@ -287,7 +287,8 @@
                 <table class="table" style="text-align:start; border:1px solid black;" >
                     <thead style="margin-bottom: 20px;">
                     <tr>
-                        <td colspan="2">${question.questionTitle}</td> <!--게시글제목-->
+
+                        <td colspan="2">[ ${question.questionCategory} ] ${question.questionTitle}</td> <!--게시글제목-->
                     </tr>
                     </thead>
                     <tbody>

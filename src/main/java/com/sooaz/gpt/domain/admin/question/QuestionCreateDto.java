@@ -8,5 +8,5 @@ public class QuestionCreateDto {
     private String questionCategory;
     private String questionTitle;
     private String questionContent;
-    private String questionPassword;
+
 }
