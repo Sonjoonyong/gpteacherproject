@@ -1,4 +1,4 @@
-package com.sooaz.gpt.global.security;
+package com.sooaz.gpt.domain.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;

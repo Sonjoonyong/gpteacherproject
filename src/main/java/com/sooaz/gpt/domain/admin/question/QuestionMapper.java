@@ -15,4 +15,6 @@ public interface QuestionMapper {
     void update(Question question); // 게시글 수정
 
     void deleteById(Long id); // 게시글 삭제
+
+    void statusUpdate(Question question);
 }
