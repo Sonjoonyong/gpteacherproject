@@ -26,6 +26,7 @@
                     <input type="hidden" id="learningType" value="${learningType}">
                     <input type="hidden" id="sortType" value="${sortType}">
                     <input type="hidden" id="onlyLike" name="onlyLike" value="${onlyLike}">
+                    <input type="hidden" id="pageNum" name="pageNum">
                     <div class="row align-items-center">
                         <div class="col-10 col-md-2">
                             <select class="form-select" aria-label="Default select example" name="learningType" id="learningTypeSelect" onchange="reLoad()">
@@ -48,7 +49,7 @@
                     </div>
                 </form>
             </div>
-            <c:forEach var="learning" items="${learnings}">
+            <c:forEach var="learning" items="${pageInfo.list}">
                 <div class="row p-2 sentence justify-content-center">
                     <div class="row g-0 learning my-1 align-items-end justify-content-between shadow rounded-3 p-3" id="learning_${learning.id}">
                         <div class="row">
@@ -59,7 +60,7 @@
                                 </c:if>
                             </div>
                             <div class="col-12 col-md-6" style="color: #373737">
-                                    <fmt:formatDate value="${learning.learningDate}" pattern="yyy.MM.dd"/>
+                                <fmt:formatDate value="${learning.learningDate}" pattern="yyy.MM.dd"/>
                             </div>
                             <div class="col-12 col-md-2">
                                 <div class="row g-0">
@@ -97,6 +98,54 @@
                     </div>
                 </div>
             </c:forEach>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <c:if test="${pageInfo.hasPreviousPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(1)" aria-label="First">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(${pageInfo.prePage})" aria-label="Previous">
+                                        <span aria-hidden="true">‹</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                <c:choose>
+                                    <c:when test="${i == pageInfo.pageNum}">
+                                        <li class="page-item active">
+                                            <a class="page-link" href="javascript:void(0)" onclick="pageChange(${i})">${i}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item">
+                                            <a class="page-link" href="javascript:void(0)" onclick="pageChange(${i})">${i}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:if test="${pageInfo.hasNextPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(${pageInfo.nextPage})" aria-label="Next">
+                                        <span aria-hidden="true">›</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="pageChange(${pageInfo.pages})" aria-label="Last">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -145,6 +194,20 @@ function reLoad() {
     } else {
         document.getElementById('onlyLike').value = null;
     }
+    form.submit();
+}
+
+function pageChange(pageNum) {
+    let likeCheck = document.getElementById('flexCheckDefault');
+    let form = document.getElementById('selectForm');
+
+    if (likeCheck.checked == true) {
+        document.getElementById('onlyLike').value = '1';
+    } else {
+        document.getElementById('onlyLike').value = null;
+    }
+    document.getElementById('pageNum').value = pageNum;
+
     form.submit();
 }
 

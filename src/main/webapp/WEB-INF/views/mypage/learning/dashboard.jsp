@@ -67,7 +67,7 @@
             </div>
             <div>
                 <h4 class="my-3" style="color: #2F4858">연간 학습</h4>
-                <div id="calendar" class="py-3"></div>
+                <div id="calendar" class="py-3 calendar-heatmap"></div>
             </div>
         </div>
     </div>

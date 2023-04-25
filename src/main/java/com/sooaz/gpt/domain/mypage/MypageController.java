@@ -28,7 +28,6 @@ public class MypageController {
 
     private final MypageService mypageService;
 
-
     @GetMapping("/user/mypage/dashboard")
     public String getDashboard(
             @SessionAttribute User loginUser,
@@ -55,22 +54,28 @@ public class MypageController {
             @SessionAttribute User loginUser,
             Model model
     ) {
+        PageHelper.startPage(1, 5);
+
         LearningFindDto learningFindDto = new LearningFindDto();
         learningFindDto.setUserId(loginUser.getId());
         learningFindDto.setSortType("id_desc");
         List<Learning> learnings = mypageService.getLearningList(learningFindDto);
-        model.addAttribute("learnings", learnings);
+
+        PageInfo<Learning> pageInfo = new PageInfo<>(learnings);
+        model.addAttribute("pageInfo",pageInfo);
         return "mypage/learning/learningHistory";
     }
 
     @PostMapping("/user/mypage/learnings")
     public String getSelectedLearnings(
             @SessionAttribute User loginUser,
-            @RequestParam(required = false) String learningType,
-            @RequestParam(required = false) String sortType,
-            @RequestParam(required = false) Character onlyLike,
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(required = false, defaultValue = "all") String learningType,
+            @RequestParam(required = false, defaultValue = "id_desc") String sortType,
+            @RequestParam(required = false, defaultValue = "0") Character onlyLike,
             Model model
     ) {
+        PageHelper.startPage(pageNum, 5);
         LearningFindDto learningFindDto = new LearningFindDto();
 
         learningFindDto.setUserId(loginUser.getId());
@@ -83,7 +88,9 @@ public class MypageController {
         }
         //log.info("res = {}",learningFindDto);
         List<Learning> learnings = mypageService.getLearningList(learningFindDto);
-        model.addAttribute("learnings", learnings);
+        PageInfo<Learning> pageInfo = new PageInfo<>(learnings);
+        model.addAttribute("pageInfo",pageInfo);
+
         model.addAttribute("learningType", learningType);
         model.addAttribute("sortType", sortType);
         model.addAttribute("onlyLike", onlyLike);
@@ -95,21 +102,28 @@ public class MypageController {
             @SessionAttribute User loginUser,
             Model model
     ) {
+        PageHelper.startPage(1, 5);
+
         LearningFindDto learningFindDto = new LearningFindDto();
         learningFindDto.setUserId(loginUser.getId());
+        learningFindDto.setSortType("id_desc");
         List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
-        model.addAttribute("sentences", sentences);
+
+        PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
+        model.addAttribute("pageInfo",pageInfo);
         return "mypage/learning/mySentences";
     }
 
     @PostMapping("/user/mypage/sentences")
     public String getSelectedSentences(
             @SessionAttribute User loginUser,
+            @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(required = false) String learningType,
             @RequestParam(required = false) String sortType,
             @RequestParam(required = false) Character onlyLike,
             Model model
     ) {
+        PageHelper.startPage(pageNum, 5);
         LearningFindDto learningFindDto = new LearningFindDto();
 
         learningFindDto.setUserId(loginUser.getId());
@@ -122,7 +136,10 @@ public class MypageController {
         }
         //log.info("res = {}",learningFindDto);
         List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
-        model.addAttribute("sentences", sentences);
+        PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
+        model.addAttribute("pageInfo",pageInfo);
+        log.info("pageInfo = {}",pageInfo);
+
         model.addAttribute("learningType", learningType);
         model.addAttribute("sortType", sortType);
         model.addAttribute("onlyLike", onlyLike);
@@ -178,6 +195,7 @@ public class MypageController {
         List<Community> communities = mypageService.getPostList(loginUser.getId());
         PageInfo<Community> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
+        log.info("pageInfo = {}", pageInfo);
         return "mypage/activity/myPosts";
     }
 
