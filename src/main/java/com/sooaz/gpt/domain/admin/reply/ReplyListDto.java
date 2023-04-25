@@ -5,11 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ReplyDto {
+public class ReplyListDto {
     private Long id;
     private Long userId;
     private Long questionId;
     private Date questionReplyWriteDate;
     private String questionReplyContent;
     private Long questionReplyParentId;
+    private String userNickname;
 }
