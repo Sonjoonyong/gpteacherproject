@@ -106,7 +106,7 @@ public class MypageService {
 
     public void deletePostsById(List<Long> postIds) {
         for(Long id : postIds) {
-            communityPostRepository.deleteById(id);
+            communityPostRepository.delete(id);
         }
     }
 

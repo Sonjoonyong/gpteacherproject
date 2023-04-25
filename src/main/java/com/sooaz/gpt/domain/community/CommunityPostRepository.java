@@ -21,8 +21,12 @@ public class CommunityPostRepository {
         communityPostMapper.update(communityPostUpdateDto);
     }
 
-    public Optional<CommunityPost> findById(Long id) {
-        return Optional.ofNullable(communityPostMapper.findById(id));
+    public Optional<CommunityPost> findById(Long communityPostId) {
+        return communityPostMapper.findById(communityPostId);
+    }
+
+    public Optional<CommunityPostViewDto> findByIdForView(Long communityPostId) {
+        return communityPostMapper.findByIdForView(communityPostId);
     }
 
     public List<CommunityPost> findAll(String search) {
@@ -37,8 +41,8 @@ public class CommunityPostRepository {
         return communityPostMapper.findBookmarksByUserId(userId);
     }
 
-    public void deleteById(Long id) {
-        communityPostMapper.delete(id);
+    public void delete(Long communityPostId) {
+        communityPostMapper.delete(communityPostId);
     }
 }
 

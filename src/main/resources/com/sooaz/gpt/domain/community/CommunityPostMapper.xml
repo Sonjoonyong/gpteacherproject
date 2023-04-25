@@ -10,18 +10,18 @@
             SELECT COMMUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO community_post (
-        id,
-        user_id,
-        community_post_title,
-        community_post_content,
-        community_post_category
+            id,
+            user_id,
+            community_post_title,
+            community_post_content,
+            community_post_category
         )
         VALUES (
-        #{id},
-        #{userId},
-        #{communityPostTitle},
-        #{communityPostContent},
-        #{communityPostCategory}
+            #{id},
+            #{userId},
+            #{communityPostTitle},
+            #{communityPostContent},
+            #{communityPostCategory}
         )
     </insert>
 
@@ -29,9 +29,27 @@
         SELECT * FROM community_post WHERE id = #{communityPostId}
     </select>
 
+    <select id="findByIdForView" parameterType="long" resultType="CommunityPostViewDto">
+        SELECT
+            P.id,
+            U.user_nickname,
+            community_post_category,
+            community_post_title,
+            community_post_content,
+            community_post_hit,
+            community_post_writedate,
+            community_post_like
+        FROM community_post P
+        JOIN users U
+        ON P.user_id = U.id
+        WHERE P.id = #{communityPostId}
+    </select>
+
     <select id="findAll" resultType="CommunityPost">
         SELECT * FROM community_post
-        WHERE (#{search} IS NULL OR LOWER(community_post_title) LIKE '%' || LOWER(#{search}) || '%')
+        <if test="search != null">
+            LOWER(community_post_title) LIKE '%' || LOWER(#{search}) || '%'
+        </if>
         ORDER BY community_post_writedate DESC
     </select>
 

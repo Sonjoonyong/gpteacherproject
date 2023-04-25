@@ -1,6 +1,6 @@
 package com.sooaz.gpt.domain.community;
 
-import lombok.RequiredArgsConstructor;
+import com.sooaz.gpt.domain.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -25,6 +26,8 @@ public class CommunityPostRepositoryTest {
 
     @Autowired
     CommunityPostRepository communityPostRepository;
+    @Autowired
+    UserService userService;
 
     CommunityPost getPost() {
         CommunityPost communityPost = new CommunityPost();
@@ -33,6 +36,21 @@ public class CommunityPostRepositoryTest {
         communityPost.setCommunityPostContent("test content");
         communityPost.setCommunityPostCategory("TOEIC");
         return communityPost;
+    }
+
+    User getUser() {
+        UserSignupDto userSignupDto = new UserSignupDto();
+        userSignupDto.setUserEmail("test@test.com");
+        userSignupDto.setUserPassword("123!@#");
+        userSignupDto.setUserLoginId("testUser");
+        userSignupDto.setUserNickname("testUserNickname");
+        userSignupDto.setUserBirthday(new Date());
+        userSignupDto.setUserAllTermAgreement(true);
+        userSignupDto.setUserGeneralTermAgreement(true);
+        userSignupDto.setUserPrivacyTermAgreement(true);
+        userSignupDto.setUserEmailAgreement(true);
+        userService.join(userSignupDto);
+        return userService.findByLoginId("testUser").orElseThrow(IllegalStateException::new);
     }
 
     @Test
@@ -55,10 +73,21 @@ public class CommunityPostRepositoryTest {
         assertEquals(newPost.getCommunityPostTitle(), updatedPost.getCommunityPostTitle());
 
         // 삭제
-        communityPostRepository.deleteById(newPost.getId());
+        communityPostRepository.delete(newPost.getId());
         assertTrue(communityPostRepository.findById(newPost.getId()).isEmpty());
+    }
 
+    @Test
+    public void findByIdForView() {
+        User user = getUser();
+        CommunityPost newPost = getPost();
+        newPost.setUserId(user.getId());
+        communityPostRepository.save(newPost);
 
+        Optional<CommunityPostViewDto> optional = communityPostRepository.findByIdForView(newPost.getId());
+        CommunityPostViewDto byIdForView = optional.orElseThrow(IllegalStateException::new);
+
+        System.out.println("byIdForView = " + byIdForView);
     }
 
 }

@@ -4,12 +4,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface CommunityPostMapper {
     void save(CommunityPost communityPost);
 
-    CommunityPost findById(Long communityPostId);
+    Optional<CommunityPost> findById(Long communityPostId);
+
+    Optional<CommunityPostViewDto> findByIdForView(Long communityPostId);
 
     List<CommunityPost> findAll(String search);
 

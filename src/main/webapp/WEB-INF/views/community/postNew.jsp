@@ -84,11 +84,11 @@
                     <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
                         <ul>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/communityPost/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                                <%--                                         원래 위에가 /communityPost/list 이고 밑에가 /communityPost/? 이다--%>
+                                <a class="nav-link " href="/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
+                                <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
                             </li>
                             <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/communityPost/?"><i class="fa-solid fa-chevron-right"></i> 성</a>
+                                <a class="nav-link " href="/community/?"><i class="fa-solid fa-chevron-right"></i> 성</a>
                             </li>
                         </ul>
                     </div>
@@ -97,13 +97,19 @@
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
                 <h3>글 작성</h3>
                 <div class="create-form">
-                    <form:form action="/communityPost/write" method="post" modelAttribute="communityPostDto">
+                    <form:form action="/community/write" method="post" modelAttribute="communityPostDto">
                         <div class="FormSelectButton" style="width:80px; ">
                             <form:select path="communityPostCategory"  class="select" id="communityPostTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
-                                <form:option value="TOEIC"> 토익</form:option>
-                                <form:option value="TOEFL"> 토플</form:option>
-                                <form:option value="OPIC"> 오픽</form:option>
-                                <form:option value="IELTS"> 아이엘츠</form:option>
+                                <form:option value="TOEIC">토익</form:option>
+                                <form:option value="TOEFL">토플</form:option>
+                                <form:option value="OPIC">오픽</form:option>
+                                <form:option value="IELTS">아이엘츠</form:option>
+                                <form:option value="CONVERSATION">회화 연습</form:option>
+                                <form:option value="WRITING">글쓰기 연습</form:option>
+                                <form:option value="DAILY">일상</form:option>
+                                <form:option value="HUMOR">유머</form:option>
+                                <form:option value="TEST">시험</form:option>
+                                <form:option value="STUDY">공부</form:option>
                             </form:select>
                         </div>
                         <div>

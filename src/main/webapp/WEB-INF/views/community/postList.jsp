@@ -121,14 +121,14 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/communityPost/list'" style="background-color: #CFEAE2">
+                                <button class="accordion-button " type="button" onclick="location.href='/community/list'" style="background-color: #CFEAE2">
                                     커뮤니티
                                 </button>
                             </h2>
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/communityPost/?'">
+                                <button class="accordion-button " type="button" onclick="location.href='/community/?'">
                                     WeeklyTop10
                                 </button>
                             </h2>
@@ -145,7 +145,7 @@
                         <%--                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>--%>
                         <%--                                </div>--%>
                         <div>
-                            <a href="${pageContext.request.contextPath}/communityPost/write" class="btn btn-primary float-end" style="align-content: end" role="button">글작성</a>
+                            <a href="/community/write" class="btn btn-primary float-end" style="align-content: end" role="button">글작성</a>
                         </div>
                     </div>
                     <table class="table table-striped" style="text-align: center; border:1px solid black;">
@@ -159,10 +159,11 @@
                         <c:forEach var="communityPost" items="${pageInfo.list}">
                             <tr>
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/communityPost/view?communityId=${communityPost.id}" class="communityPost-title-link" style="margin-right: 30px">
+                                    <a href="/community/${communityPost.id}" class="communityPost-title-link" style="margin-right: 30px">
                                             <%--                                                <img src="/images/community_titleimage.png" alt="Community" class="notice-image">--%>
                                             ${communityPost.communityPostTitle}
                                     </a>
+                                </td>
                                 </td>
                                 <td><fmt:formatDate value="${communityPost.communityPostWritedate}" pattern="yyyy.MM.dd" /></td>
                             </tr>
@@ -221,7 +222,7 @@
 
                     <div class="row">
                         <div class="col-md-12 d-flex justify-content-center">
-                            <form action="/communityPost/list" method="get" id="searchForm">
+                            <form action="/community/list" method="get" id="searchForm">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 <input type="text" class="searchbox" name="search" />
                                 <button type="submit">검색</button>
