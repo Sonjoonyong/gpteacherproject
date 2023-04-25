@@ -65,31 +65,12 @@ public class CommunityPostController {
         }
     }
 
-//    @PostMapping("/update/{id}")
-//        public String updateCommunity(@PathVariable Long id, @ModelAttribute Community community, RedirectAttributes redirectAttributes) {
-//        //communityPostService.createCommunityPost(id, community);   ??????
-//        redirectAttributes.addFlashAttribute("message", "게시글이 업데이트 되었습니다.");
-//        return "redirect:/community/list?communityPostId=" + id; //???????
-//    }
-
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         CommunityPost communityPost = communityPostService.getCommunityById(id);
         model.addAttribute("community", communityPost);
         return "community/postEdit";
     }
-//    public String showEditForm(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-//        HttpSession session = request.getSession();
-//        User loginUser = (User) session.getAttribute("loginUser");
-//
-//        if (loginUser != null && UserRole.USER.equals(loginUser.getUserRole())) {
-//            Community community = communityPostService.getCommunityById(id);
-//            model.addAttribute("community", community);
-//            return "community/postView";
-//        } else {
-//            return "redirect:/community/list";
-//        }
-//    }
 
     @PostMapping("/delete/{id}")
     public String deleteCommunity(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
@@ -116,10 +97,3 @@ public class CommunityPostController {
 
     }
 }
-//    @PostMapping("/edit")
-//    public String editCommunity(@PathVariable Long id, @ModelAttribute Community community, RedirectAttributes redirectAttributes){
-//        communityPostService.editCommunity(id, community);
-//        redirectAttributes.addFlashAttribute("message", "게시글이 변경되었습니다.");
-//        return "redirect:/community/view?commuityId=" + id;
-//    }
-//    }

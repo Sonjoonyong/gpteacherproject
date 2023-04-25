@@ -14,40 +14,56 @@
             user_id,
             community_post_id,
             community_reply_content,
-            community_reply_writedate,
             community_reply_parents_id
         )
         values (
             #{id},
             #{userId},
             #{communityPostId},
-            #{communityReplyContent},
-            SYSDATE,
-            #{id}
+            #{communityReplyContent}
+            <if test="communityReplyParentsId == null">
+                , #{id}
+            </if>
+            <if test="communityReplyParentsId != null">
+                , ${communityReplyParentsId}
+            </if>
         )
     </insert>
 
-    <select id="findById">
-        select * from community_reply where id = #{id}
+    <select id="findById" parameterType="long" resultType="CommunityReply">
+        select * from community_reply where id = #{communityPostId}
     </select>
 
-    <!-- 댓글 조회 -->
-    <select id="findByCommunityPostId" parameterType="int">
-        select
-            communityReplyContent
-        from Community_reply
-        where id = #{communityPostId}
+    <select id="findByCommunityPostId" parameterType="long" resultType="CommunityReplyListDto">
+        select (
+            id,
+            community_post_id,
+            U.user_id,
+            community_reply_writedate,
+            community_reply_content,
+            community_reply_parents_id,
+            U.user_nickname
+        )
+        from community_reply R
+                 join on users U
+        where community_post_id = #{communityPostId}
     </select>
-    <!-- 댓글 수정 -->
-    <update id="update">
-        update Community_reply set
-            communityReplyContent=#{communityReplyContent}
 
+    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
+        select communityReplyContent from community_reply where user_id = #{userId}
+    </select>
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReplyUpdateDto">
+        update community_reply
+        <set>
+            <if test="communityReplyContent != null">
+                community_reply_content = #{communityReplyContent}
+            </if>
+            where id = #{communityReplyId}
+        </set>
     </update>
 
-    <!-- 댓글 삭제 -->
     <delete id="delete">
-        delete from Community_reply
-            where id = #{community_reply_id}
+        delete from community_reply where id = #{communityReplyId}
     </delete>
 </mapper>

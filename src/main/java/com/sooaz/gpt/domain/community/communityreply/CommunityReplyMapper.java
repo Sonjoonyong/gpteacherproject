@@ -7,11 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface CommunityReplyMapper {
-    CommunityReply findById(Long id);
-    List<CommunityReply> findByUserId(Long userId);
     void save(CommunityReply communityReply);
-    void update(CommunityReply communityReply);
-    List<CommunityReply> findByCommunityPostId(Long communityPostId);
+
+    CommunityReply findById(Long id);
+
+    List<CommunityReplyListDto> findByCommunityPostId(Long communityPostId);
+
+    List<CommunityReply> findByUserId(Long userId);
+
+    void update(CommunityReplyUpdateDto communityReplyUpdateDto);
 
     void delete(Long communityReplyId);
 }

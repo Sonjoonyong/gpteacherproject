@@ -102,7 +102,7 @@
             //댓글리스트
             function replyList(){
                 $.ajax({
-                    url : "/communityPost/communityReplyList"
+                    url : "/community/communityReplyList"
                     , data : {
                         questionId : ${question.id}
                     }
@@ -230,14 +230,14 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='/communityPost/postList'" >
+                                <button class="accordion-button " type="button" onclick="location.href='/community/postList'" >
                                     communityPost
                                 </button>
                             </h2>
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='/communityPost/?'">
+                                <button class="accordion-button " type="button" onclick="location.href='/community/?'">
                                     Weekly top10
                                 </button>
                             </h2>
@@ -265,9 +265,9 @@
                     </tr>
                     </tbody>
                 </table>
-                <form action="/communityPost/?/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
-                    <a href="/communityPost/list" class="btn btn-primary">목록</a>
-                    <a href="/communityPost/?/edit/${question.id}" class="btn btn-primary">수정</a>
+                <form action="/community/?/delete/${question.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+                    <a href="/community/list" class="btn btn-primary">목록</a>
+                    <a href="/community/?/edit/${question.id}" class="btn btn-primary">수정</a>
                     <button type="submit" class="btn btn-primary">삭제</button>
                 </form>
 

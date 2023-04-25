@@ -12,22 +12,28 @@ public class CommunityReplyRepository {
 
     private final CommunityReplyMapper communityReplyMapper;
 
-    public CommunityReply save(CommunityReply communityreply){
+    public CommunityReply save(CommunityReply communityreply) {
         communityReplyMapper.save(communityreply);
         return communityreply;
     }
+
     public Optional<CommunityReply> findById(Long id) {
         return Optional.ofNullable(communityReplyMapper.findById(id));
     }
+
     public List<CommunityReply> findByUserId(Long userId) {
         return communityReplyMapper.findByUserId(userId);
     }
 
-    public void deleteById(Long Id) {
+    public void delete(Long Id) {
         communityReplyMapper.delete(Id);
     }
 
-    public List<CommunityReply> findByCommunityPostId(Long communityPostId) {
+    public List<CommunityReplyListDto> findByCommunityPostId(Long communityPostId) {
         return communityReplyMapper.findByCommunityPostId(communityPostId);
+    }
+
+    public void update(CommunityReplyUpdateDto communityReplyUpdateDto) {
+        communityReplyMapper.update(communityReplyUpdateDto);
     }
 }
