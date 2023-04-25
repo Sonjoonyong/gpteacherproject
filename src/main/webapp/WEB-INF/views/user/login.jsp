@@ -29,7 +29,10 @@
         style="border: 2px solid #5DB99D;">
 
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
-            <img class="col-12 mb-3" src="/images/logo.png">
+            <div class="row g-0 justify-content-center">
+                <img class="col-9" src="/images/logo.png">
+                <h3 class="h3 col-12 text-center">로그인</h3>
+            </div>
 
             <form:errors path="*">
                 <div class="alert alert-danger mb-0">

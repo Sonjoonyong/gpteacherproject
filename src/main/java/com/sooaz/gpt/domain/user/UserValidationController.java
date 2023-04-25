@@ -32,15 +32,16 @@ public class UserValidationController {
             @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
             String userLoginId
     ) {
-        return String.valueOf(userService.isDuplicateLoginId(userLoginId));
+        return String.valueOf(userService.isDuplicateLoginId(userLoginId.toLowerCase()));
     }
 
     @ResponseBody
     @GetMapping("/user/signup/nicknameDupCheck")
     public String checkNicknameDup(
-            @Size(min = 2, max = 12, message = "2~8자 범위로 입력해주세요.")
+            @Size(min = 2, max = 8, message = "2~8자 범위로 입력해주세요.")
             String userNickname
     ) {
+        // (String) true: 중복, false: 사용 가능, 그 외: 오류 메시지(ExceptionHandlerAdvice 참조)
         return String.valueOf(userService.isDuplicateNickname(userNickname));
     }
 
@@ -71,6 +72,7 @@ public class UserValidationController {
 
         session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
         session.setAttribute(SessionConst.EMAIL, email);
+        session.setMaxInactiveInterval(60 * 3); // 이메일 인증번호 유효시간 3분
 
         return "true";
     }

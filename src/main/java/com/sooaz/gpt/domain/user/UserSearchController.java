@@ -126,14 +126,15 @@ public class UserSearchController {
         resultJson.put("result", false);
 
         Optional<User> userOpt = userService.findByLoginId(userLoginId);
+        User user;
         if (userOpt.isEmpty()) {
             resultJson.put("errorMsg", "존재하지 않는 아이디입니다.");
-        }
-
-        User user = userOpt.get();
-        String foundEmail = user.getUserEmail();
-        if (!userEmail.equals(foundEmail)) {
-            resultJson.put("errorMsg", "아이디 또는 이메일이 잘못됐습니다.");
+        } else {
+            user = userOpt.get();
+            String foundEmail = user.getUserEmail();
+            if (!userEmail.equals(foundEmail)) {
+                resultJson.put("errorMsg", "아이디 또는 이메일이 잘못됐습니다.");
+            }
         }
 
         if (userLoginId.length() == 36) { // Oauth 가입자일 경우
@@ -142,6 +143,8 @@ public class UserSearchController {
 
         if (resultJson.has("errorMsg")) {
             return resultJson.toString();
+        } else {
+            user = userOpt.get();
         }
 
         String newPassword = UUID.randomUUID().toString()

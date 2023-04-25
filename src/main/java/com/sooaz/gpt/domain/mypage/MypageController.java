@@ -28,7 +28,6 @@ public class MypageController {
 
     private final MypageService mypageService;
 
-
     @GetMapping("/user/mypage/dashboard")
     public String getDashboard(
             @SessionAttribute User loginUser,
@@ -138,33 +137,6 @@ public class MypageController {
     public String flashcardResult() {
         return "";
     }
-
-    //계정 관리---------------------------------------------------
-    @GetMapping("/user/mypage/withdraw")
-    public String getWithdrawForm() {
-        return "mypage/account/withdraw";
-    }
-
-    @PostMapping("/user/mypage/withdraw")
-    public String withdraw() {
-        return "";
-    }
-
-    @GetMapping("/user/mypage/edit")
-    public String getUserEditForm() {
-        return "mypage/account/editUserInfo";
-    }
-
-    @PostMapping("/user/mypage/edit")
-    public String userEdit() {
-        return "";
-    }
-
-    @GetMapping("/user/mypage/pwdEdit")
-    public String getChangePwdForm() {
-        return "mypage/account/changePassword";
-    }
-
 
     // 나의 활동 -------------------------------------------
     @GetMapping("/user/mypage/communities")

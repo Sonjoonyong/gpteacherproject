@@ -1,7 +1,6 @@
 package com.sooaz.gpt.domain.user;
 
 import com.sooaz.gpt.global.constant.SessionConst;
-import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,12 +12,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,7 +21,6 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-    private final Gmail gmail;
 
     @GetMapping("/user/login")
     public String getLoginForm(
@@ -35,7 +29,7 @@ public class UserController {
     ) {
         // 일반 회원가입 유저가 Oauth 로그인 시
         Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-        if (flashMap != null && !flashMap.isEmpty()) {
+        if (flashMap != null && flashMap.containsKey("oauthLoginFail")) {
             model.addAttribute("oauthLoginFail", flashMap.get("oauthLoginFail"));
         }
 
@@ -89,6 +83,7 @@ public class UserController {
     public String signUp(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
             HttpServletRequest request
     ) {
         String userEmail = userSignupDto.getUserEmail();
@@ -107,7 +102,7 @@ public class UserController {
             bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
         }
 
-        String userLoginId = userSignupDto.getUserLoginId();
+        String userLoginId = userSignupDto.getUserLoginId().toLowerCase();
         if (userLoginId != null && userService.isDuplicateLoginId(userLoginId)) {
             bindingResult.rejectValue("userLoginId", "duplicate", "중복되는 아이디입니다.");
         }
@@ -119,7 +114,10 @@ public class UserController {
 
 
         String userNickname = userSignupDto.getUserNickname();
-        if (userNickname != null && userService.isDuplicateNickname(userNickname)) {
+        if (userNickname != null
+                && !userNickname.equals(loginUser.getUserNickname()) // 본인 닉네임일 경우 허용
+                && userService.isDuplicateNickname(userNickname)
+        ) {
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
 
@@ -145,7 +143,6 @@ public class UserController {
             HttpServletRequest request
     ) {
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(60 * 10); // 이메일 인증번호 유효시간 10분 TODO - 확실하지 않음
         String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
         return String.valueOf(userEmailCode.equals(realEmailCode));
     }

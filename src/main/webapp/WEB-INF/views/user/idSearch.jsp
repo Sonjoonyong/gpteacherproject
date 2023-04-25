@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>아이디 찾</title>
+    <title>아이디 찾기</title>
 
     <style>
         nav .loginBtn, nav .signInBtn, nav .alarm {
@@ -21,11 +21,14 @@
 
 <%@ include file="../fragments/header.jsp" %>
 
-<section class="container" style="max-width: 550px;">
+<section class="container d-flex" style="max-width: 550px;">
 
-    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 mb-5"
+    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3"
          style="border: 2px solid #5DB99D; min-height: 500px;">
-        <h3 class="h3 col-12 text-center">아이디 찾기</h3>
+        <div class="row g-0 justify-content-center">
+            <img class="col-9" src="/images/logo.png">
+            <h3 class="h3 col-12 text-center">아이디 찾기</h3>
+        </div>
 
         <span class="col-12 p-0">이메일</span>
         <div class="col-12">
@@ -61,7 +64,7 @@
             </div>
         </div>
 
-        <a href="/user/pwsearch" id="submitBtn" type="col-12" class="btn btn-md btn-secondary mt-auto">
+        <a href="/user/pwsearch" id="submitBtn" class="btn btn-md btn-secondary mt-auto">
             비밀번호 재발급 받으러 가기
         </a>
 
