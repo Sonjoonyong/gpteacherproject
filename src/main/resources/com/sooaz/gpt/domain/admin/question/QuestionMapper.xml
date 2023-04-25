@@ -10,7 +10,6 @@
         <result property="questionHit" column="question_hit" />
         <result property="questionWriteDate" column="question_writedate" />
         <result property="questionStatus" column="question_status" />
-
     </resultMap>
 
     <select id="findAll" resultMap="QuestionResultMap">
@@ -38,8 +37,7 @@
         SET user_id =  #{userId},
             question_category = #{questionCategory},
             question_title = #{questionTitle},
-            question_content = #{questionContent},
-
+            question_content = #{questionContent}
         WHERE id = #{id}
     </update>
 
