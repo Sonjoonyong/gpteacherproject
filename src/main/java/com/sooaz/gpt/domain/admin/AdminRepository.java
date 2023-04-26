@@ -34,4 +34,15 @@ public class AdminRepository {
         adminMapper.blockUser(userId);
     }
 
+    public List<UserView> getBlockedUsers(String search, String searchOption) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("search", search);
+        params.put("searchOption", searchOption);
+        return adminMapper.getBlockedUsers(params);
+    }
+
+    public void unblockUser(int userId) {
+        adminMapper.unblockUser(userId);
+    }
+
 }

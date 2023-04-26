@@ -30,7 +30,6 @@
                             <th>ID</th>
                             <th>로그인ID</th>
                             <th>닉네임</th>
-                            <th>사유</th>
                             <th>관리</th>
                             <th>계정 생성일</th>
                             <th>계정 차단일</th>
@@ -42,18 +41,16 @@
                                 <td>${blockedUser.id}</td>
                                 <td>${blockedUser.userLoginId}</td>
                                 <td>${blockedUser.userNickname}</td>
-                                <td>${blockedUser.blockReason}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="/admin/editBlockedUser?id=${blockedUser.id}" class="btn btn-primary">Edit</a>
                                         <form action="/admin/unblockUser" method="post" onsubmit="return confirm('정말 차단 해제하시겠습니까?');">
                                             <input type="hidden" name="userId" value="${blockedUser.id}" />
-                                            <button type="submit" class="btn btn-danger">Unblock</button>
+                                            <button type="submit" class="btn btn-danger">차단 해제</button>
                                         </form>
                                     </div>
                                 </td>
                                 <td><fmt:formatDate value="${blockedUser.userCreatedate}" pattern="yyyy-MM-dd" /></td>
-                                <td><fmt:formatDate value="${blockedUser.userBlockDate}" pattern="yyyy-MM-dd" /></td>
+                                <td><fmt:formatDate value="${blockedUser.blockDate}" pattern="yyyy-MM-dd" /></td>
                             </tr>
                         </c:forEach>
 
@@ -115,7 +112,6 @@
                                 <select name="searchOption" class="searchbox">
                                     <option value="user_login_id">로그인ID</option>
                                     <option value="user_nickname">닉네임</option>
-                                    <option value="user_email">이메일</option>
                                 </select>
                                 <input type="text" class="searchbox" name="search" />
                                 <button type="submit">검색</button>

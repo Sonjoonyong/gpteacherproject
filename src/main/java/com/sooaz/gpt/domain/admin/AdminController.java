@@ -95,4 +95,27 @@ public class AdminController {
         log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userPosts";
     }
+
+    @GetMapping("/admin/blockusers")
+    public String getBlockedUserList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+                                     @RequestParam(value = "search", required = false) String search,
+                                     @RequestParam(value = "searchOption", required = false) String searchOption,
+                                     Model model) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserView> blockedUsers = adminRepository.getBlockedUsers(search, searchOption);
+        PageInfo<UserView> pageInfo = new PageInfo<>(blockedUsers);
+
+        model.addAttribute("blockedUsers", blockedUsers);
+        model.addAttribute("pageInfo", pageInfo);
+        return "admin/blockuser/blockuserList";
+    }
+
+    @PostMapping("/admin/unblockUser")
+    public String unblockUser(@RequestParam("userId") int userId) {
+        adminService.unblockUser(userId);
+        return "redirect:/admin/blockusers";
+    }
+
 }
