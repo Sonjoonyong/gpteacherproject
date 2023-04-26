@@ -125,7 +125,7 @@
                     </div>
                     <div class="col-md-6">
                         <div style="display: grid" class="int-text2">
-                            <h4>문장별 분석 기능, 음석인식 기능</h4>
+                            <h4>문장별 분석 기능, 음성 인식 기능</h4>
                             <h6>음성 인식 기능 또는 직접 입력을 통해 ChatGPT와 대화해보세요.</h6>
                             <h6>문장별로 교정된 내용을 확인실 수 있습니다.</h6>
                             <h6 style="color: #3998F0">#음성 인식 #문장별 분석</h6>
@@ -170,16 +170,16 @@
                 <div class="col " >
                     <ul class="nav justify-content-center gap-5">
                         <li class="nav-item">
-                            <a class="nav-link" href="https://exam.toeic.co.kr/receipt/receiptStep1.php">TOEIC</a>
+                            <a class="nav-link" href="https://exam.toeic.co.kr/receipt/receiptStep1.php" target="_blank">TOEIC</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="https://www.kr.ets.org/toefl.html">TOEFL</a>
+                            <a class="nav-link" href="https://www.kr.ets.org/toefl.html" target="_blank">TOEFL</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="https://m.opic.or.kr/opics/jsp/senior/indexMobile.jsp">OPIc</a>
+                            <a class="nav-link" href="https://m.opic.or.kr/opics/jsp/senior/indexMobile.jsp" target="_blank">OPIc</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="https://reg.britishcouncil.kr/ko/main/index">IELTs</a>
+                            <a class="nav-link" href="https://reg.britishcouncil.kr/en/main/index" target="_blank">IELTS</a>
                         </li>
                     </ul>
                 </div>

@@ -39,8 +39,8 @@ public class MypageService {
         while(iterator.hasNext()) {
             Learning learning = iterator.next();
             List<Sentence> sentences = sentenceRepository.findAllByLearningId(learning.getId());
-
             int sentenceCount = sentences.size(); //0인 경우 -> 오류임으로 해당 learning 삭제해야할듯
+
             int sumAccuracy = 0;
             for (Sentence sentence : sentences) {
                 Integer accuracy = sentence.getSentenceAccuracy();
@@ -113,6 +113,12 @@ public class MypageService {
     public void deleteCommentsById(List<Long> commentIds) {
         for(Long id : commentIds) {
             communityReplyRepository.delete(id);
+        }
+    }
+
+    public void deleteCommentsByPostId(List<Long> communityPostId) {
+        for(Long id : communityPostId) {
+            communityReplyRepository.deleteByPostId(id);
         }
     }
 

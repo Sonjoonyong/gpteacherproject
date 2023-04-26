@@ -66,4 +66,8 @@
     <delete id="delete" parameterType="long">
         delete from community_reply where id = #{communityReplyId}
     </delete>
+
+    <delete id="deleteByPostId" parameterType="long">
+        delete from COMMUNITY_REPLY where community_post_id = #{communityPostId}
+    </delete>
 </mapper>

@@ -8,4 +8,5 @@ import java.util.Date;
 @Data
 public class UserView extends User {
     private Date userCreatedate;
+    private Date blockDate;
 }

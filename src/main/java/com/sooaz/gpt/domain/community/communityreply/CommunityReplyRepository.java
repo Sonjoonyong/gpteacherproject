@@ -36,4 +36,8 @@ public class CommunityReplyRepository {
     public void update(CommunityReplyUpdateDto communityReplyUpdateDto) {
         communityReplyMapper.update(communityReplyUpdateDto);
     }
+
+    public void deleteByPostId(Long communityPostId) {
+        communityReplyMapper.deleteByPostId(communityPostId);
+    }
 }

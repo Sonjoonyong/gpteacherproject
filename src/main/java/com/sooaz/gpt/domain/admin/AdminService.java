@@ -5,8 +5,9 @@ import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,26 @@ public class AdminService {
         return adminMapper.getAgeGroupCounts();
     }
 
-    public List<UserView> getUserViewList(String search) {
-        return adminMapper.getUserViewList(search);
+    public List<UserView> getUserViewList(String search, String searchOption) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("search", search);
+        params.put("searchOption", searchOption);
+        return adminMapper.getUserViewList(params);
     }
+
+    public void blockUser(int userId) {
+        adminMapper.blockUser(userId);
+    }
+
+    public List<UserView> getBlockedUsers(String search, String searchOption) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("search", search);
+        params.put("searchOption", searchOption);
+        return adminMapper.getBlockedUsers(params);
+    }
+
+    public void unblockUser(int userId) {
+        adminMapper.unblockUser(userId);
+    }
+
 }

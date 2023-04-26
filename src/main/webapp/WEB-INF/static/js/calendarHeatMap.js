@@ -1,3 +1,4 @@
+//참고 문서 : https://github.com/g1eb/calendar-heatmap
 var calendarHeatmap = {
 
     settings: {
@@ -21,22 +22,9 @@ var calendarHeatmap = {
     },
 
     createElements: function() {
-        if (calendarHeatmap.container != null) {
-            // Access container for calendar
-            var container = document.getElementById(calendarHeatmap.container);
-            if (!container || container.tagName != "DIV") {
-                throw 'Element not found or not of type div';
-            }
-            if (!container.classList.contains('calendar-heatmap')) {
-                //If the element being passed doesn't have the right class set then set it.
-                container.classList.add('calendar-heatmap');
-            }
-        } else {
-            // Create main html container for the calendar
-            var container = document.createElement('div');
-            container.className = 'calendar-heatmap';
-            document.body.appendChild(container);
-        }
+        // Access container for calendar
+        var container = document.getElementById(calendarHeatmap.container);
+        container.classList.add('calendar-heatmap');
 
         // Create svg element
         var svg = d3.select(container).append('svg')
@@ -53,7 +41,7 @@ var calendarHeatmap = {
             var colIndex = Math.trunc(dayIndex / 7);
             var numWeeks = colIndex + 1; //총 주 수
 
-            calendarHeatmap.settings.width = container.offsetWidth;// > 1000 ? 1000 : container.offsetWidth;
+            calendarHeatmap.settings.width = container.offsetWidth;
             calendarHeatmap.settings.item_size = ((calendarHeatmap.settings.width - calendarHeatmap.settings.label_padding) / numWeeks - calendarHeatmap.settings.gutter);
             calendarHeatmap.settings.height = calendarHeatmap.settings.label_padding + 7 * (calendarHeatmap.settings.item_size + calendarHeatmap.settings.gutter);
             svg.attr('width', calendarHeatmap.settings.width)
@@ -71,9 +59,9 @@ var calendarHeatmap = {
 
     drawYearOverview: function() {
         // Define start and end date
-        var start_of_year = moment().subtract(1, 'year').startOf('week').toDate(); //1년전 오늘이 있는 주의 일요일부터
+        var start_of_year = moment().subtract(1, 'year').startOf('day').toDate(); //1년전 오늘이 있는 주의 일요일부터
         var end_of_year = moment().endOf('day').toDate(); //오늘까지
-        console.log(start_of_year);
+
         // Filter data down to the selected year
         var year_data = calendarHeatmap.data.filter(function(d) {
             return start_of_year <= moment(d.date) && moment(d.date) < end_of_year;
@@ -101,7 +89,6 @@ var calendarHeatmap = {
             return calendarHeatmap.settings.item_size;
         };
 
-        //calendarHeatmap.items.selectAll('.item-rect').remove();
         calendarHeatmap.items.selectAll('.item-rect')
             .data(year_data)
             .enter()

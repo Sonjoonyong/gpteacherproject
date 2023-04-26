@@ -36,6 +36,7 @@
 
     <select id="findByUserId" resultType="Learning">
         select * from LEARNING where user_id = #{userId}
+        and (select count(id) from SENTENCE where learning_id = learning.id) != 0
         <if test="learningType != null">
             and learning_type = #{learningType}
         </if>

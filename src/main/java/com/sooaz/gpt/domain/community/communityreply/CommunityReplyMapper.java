@@ -19,6 +19,8 @@ public interface CommunityReplyMapper {
     void update(CommunityReplyUpdateDto communityReplyUpdateDto);
 
     void delete(Long communityReplyId);
+
+    void deleteByPostId(Long communityPostId);
 }
 
 
