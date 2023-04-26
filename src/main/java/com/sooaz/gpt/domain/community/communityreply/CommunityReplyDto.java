@@ -6,8 +6,6 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class CommunityReplyDto {
-    private Long communityPostId;
-
     @NotBlank
     private String communityReplyContent;
 }

@@ -4,12 +4,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface CommunityReplyMapper {
     void save(CommunityReply communityReply);
 
-    CommunityReply findById(Long id);
+    Optional<CommunityReply> findById(Long communityReplyId);
 
     List<CommunityReplyListDto> findByCommunityPostId(Long communityPostId);
 

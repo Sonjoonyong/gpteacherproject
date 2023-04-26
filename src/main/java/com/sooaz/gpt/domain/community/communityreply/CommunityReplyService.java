@@ -12,7 +12,7 @@ public class CommunityReplyService {
 
     private final CommunityReplyRepository communityReplyRepository;
 
-    public CommunityReply reply(CommunityReply communityReply) {
+    public CommunityReply save(CommunityReply communityReply) {
         communityReplyRepository.save(communityReply);
         return communityReply;
     }

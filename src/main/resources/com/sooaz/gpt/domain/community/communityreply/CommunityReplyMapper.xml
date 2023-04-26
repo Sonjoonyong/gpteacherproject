@@ -31,21 +31,21 @@
     </insert>
 
     <select id="findById" parameterType="long" resultType="CommunityReply">
-        select * from community_reply where id = #{communityPostId}
+        select * from community_reply where id = #{communityReplyId}
     </select>
 
     <select id="findByCommunityPostId" parameterType="long" resultType="CommunityReplyListDto">
-        select (
-            id,
+        select
+            R.id as community_reply_id,
             community_post_id,
-            U.user_id,
+            U.id as user_id,
             community_reply_writedate,
             community_reply_content,
             community_reply_parents_id,
             U.user_nickname
-        )
         from community_reply R
-                 join on users U
+        join users U
+            on  U.id = R.user_id
         where community_post_id = #{communityPostId}
     </select>
 
@@ -63,7 +63,7 @@
         </set>
     </update>
 
-    <delete id="delete">
+    <delete id="delete" parameterType="long">
         delete from community_reply where id = #{communityReplyId}
     </delete>
 </mapper>

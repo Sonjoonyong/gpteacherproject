@@ -17,16 +17,16 @@ public class CommunityReplyRepository {
         return communityreply;
     }
 
-    public Optional<CommunityReply> findById(Long id) {
-        return Optional.ofNullable(communityReplyMapper.findById(id));
+    public Optional<CommunityReply> findById(Long communityReplyId) {
+        return communityReplyMapper.findById(communityReplyId);
     }
 
     public List<CommunityReply> findByUserId(Long userId) {
         return communityReplyMapper.findByUserId(userId);
     }
 
-    public void delete(Long Id) {
-        communityReplyMapper.delete(Id);
+    public void delete(Long communityReplyId) {
+        communityReplyMapper.delete(communityReplyId);
     }
 
     public List<CommunityReplyListDto> findByCommunityPostId(Long communityPostId) {
