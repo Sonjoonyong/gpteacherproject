@@ -17,8 +17,8 @@ public class CommunityPostRepository {
         return communityPost;
     }
 
-    public void update(CommunityPostUpdateDto communityPostUpdateDto) {
-        communityPostMapper.update(communityPostUpdateDto);
+    public void update(CommunityPostUpdateDto updateDto) {
+        communityPostMapper.update(updateDto);
     }
 
     public Optional<CommunityPost> findById(Long communityPostId) {

@@ -67,10 +67,11 @@ public class CommunityPostRepositoryTest {
         // 업데이트
         CommunityPostUpdateDto updateDto = new CommunityPostUpdateDto();
         updateDto.setCommunityPostTitle("revised title");
+        updateDto.setCommunityPostId(newPost.getId());
 
         communityPostRepository.update(updateDto);
         CommunityPost updatedPost = communityPostRepository.findById(newPost.getId()).orElseThrow(IllegalStateException::new);
-        assertEquals(newPost.getCommunityPostTitle(), updatedPost.getCommunityPostTitle());
+        assertEquals("revised title", updatedPost.getCommunityPostTitle());
 
         // 삭제
         communityPostRepository.delete(newPost.getId());

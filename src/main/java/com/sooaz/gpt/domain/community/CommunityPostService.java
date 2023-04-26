@@ -12,7 +12,7 @@ public class CommunityPostService {
 
     private final CommunityPostRepository communityPostRepository;
 
-    public CommunityPost post(CommunityPostDto communityPostDto) {
+    public CommunityPost save(CommunityPostDto communityPostDto) {
         CommunityPost communityPost = new CommunityPost();
         communityPost.setUserId(communityPostDto.getUserId());
         communityPost.setCommunityPostTitle(communityPostDto.getCommunityTitle());
@@ -38,11 +38,11 @@ public class CommunityPostService {
     }
 
 
-    public void deleteCommunity(Long communityPostId) {
+    public void delete(Long communityPostId) {
         communityPostRepository.delete(communityPostId);
     }
 
-    public void editPost(CommunityPostUpdateDto updateDto) {
+    public void update(CommunityPostUpdateDto updateDto) {
         communityPostRepository.update(updateDto);
     }
 

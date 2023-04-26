@@ -31,7 +31,8 @@
 
     <select id="findByIdForView" parameterType="long" resultType="CommunityPostViewDto">
         SELECT
-            P.id,
+            P.id as community_post_id,
+            U.id as user_Id,
             U.user_nickname,
             community_post_category,
             community_post_title,
@@ -82,9 +83,9 @@
                 community_post_like = #{communityPostLike},
             </if>
             <if test="communityPostCategory != null">
-                community_post_category = #{communityPostCategory}
+                community_post_category = #{communityPostCategory},
             </if>
-            WHERE id = #{id}
+            WHERE id = #{communityPostId}
         </set>
     </update>
 

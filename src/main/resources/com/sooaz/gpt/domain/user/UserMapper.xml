@@ -33,24 +33,33 @@
     </insert>
 
     <select id="findAll" resultType="User">
-        select * from USERS
+        select *
+        from USERS
     </select>
 
     <select id="findById" parameterType="long" resultType="User">
-        select * from USERS where ID = #{userId}
+        select *
+        from USERS
+        where ID = #{userId}
     </select>
 
 
     <select id="findByLoginId" parameterType="String" resultType="User">
-        select * from USERS where USER_LOGIN_ID = #{userLoginId}
+        select *
+        from USERS
+        where USER_LOGIN_ID = #{userLoginId}
     </select>
 
     <select id="findByNickname" parameterType="String" resultType="User">
-        select * from USERS where USER_NICKNAME = #{userNickname}
+        select *
+        from USERS
+        where USER_NICKNAME = #{userNickname}
     </select>
 
     <select id="findByEmail" parameterType="String" resultType="User">
-        select * from USERS where USER_EMAIL = #{userEmail}
+        select *
+        from USERS
+        where USER_EMAIL = #{userEmail}
     </select>
 
     <update id="update">
@@ -73,13 +82,15 @@
             </if>
             <if test="userEmailAgreement != null">
                 user_email_agreement = #{userEmailAgreement},
-            </if>
+            </if>if
         </set>
         where id = #{userId}
     </update>
 
     <delete id="delete">
-        delete from USERS where ID = #{userId}
+        delete
+        from USERS
+        where ID = #{userId}
     </delete>
 
 </mapper>
