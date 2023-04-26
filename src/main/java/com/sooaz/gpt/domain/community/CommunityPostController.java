@@ -39,8 +39,8 @@ public class CommunityPostController {
         }
 
         PageHelper.startPage(pageNum, pageSize);
-        List<CommunityPost> communityPost = communityPostService.findAll(search);
-        PageInfo<CommunityPost> pageInfo = new PageInfo<>(communityPost);
+        List<CommunityPostListDto> communityPost = communityPostService.findAll(search);
+        PageInfo<CommunityPostListDto> pageInfo = new PageInfo<>(communityPost);
         model.addAttribute("pageInfo", pageInfo);
         return "community/postList";
     }
@@ -102,23 +102,6 @@ public class CommunityPostController {
 
         model.addAttribute("communityPostUpdateDto", updateDto);
         return "community/postEdit";
-    }
-
-//    @PostMapping("/{communityPostId}/edit")
-    public String edit2(
-            @ModelAttribute CommunityPostUpdateDto communityPostUpdateDto,
-            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
-            RedirectAttributes redirectAttributes
-        ) {
-        log.info("communityPostUpdateDto = {}", communityPostUpdateDto);
-        Optional<CommunityPost> postOpt = communityPostService.findById(communityPostUpdateDto.getCommunityPostId());
-        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
-            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
-            return "redirect:/community/list";
-        }
-        communityPostService.update(communityPostUpdateDto);
-
-        return "redirect:/community/" + postOpt.get().getId();
     }
 
     @PostMapping("/{communityPostId}/edit")

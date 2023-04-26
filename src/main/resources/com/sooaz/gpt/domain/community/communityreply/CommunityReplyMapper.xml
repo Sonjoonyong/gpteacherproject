@@ -59,8 +59,8 @@
             <if test="communityReplyContent != null">
                 community_reply_content = #{communityReplyContent}
             </if>
-            where id = #{communityReplyId}
         </set>
+        where id = #{communityReplyId}
     </update>
 
     <delete id="delete" parameterType="long">

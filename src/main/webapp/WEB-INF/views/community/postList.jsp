@@ -151,21 +151,33 @@
                     <table class="table table-striped" style="text-align: center; border:1px solid black;">
                         <thead>
                         <tr>
-                            <th style="text-align: center; ">제목</th>
+                            <th style="text-align: center;">주제</th>
+                            <th style="text-align: center;">제목</th>
+                            <th style="text-align: center;">작성자</th>
+                            <th style="text-align: center;">조회수</th>
                             <th style="text-align: center; width:100px; margin-right: 5px;">작성일</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="communityPost" items="${pageInfo.list}">
+                        <c:forEach var="communityPostListDto" items="${pageInfo.list}">
                             <tr>
                                 <td>
-                                    <a href="/community/${communityPost.id}" class="communityPost-title-link" style="margin-right: 30px">
-                                            <%--                                                <img src="/images/community_titleimage.png" alt="Community" class="notice-image">--%>
-                                            ${communityPost.communityPostTitle}
+                                    ${communityPostListDto.communityPostCategory}
+                                </td>
+                                <td>
+                                    <a href="/community/${communityPostListDto.id}" class="communityPost-title-link" style="margin-right: 30px">
+                                            ${communityPostListDto.communityPostTitle}
                                     </a>
                                 </td>
+                                <td>
+                                        ${communityPostListDto.userNickname}
                                 </td>
-                                <td><fmt:formatDate value="${communityPost.communityPostWritedate}" pattern="yyyy.MM.dd" /></td>
+                                <td>
+                                        ${communityPostListDto.communityPostHit}
+                                </td>
+                                <td>
+                                    <fmt:formatDate value="${communityPostListDto.communityPostWritedate}" pattern="yyyy.MM.dd" />
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>

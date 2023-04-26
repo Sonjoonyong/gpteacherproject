@@ -46,10 +46,15 @@
         WHERE P.id = #{communityPostId}
     </select>
 
-    <select id="findAll" resultType="CommunityPost">
-        SELECT * FROM community_post
+    <select id="findAll" resultType="CommunityPostListDto">
+        SELECT
+            U.user_nickname,
+            P.*
+        FROM community_post P
+        JOIN users U
+        ON U.id = P.user_id
         <if test="search != null">
-            LOWER(community_post_title) LIKE '%' || LOWER(#{search}) || '%'
+            WHERE LOWER(community_post_title) LIKE '%' || LOWER(#{search}) || '%'
         </if>
         ORDER BY community_post_writedate DESC
     </select>

@@ -16,7 +16,7 @@
         $(function () {
             function replyList() {
                 $.ajax({
-                    url: "/community/communityReplyList"
+                    url: "/community/reply/list"
                     , data: {
                         communityPostId: ${communityPostViewDto.communityPostId}
                     }
@@ -31,7 +31,9 @@
                             //댓글리스트폼
                             tag += "<li class='list-group-item'>";
                             tag += "<div>";
+
                             tag += "<b>" + rDto.userNickname + " (" + newDate + ")</b>"; //userId, 작성일
+
                             if (rDto.isAdmin || rDto.isWriter) {
                                 tag += "<input type='button' name='delete' class='btn btn-secondary' style='margin-right: 5px;' value='삭제' title='" + rDto.communityReplyId + "'>";
                             }
@@ -43,12 +45,13 @@
                             tag += "<p>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
                             //댓글수정폼
                             tag += "<div class='row' style='display:none'>";
-                            tag += "<form method='post'>";
-                            tag += "<input type='hidden' name='id' value='" + rDto.communityPostId + "'>";  // 댓글 번호
-                            tag += "<textarea name='communityReplyContent' style='width:400px;height:40px;'>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
-                            tag += "<input type='submit' name='replyEdit' value='댓글수정하기' >"; //댓글 수정 버튼
-                            tag += "</form>";
+                            tag += "    <form method='post' class='row g-0 gap-2'>";
+                            tag += "        <input type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
+                            tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
+                            tag += "        <input type='submit' class='col btn btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
+                            tag += "    </form>";
                             tag += "</div>";
+
                             tag += "</div>";
                             tag += "</li>";
                         });
@@ -98,7 +101,7 @@
             $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
                 let params = $(this).parent().serialize();
                 console.log("params: " + params);
-                let url = "/replyEdit";
+                let url = "/community/reply/edit";
 
                 $.ajax({
                     url: url

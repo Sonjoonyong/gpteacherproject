@@ -45,7 +45,7 @@ public class CommunityReplyController {
     }
 
     @ResponseBody
-    @GetMapping("/community/communityReplyList")
+    @GetMapping("/community/reply/list")
     public List<CommunityReplyListDto> getReplyList(
             @RequestParam Long communityPostId,
             @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
@@ -78,6 +78,31 @@ public class CommunityReplyController {
 
         communityReplyService.delete(communityReplyId);
         return "reply deleted";
+    }
+
+    @ResponseBody
+    @PostMapping("/community/reply/edit")
+    public String edit(
+        @ModelAttribute CommunityReplyEditDto editDto,
+        @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+        RedirectAttributes redirectAttributes
+    ) {
+        Long replyId = editDto.getCommunityReplyId();
+        String replyContent = editDto.getCommunityReplyContent();
+
+        CommunityReply reply = communityReplyService.findById(replyId).orElse(null);
+
+        if (reply == null || !reply.getUserId().equals(loginUser.getId())) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+
+        CommunityReplyUpdateDto updateDto = new CommunityReplyUpdateDto();
+        updateDto.setCommunityReplyId(replyId);
+        updateDto.setCommunityReplyContent(replyContent);
+        communityReplyService.update(updateDto);
+
+        return "reply edited";
     }
 
 

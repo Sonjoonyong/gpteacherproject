@@ -29,7 +29,7 @@ public class CommunityPostRepository {
         return communityPostMapper.findByIdForView(communityPostId);
     }
 
-    public List<CommunityPost> findAll(String search) {
+    public List<CommunityPostListDto> findAll(String search) {
         return communityPostMapper.findAll(search);
     }
 

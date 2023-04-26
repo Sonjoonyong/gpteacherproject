@@ -13,7 +13,7 @@ public interface CommunityPostMapper {
 
     Optional<CommunityPostViewDto> findByIdForView(Long communityPostId);
 
-    List<CommunityPost> findAll(String search);
+    List<CommunityPostListDto> findAll(String search);
 
     List<CommunityPost> findByUserId(Long userId);
 
