@@ -9,141 +9,6 @@
     <link rel="stylesheet" href="/css/postView.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-
-    <script>
-        //댓글리스트
-        $(function () {
-            function replyList() {
-                $.ajax({
-                    url: "/community/reply/list"
-                    , data: {
-                        communityPostId: ${communityPostViewDto.communityPostId}
-                    }
-                    , type: "GET"
-                    , success: function (result) {
-                        // console.log(result);
-                        let tag = "";
-                        $(result).each(function (i, rDto) {
-                            let date = new Date(rDto.communityReplyWritedate);
-                            let newDate = date.toISOString().split('T')[0];
-                            console.log(i, rDto);
-                            //댓글리스트폼
-                            tag += "<li class='list-group-item'>";
-                            tag += "<div>";
-
-                            tag += "<b>" + rDto.userNickname + " (" + newDate + ")</b>"; //userId, 작성일
-
-                            if (rDto.isAdmin || rDto.isWriter) {
-                                tag += "<input type='button' name='delete' class='btn btn-secondary' style='margin-right: 5px;' value='삭제' title='" + rDto.communityReplyId + "'>";
-                            }
-                            if (rDto.isWriter) {
-                                tag += "<input type='button' name='edit' class='btn btn-secondary' style='margin-right: 5px;' value='수정'>";
-                            }
-                            tag += "<input type='button' name='report' class='btn btn-secondary' style='margin-right: 5px;' value='신고'>";
-
-                            tag += "<p>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
-                            //댓글수정폼
-                            tag += "<div class='row' style='display:none'>";
-                            tag += "    <form method='post' class='row g-0 gap-2'>";
-                            tag += "        <input type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
-                            tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
-                            tag += "        <input type='submit' class='col btn btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
-                            tag += "    </form>";
-                            tag += "</div>";
-
-                            tag += "</div>";
-                            tag += "</li>";
-                        });
-                        // .html : 원래 있던 내용 지우고 표시
-                        $("#communityReplyList").html(tag);
-
-                    }, error: function (e) {
-                        console.log(e.responseText);
-                    }
-                });
-            }
-
-            // 댓글 추가
-            $('#replyForm').submit(function () {
-                //댓글 입력했는지 확인
-                if ($("#communityReplyContent").val() == "") {
-                    alert("댓글 입력후 등록하세요.");
-                    return false;
-                }
-                let query = $(this).serialize();
-
-                $.ajax({
-                    url: "/community/${communityPostViewDto.communityPostId}/reply"
-                    , data: query
-                    , type: "POST"
-                    , success: function (result) {
-                        $("#communityReplyContent").val("");
-                        console.log(result);
-                        replyList();
-                    }, error: function (e) {
-                        console.log(e.responseText);
-                    }
-                });
-                return false; // submit 후 페이지 이동 막기
-            });
-
-            // 댓글 수정 폼
-            $(document).on('click', '#communityReplyList input[name=edit]', function () {
-                // 댓글 숨기기
-                $(this).parent().css("display", "none");
-                // 폼 보이기
-                $(this).parent().next().css("display", "block");
-            });
-
-
-            // 댓글 수정
-            $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
-                let params = $(this).parent().serialize();
-                console.log("params: " + params);
-                let url = "/community/reply/edit";
-
-                $.ajax({
-                    url: url
-                    , data: params
-                    , type: "POST"
-                    , success: function (result) {
-                        // 댓글 목록을 다시 뿌려주기
-                        console.log(result);
-                        replyList();
-                    }, error: function (e) {
-                        console.log(e.responseText);
-                    }
-                });
-                return false;
-            });
-
-            // 댓글 삭제
-            $(document).on('click', '#communityReplyList input[name=delete]', function () {
-                if (confirm("댓글을 삭제할까요?")) {
-                    let communityReplyId = $(this).attr("title");
-                    let url = '/community/reply/' + communityReplyId + '/delete';
-                    $.ajax({
-                        url: url,
-                        method: 'POST',
-                        success: function (result) {
-                            console.log(result);
-                            // 댓글 목록을 다시 뿌려주기
-                            replyList();
-                        },
-                        error: function (e) {
-                            console.log(e.responseText);
-                        }
-                    });
-                }
-            });
-
-            replyList();
-        });
-
-    </script>
-
-
 </head>
 <body>
 
@@ -186,8 +51,8 @@
             <div class="col-md-7" style="margin-top: 110px; ">
                 <table class="table" style="text-align:start; border:1px solid black;">
                     <thead style="margin-bottom: 20px;">
-                    <tr>
-                        <td colspan="2">${communityPostViewDto.communityPostTitle}</td>
+                    <tr class="text-start">
+                        <td colspan="2">[${communityPostViewDto.communityPostCategory}] ${communityPostViewDto.communityPostTitle}</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -209,7 +74,7 @@
                           onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
                         <button type="submit" class="btn btn-primary">삭제</button>
                     </form>
-                    <a href="/community/${communityPostViewDto.communityPostId}/edit" class="btn btn-primary">수정</a>
+                    <a href="/community/${communityPostViewDto.communityPostId}/edit" class="btn btn-primary mx-1">수정</a>
                 </c:if>
                 <a href="/community/list" class="btn btn-primary">목록</a>
 
@@ -247,10 +112,144 @@
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <!--이쁜이모티콘-->
 <script defer src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
 <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
 <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    //댓글리스트
+    $(function () {
+        function replyList() {
+            $.ajax({
+                url: "/community/reply/list"
+                , data: {
+                    communityPostId: ${communityPostViewDto.communityPostId}
+                }
+                , type: "GET"
+                , success: function (result) {
+                    // console.log(result);
+                    let tag = "";
+                    $(result).each(function (i, rDto) {
+                        let date = new Date(rDto.communityReplyWritedate);
+                        let newDate = date.toISOString().split('T')[0];
+                        console.log(i, rDto);
+                        //댓글리스트폼
+                        tag += "<li class='list-group-item'>";
+                        tag += "<div>";
+
+                        tag += "<b>" + rDto.userNickname + " (" + newDate + ")</b>"; //userId, 작성일
+
+                        if (rDto.isAdmin || rDto.isWriter) {
+                            tag += "<input type='button' name='delete' class='btn btn-secondary' style='margin-right: 5px;' value='삭제' title='" + rDto.communityReplyId + "'>";
+                        }
+                        if (rDto.isWriter) {
+                            tag += "<input type='button' name='edit' class='btn btn-secondary' style='margin-right: 5px;' value='수정'>";
+                        }
+                        tag += "<input type='button' name='report' class='btn btn-secondary' style='margin-right: 5px;' value='신고'>";
+
+                        tag += "<p>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
+                        //댓글수정폼
+                        tag += "<div class='row' style='display:none'>";
+                        tag += "    <form method='post' class='row g-0 gap-2'>";
+                        tag += "        <input type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
+                        tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
+                        tag += "        <input type='submit' class='col btn btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
+                        tag += "    </form>";
+                        tag += "</div>";
+
+                        tag += "</div>";
+                        tag += "</li>";
+                    });
+                    // .html : 원래 있던 내용 지우고 표시
+                    $("#communityReplyList").html(tag);
+
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+        }
+
+        // 댓글 추가
+        $('#replyForm').submit(function () {
+            //댓글 입력했는지 확인
+            if ($("#communityReplyContent").val() == "") {
+                alert("댓글 입력후 등록하세요.");
+                return false;
+            }
+            let query = $(this).serialize();
+
+            $.ajax({
+                url: "/community/${communityPostViewDto.communityPostId}/reply"
+                , data: query
+                , type: "POST"
+                , success: function (result) {
+                    $("#communityReplyContent").val("");
+                    console.log(result);
+                    replyList();
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+            return false; // submit 후 페이지 이동 막기
+        });
+
+        // 댓글 수정 폼
+        $(document).on('click', '#communityReplyList input[name=edit]', function () {
+            // 댓글 숨기기
+            $(this).parent().css("display", "none");
+            // 폼 보이기
+            $(this).parent().next().css("display", "block");
+        });
+
+
+        // 댓글 수정
+        $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
+            let params = $(this).parent().serialize();
+            console.log("params: " + params);
+            let url = "/community/reply/edit";
+
+            $.ajax({
+                url: url
+                , data: params
+                , type: "POST"
+                , success: function (result) {
+                    // 댓글 목록을 다시 뿌려주기
+                    console.log(result);
+                    replyList();
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+            return false;
+        });
+
+        // 댓글 삭제
+        $(document).on('click', '#communityReplyList input[name=delete]', function () {
+            if (confirm("댓글을 삭제할까요?")) {
+                let communityReplyId = $(this).attr("title");
+                let url = '/community/reply/' + communityReplyId + '/delete';
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    success: function (result) {
+                        console.log(result);
+                        // 댓글 목록을 다시 뿌려주기
+                        replyList();
+                    },
+                    error: function (e) {
+                        console.log(e.responseText);
+                    }
+                });
+            }
+        });
+
+        replyList();
+    });
+
+</script>
 
 
 </body>

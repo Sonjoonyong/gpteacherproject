@@ -110,6 +110,18 @@
                 <div class="create-form">
                     <form:form method="post" modelAttribute="communityPostUpdateDto">
                         <form:hidden path="communityPostId" />
+                        <form:select path="communityPostCategory" cssClass="form-select w-25">
+                            <form:option value="토익" label="토익"/>
+                            <form:option value="토플" label="토플"/>
+                            <form:option value="오픽" label="오픽"/>
+                            <form:option value="아이엘츠" label="아이엘츠"/>
+                            <form:option value="회화" label="회화"/>
+                            <form:option value="글쓰기" label="글쓰기"/>
+                            <form:option value="일상" label="일상"/>
+                            <form:option value="유머" label="유머"/>
+                            <form:option value="시험" label="시험"/>
+                            <form:option value="공부" label="공부"/>
+                        </form:select>
                         <div class="form-group">
                             <label for="communityPostTitle">글 제목 :</label>
                             <form:input path="communityPostTitle" type="text" cssClass="form-control" required="required"/>

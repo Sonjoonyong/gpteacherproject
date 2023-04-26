@@ -149,9 +149,14 @@
                         </div>
                     </div>
                     <table class="table table-striped" style="text-align: center; border:1px solid black;">
+                        <colgroup>
+                            <col span="1" style="width: 60%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 15%;">
+                        </colgroup>
                         <thead>
                         <tr>
-                            <th style="text-align: center;">주제</th>
                             <th style="text-align: center;">제목</th>
                             <th style="text-align: center;">작성자</th>
                             <th style="text-align: center;">조회수</th>
@@ -161,12 +166,9 @@
                         <tbody>
                         <c:forEach var="communityPostListDto" items="${pageInfo.list}">
                             <tr>
-                                <td>
-                                    ${communityPostListDto.communityPostCategory}
-                                </td>
-                                <td>
+                                <td class="text-start ps-4">
                                     <a href="/community/${communityPostListDto.id}" class="communityPost-title-link" style="margin-right: 30px">
-                                            ${communityPostListDto.communityPostTitle}
+                                        [${communityPostListDto.communityPostCategory}] ${communityPostListDto.communityPostTitle}
                                     </a>
                                 </td>
                                 <td>

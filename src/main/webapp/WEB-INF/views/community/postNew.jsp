@@ -100,16 +100,16 @@
                     <form:form action="/community/write" method="post" modelAttribute="communityPostDto">
                         <div class="FormSelectButton" style="width:80px; ">
                             <form:select path="communityPostCategory"  class="select" id="communityPostTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
-                                <form:option value="토익">토익</form:option>
-                                <form:option value="토플">토플</form:option>
-                                <form:option value="오픽">오픽</form:option>
-                                <form:option value="아이엘츠">아이엘츠</form:option>
-                                <form:option value="회화">회화</form:option>
-                                <form:option value="글쓰기">글쓰기</form:option>
-                                <form:option value="일상">일상</form:option>
-                                <form:option value="유머">유머</form:option>
-                                <form:option value="시험">시험</form:option>
-                                <form:option value="공부">공부</form:option>
+                                <form:option value="토익" label="토익"/>
+                                <form:option value="토플" label="토플"/>
+                                <form:option value="오픽" label="오픽"/>
+                                <form:option value="아이엘츠" label="아이엘츠"/>
+                                <form:option value="회화" label="회화"/>
+                                <form:option value="글쓰기" label="글쓰기"/>
+                                <form:option value="일상" label="일상"/>
+                                <form:option value="유머" label="유머"/>
+                                <form:option value="시험" label="시험"/>
+                                <form:option value="공부" label="공부"/>
                             </form:select>
                         </div>
                         <div>

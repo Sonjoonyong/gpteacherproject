@@ -99,6 +99,7 @@ public class CommunityPostController {
         updateDto.setCommunityPostId(post.getId());
         updateDto.setCommunityPostTitle(post.getCommunityPostTitle());
         updateDto.setCommunityPostContent(post.getCommunityPostContent());
+        updateDto.setCommunityPostCategory(post.getCommunityPostCategory());
 
         model.addAttribute("communityPostUpdateDto", updateDto);
         return "community/postEdit";
