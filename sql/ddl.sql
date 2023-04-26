@@ -143,7 +143,7 @@ CREATE TABLE question_reply
     user_id                  NUMBER               NULL,
     question_reply_writedate DATE DEFAULT SYSDATE NULL,
     question_reply_content   VARCHAR2(300)        NOT NULL,
-    question_reply_parent_id NUMBER               NOT NULL
+    question_reply_parent_id NUMBER               NULL
 );
 
 

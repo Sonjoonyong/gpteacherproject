@@ -72,8 +72,14 @@
                                 <td><fmt:formatDate value="${user.userBirthday}" pattern="yyyy-MM-dd" /></td>
                                 <td>
                                     <div class="d-flex">
-                                        <button type="button">작성 글</button>
-                                        <button type="button">작성 댓글</button>
+                                        <form action="/admin/userPosts" method="GET">
+                                            <input type="hidden" name="userId" value="${user.id}"/>
+                                            <button type="submit">작성 글</button>
+                                        </form>
+                                        <form action="/admin/userComments" method="GET" >
+                                            <input type="hidden" name="userId" value="${user.id}"/>
+                                            <button type="submit">작성 댓글</button>
+                                        </form>
                                         <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
                                             <input type="hidden" name="userId" value="${user.id}" />
                                             <button type="submit">차단하기</button>
