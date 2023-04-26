@@ -7,6 +7,9 @@ import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
+import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
+import com.sooaz.gpt.domain.mypage.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
     private final AdminRepository adminRepository;
-
+    private final MypageService mypageService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -63,6 +66,57 @@ public class AdminController {
     public String blockUser(@RequestParam("userId") int userId) {
         adminService.blockUser(userId);
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/admin/userComments")
+    public String getUserComments(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ){
+        PageHelper.startPage(pageNum, pageSize);
+        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
+        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
+        model.addAttribute("pageInfo",pageInfo);
+        return "/admin/user/userComments";
+    }
+
+    @GetMapping("/admin/userPosts")
+    public String getUserPosts(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ){
+        PageHelper.startPage(pageNum, pageSize);
+        List<Community> communities = mypageService.getPostList(userId);
+        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        model.addAttribute("pageInfo", pageInfo);
+        log.info("pageInfo = {}", pageInfo);
+        return "/admin/user/userPosts";
+    }
+
+    @GetMapping("/admin/blockusers")
+    public String getBlockedUserList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+                                     @RequestParam(value = "search", required = false) String search,
+                                     @RequestParam(value = "searchOption", required = false) String searchOption,
+                                     Model model) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserView> blockedUsers = adminRepository.getBlockedUsers(search, searchOption);
+        PageInfo<UserView> pageInfo = new PageInfo<>(blockedUsers);
+
+        model.addAttribute("blockedUsers", blockedUsers);
+        model.addAttribute("pageInfo", pageInfo);
+        return "admin/blockuser/blockuserList";
+    }
+
+    @PostMapping("/admin/unblockUser")
+    public String unblockUser(@RequestParam("userId") int userId) {
+        adminService.unblockUser(userId);
+        return "redirect:/admin/blockusers";
     }
 
 }

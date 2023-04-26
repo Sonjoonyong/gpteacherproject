@@ -12,6 +12,7 @@ public interface AdminMapper {
     List<AgeGroupCount> getAgeGroupCounts();
     List<UserView> getUserViewList(Map<String, Object> params);
     void blockUser(int userId);
-
+    List<UserView> getBlockedUsers(Map<String, Object> params);
+    void unblockUser(int userId);
 }
 
