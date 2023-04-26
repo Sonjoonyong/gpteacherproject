@@ -7,15 +7,8 @@
     <title>관리 페이지</title>
 
     <link rel="stylesheet" href="/css/base.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
 
-    .select-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-        height: 100px;
-    }
+<style>
 
     .select-container .form-select {
         width: 280px;
@@ -78,9 +71,14 @@
                                 <td>${user.userNickname}</td>
                                 <td><fmt:formatDate value="${user.userBirthday}" pattern="yyyy-MM-dd" /></td>
                                 <td>
-                                    <button type="button">작성 글</button>
-                                    <button type="button">작성 댓글</button>
-                                    <button type="button">차단하기</button>
+                                    <div class="d-flex">
+                                        <button type="button">작성 글</button>
+                                        <button type="button">작성 댓글</button>
+                                        <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                            <input type="hidden" name="userId" value="${user.id}" />
+                                            <button type="submit">차단하기</button>
+                                        </form>
+                                    </div>
                                 </td>
                                 <td><fmt:formatDate value="${user.userCreatedate}" pattern="yyyy-MM-dd" /></td>
                             </tr>
