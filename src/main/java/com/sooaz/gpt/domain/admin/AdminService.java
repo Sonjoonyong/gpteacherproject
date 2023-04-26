@@ -5,7 +5,6 @@ import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

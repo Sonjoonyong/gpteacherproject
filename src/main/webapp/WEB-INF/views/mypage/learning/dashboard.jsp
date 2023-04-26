@@ -23,19 +23,19 @@
             <div>
                 <h4 class="my-3" style="color: #2F4858">최근 학습</h4>
                 <c:forEach var="learning" items="${learnings}">
-                    <div class="row p-2 sentence justify-content-center">
-                        <div class="row g-0 learning my-1 align-items-end justify-content-between shadow rounded-3 p-3" id="learning_${learning.id}">
-                            <div class="row">
-                                <div class="row col-12 col-md-4">
-                                    <div class="col-10 col-md-5 fw-bold" style="color: #2A6976">${learning.learningType}</div>
+                    <div class="row g-0 justify-content-center">
+                        <div class="row g-0 learning my-1 shadow rounded-3 p-3" id="learning_${learning.id}">
+                            <div class="row g-0 justify-content-between ">
+                                <div class="row g-0 col-md-3">
+                                    <div class="col-auto mx-2 align-self-center text-center fw-bold" style="color: #2A6976">${learning.learningType}</div>
                                     <c:if test="${not empty learning.learningTestType}">
-                                        <div class="col-10 col-md-4 fw-bold rounded-1" style="color: #ffffff; background-color: darkcyan">${learning.learningTestType}</div>
+                                        <div class="col-auto p-1 align-self-center text-center fw-bold rounded-1" style="color: #ffffff; background-color: darkcyan">${learning.learningTestType}</div>
                                     </c:if>
                                 </div>
-                                <div class="col-12 col-md-6" style="color: #373737">
-                                    <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>
+                                <div class="col-md-6 align-self-center" style="color: #373737">
+                                    <fmt:formatDate value="${learning.learningDate}" pattern="yyy.MM.dd"/>
                                 </div>
-                                <div class="col-12 col-md-2">
+                                <div class="col-md-2 offset-md-1">
                                     <div class="row g-0">
                                         <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLearningLikeAjax(this)">
                                             <i class="like bi bi-heart${not empty learning.learningLike && learning.learningLike == '1'.charAt(0) ? '-fill' : ''}"></i>
@@ -47,11 +47,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff; background-color: #7B61FF30">
-                                <div class="col-10 col-md-2"> Question </div>
-                                <div class="col-10 col-md-8">"${learning.learningTopic}"</div>
+                            <div class="row g-0 rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff; background-color: #7B61FF30">
+                                <div class="col-md-2 align-self-center text-center fw-bold">
+                                    <c:if test="${learning.learningType == 'DIALOGUE'}">
+                                        Situation
+                                    </c:if>
+                                    <c:if test="${learning.learningType != 'DIALOGUE'}">
+                                        Question
+                                    </c:if>
+                                </div>
+                                <div class="col-md-10">
+                                    <a href="/learning/correction/sentences?learningId=${learning.id}" style="text-decoration:none; color: #7054ff;">"${learning.learningTopic}"</a>
+                                </div>
                             </div>
-                            <div class="row">
+                            <div class="row g-0 px-1">
                                 <div class="col-10 col-md-4" style="color: rgb(35, 28, 181);">
                                     <c:if test="${not empty learning.averageAccuracy}">
                                         평균 발음 정확도: ${learning.averageAccuracy}%
@@ -67,7 +76,7 @@
             </div>
             <div>
                 <h4 class="my-3" style="color: #2F4858">연간 학습</h4>
-                <div id="calendar" class="py-3"></div>
+                <div id="calendar" class="py-3 calendar-heatmap"></div>
             </div>
         </div>
     </div>

@@ -36,9 +36,7 @@
             background-color: #5DB99D;
 
         }
-        .col-md-7 .row .clearfix #questionPassword{
-            border: 1px solid lightgray;
-        }
+
 
     </style>
 </head>
@@ -105,9 +103,7 @@
                         </div>
                         <!--등록번튼&비밀번호-->
                         <div class="row">
-                            <div class="clearfix" style="width: 250px; margin-top: 15px; ">
-                                <form:input path="questionPassword" type="text" placeholder="비밀번호" class="textbox" id="questionPassword" required="required"/>
-                            </div>
+
                             <div class="clearfix" style="width: 432px;">
                                 <button type="submit" class="btn btn-primary submit-btn">등록</button>
                             </div>
