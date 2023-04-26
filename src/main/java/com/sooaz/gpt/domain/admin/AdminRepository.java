@@ -30,4 +30,8 @@ public class AdminRepository {
         return adminMapper.getUserViewList(params);
     }
 
+    public void blockUser(int userId) {
+        adminMapper.blockUser(userId);
+    }
+
 }
