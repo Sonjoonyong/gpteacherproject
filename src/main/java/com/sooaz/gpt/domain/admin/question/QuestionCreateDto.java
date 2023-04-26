@@ -10,3 +10,5 @@ public class QuestionCreateDto {
     private String questionContent;
 
 }
+
+

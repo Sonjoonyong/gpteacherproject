@@ -147,7 +147,7 @@
                 </div>
                 <div class="row" style="margin: 10px">
                     <div class="col-md-6 order-lg-2">
-                        <img src="/images/community.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 10px;">
+                        <img src="/images/communityPost.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-left: 10px;">
                     </div>
                     <div class="col-md-6" >
                         <div style="display: grid" class="int-text2">

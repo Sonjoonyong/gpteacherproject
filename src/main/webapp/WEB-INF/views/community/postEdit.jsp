@@ -10,38 +10,51 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <style>
 
-        #communitypost .table thead trboardname{
+        #communitypost .table thead trboardname {
             margin-left: 20px;
         }
+
         .col-md-7 table tbody tr,
         .col-md-7 table tbody tr td {
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
+            border-top: 1px solid lightgray;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom: 1px solid lightgray;
         }
 
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
+        a {
+            color: black;
+        }
+
+        a:visited {
+            color: black;
+        }
+
+        a:hover {
+            color: black;
+        }
+
+        a:active {
+            color: black;
+        }
+
         #searchbar fa-solid,
-        #searchbar searchbox{
+        #searchbar searchbox {
 
         }
 
-        .btn.btn-primary{
+        .btn.btn-primary {
             border: 1px solid #5DB99D;
             color: #5DB99D;
             background-color: white;
         }
 
-        .col-md-7 table thead tr{
+        .col-md-7 table thead tr {
             background-color: #CFEAE2;
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
+            border-top: 1px solid lightgray;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom: 1px solid lightgray;
             height: 40px;
         }
 
@@ -55,42 +68,87 @@
             float: right;
             margin-top: 15px;
         }
+
+        .accordion .accordion-item .accordion-header .accordion-button {
+            background-color: white;
+            color: black;
+        }
+
+        .accordion .accordion-item .accordion-header .accordion-button:hover {
+            background-color: #CFEAE2;
+            color: black;
+        }
+
+        .accordion .accordion-item .accordion-header .accordion-button:focus {
+            background-color: #CFEAE2;
+            color: black;
+        }
+
+        .accordion .accordion-item .accordion-header .accordion-button:active {
+            background-color: #CFEAE2;
+            color: white;
+        }
     </style>
 </head>
 <body>
-<section class="container">
 
-    <%@ include file="../fragments/header.jsp" %>
+<%@ include file="../fragments/header.jsp" %>
+
+
+<section class="container">
 
     <div class="col-12">
         <div class="row">
+            <!--사이드바-->
             <div class="col-md-3" id="sidebar">
                 <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>커뮤니티</h3></div>
-                <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 10px;margin-left: 30px;">
-                        <ul>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> Weekly Top10</a>
-                            </li>
-                        </ul>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button"
+                                        onclick="location.href='/community/list'" style="background-color: #CFEAE2">
+                                    커뮤니티
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button"
+                                        onclick="location.href='/community/list'">
+                                    커뮤니티
+                                </button>
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
                 <h3>글 수정</h3>
                 <div class="create-form">
-                    <form:form action="${pageContext.request.contextPath}/community/update/${community.id}" method="post" modelAttribute="community">
-                        <form:hidden path="id" />
+                    <form:form method="post" modelAttribute="communityPostUpdateDto">
+                        <form:hidden path="communityPostId"/>
+                        <form:select path="communityPostCategory" cssClass="form-select w-25">
+                            <form:option value="토익" label="토익"/>
+                            <form:option value="토플" label="토플"/>
+                            <form:option value="오픽" label="오픽"/>
+                            <form:option value="아이엘츠" label="아이엘츠"/>
+                            <form:option value="회화" label="회화"/>
+                            <form:option value="글쓰기" label="글쓰기"/>
+                            <form:option value="일상" label="일상"/>
+                            <form:option value="유머" label="유머"/>
+                            <form:option value="시험" label="시험"/>
+                            <form:option value="공부" label="공부"/>
+                        </form:select>
                         <div class="form-group">
-                            <label for="communityTitle">글 제목 :</label>
-                            <form:input path="communityTitle" type="text" class="form-control" id="communityTitle" value="${community.communityTitle}" required="required"/>
+                            <label for="communityPostTitle">글 제목 :</label>
+                            <form:input path="communityPostTitle" type="text" cssClass="form-control"
+                                        required="required"/>
                         </div>
                         <div class="form-group">
-                            <label for="communityContent">글 내용 :</label>
-                            <form:textarea path="communityPostContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${community.communityPostContent}" />
+                            <label for="communityPostContent">글 내용 :</label>
+                            <form:textarea path="communityPostContent" cssClass="form-control" rows="5"
+                                           required="required" cssStyle="min-height: 400px"/>
                         </div>
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary submit-btn">수정</button>

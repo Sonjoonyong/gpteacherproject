@@ -59,6 +59,12 @@
         </beans:bean>
     </interceptors>
 
-    <beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+    <beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
+    <!-- Redis -->
+    <beans:bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <beans:constructor-arg name="host" value="localhost"/>
+        <beans:constructor-arg name="port" value="6379"/>
+    </beans:bean>
 
 </beans:beans>

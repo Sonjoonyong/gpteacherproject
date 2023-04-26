@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,6 @@ import java.util.UUID;
 public class UserValidationController {
 
     private final UserService userService;
-    private final Gmail gmail;
 
     @ResponseBody
     @GetMapping(value = "/user/signup/loginIdDupCheck")
@@ -50,31 +50,29 @@ public class UserValidationController {
     public String sendEmailCode(
             @Email(message = "유효한 이메일 형식이 아닙니다.")
             @NotBlank(message = "이메일을 입력해주세요.")
-            String email,
-            HttpServletRequest request
+            String userEmail
     ) {
-        HttpSession session = request.getSession();
-
-        if (userService.isDuplicateEmail(email)) {
+        if (userService.isDuplicateEmail(userEmail)) {
             return "이미 사용중인 이메일입니다.";
         }
 
-        String emailCode = UUID.randomUUID().toString()
-                .replaceAll("-", "").substring(0, 5);
-        log.info("발급된 emailCode = {}", emailCode);
-
-        gmail.sendEmail(
-                email,
-                "GPTeacher 회원가입 인증코드입니다.",
-                "아래 코드를 인증 창에 입력 후 회원가입을 진행하세요. \n\n" +
-                        emailCode
-        );
-
-        session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
-        session.setAttribute(SessionConst.EMAIL, email);
-        session.setMaxInactiveInterval(60 * 3); // 이메일 인증번호 유효시간 3분
-
+        userService.getEmailCode(userEmail);
         return "true";
+    }
+
+    @ResponseBody
+    @PostMapping("/user/signup/emailCode")
+    public String checkEmailCode(
+            String userEmailCode,
+            String userEmail
+    ) {
+        boolean isValidEmailCode = userService.isValidEmailCode(userEmail, userEmailCode);
+        if (isValidEmailCode) {
+            userService.setEmailValidated(userEmail);
+            return "true";
+        } else {
+            return "유효하지 않은 인증 코드입니다.";
+        }
     }
 
 }

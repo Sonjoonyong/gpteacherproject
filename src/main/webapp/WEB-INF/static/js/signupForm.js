@@ -162,7 +162,7 @@ sendEmailCodeBtn.onclick = () => {
         }
     }
 
-    request.open("GET", '/user/signup/emailCode?email=' + userEmail);
+    request.open("GET", '/user/signup/emailCode?userEmail=' + userEmail);
     request.setRequestHeader("Accept", "text/plain; charset=utf-8")
     request.send();
 
@@ -171,13 +171,18 @@ sendEmailCodeBtn.onclick = () => {
 validateEmailCodeBtn.onclick = () => {
     const request = new XMLHttpRequest();
     const userEmailCode = emailCodeInput.value;
+    let userEmail = emailInput.value;
+
+    let params = new URLSearchParams();
+    params.append("userEmailCode", userEmailCode);
+    params.append("userEmail", userEmail);
 
     request.onload = () => {
         // true: 코드 정상 인증, else: 에러 메시지 출력
         const response = request.responseText;
 
         if (response === 'true') {
-            emailCodeMsgDiv.innerText = '인증되었습니다.';
+            emailCodeMsgDiv.innerText = '인증되었습니다. 10분 이내에 회원가입을 완료해주세요.';
             emailCodeMsgDiv.classList.toggle("text-danger", false);
             emailCodeMsgDiv.classList.toggle("text-success", true);
             validateEmailCodeBtn.disabled = true;
@@ -192,7 +197,8 @@ validateEmailCodeBtn.onclick = () => {
         }
     }
 
-    request.open("POST", '/user/signup/emailCode?userEmailCode=' + userEmailCode);
+    request.open("POST", '/user/signup/emailCode');
     request.setRequestHeader("Accept", "text/plain; charset=utf-8")
-    request.send();
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(params.toString());
 }

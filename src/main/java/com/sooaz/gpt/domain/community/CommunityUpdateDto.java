@@ -15,3 +15,4 @@ public class CommunityUpdateDto {
     private Date communityPostWirtedate;
     private Boolean communityPostLike;
 }
+

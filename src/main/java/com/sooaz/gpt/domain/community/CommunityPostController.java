@@ -2,19 +2,20 @@ package com.sooaz.gpt.domain.community;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sooaz.gpt.domain.community.Community;
-import com.sooaz.gpt.domain.community.CommunityPostDto;
 import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor //생성자를 자동 생성해줌
@@ -22,70 +23,110 @@ import java.util.List;
 @Slf4j
 public class CommunityPostController {
 
-    private final CommunityPostService communityPostService;//생성자가 없다 자동으로 스프링으로 생성자 주입
+    private final CommunityPostService communityPostService;
+
     @GetMapping("/list")
-    public String getCommunity( @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
-                                @RequestParam(value = "search", required = false) String search,
-                                Model model) {
+    public String getList(
+        @RequestParam(defaultValue = "1") int pageNum,
+        @RequestParam(defaultValue = "12") int pageSize,
+        @RequestParam(required = false) String search,
+        Model model,
+        HttpServletRequest request
+    ) {
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+        if (flashMap != null) {
+            model.addAttribute("message", flashMap.get("message"));
+        }
+
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> community = communityPostService.getAllCommunity(search);
-        PageInfo<Community> pageInfo = new PageInfo<>(community);
+        List<CommunityPostListDto> communityPost = communityPostService.findAll(search);
+        PageInfo<CommunityPostListDto> pageInfo = new PageInfo<>(communityPost);
         model.addAttribute("pageInfo", pageInfo);
         return "community/postList";
     }
 
 
+    @GetMapping("/{communityPostId}")
+    public String view(
+            @PathVariable Long communityPostId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            Model model
+    ) {
+        CommunityPostViewDto communityPostViewDto =
+                communityPostService.findByIdForView(communityPostId).orElse(null);
+        log.info("communityPostViewDto = {}", communityPostViewDto);
 
-
-    @GetMapping("/view")
-    public String getCommunityById(@RequestParam("communityId") Long id, Model model) {
-        model.addAttribute("community", communityPostService.getCommunityById(id));
+        model.addAttribute("communityPostViewDto", communityPostViewDto);
+        model.addAttribute(SessionConst.LOGIN_USER, loginUser);
         return "community/postView";
     }
 
     @GetMapping("/write")
-    public String showCommunityWritePage(Model model) {
+    public String getWriteForm(Model model) {
         model.addAttribute("communityPostDto", new CommunityPostDto());
         return "community/postNew";
     }
 
-    @PostMapping
-    public String createCommunity(@ModelAttribute CommunityPostDto communityPostDto, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User loginUser = (User) session.getAttribute("loginUser");
+    @PostMapping("/write")
+    public String post(
+            @ModelAttribute CommunityPostDto communityPostDto,
+            RedirectAttributes redirectAttributes,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        log.info("Dto={}", communityPostDto);
 
-        if (loginUser != null) {
-            communityPostDto.setUserId(loginUser.getId());
-//           커뮤니티 dto 가면 작동을 안 함 이유를 모르겠음
-            communityPostService.createCommunity(communityPostDto);
-            redirectAttributes.addFlashAttribute("message", "게시글가 등록되었습니다.");
-            return "redirect:/community/list";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
-            return "redirect:/user/login";
-        }
+        communityPostDto.setUserId(loginUser.getId());
+        communityPostService.save(communityPostDto);
+        redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
+        return "redirect:/community/list";
     }
 
-//    @PostMapping("/update/{id}")
-//    public String updateCommunity(@PathVariable Long id, @ModelAttribute Notice notice, RedirectAttributes redirectAttributes) {
-//       communityService.updateCommunity(id, community);
-//       redirectAttributes.addFlashAttribute("message", "게시글이 업데이트 되었습니다.");
-//      return "redirect:/help/notice/view?noticeId=" + id;
-//    }
+    @GetMapping("/{communityPostId}/edit")
+    public String getEditForm(
+            @PathVariable Long communityPostId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        Optional<CommunityPost> postOpt = communityPostService.findById(communityPostId);
+        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Community community = communityPostService.getCommunityById(id);
-        model.addAttribute("community", community);
+        CommunityPost post = postOpt.get();
+        CommunityPostUpdateDto updateDto = new CommunityPostUpdateDto();
+        updateDto.setCommunityPostId(post.getId());
+        updateDto.setCommunityPostTitle(post.getCommunityPostTitle());
+        updateDto.setCommunityPostContent(post.getCommunityPostContent());
+        updateDto.setCommunityPostCategory(post.getCommunityPostCategory());
+
+        model.addAttribute("communityPostUpdateDto", updateDto);
         return "community/postEdit";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteCommunity(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        communityPostService.deleteCommunity(id);
-        redirectAttributes.addFlashAttribute("message", "게시글이 삭제되었습니다.");
-        return "redirect:/community/postlist";
+    @PostMapping("/{communityPostId}/edit")
+    public String edit(
+            @ModelAttribute CommunityPostUpdateDto communityPostUpdateDto
+        ) {
+        log.info("communityPostUpdateDto = {}", communityPostUpdateDto);
+        communityPostService.update(communityPostUpdateDto);
+        return "redirect:/community/" + communityPostUpdateDto.getCommunityPostId();
     }
 
+    @PostMapping("/{communityPostId}/delete")
+    public String delete(
+            @PathVariable Long communityPostId,
+            RedirectAttributes redirectAttributes,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        Optional<CommunityPost> postOpt = communityPostService.findById(communityPostId);
+        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+        communityPostService.delete(communityPostId);
+        redirectAttributes.addFlashAttribute("message", "게시글이 삭제되었습니다.");
+        return "redirect:/community/list";
+    }
 }
