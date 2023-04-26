@@ -10,7 +10,6 @@
         <result property="questionHit" column="question_hit" />
         <result property="questionWriteDate" column="question_writedate" />
         <result property="questionStatus" column="question_status" />
-        <result property="questionPassword" column="question_password" />
     </resultMap>
 
     <select id="findAll" resultMap="QuestionResultMap">
@@ -29,8 +28,8 @@
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             SELECT BOARD_QUESTION_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-            INSERT INTO board_question (id, user_id,question_category ,question_title, question_content, question_password, question_status)
-            VALUES (#{id}, #{userId}, #{questionCategory}, #{questionTitle}, #{questionContent}, #{questionPassword}, '0')
+            INSERT INTO board_question (id, user_id,question_category ,question_title, question_content, question_status)
+            VALUES (#{id}, #{userId}, #{questionCategory}, #{questionTitle}, #{questionContent}, '0')
     </insert>
 
     <update id="update" parameterType="com.sooaz.gpt.domain.admin.question.Question">
@@ -38,8 +37,7 @@
         SET user_id =  #{userId},
             question_category = #{questionCategory},
             question_title = #{questionTitle},
-            question_content = #{questionContent},
-            question_password=#{questionPassword}
+            question_content = #{questionContent}
         WHERE id = #{id}
     </update>
 

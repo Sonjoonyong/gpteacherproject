@@ -110,8 +110,7 @@ CREATE TABLE board_question
     question_content   CLOB                    NOT NULL,
     question_hit       NUMBER  DEFAULT 0       NULL,
     question_writedate DATE    DEFAULT SYSDATE NULL,
-    question_status    CHAR(1)                 NULL,
-    question_password  VARCHAR2(32)            NOT NULL
+    question_status    CHAR(1)                 NULL
 );
 
 
@@ -143,7 +142,7 @@ CREATE TABLE question_reply
     user_id                  NUMBER               NULL,
     question_reply_writedate DATE DEFAULT SYSDATE NULL,
     question_reply_content   VARCHAR2(300)        NOT NULL,
-    question_reply_parent_id NUMBER               NOT NULL
+    question_reply_parent_id NUMBER               NULL
 );
 
 
