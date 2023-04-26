@@ -18,4 +18,8 @@ public class CommunityReplyRepository {
     public void delete(Long communityReplyId) {
         communityReplyMapper.delete(communityReplyId);
     }
+
+    public void deleteByPostId(Long communityPostId) {
+        communityReplyMapper.deleteByPostId(communityPostId);
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -46,15 +47,22 @@ public class AdminController {
     public String getUserList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
                               @RequestParam(value = "search", required = false) String search,
+                              @RequestParam(value = "searchOption", required = false) String searchOption,
                               Model model) {
 
         PageHelper.startPage(pageNum, pageSize);
-        List<UserView> users = adminRepository.getUserViewList(search);
+        List<UserView> users = adminRepository.getUserViewList(search, searchOption);
         PageInfo<UserView> pageInfo = new PageInfo<>(users);
 
         model.addAttribute("users", users);
         model.addAttribute("pageInfo", pageInfo);
         return "admin/user/userList";
+    }
+
+    @PostMapping("/admin/blockUser")
+    public String blockUser(@RequestParam("userId") int userId) {
+        adminService.blockUser(userId);
+        return "redirect:/admin/users";
     }
 
 }

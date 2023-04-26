@@ -26,13 +26,11 @@
         <result property="userCreatedate" column="user_createdate"/>
     </resultMap>
 
-    <select id="getUserViewList" resultMap="userViewResultMap">
+    <select id="getUserViewList" resultMap="userViewResultMap" parameterType="map">
         SELECT * FROM users
         <where>
-            <if test="search != null">
-                (LOWER(user_login_id) LIKE LOWER('%' || #{search} || '%')
-                OR LOWER(user_nickname) LIKE LOWER('%' || #{search} || '%')
-                OR LOWER(user_email) LIKE LOWER('%' || #{search} || '%'))
+            <if test="search != null and searchOption != null">
+                LOWER(${searchOption}) LIKE LOWER('%' || #{search,jdbcType=VARCHAR} || '%')
             </if>
         </where>
         ORDER BY id
@@ -72,4 +70,9 @@
         ORDER BY
     age_group
     </select>
+
+    <update id="blockUser" parameterType="int">
+        UPDATE users SET user_status = 2 WHERE id = #{userId}
+    </update>
+
 </mapper>
