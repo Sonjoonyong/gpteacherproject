@@ -1,9 +1,6 @@
 package com.sooaz.gpt.domain.community;
 
-import com.sooaz.gpt.domain.community.Community;
-import com.sooaz.gpt.domain.community.CommunityMapper;
 import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,25 +9,40 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class CommunityPostRepository {
-    private final CommunityMapper communityMapper;
 
-    public Community save(Community community) {
-        if (community.getId() == null) {
-            communityMapper.save(community);
-        }
-        return community;
+    private final CommunityPostMapper communityPostMapper;
+
+    public CommunityPost save(CommunityPost communityPost) {
+        communityPostMapper.save(communityPost);
+        return communityPost;
     }
 
-    public Optional<Community> findById(Long id) {
-        return Optional.ofNullable(communityMapper.findById(id));
+    public void update(CommunityPostUpdateDto updateDto) {
+        communityPostMapper.update(updateDto);
     }
-    public List<Community> findAll(String search) {return communityMapper.findAll(search);}
-    public List<Community> findByUserId(Long userId) {
-        return communityMapper.findByUserId(userId);
+
+    public Optional<CommunityPost> findById(Long communityPostId) {
+        return communityPostMapper.findById(communityPostId);
     }
-    public List<Community> findBookmarksByUserId(Long userId){
-        return communityMapper.findBookmarksByUserId(userId);
+
+    public Optional<CommunityPostViewDto> findByIdForView(Long communityPostId) {
+        return communityPostMapper.findByIdForView(communityPostId);
     }
-    public void deleteById(Long id) {
-        communityMapper.delete(id);}
+
+    public List<CommunityPostListDto> findAll(String search) {
+        return communityPostMapper.findAll(search);
+    }
+
+    public List<CommunityPost> findByUserId(Long userId) {
+        return communityPostMapper.findByUserId(userId);
+    }
+
+    public List<CommunityPost> findBookmarksByUserId(Long userId) {
+        return communityPostMapper.findBookmarksByUserId(userId);
+    }
+
+    public void delete(Long communityPostId) {
+        communityPostMapper.delete(communityPostId);
+    }
 }
+

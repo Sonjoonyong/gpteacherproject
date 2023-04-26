@@ -7,7 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
-import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPost;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.MypageService;
 import com.sooaz.gpt.domain.user.User;
@@ -85,6 +85,7 @@ public class AdminController {
         log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userPosts";
     }
+    
     @PostMapping("/admin/userPosts")
     public String deletePost(
             @RequestParam("userId") Long userId,
@@ -106,11 +107,13 @@ public class AdminController {
     ){
         model.addAttribute("userId",userId);
         PageHelper.startPage(pageNum, pageSize);
+
         List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
         return "/admin/user/userComments";
     }
+    
     @PostMapping("/admin/userComments")
     public String deleteComments(
             @RequestParam List<Long> deleteId
@@ -120,5 +123,26 @@ public class AdminController {
         return "/admin/user/userComments";
     }
 
+    @GetMapping("/admin/blockusers")
+    public String getBlockedUserList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+                                     @RequestParam(value = "search", required = false) String search,
+                                     @RequestParam(value = "searchOption", required = false) String searchOption,
+                                     Model model) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserView> blockedUsers = adminRepository.getBlockedUsers(search, searchOption);
+        PageInfo<UserView> pageInfo = new PageInfo<>(blockedUsers);
+
+        model.addAttribute("blockedUsers", blockedUsers);
+        model.addAttribute("pageInfo", pageInfo);
+        return "admin/blockuser/blockuserList";
+    }
+
+    @PostMapping("/admin/unblockUser")
+    public String unblockUser(@RequestParam("userId") int userId) {
+        adminService.unblockUser(userId);
+        return "redirect:/admin/blockusers";
+    }
 
 }

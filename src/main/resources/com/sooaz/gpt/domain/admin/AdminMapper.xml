@@ -14,23 +14,24 @@
     </resultMap>
 
     <resultMap id="userViewResultMap" type="com.sooaz.gpt.domain.admin.user.UserView">
-        <id property="id" column="id"/>
-        <result property="userLoginId" column="user_login_id"/>
-        <result property="userPassword" column="user_password"/>
-        <result property="userPasswordSalt" column="user_password_salt"/>
-        <result property="userNickname" column="user_nickname"/>
-        <result property="userRole" column="user_role"/>
-        <result property="userEmail" column="user_email"/>
-        <result property="userBirthday" column="user_birthday"/>
-        <result property="userEmailAgreement" column="user_email_agreement"/>
-        <result property="userCreatedate" column="user_createdate"/>
+        <id property="id" column="ID"/>
+        <result property="userLoginId" column="USER_LOGIN_ID"/>
+        <result property="userPassword" column="USER_PASSWORD"/>
+        <result property="userPasswordSalt" column="USER_PASSWORD_SALT"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="userRole" column="USER_ROLE"/>
+        <result property="userEmail" column="USER_EMAIL"/>
+        <result property="userBirthday" column="USER_BIRTHDAY"/>
+        <result property="userEmailAgreement" column="USER_EMAIL_AGREEMENT"/>
+        <result property="userCreatedate" column="USER_CREATEDATE"/>
+        <result property="blockDate" column="BLOCK_DATE"/>
     </resultMap>
 
     <select id="getUserViewList" resultMap="userViewResultMap" parameterType="map">
         SELECT * FROM users
         <where>
             <if test="search != null and searchOption != null">
-                LOWER(${searchOption}) LIKE LOWER('%' || #{search,jdbcType=VARCHAR} || '%')
+                LOWER(${searchOption}) LIKE LOWER('%' || #{search} || '%')
             </if>
         </where>
         ORDER BY id
@@ -72,7 +73,36 @@
     </select>
 
     <update id="blockUser" parameterType="int">
-        UPDATE users SET user_status = 2 WHERE id = #{userId}
+        UPDATE users SET block_date = SYSDATE WHERE id = #{userId}
+    </update>
+
+    <select id="getBlockedUsers" resultMap="userViewResultMap">
+        SELECT *
+        FROM users
+        WHERE block_date IS NOT NULL
+        <if test="search != null and search.trim() != ''">
+            AND (
+            user_login_id LIKE '%' || #{search,jdbcType=VARCHAR} || '%'
+            OR user_nickname LIKE '%' || #{search,jdbcType=VARCHAR} || '%'
+            )
+        </if>
+        ORDER BY user_createdate DESC
+    </select>
+
+    <select id="getBlockedUsersCount" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+        WHERE block_date IS NOT NULL
+        <if test="search != null and search.trim() != ''">
+            AND (
+            user_login_id LIKE '%' || #{search,jdbcType=VARCHAR} || '%'
+            OR user_nickname LIKE '%' || #{search,jdbcType=VARCHAR} || '%'
+            )
+        </if>
+    </select>
+
+    <update id="unblockUser" parameterType="int">
+        UPDATE users SET block_date = NULL WHERE id = #{userId}
     </update>
 
 </mapper>

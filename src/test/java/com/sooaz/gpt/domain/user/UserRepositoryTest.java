@@ -1,5 +1,7 @@
 package com.sooaz.gpt.domain.user;
 
+import com.sooaz.gpt.global.security.PasswordHasher;
+import com.sooaz.gpt.global.security.Pbkdf2;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -26,13 +29,18 @@ public class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordHasher passwordHasher = new Pbkdf2();
+
     @Test
     public void crud() {
 
         // 생성, 조회
         User user = new User();
         user.setUserLoginId("admin");
-        user.setUserPassword("1234");
+        user.setUserPasswordSalt(UUID.randomUUID().toString());
+        String hashedPassword = passwordHasher.hash("123!@#", user.getUserPasswordSalt());
+        user.setUserPassword(hashedPassword);
         user.setUserNickname("테스트유저");
         user.setUserRole(UserRole.ADMIN);
         user.setUserEmail("admin@google.com");

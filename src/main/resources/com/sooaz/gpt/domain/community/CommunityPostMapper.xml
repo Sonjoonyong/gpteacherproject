@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sooaz.gpt.domain.community.CommunityPostMapper">
+
+    <insert id="save" parameterType="CommunityPost">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT COMMUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO community_post (
+            id,
+            user_id,
+            community_post_title,
+            community_post_content,
+            community_post_category
+        )
+        VALUES (
+            #{id},
+            #{userId},
+            #{communityPostTitle},
+            #{communityPostContent},
+            #{communityPostCategory}
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="CommunityPost">
+        SELECT * FROM community_post WHERE id = #{communityPostId}
+    </select>
+
+    <select id="findByIdForView" parameterType="long" resultType="CommunityPostViewDto">
+        SELECT
+            P.id as community_post_id,
+            U.id as user_Id,
+            U.user_nickname,
+            community_post_category,
+            community_post_title,
+            community_post_content,
+            community_post_hit,
+            community_post_writedate,
+            community_post_like
+        FROM community_post P
+        JOIN users U
+        ON P.user_id = U.id
+        WHERE P.id = #{communityPostId}
+    </select>
+
+    <select id="findAll" resultType="CommunityPostListDto">
+        SELECT
+            U.user_nickname,
+            P.*
+        FROM community_post P
+        JOIN users U
+        ON U.id = P.user_id
+        <if test="search != null">
+            WHERE LOWER(community_post_title) LIKE '%' || LOWER(#{search}) || '%'
+        </if>
+        ORDER BY community_post_writedate DESC
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT count(0) FROM community_post
+    </select>
+
+    <select id="findByUserId" parameterType="long" resultType="CommunityPost">
+        select * from community_post where user_id = #{userId} order by id desc
+    </select>
+
+    <select id="findBookmarksByUserId" parameterType="long" resultType="CommunityPost">
+        select * from community_post where id in (select community_post_id from bookmark where user_id = #{userId}) order by id desc
+    </select>
+
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.CommunityPostUpdateDto">
+        UPDATE community_post
+        <set>
+            <if test="communityPostTitle != null">
+                community_post_title = #{communityPostTitle},
+            </if>
+            <if test="communityPostContent != null">
+                community_post_content = #{communityPostContent},
+            </if>
+            <if test="communityPostHit != null">
+                community_post_hit = #{communityPostHit},
+            </if>
+            <if test="communityPostLike != null">
+                community_post_like = #{communityPostLike},
+            </if>
+            <if test="communityPostCategory != null">
+                community_post_category = #{communityPostCategory},
+            </if>
+        </set>
+        WHERE id = #{communityPostId}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from COMMUNITY_POST where id = #{communityPostId}
+    </delete>
+
+</mapper>

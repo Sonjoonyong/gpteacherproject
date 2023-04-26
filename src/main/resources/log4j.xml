@@ -32,6 +32,11 @@
 		<level value="info" />
 	</logger>
 
+	<!--MyBatis-->
+	<logger name="com.sooaz.gpt.domain.community">
+		<level value="TRACE" />
+	</logger>
+
 	<!-- Root Logger -->
 	<root>
 		<priority value="info" />

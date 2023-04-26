@@ -4,12 +4,67 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sooaz.gpt.domain.community.communityreply.CommunityReplyMapper">
 
-    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
-        select * from COMMUNITY_REPLY where user_id = #{userId} order by id desc
+    <!-- 댓글 작성 -->
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select COMMUNITY_REPLY_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into Community_reply (
+            id,
+            user_id,
+            community_post_id,
+            community_reply_content,
+            community_reply_parents_id
+        )
+        values (
+            #{id},
+            #{userId},
+            #{communityPostId},
+            #{communityReplyContent}
+            <if test="communityReplyParentsId == null">
+                , #{id}
+            </if>
+            <if test="communityReplyParentsId != null">
+                , ${communityReplyParentsId}
+            </if>
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="CommunityReply">
+        select * from community_reply where id = #{communityReplyId}
     </select>
 
+    <select id="findByCommunityPostId" parameterType="long" resultType="CommunityReplyListDto">
+        select
+            R.id as community_reply_id,
+            community_post_id,
+            U.id as user_id,
+            community_reply_writedate,
+            community_reply_content,
+            community_reply_parents_id,
+            U.user_nickname
+        from community_reply R
+        join users U
+            on  U.id = R.user_id
+        where community_post_id = #{communityPostId}
+    </select>
+
+    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
+        select communityReplyContent from community_reply where user_id = #{userId}
+    </select>
+
+    <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReplyUpdateDto">
+        update community_reply
+        <set>
+            <if test="communityReplyContent != null">
+                community_reply_content = #{communityReplyContent}
+            </if>
+        </set>
+        where id = #{communityReplyId}
+    </update>
+
     <delete id="delete" parameterType="long">
-        delete from COMMUNITY_REPLY where id = #{communityReplyId}
+        delete from community_reply where id = #{communityReplyId}
     </delete>
 
     <delete id="deleteByPostId" parameterType="long">

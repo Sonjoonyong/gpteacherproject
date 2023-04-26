@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sooaz.gpt.domain.admin.report.ReportMapper">
+
+    <insert id="save" parameterType="Report">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT REPORT_ID_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO report (
+            id,
+            user_id,
+            report_subject,
+            report_subject_id,
+            report_reason
+        )
+        VALUES (
+            #{id},
+            #{userId},
+            #{reportSubject},
+            #{reportSubjectId},
+            #{reportReason}
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultType="Report">
+        SELECT * FROM report WHERE id = #{reportId}
+    </select>
+
+    <select id="findAll" resultType="Report">
+        SELECT * FROM report
+    </select>
+
+    <select id="findByUserId" parameterType="long" resultType="Report">
+        SELECT * FROM report where user_id = #{userId}
+    </select>
+
+</mapper>

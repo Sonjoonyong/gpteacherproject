@@ -1,6 +1,6 @@
 package com.sooaz.gpt.domain.mypage;
 
-import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPost;
 import com.sooaz.gpt.domain.community.CommunityPostRepository;
 import com.sooaz.gpt.domain.community.bookmark.Bookmark;
 import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
@@ -74,13 +74,13 @@ public class MypageService {
         return sentences;
     }
 
-    public List<Community> getPostList(Long userId) {
-        List<Community> communities = communityPostRepository.findByUserId(userId);
+    public List<CommunityPost> getPostList(Long userId) {
+        List<CommunityPost> communities = communityPostRepository.findByUserId(userId);
         return communities;
     }
 
-    public List<Community> getBookmarkList(Long userId) {
-        List<Community> communities = communityPostRepository.findBookmarksByUserId(userId);
+    public List<CommunityPost> getBookmarkList(Long userId) {
+        List<CommunityPost> communities = communityPostRepository.findBookmarksByUserId(userId);
         return communities;
     }
 
@@ -97,8 +97,8 @@ public class MypageService {
             myReplyDto.setCommunityReplyContent(communityReply.getCommunityReplyContent());
             myReplyDto.setCommunityReplyWritedate(communityReply.getCommunityReplyWritedate());
 
-            Community community = communityPostRepository.findById(communityPostId).get();
-            myReplyDto.setCommunityPostTitle(community.getCommunityPostTitle());
+            CommunityPost communityPost = communityPostRepository.findById(communityPostId).get();
+            myReplyDto.setCommunityPostTitle(communityPost.getCommunityPostTitle());
             myReplyDtos.add(myReplyDto);
         }
         return myReplyDtos;
@@ -106,7 +106,7 @@ public class MypageService {
 
     public void deletePostsById(List<Long> postIds) {
         for(Long id : postIds) {
-            communityPostRepository.deleteById(id);
+            communityPostRepository.delete(id);
         }
     }
 
