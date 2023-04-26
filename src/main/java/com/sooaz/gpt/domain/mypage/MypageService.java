@@ -13,6 +13,7 @@ import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -72,6 +73,42 @@ public class MypageService {
     public List<Sentence> getSentenceList(LearningFindDto learningFindDto) {
         List<Sentence> sentences = sentenceRepository.findByLearningId(learningFindDto);
         return sentences;
+    }
+
+    public void sm2Algorithm(int quality, Long sentenceId) {
+        Sentence sentencePrev = sentenceRepository.findById(sentenceId).get();
+        SentenceUpdateDto sentenceUpdateDto = new SentenceUpdateDto();
+
+        int prevStep = sentencePrev.getSentenceRepetitionStep();
+        double prevEF = sentencePrev.getSentenceEaseFactor();
+        int prevInterval = sentencePrev.getSentenceInterval();
+
+        sentenceUpdateDto.setSentenceId(sentenceId);
+        if (quality == 0) {
+            sentenceUpdateDto.setSentenceRepetitionStep(0);
+            sentenceUpdateDto.setSentenceInterval(1);
+            sentenceUpdateDto.setSentenceEaseFactor(prevEF);
+        } else {
+            // step에 따른 interval update
+            if(prevStep == 0) {
+                sentenceUpdateDto.setSentenceInterval(1);
+            } else if(prevStep == 1) {
+                sentenceUpdateDto.setSentenceInterval(6);
+            } else if(prevStep >= 2) {
+                sentenceUpdateDto.setSentenceInterval((int)(prevInterval * prevEF + 0.5)); // +0.5 to 반올림
+            }
+
+            // step update
+            sentenceUpdateDto.setSentenceRepetitionStep(prevStep + 1);
+
+            //ef update
+            double EF = prevEF + (0.1 - (3 - quality) * (0.08 + (3 - quality) * 0.02));
+            if (EF < 1.3) {
+                EF = 1.3;
+            }
+            sentenceUpdateDto.setSentenceEaseFactor(EF);
+        }
+        sentenceRepository.update(sentenceUpdateDto);
     }
 
     public List<CommunityPost> getPostList(Long userId) {

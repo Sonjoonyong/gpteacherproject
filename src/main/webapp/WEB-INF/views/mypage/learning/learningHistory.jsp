@@ -100,11 +100,6 @@
                     </div>
                 </div>
             </c:forEach>
-            <div class="row pe-5 mt-3 mb-4 justify-content-end">
-                <div class="col-md-auto g-0">
-                    <input type="button" class="btn btn-primary" value="전체 삭제" onclick=""/>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <nav aria-label="Page navigation">

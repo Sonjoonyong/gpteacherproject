@@ -34,6 +34,10 @@ public class SentenceRepository {
         return sentenceMapper.findByLearningId(learningFindDto);
     }
 
+    public List<Sentence> findByFlashcardId(Long flashcardId) {
+        return sentenceMapper.findByFlashcardId(flashcardId);
+    }
+
     public void update(SentenceUpdateDto sentenceUpdateDto) {
         sentenceMapper.update(sentenceUpdateDto);
     }
