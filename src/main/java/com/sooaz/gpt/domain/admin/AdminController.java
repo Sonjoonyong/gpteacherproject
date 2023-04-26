@@ -7,7 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
-import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.CommunityPost;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.MypageService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Controller
@@ -89,8 +90,8 @@ public class AdminController {
             Model model
     ){
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> communities = mypageService.getPostList(userId);
-        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        List<CommunityPost> communities = mypageService.getPostList(userId);
+        PageInfo<CommunityPost> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userPosts";
