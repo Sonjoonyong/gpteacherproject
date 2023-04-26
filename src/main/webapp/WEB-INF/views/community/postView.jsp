@@ -52,19 +52,20 @@
                 <table class="table" style="text-align:start; border:1px solid black;">
                     <thead style="margin-bottom: 20px;">
                     <tr class="text-start">
-                        <td colspan="2">[${communityPostViewDto.communityPostCategory}] ${communityPostViewDto.communityPostTitle}</td>
+                        <td colspan="2">
+                            [${communityPostViewDto.communityPostCategory}] ${communityPostViewDto.communityPostTitle}</td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>작성자: ${communityPostViewDto.userNickname}</td>
+                        <td>작성자: <span id="writerNickname">${communityPostViewDto.userNickname}</span></td>
                         <td style="text-align: right">
                             <fmt:formatDate value="${communityPostViewDto.communityPostWritedate}"
                                             pattern="yyyy-MM-dd"/>&nbsp;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"
+                        <td id="communityPostContent" colspan="2"
                             style="min-height: 200px;height: 200px; text-align: left; ">${communityPostViewDto.communityPostContent}</td>
                     </tr>
                     </tbody>
@@ -74,9 +75,12 @@
                           onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
                         <button type="submit" class="btn btn-primary">삭제</button>
                     </form>
-                    <a href="/community/${communityPostViewDto.communityPostId}/edit" class="btn btn-primary mx-1">수정</a>
+                    <a href="/community/${communityPostViewDto.communityPostId}/edit"
+                       class="btn btn-primary mx-1">수정</a>
                 </c:if>
                 <a href="/community/list" class="btn btn-primary">목록</a>
+                <%--신고하기--%>
+                <button id="reportPost" class="btn btn-primary me-1">신고하기</button>
 
             </div>
 
@@ -110,6 +114,8 @@
 
 <%@ include file="../fragments/footer.jsp" %>
 
+<%@ include file="../fragments/reportModal.jsp" %>
+
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -119,7 +125,7 @@
 <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
 <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
+<script defer>
     //댓글리스트
     $(function () {
         function replyList() {
@@ -248,6 +254,45 @@
 
         replyList();
     });
+
+    // 신고 모달 설정
+    const body = document.querySelector('body');
+    const reportModal = document.querySelector('#reportModal');
+    const reportModalBody = document.querySelector('#reportModalBody');
+    const reportCancelBtn = document.querySelector('#reportCancel');
+    const reportSubjectIdInput = document.querySelector('#reportSubjectId');
+    const reportSubjectTypeInput = document.querySelector('#reportSubjectType');
+
+    // 게시글 신고 모달창 띄우기
+    let reportPostBtn = document.querySelector('#reportPost');
+    reportPostBtn.onclick = () => {
+        toggleReportModal(true);
+
+        // 신고 내용 옮기기
+        const content = document.querySelector('#communityPostContent').innerText;
+        document.querySelector('#reportTargetContent').innerText = content.substring(0, Math.min(20, content.length));;
+
+        // 신고 대상 닉네임 옮기기
+        const writerNickname = document.querySelector('#writerNickname').innerText;
+        document.querySelector('#reportTargetWriter').innerText = writerNickname;
+
+
+        reportSubjectTypeInput.value = 'COMMUNITY_POST';
+    }
+
+    // 신고 모달창 닫기
+    reportCancelBtn.onclick = () => {
+        toggleReportModal(false);
+    }
+
+    function toggleReportModal(boolean) {
+        reportModal.classList.toggle("show", boolean);
+        reportModalBody.scrollTop = 0;
+        // 모달에 따른 body 스크롤 설정
+        boolean && (body.style.overflow = 'hidden');
+        boolean || (body.style.overflow = 'scroll');
+    }
+
 
 </script>
 
