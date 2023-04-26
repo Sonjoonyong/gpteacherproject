@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row row-cols-1 col-md-2 myPageMenu" style="width:240px; height:250px; margin-top: 80px;">
     <div class="col mb-4 align-self-center text-center">
-        <a class="menuAtag" href="/admin/trend"><h3>마이페이지</h3></a>
+        <a class="menuAtag" href="/admin/trend"><h3>관리페이지</h3></a>
     </div>
     <div class="accordion accordion-flush col m-1 align-self-center" id="accordionExample">
         <div class="accordion-item">
