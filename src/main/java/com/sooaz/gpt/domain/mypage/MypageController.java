@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.community.Community;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.learning.LearningType;
+import com.sooaz.gpt.domain.mypage.flashcard.Flashcard;
+import com.sooaz.gpt.domain.mypage.flashcard.FlashcardService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningFindDto;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
@@ -27,6 +29,7 @@ import java.util.List;
 public class MypageController {
 
     private final MypageService mypageService;
+    private final FlashcardService flashcardService;
 
     @GetMapping("/user/mypage/dashboard")
     public String getDashboard(
@@ -54,7 +57,7 @@ public class MypageController {
             @SessionAttribute User loginUser,
             Model model
     ) {
-        PageHelper.startPage(1, 3);
+        PageHelper.startPage(1, 5);
 
         LearningFindDto learningFindDto = new LearningFindDto();
         learningFindDto.setUserId(loginUser.getId());
@@ -75,7 +78,7 @@ public class MypageController {
             @RequestParam(required = false, defaultValue = "0") Character onlyLike,
             Model model
     ) {
-        PageHelper.startPage(pageNum, 3);
+        PageHelper.startPage(pageNum, 5);
         LearningFindDto learningFindDto = new LearningFindDto();
 
         learningFindDto.setUserId(loginUser.getId());
@@ -135,7 +138,7 @@ public class MypageController {
         }
         List<Sentence> sentences = mypageService.getSentenceList(learningFindDto);
         PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
-        model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("pageInfo", pageInfo);
 
         model.addAttribute("learningType", learningType);
         model.addAttribute("sortType", sortType);
@@ -144,7 +147,16 @@ public class MypageController {
     }
 
     @GetMapping("/user/mypage/flashcards")
-    public String getFlashCardForm() {
+    public String getFlashCardForm(
+            @SessionAttribute User loginUser,
+            Model model
+    ) {
+        PageHelper.startPage(1, 5);
+
+        List<Flashcard> flashcards = flashcardService.getFlashcardList(loginUser.getId());
+
+        PageInfo<Flashcard> pageInfo = new PageInfo<>(flashcards);
+        model.addAttribute("pageInfo", pageInfo);
         return "mypage/learning/flashcard";
     }
 

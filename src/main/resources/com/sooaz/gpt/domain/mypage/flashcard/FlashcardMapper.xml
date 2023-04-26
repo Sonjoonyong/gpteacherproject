@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.mypage.flashcard.FlashcardMapper">
+
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select FLASHCARD_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into FLASHCARD (
+            id,
+            user_id,
+            flashcard_name
+        ) values (
+            #{id},
+            #{userId},
+            #{flashcardName}
+        )
+    </insert>
+
+    <select id="findByUserId" parameterType="long" resultType="Flashcard">
+        select * from FLASHCARD where user_id = #{userId} order by id desc
+    </select>
+
+    <update id="updateName">
+        update FLASHCARD set flashcard_name = #{flashcardName} where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from FLASHCARD where id = #{id}
+    </delete>
+</mapper>
