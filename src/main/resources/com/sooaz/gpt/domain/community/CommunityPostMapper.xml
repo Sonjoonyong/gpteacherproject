@@ -85,8 +85,8 @@
             <if test="communityPostCategory != null">
                 community_post_category = #{communityPostCategory},
             </if>
-            WHERE id = #{communityPostId}
         </set>
+        WHERE id = #{communityPostId}
     </update>
 
     <delete id="delete" parameterType="long">

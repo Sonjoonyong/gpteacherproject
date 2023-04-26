@@ -10,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -23,12 +26,18 @@ public class CommunityPostController {
     private final CommunityPostService communityPostService;
 
     @GetMapping("/list")
-    public String getCommunity(
+    public String getList(
         @RequestParam(defaultValue = "1") int pageNum,
         @RequestParam(defaultValue = "12") int pageSize,
         @RequestParam(required = false) String search,
-        Model model
+        Model model,
+        HttpServletRequest request
     ) {
+        Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+        if (flashMap != null) {
+            model.addAttribute("message", flashMap.get("message"));
+        }
+
         PageHelper.startPage(pageNum, pageSize);
         List<CommunityPost> communityPost = communityPostService.findAll(search);
         PageInfo<CommunityPost> pageInfo = new PageInfo<>(communityPost);
@@ -38,8 +47,9 @@ public class CommunityPostController {
 
 
     @GetMapping("/{communityPostId}")
-    public String getCommunityById(
+    public String view(
             @PathVariable Long communityPostId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
             Model model
     ) {
         CommunityPostViewDto communityPostViewDto =
@@ -47,17 +57,18 @@ public class CommunityPostController {
         log.info("communityPostViewDto = {}", communityPostViewDto);
 
         model.addAttribute("communityPostViewDto", communityPostViewDto);
+        model.addAttribute(SessionConst.LOGIN_USER, loginUser);
         return "community/postView";
     }
 
     @GetMapping("/write")
-    public String showCommunityWritePage(Model model) {
+    public String getWriteForm(Model model) {
         model.addAttribute("communityPostDto", new CommunityPostDto());
         return "community/postNew";
     }
 
     @PostMapping("/write")
-    public String postCommunity(
+    public String post(
             @ModelAttribute CommunityPostDto communityPostDto,
             RedirectAttributes redirectAttributes,
             @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
@@ -65,21 +76,72 @@ public class CommunityPostController {
         log.info("Dto={}", communityPostDto);
 
         communityPostDto.setUserId(loginUser.getId());
-        communityPostService.post(communityPostDto);
+        communityPostService.save(communityPostDto);
         redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
         return "redirect:/community/list";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        Optional<CommunityPost> communityPost = communityPostService.findById(id);
-        model.addAttribute("community", communityPost);
+    @GetMapping("/{communityPostId}/edit")
+    public String getEditForm(
+            @PathVariable Long communityPostId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        Optional<CommunityPost> postOpt = communityPostService.findById(communityPostId);
+        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+
+        CommunityPost post = postOpt.get();
+        CommunityPostUpdateDto updateDto = new CommunityPostUpdateDto();
+        updateDto.setCommunityPostId(post.getId());
+        updateDto.setCommunityPostTitle(post.getCommunityPostTitle());
+        updateDto.setCommunityPostContent(post.getCommunityPostContent());
+
+        model.addAttribute("communityPostUpdateDto", updateDto);
         return "community/postEdit";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteCommunity(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        communityPostService.deleteCommunity(id);
+//    @PostMapping("/{communityPostId}/edit")
+    public String edit2(
+            @ModelAttribute CommunityPostUpdateDto communityPostUpdateDto,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            RedirectAttributes redirectAttributes
+        ) {
+        log.info("communityPostUpdateDto = {}", communityPostUpdateDto);
+        Optional<CommunityPost> postOpt = communityPostService.findById(communityPostUpdateDto.getCommunityPostId());
+        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+        communityPostService.update(communityPostUpdateDto);
+
+        return "redirect:/community/" + postOpt.get().getId();
+    }
+
+    @PostMapping("/{communityPostId}/edit")
+    public String edit(
+            @ModelAttribute CommunityPostUpdateDto communityPostUpdateDto
+        ) {
+        log.info("communityPostUpdateDto = {}", communityPostUpdateDto);
+        communityPostService.update(communityPostUpdateDto);
+        return "redirect:/community/" + communityPostUpdateDto.getCommunityPostId();
+    }
+
+    @PostMapping("/{communityPostId}/delete")
+    public String delete(
+            @PathVariable Long communityPostId,
+            RedirectAttributes redirectAttributes,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        Optional<CommunityPost> postOpt = communityPostService.findById(communityPostId);
+        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+        communityPostService.delete(communityPostId);
         redirectAttributes.addFlashAttribute("message", "게시글이 삭제되었습니다.");
         return "redirect:/community/list";
     }

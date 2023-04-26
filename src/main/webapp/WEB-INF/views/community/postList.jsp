@@ -240,5 +240,14 @@
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<script>
+    (function () {
+        let message = '${message}';
+        if (message) {
+            alert(message);
+        }
+    })();
+</script>
 </body>
 </html>

@@ -108,16 +108,15 @@
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
                 <h3>글 수정</h3>
                 <div class="create-form">
-                    <form:form action="/community/write/${communityPost.id}" method="post" modelAttribute="communityPost">
-                        <form:hidden path="id" />
+                    <form:form method="post" modelAttribute="communityPostUpdateDto">
+                        <form:hidden path="communityPostId" />
                         <div class="form-group">
-                            <label for="communityTitle">글 제목 :</label>
-                            <form:input path="communityPostTitle" type="text" class="form-control" id="communityTitle" value="${communityPost.communityPostTitle}" required="required"/>
+                            <label for="communityPostTitle">글 제목 :</label>
+                            <form:input path="communityPostTitle" type="text" cssClass="form-control" required="required"/>
                         </div>
                         <div class="form-group">
-                            <label for="communityContent">글 내용 :</label>
-                            <form:textarea path="communityPostContent" class="form-control" id="communityContent" rows="5" required="required" cssStyle="min-height: 400px" value="${communityPost.communityPostContent}" />
-
+                            <label for="communityPostContent">글 내용 :</label>
+                            <form:textarea path="communityPostContent" cssClass="form-control" rows="5" required="required" cssStyle="min-height: 400px" />
                         </div>
                         <div class="clearfix">
                             <button type="submit" class="btn btn-primary submit-btn">수정</button>
