@@ -24,8 +24,9 @@
                     <input type="hidden" id="learningType" value="${learningType}">
                     <input type="hidden" id="sortType" value="${sortType}">
                     <input type="hidden" id="onlyLike" name="onlyLike" value="${onlyLike}">
+                    <input type="hidden" id="pageNum" name="pageNum">
                     <div class="row align-items-center">
-                        <div class="col-10 col-md-2">
+                        <div class="col-10 col-md-3">
                             <select class="form-select" aria-label="Default select example" name="learningType" id="learningTypeSelect" onchange="reLoad()">
                                 <option value="all">전체</option>
                                 <option value="SPEAKING">말하기 연습</option>
@@ -46,8 +47,7 @@
                     </div>
                 </form>
             </div>
-
-            <c:forEach var="sentence" items="${sentences}">
+            <c:forEach var="sentence" items="${pageInfo.list}">
                 <!-- sentence start -->
                 <div class="row p-2 sentence justify-content-center" id="sentence_${sentence.id}">
                     <div class="row g-0 my-1 align-items-end justify-content-between shadow rounded-3 p-3">
@@ -116,6 +116,54 @@
                 </div>
                 <!-- sentence end -->
             </c:forEach>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <c:if test="${pageInfo.hasPreviousPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(1)" aria-label="First">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.prePage})" aria-label="Previous">
+                                        <span aria-hidden="true">‹</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                <c:choose>
+                                    <c:when test="${i == pageInfo.pageNum}">
+                                        <li class="page-item active">
+                                            <a class="page-link" href="javascript:void(0)" onclick="reLoad(${i})">${i}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item">
+                                            <a class="page-link" href="javascript:void(0)" onclick="reLoad(${i})">${i}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:if test="${pageInfo.hasNextPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.nextPage})" aria-label="Next">
+                                        <span aria-hidden="true">›</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.pages})" aria-label="Last">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -169,7 +217,7 @@
         }
         init(); //발음 평가 관련 초기화 작업
     }
-    function reLoad() {
+    function reLoad(pageNum) {
         let likeCheck = document.getElementById('flexCheckDefault');
         let form = document.getElementById('selectForm');
 
@@ -178,6 +226,11 @@
         } else {
             document.getElementById('onlyLike').value = null;
         }
+
+        if(pageNum != null) {
+            document.getElementById('pageNum').value = pageNum;
+        }
+
         form.submit();
     }
 

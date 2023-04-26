@@ -26,8 +26,9 @@
                     <input type="hidden" id="learningType" value="${learningType}">
                     <input type="hidden" id="sortType" value="${sortType}">
                     <input type="hidden" id="onlyLike" name="onlyLike" value="${onlyLike}">
+                    <input type="hidden" id="pageNum" name="pageNum">
                     <div class="row align-items-center">
-                        <div class="col-10 col-md-2">
+                        <div class="col-md-3">
                             <select class="form-select" aria-label="Default select example" name="learningType" id="learningTypeSelect" onchange="reLoad()">
                                 <option value="all">전체</option>
                                 <option value="SPEAKING">말하기 연습</option>
@@ -35,33 +36,33 @@
                                 <option value="WRITING">글쓰기 연습</option>
                             </select>
                         </div>
-                        <div class="col-10 col-md-2">
+                        <div class="col-md-2">
                             <select class="form-select" aria-label="Default select example" name="sortType" id="sortTypeSelect" onchange="reLoad()">
                                 <option value="id_desc">최신순</option>
                                 <option value="id_asc">오래된 순</option>
                             </select>
                         </div>
-                        <div class="form-check col-10 col-md-4 ms-1">
+                        <div class="form-check col-md-4 ms-1">
                             <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="likeCheck" onclick="reLoad()">
                             <label class="form-check-label" for="flexCheckDefault">좋아요 표시만 보기</label>
                         </div>
                     </div>
                 </form>
             </div>
-            <c:forEach var="learning" items="${learnings}">
-                <div class="row p-2 sentence justify-content-center">
-                    <div class="row g-0 learning my-1 align-items-end justify-content-between shadow rounded-3 p-3" id="learning_${learning.id}">
-                        <div class="row">
-                            <div class="row col-12 col-md-4">
-                                <div class="col-10 col-md-5 fw-bold" style="color: #2A6976">${learning.learningType}</div>
+            <c:forEach var="learning" items="${pageInfo.list}">
+                <div class="row p-2 pe-5 justify-content-center">
+                    <div class="row g-0 learning my-1 shadow rounded-3 p-3" id="learning_${learning.id}">
+                        <div class="row g-0 justify-content-between ">
+                            <div class="row g-0 col-md-3">
+                                <div class="col-auto mx-2 align-self-center text-center fw-bold" style="color: #2A6976">${learning.learningType}</div>
                                 <c:if test="${not empty learning.learningTestType}">
-                                    <div class="col-10 col-md-4 fw-bold rounded-1" style="color: #ffffff; background-color: darkcyan">${learning.learningTestType}</div>
+                                    <div class="col-auto p-1 align-self-center text-center fw-bold rounded-1" style="color: #ffffff; background-color: darkcyan">${learning.learningTestType}</div>
                                 </c:if>
                             </div>
-                            <div class="col-12 col-md-6" style="color: #373737">
-                                    <fmt:formatDate value="${learning.learningDate}" pattern="yyy.MM.dd"/>
+                            <div class="col-md-6 align-self-center" style="color: #373737">
+                                <fmt:formatDate value="${learning.learningDate}" pattern="yyy.MM.dd"/>
                             </div>
-                            <div class="col-12 col-md-2">
+                            <div class="col-md-2 offset-md-1">
                                 <div class="row g-0">
                                     <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleLearningLikeAjax(this)">
                                         <i class="like bi bi-heart${not empty learning.learningLike && learning.learningLike == '1'.charAt(0) ? '-fill' : ''}"></i>
@@ -73,8 +74,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff; background-color: #7B61FF30">
-                            <div class="col-10 col-md-2">
+                        <div class="row g-0 rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff; background-color: #7B61FF30">
+                            <div class="col-md-2 align-self-center text-center fw-bold">
                                 <c:if test="${learning.learningType == 'DIALOGUE'}">
                                     Situation
                                 </c:if>
@@ -82,9 +83,11 @@
                                     Question
                                 </c:if>
                             </div>
-                            <div class="col-10 col-md-8">"${learning.learningTopic}"</div>
+                            <div class="col-md-10">
+                                <a href="/learning/correction/sentences?learningId=${learning.id}" style="text-decoration:none; color: #7054ff;">"${learning.learningTopic}"</a>
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row g-0 px-1">
                             <div class="col-10 col-md-4" style="color: rgb(35, 28, 181);">
                                 <c:if test="${not empty learning.averageAccuracy}">
                                     평균 발음 정확도: ${learning.averageAccuracy}%
@@ -97,6 +100,59 @@
                     </div>
                 </div>
             </c:forEach>
+            <div class="row pe-5 mt-3 mb-4 justify-content-end">
+                <div class="col-md-auto g-0">
+                    <input type="button" class="btn btn-primary" value="전체 삭제" onclick=""/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <c:if test="${pageInfo.hasPreviousPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(1)" aria-label="First">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.prePage})" aria-label="Previous">
+                                        <span aria-hidden="true">‹</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                <c:choose>
+                                    <c:when test="${i == pageInfo.pageNum}">
+                                        <li class="page-item active">
+                                            <a class="page-link" href="javascript:void(0)" onclick="reLoad(${i})">${i}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item">
+                                            <a class="page-link" href="javascript:void(0)" onclick="reLoad(${i})">${i}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:if test="${pageInfo.hasNextPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.nextPage})" aria-label="Next">
+                                        <span aria-hidden="true">›</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" onclick="reLoad(${pageInfo.pages})" aria-label="Last">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -136,7 +192,7 @@ function initSelect() {
         likeCheck.checked = true;
     }
 }
-function reLoad() {
+function reLoad(pageNum) {
     let likeCheck = document.getElementById('flexCheckDefault');
     let form = document.getElementById('selectForm');
 
@@ -145,6 +201,11 @@ function reLoad() {
     } else {
         document.getElementById('onlyLike').value = null;
     }
+
+    if(pageNum != null) {
+        document.getElementById('pageNum').value = pageNum;
+    }
+
     form.submit();
 }
 

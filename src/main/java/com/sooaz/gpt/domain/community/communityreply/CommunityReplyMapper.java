@@ -10,4 +10,6 @@ public interface CommunityReplyMapper {
     List<CommunityReply> findByUserId(Long userId);
 
     void delete(Long communityReplyId);
+
+    void deleteByPostId(Long communityPostId);
 }
