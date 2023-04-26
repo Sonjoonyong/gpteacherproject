@@ -7,71 +7,71 @@
     <title>관리 페이지</title>
 
     <link rel="stylesheet" href="/css/base.css">
-    <style>
+<style>
 
-        .select-container .form-select {
-            width: 280px;
-            font-size: 30px;
-            border: 0.1px solid #2F4858;
-            border-radius: 5px;
-            padding: 5px 10px;
-            color: white;
-            text-align: center;
-            background-color: #716FAA;
-        }
+    .select-container .form-select {
+        width: 280px;
+        font-size: 30px;
+        border: 0.1px solid #2F4858;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: white;
+        text-align: center;
+        background-color: #716FAA;
+    }
 
-        .wrapper {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 70px;
-            margin-bottom: 50px;
-        }
+    .wrapper {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 70px;
+        margin-bottom: 50px;
+    }
 
-        .table-hover thead th {
-            font-size: 16px;
-            font-weight: bold;
-            background-color: #716FAA;
-            color: white;
-            padding: 8px;
-        }
+    .table-hover thead th {
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #716FAA;
+        color: white;
+        padding: 8px;
+    }
 
-        #searchForm button{
-            margin-left: 10px;
-            border: 1px solid #716FAA;
-            color: white;
-            background-color: #716FAA;
-            float :right;
-            border-radius: 5px;
-        }
+    #searchForm button{
+        margin-left: 10px;
+        border: 1px solid #716FAA;
+        color: white;
+        background-color: #716FAA;
+        float :right;
+        border-radius: 5px;
+    }
 
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
+    a { color: black; }
+    a:visited { color: black; }
+    a:hover { color: black; }
+    a:active { color: black; }
 
-        .page-link {
-            color: #000;
-            background-color: #fff;
-            border: 1px solid #ccc;
-        }
+    .page-link {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #ccc;
+    }
 
-        .page-item.active .page-link {
-            z-index: 1;
-            color: white;
-            font-weight:bold;
-            background-color: #716FAA;
-            border-color: #ccc;
+    .page-item.active .page-link {
+        z-index: 1;
+        color: white;
+        font-weight:bold;
+        background-color: #716FAA;
+        border-color: #ccc;
 
-        }
+    }
 
-        .page-link:focus, .page-link:hover {
-            color: #000;
-            background-color: #fafafa;
-            border-color: #ccc;
-        }
+    .page-link:focus, .page-link:hover {
+        color: #000;
+        background-color: #fafafa;
+        border-color: #ccc;
+    }
 
-    </style>
+</style>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -82,16 +82,16 @@
     <div class="row">
         <%@ include file="../../fragments/adminMenu.jsp" %>
         <div class="col-md-8 offset-md-1">
-            <div class="reportreplylist" id="reportreplylist">
+            <div class="reportpostlist" id="reportpostlist">
                 <div class="wrapper">
                     <div class="d-flex justify-content-beween" style="color: #716FAA">
-                        <span class="reportreplylistname"><h3>신고 글 목록</h3></span>
+                        <span class="reportpostlistname"><h3>신고 글 목록</h3></span>
                     </div>
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>내용</th>
+                            <th>제목</th>
                             <th>사유</th>
                             <th>작성일</th>
                             <th>신고일</th>
