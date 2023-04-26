@@ -10,6 +10,7 @@ import com.sooaz.gpt.domain.admin.user.UserView;
 import com.sooaz.gpt.domain.community.Community;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.MypageService;
+import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
 import java.util.List;
 
 @Controller
@@ -67,20 +70,6 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/admin/userComments")
-    public String getUserComments(
-            @RequestParam("userId") Long userId,
-            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
-            Model model
-    ){
-        PageHelper.startPage(pageNum, pageSize);
-        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
-        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
-        model.addAttribute("pageInfo",pageInfo);
-        return "/admin/user/userComments";
-    }
-
     @GetMapping("/admin/userPosts")
     public String getUserPosts(
             @RequestParam("userId") Long userId,
@@ -88,6 +77,7 @@ public class AdminController {
             @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
             Model model
     ){
+        model.addAttribute("userId",userId);
         PageHelper.startPage(pageNum, pageSize);
         List<Community> communities = mypageService.getPostList(userId);
         PageInfo<Community> pageInfo = new PageInfo<>(communities);
@@ -95,4 +85,40 @@ public class AdminController {
         log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userPosts";
     }
+    @PostMapping("/admin/userPosts")
+    public String deletePost(
+            @RequestParam("userId") Long userId,
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deletePostsById(deleteId); //postId list, userId
+        mypageService.deleteCommentsByPostId(deleteId);
+        mypageService.deleteBookmarks(deleteId, userId);
+        return "/admin/user/userPosts";
+    }
+
+    @GetMapping("/admin/userComments")
+    public String getUserComments(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ){
+        model.addAttribute("userId",userId);
+        PageHelper.startPage(pageNum, pageSize);
+        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
+        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
+        model.addAttribute("pageInfo",pageInfo);
+        return "/admin/user/userComments";
+    }
+    @PostMapping("/admin/userComments")
+    public String deleteComments(
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deleteCommentsById(deleteId); //commentId list, userId
+        return "/admin/user/userComments";
+    }
+
+
 }

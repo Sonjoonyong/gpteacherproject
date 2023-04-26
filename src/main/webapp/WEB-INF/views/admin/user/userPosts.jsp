@@ -4,31 +4,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>관리 페이지</title>
+  <title>유저 글</title>
 
   <link rel="stylesheet" href="/css/base.css">
 
   <style>
-
-    .select-container .form-select {
-      width: 280px;
-      font-size: 30px;
-      border: 0.1px solid #2F4858;
-      border-radius: 5px;
-      padding: 5px 10px;
-      color: white;
-      text-align: center;
-      background-color: #716FAA;
-    }
-
-    .wrapper {
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 5px;
-      margin-top: 70px;
-      margin-bottom: 50px;
-    }
-
     .table-hover thead th {
       font-size: 16px;
       font-weight: bold;
@@ -64,7 +44,6 @@
       border-color: #ccc;
 
     }
-
     .page-link:focus, .page-link:hover {
       color: #000;
       background-color: #fafafa;
@@ -80,12 +59,14 @@
 </head>
 <body>
 <%@ include file="../../fragments/header.jsp" %>
-<section class="container">
+<section class="container" style="margin-top: 50px;">
   <div class="row">
     <%@ include file="../../fragments/adminMenu.jsp" %>
-    <div class="col-md-8 offset-md-1 p-4 myPostList">
+    <div class="col-md-8 offset-md-1 p-4 myPostList" style="margin-top:80px;">
       <h2 class="h3 my-4" style="color: #5DB99D;">작성글</h2>
-      <form action="/user/mypage/communities" method="post">
+
+      <form action="/admin/userPosts" method="POST">
+
         <table class="table" style="text-align: center; table-layout:fixed;">
           <thead>
           <tr>
@@ -114,6 +95,7 @@
           </c:forEach>
           </tbody>
         </table>
+
         <div class="row mb-2 justify-content-between">
           <div class="col-md-4 form-check">
             <input class="form-check-input" type="checkbox" onclick="selectAll(this)" style="margin-left:10px;">
@@ -122,9 +104,11 @@
             </label>
           </div>
           <div class="col-md-2">
-            <input type="submit" class="btn btn-primary" value="글 삭제" onclick="return deleteSubmit(this)"/>
+            <input type="hidden" name="userId" value="${userId}" />
+            <input  type="submit" class="btn btn-primary" value="글 삭제" onclick="return deleteSubmit(this)"/>
           </div>
         </div>
+
       </form>
       <div class="row">
         <div class="col-md-12 d-flex justify-content-center">
@@ -132,12 +116,12 @@
             <ul class="pagination">
               <c:if test="${pageInfo.hasPreviousPage}">
                 <li class="page-item">
-                  <a class="page-link" href="?pageNum=1" aria-label="First">
+                  <a class="page-link" href="?pageNum=1&userId=${userId}" aria-label="First">
                     <span aria-hidden="true">«</span>
                   </a>
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
+                  <a class="page-link" href="?pageNum=${pageInfo.prePage}&userId=${userId}" aria-label="Previous">
                     <span aria-hidden="true">‹</span>
                   </a>
                 </li>
@@ -147,12 +131,12 @@
                 <c:choose>
                   <c:when test="${i == pageInfo.pageNum}">
                     <li class="page-item active">
-                      <a class="page-link" href="?pageNum=${i}">${i}</a>
+                      <a class="page-link" href="?pageNum=${i}&userId=${userId}">${i}</a>
                     </li>
                   </c:when>
                   <c:otherwise>
                     <li class="page-item">
-                      <a class="page-link" href="?pageNum=${i}">${i}</a>
+                      <a class="page-link" href="?pageNum=${i}&userId=${userId}">${i}</a>
                     </li>
                   </c:otherwise>
                 </c:choose>
@@ -160,12 +144,12 @@
 
               <c:if test="${pageInfo.hasNextPage}">
                 <li class="page-item">
-                  <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
+                  <a class="page-link" href="?pageNum=${pageInfo.nextPage}&userId=${userId}" aria-label="Next">
                     <span aria-hidden="true">›</span>
                   </a>
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
+                  <a class="page-link" href="?pageNum=${pageInfo.pages}&userId=${userId}" aria-label="Last">
                     <span aria-hidden="true">»</span>
                   </a>
                 </li>
@@ -176,11 +160,41 @@
       </div>
     </div>
   </div>
-  </div>
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script>
+  function selectAll(selectAll) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = selectAll.checked;
+    });
+  }
 
+  function deleteSubmit(btn) {
+    let checkList = document.querySelectorAll('input[name="deleteId"]:checked');
+    let checkCount = checkList.length;
+
+    if(checkCount == 0) {
+      alert("선택된 글이 없습니다.");
+      return false;
+    }
+    let message;
+    if (btn.value == "글 삭제") {
+      message = "글을 삭제"
+    }
+    if (btn.value == "댓글 삭제") {
+      message = "댓글을 삭제"
+    }
+    if (btn.value == "북마크 해제") {
+      message = "북마크를 해제"
+    }
+    if(!confirm(checkCount + "개의 "+ message +"하시겠습니까?")) {
+      return false;
+    }
+
+  }
+</script>
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 </body>
 </html>
