@@ -75,14 +75,11 @@
             <if test="sentenceAccuracy != null">
                 sentence_accuracy = #{sentenceAccuracy},
             </if>
-            <if test="sentenceNextRepetition != null">
-                sentence_next_repetition = #{sentenceNextRepetition},
-            </if>
             <if test="sentenceRepetitionStep != null">
                 sentence_repetition_step = #{sentenceRepetitionStep},
             </if>
             <if test="sentenceInterval != null">
-                sentence_interval = #{sentenceInterval},
+                sentence_interval = #{sentenceInterval}, sentence_next_repetition = sysdate + #{sentenceInterval},
             </if>
             <if test="sentenceEaseFactor != null">
                 sentence_ease_factor = #{sentenceEaseFactor},

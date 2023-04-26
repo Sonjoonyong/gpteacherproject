@@ -28,7 +28,10 @@
                 <c:if test="${sentencesCount == 0}">
                     오늘 학습할 내용이 없습니다.
                 </c:if>
-                <c:if test="${sentencesCount != 0 && sentencesCount != null}">
+                <c:if test="${sentencesCount == -1}">
+                    모든 학습이 종료 되었습니다.
+                </c:if>
+                <c:if test="${sentencesCount > 0 && sentencesCount != null}">
                     <form method="post" action="/user/mypage/flashcards">
                         오늘 학습할 문장 수를 입력해 주세요 (최대 문장 수 : ${sentencesCount})
                         <br/>
@@ -96,9 +99,8 @@
                         </div>
                         <form method="post" action="/user/mypage/flashcards" id="updateIntervalForm">
                             <input type="hidden" name="sentenceId" value="${sentence.id}">
-                            <input type="hidden" name="limit" value="${limit}">
+                            <input type="hidden" name="limit" value="${limit - 1}">
                             <input type="hidden" name="quality" id="quality">
-                            <input type="hidden" name="pageNum" value="${pageInfo.pageNum + 1}">
                             <div class="row justify-content-center mt-4">
                                 <button class="col-md-auto btn quality mx-1" value="0" onclick="updateInterval(this)">
                                     Again

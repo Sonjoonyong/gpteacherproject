@@ -163,28 +163,23 @@ public class MypageController {
             @SessionAttribute User loginUser,
             @RequestParam int limit,
             @RequestParam(required = false) Integer quality,
-            @RequestParam(required = false) Integer sentenceId,
-            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(required = false) Long sentenceId,
             Model model
     ) {
+
         if (quality != null) {
-
+            mypageService.sm2Algorithm(quality, sentenceId); // update sentence DB
         }
-
-        if (pageNum > limit) { //오늘 학습할 내용이 끝났을 때
-            model.addAttribute("sentencesCount", 0);
+        if (limit == 0) { //오늘 학습할 내용이 끝났을 때
+            model.addAttribute("sentencesCount", -1);
             return "mypage/learning/flashcard";
         }
         List<Flashcard> flashcards = flashcardService.getFlashcardList(loginUser.getId());
         Long flashcardId = flashcards.get(0).getId();
 
-        PageHelper.startPage(pageNum,1);
+        PageHelper.startPage(1,1);
         List<Sentence> sentences = flashcardService.getSentenceListByFlashcard(flashcardId);
         PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
-        log.info("sentence list = {}",pageInfo);
-        log.info("quality = {}",quality);
-        log.info("sentence id", sentenceId);
-        log.info("limit = {}",limit);
 
         model.addAttribute("limit", limit);
         model.addAttribute("pageInfo", pageInfo);
