@@ -120,11 +120,6 @@
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-<!--이쁜이모티콘-->
-<script defer src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
-<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
-<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script defer>
     //댓글리스트
     $(function () {
@@ -136,33 +131,31 @@
                 }
                 , type: "GET"
                 , success: function (result) {
-                    // console.log(result);
                     let tag = "";
                     $(result).each(function (i, rDto) {
                         let date = new Date(rDto.communityReplyWritedate);
                         let newDate = date.toISOString().split('T')[0];
-                        console.log(i, rDto);
                         //댓글리스트폼
                         tag += "<li class='list-group-item'>";
                         tag += "<div>";
 
-                        tag += "<b>" + rDto.userNickname + " (" + newDate + ")</b>"; //userId, 작성일
+                        tag += "<span class='replyUserNickname'>" + rDto.userNickname + "</span> <span>(" + newDate + ")</span>"; //userId, 작성일
 
                         if (rDto.isAdmin || rDto.isWriter) {
-                            tag += "<input type='button' name='delete' class='btn btn-secondary' style='margin-right: 5px;' value='삭제' title='" + rDto.communityReplyId + "'>";
+                            tag += "<input type='button' name='delete' class='btn btn-sm btn-secondary' value='삭제' title='" + rDto.communityReplyId + "'>";
                         }
                         if (rDto.isWriter) {
-                            tag += "<input type='button' name='edit' class='btn btn-secondary' style='margin-right: 5px;' value='수정'>";
+                            tag += "<input type='button' name='edit' class='btn btn-sm btn-secondary mx-1' value='수정'>";
                         }
-                        tag += "<input type='button' name='report' class='btn btn-secondary' style='margin-right: 5px;' value='신고'>";
+                        tag += "<input type='button' name='report' class='btn btn-sm btn-secondary' value='신고'>";
 
-                        tag += "<p>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
+                        tag += "<p class='replyContent'>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
                         //댓글수정폼
                         tag += "<div class='row' style='display:none'>";
                         tag += "    <form method='post' class='row g-0 gap-2'>";
-                        tag += "        <input type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
+                        tag += "        <input class='communityReplyId' type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
                         tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
-                        tag += "        <input type='submit' class='col btn btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
+                        tag += "        <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
                         tag += "    </form>";
                         tag += "</div>";
 
@@ -193,7 +186,6 @@
                 , type: "POST"
                 , success: function (result) {
                     $("#communityReplyContent").val("");
-                    console.log(result);
                     replyList();
                 }, error: function (e) {
                     console.log(e.responseText);
@@ -214,7 +206,6 @@
         // 댓글 수정
         $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
             let params = $(this).parent().serialize();
-            console.log("params: " + params);
             let url = "/community/reply/edit";
 
             $.ajax({
@@ -223,7 +214,6 @@
                 , type: "POST"
                 , success: function (result) {
                     // 댓글 목록을 다시 뿌려주기
-                    console.log(result);
                     replyList();
                 }, error: function (e) {
                     console.log(e.responseText);
@@ -241,7 +231,6 @@
                     url: url,
                     method: 'POST',
                     success: function (result) {
-                        console.log(result);
                         // 댓글 목록을 다시 뿌려주기
                         replyList();
                     },
@@ -250,6 +239,26 @@
                     }
                 });
             }
+        });
+
+        // 댓글 신고 모달창 띄우기
+        $(document).on('click', '#communityReplyList input[name=report]', function () {
+            toggleReportModal(true);
+            
+            const replyLi = this.closest('li');
+            const replyContent = replyLi.querySelector('.replyContent').innerText;
+
+            // 신고 내용 옮기기
+            document.querySelector('#reportTargetContent').innerText =
+                replyContent.substring(0, Math.min(20, replyContent.length));;
+
+            // 신고 대상 닉네임 옮기기
+            const writerNickname = replyLi.querySelector('.replyUserNickname').innerText;
+            document.querySelector('#reportTargetWriter').innerText = writerNickname;
+
+            // 신고 대상 id 및 종류 옮기기
+            reportSubjectIdInput.value = replyLi.querySelector('.communityReplyId').value;
+            reportSubjectInput.value = 'COMMUNITY_REPLY';
         });
 
         replyList();
@@ -262,6 +271,26 @@
     const reportCancelBtn = document.querySelector('#reportCancel');
     const reportSubjectIdInput = document.querySelector('#reportSubjectId');
     const reportSubjectInput = document.querySelector('#reportSubject');
+    const reportBtn = document.querySelector('#reportButton');
+
+    // 모달 신고하기 버튼
+    reportBtn.onclick = (e) => {
+        const form = new FormData(e.currentTarget.closest('form'));
+        const request = new XMLHttpRequest();
+
+        request.onload = () => {
+            const response =  request.responseText;
+            if (response === 'ok') {
+                alert('신고가 접수되었습니다.');
+                toggleReportModal(false);
+            } else {
+                alert('신고가 접수되지 않았습니다.');
+            }
+        }
+
+        request.open("post", "/community/report")
+        request.send(form);
+    }
 
     // 게시글 신고 모달창 띄우기
     let reportPostBtn = document.querySelector('#reportPost');
@@ -270,12 +299,15 @@
 
         // 신고 내용 옮기기
         const content = document.querySelector('#communityPostContent').innerText;
-        document.querySelector('#reportTargetContent').innerText = content.substring(0, Math.min(20, content.length));;
+        document.querySelector('#reportTargetContent').innerText =
+            content.substring(0, Math.min(20, content.length));;
 
         // 신고 대상 닉네임 옮기기
         const writerNickname = document.querySelector('#writerNickname').innerText;
         document.querySelector('#reportTargetWriter').innerText = writerNickname;
 
+        // 신고 대상 id 옮기기
+        reportSubjectIdInput.value = ${communityPostViewDto.communityPostId};
 
         reportSubjectInput.value = 'COMMUNITY_POST';
     }

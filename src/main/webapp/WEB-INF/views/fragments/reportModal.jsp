@@ -3,16 +3,16 @@
 
 <%--신고하기 모달--%>
 <div id="reportModal">
-    <form id="reportModalBody" action="/community/report" method="post"
-          class="form-check login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto"
-          style="border: 2px solid #5DB99D;"> <!--action 넣어주세요!!!-->
+    <form id="reportModalBody" method="post"
+          class="form-check login row g-0 justify-content-center px-5 py-4 rounded-3 my-auto"
+          style="border: 2px solid #5DB99D;">
 
-        <input type="hidden" id="reportSubjectId" name="reportSubjectId" value="${communityPostViewDto.communityPostId}">
+        <input type="hidden" id="reportSubjectId" name="reportSubjectId">
         <input type="hidden" id="reportSubject" name="reportSubject" value="communityPost">
 
         <h3 class="h3 col-12 text-center" id="title">신고하기</h3>
         <hr class="my-1">
-        <div class="col-12" id="information">
+        <div class="col-12 border-bottom pt-3 ps-3" id="information">
             <dl>
                 <dt style="float:left;width: 65px;">작성자:</dt>
                 <dd id="reportTargetWriter" style="padding-left: 8px;">윤대현</dd> <!--닉네임입력해주세요!!!-->
@@ -80,8 +80,8 @@
                     </ul>
                 </li>
             </ul>
-            <div class="row text-center">
-                <button type="submit" class="btn btn-success my-2">신고하기</button>
+            <div class="row text-center mt-3">
+                <button id="reportButton" type="button" class="btn btn-success my-2">신고하기</button>
                 <button id="reportCancel" type="button" class="btn btn-secondary">취소</button>
             </div>
         </div>
