@@ -261,7 +261,7 @@
     const reportModalBody = document.querySelector('#reportModalBody');
     const reportCancelBtn = document.querySelector('#reportCancel');
     const reportSubjectIdInput = document.querySelector('#reportSubjectId');
-    const reportSubjectTypeInput = document.querySelector('#reportSubjectType');
+    const reportSubjectInput = document.querySelector('#reportSubject');
 
     // 게시글 신고 모달창 띄우기
     let reportPostBtn = document.querySelector('#reportPost');
@@ -277,7 +277,7 @@
         document.querySelector('#reportTargetWriter').innerText = writerNickname;
 
 
-        reportSubjectTypeInput.value = 'COMMUNITY_POST';
+        reportSubjectInput.value = 'COMMUNITY_POST';
     }
 
     // 신고 모달창 닫기

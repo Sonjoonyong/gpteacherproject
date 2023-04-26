@@ -8,7 +8,7 @@
           style="border: 2px solid #5DB99D;"> <!--action 넣어주세요!!!-->
 
         <input type="hidden" id="reportSubjectId" name="reportSubjectId" value="${communityPostViewDto.communityPostId}">
-        <input type="hidden" id="reportSubjectType" name="reportSubjectType" value="communityPost">
+        <input type="hidden" id="reportSubject" name="reportSubject" value="communityPost">
 
         <h3 class="h3 col-12 text-center" id="title">신고하기</h3>
         <hr class="my-1">

@@ -5,7 +5,7 @@
 
 <mapper namespace="com.sooaz.gpt.domain.community.CommunityPostMapper">
 
-    <insert id="save" parameterType="com.sooaz.gpt.domain.community.CommunityPost">
+    <insert id="save" parameterType="CommunityPost">
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
             SELECT COMMUNITY_POST_ID_SEQ.NEXTVAL FROM DUAL
         </selectKey>
