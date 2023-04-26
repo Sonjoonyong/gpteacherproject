@@ -31,7 +31,7 @@
         SELECT * FROM users
         <where>
             <if test="search != null and searchOption != null">
-                LOWER(${searchOption,jdbcType=VARCHAR}) LIKE LOWER('%' || #{search,jdbcType=VARCHAR} || '%')
+                LOWER(${searchOption}) LIKE LOWER('%' || #{search} || '%')
             </if>
         </where>
         ORDER BY id

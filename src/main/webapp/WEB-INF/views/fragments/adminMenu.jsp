@@ -29,8 +29,8 @@
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <ul class="navbar-nav">
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/users" data-id="itemTwo">사용자 조회</a></li>
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/blockusers" data-id="itemTwo">차단 사용자 관리</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/users" data-id="itemTwo">회원 관리</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/admin/blockusers" data-id="itemTwo">차단 회원 관리</a></li>
 
                     </ul>
                 </div>
@@ -81,18 +81,20 @@
                 const item = document.getElementById(itemId);
 
                 // 아코디언 항목에 'active' 클래스 추가
-                item.classList.add('active');
+                if (item) {
+                    item.classList.add('active');
 
-                // 다른 아코디언 항목을 축소
-                collapseAllExceptActive();
+                    // 다른 아코디언 항목을 축소
+                    collapseAllExceptActive();
 
-                // 아코디언 항목 확장
-                const collapseElement = item.querySelector('.accordion-collapse');
-                collapseElement.classList.add('show');
+                    // 아코디언 항목 확장
+                    const collapseElement = item.querySelector('.accordion-collapse');
+                    collapseElement.classList.add('show');
 
-                // 버튼의 'aria-expanded' 속성을 'true'로 변경
-                const buttonElement = item.querySelector('.accordion-button');
-                buttonElement.setAttribute('aria-expanded', 'true');
+                    // 버튼의 'aria-expanded' 속성을 'true'로 변경
+                    const buttonElement = item.querySelector('.accordion-button');
+                    buttonElement.setAttribute('aria-expanded', 'true');
+                }
             }
         });
 

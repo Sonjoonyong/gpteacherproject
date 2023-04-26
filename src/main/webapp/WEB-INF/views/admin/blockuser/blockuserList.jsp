@@ -7,11 +7,88 @@
     <title>관리 페이지</title>
 
     <link rel="stylesheet" href="/css/base.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 
+    .select-container .form-select {
+        width: 280px;
+        font-size: 30px;
+        border: 0.1px solid #2F4858;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: white;
+        text-align: center;
+        background-color: #716FAA;
+    }
+
+    .wrapper {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 70px;
+        margin-bottom: 50px;
+    }
+
+    .table-hover thead th {
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #716FAA;
+        color: white;
+        padding: 8px;
+    }
+
+    .center-align {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .searchbox{
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        border-bottom:1px solid lightslategray;
+    }
+
+    #searchForm button{
+        margin-left: 10px;
+        border: 1px solid #716FAA;
+        color: white;
+        background-color: #716FAA;
+        float :right;
+        border-radius: 5px;
+    }
+
+    a { color: black; }
+    a:visited { color: black; }
+    a:hover { color: black; }
+    a:active { color: black; }
+
+    .page-link {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #ccc;
+    }
+
+    .page-item.active .page-link {
+        z-index: 1;
+        color: white;
+        font-weight:bold;
+        background-color: #716FAA;
+        border-color: #ccc;
+
+    }
+
+    .page-link:focus, .page-link:hover {
+        color: #000;
+        background-color: #fafafa;
+        border-color: #ccc;
+    }
+
 </style>
+
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
+
 </head>
 <body>
 <%@ include file="../../fragments/header.jsp" %>
@@ -24,7 +101,7 @@
                     <div class="d-flex justify-content-between" style="color: #716FAA">
                         <span class="blockuserlistname"><h3>차단 회원 관리</h3></span>
                     </div>
-                    <table class="table table-hober" style="text-align: center">
+                    <table class="table table-hover" style="text-align: center">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -41,11 +118,11 @@
                                 <td>${blockedUser.id}</td>
                                 <td>${blockedUser.userLoginId}</td>
                                 <td>${blockedUser.userNickname}</td>
-                                <td>
+                                <td class="center-align">
                                     <div class="d-flex">
                                         <form action="/admin/unblockUser" method="post" onsubmit="return confirm('정말 차단 해제하시겠습니까?');">
                                             <input type="hidden" name="userId" value="${blockedUser.id}" />
-                                            <button type="submit" class="btn btn-danger">차단 해제</button>
+                                            <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">차단 해제</button>
                                         </form>
                                     </div>
                                 </td>
@@ -124,5 +201,10 @@
     </div>
     </div>
 </section>
+
+<%@ include file="../../fragments/footer.jsp" %>
+
+<%@ include file="../../fragments/bootstrapJs.jsp" %>
+
 </body>
 </html>

@@ -37,7 +37,56 @@
         padding: 8px;
     }
 
+    .center-align {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .searchbox{
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        border-bottom:1px solid lightslategray;
+    }
+
+    #searchForm button{
+        margin-left: 10px;
+        border: 1px solid #716FAA;
+        color: white;
+        background-color: #716FAA;
+        float :right;
+        border-radius: 5px;
+    }
+
+    a { color: black; }
+    a:visited { color: black; }
+    a:hover { color: black; }
+    a:active { color: black; }
+
+    .page-link {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #ccc;
+    }
+
+    .page-item.active .page-link {
+        z-index: 1;
+        color: white;
+        font-weight:bold;
+        background-color: #716FAA;
+        border-color: #ccc;
+
+    }
+
+    .page-link:focus, .page-link:hover {
+        color: #000;
+        background-color: #fafafa;
+        border-color: #ccc;
+    }
+
 </style>
+
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
 </head>
@@ -50,7 +99,7 @@
             <div class="userlist" id="userlist">
                 <div class="wrapper">
                     <div class="d-flex justify-content-between" style="color: #716FAA;">
-                        <span class="userlistname"><h3>회원 조회</h3></span>
+                        <span class="userlistname"><h3>회원 관리</h3></span>
                     </div>
                     <table class="table table-hover " style="text-align: center">
                         <thead>
@@ -70,19 +119,19 @@
                                 <td>${user.userLoginId}</td>
                                 <td>${user.userNickname}</td>
                                 <td><fmt:formatDate value="${user.userBirthday}" pattern="yyyy-MM-dd" /></td>
-                                <td>
+                                <td class="center-align">
                                     <div class="d-flex">
                                         <form action="/admin/userPosts" method="GET">
                                             <input type="hidden" name="userId" value="${user.id}"/>
-                                            <button type="submit">작성 글</button>
+                                            <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">작성 글</button>
                                         </form>
                                         <form action="/admin/userComments" method="GET" >
                                             <input type="hidden" name="userId" value="${user.id}"/>
-                                            <button type="submit">작성 댓글</button>
+                                            <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">작성 댓글</button>
                                         </form>
                                         <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
                                             <input type="hidden" name="userId" value="${user.id}" />
-                                            <button type="submit">차단하기</button>
+                                            <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">차단하기</button>
                                         </form>
                                     </div>
                                 </td>
@@ -147,7 +196,6 @@
                                 <select name="searchOption" class="searchbox">
                                     <option value="user_login_id">로그인ID</option>
                                     <option value="user_nickname">닉네임</option>
-                                    <option value="user_email">이메일</option>
                                 </select>
                                 <input type="text" class="searchbox" name="search" />
                                 <button type="submit">검색</button>
@@ -164,5 +212,6 @@
 <%@ include file="../../fragments/footer.jsp" %>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
+
 </body>
 </html>
