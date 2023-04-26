@@ -7,6 +7,9 @@ import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
+import com.sooaz.gpt.domain.community.Community;
+import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
+import com.sooaz.gpt.domain.mypage.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 
 @Controller
@@ -24,7 +26,7 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
     private final AdminRepository adminRepository;
-
+    private final MypageService mypageService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -65,4 +67,32 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @GetMapping("/admin/userComments")
+    public String getUserComments(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ){
+        PageHelper.startPage(pageNum, pageSize);
+        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
+        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
+        model.addAttribute("pageInfo",pageInfo);
+        return "/admin/user/userComments";
+    }
+
+    @GetMapping("/admin/userPosts")
+    public String getUserPosts(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ){
+        PageHelper.startPage(pageNum, pageSize);
+        List<Community> communities = mypageService.getPostList(userId);
+        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        model.addAttribute("pageInfo", pageInfo);
+        log.info("pageInfo = {}", pageInfo);
+        return "/admin/user/userPosts";
+    }
 }
