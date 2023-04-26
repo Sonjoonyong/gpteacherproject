@@ -31,18 +31,20 @@ CREATE TABLE users
 
 CREATE TABLE sentence
 (
-    id                       NUMBER            NOT NULL,
-    learning_id              NUMBER            NOT NULL,
-    flashcard_id             NUMBER            NULL,
-    voice_file_id            NUMBER            NULL,
-    sentence_question        CLOB     NOT NULL,
-    sentence_answer          CLOB     NOT NULL,
-    sentence_corrected       CLOB     NULL,
-    sentence_explanation     CLOB     NULL,
-    sentence_like            CHAR(1) DEFAULT 0 NOT NULL,
-    sentence_accuracy        NUMBER            NULL,
-    sentence_next_repetition DATE              NULL,
-    sentence_repetition_step SMALLINT          NULL
+    id                       NUMBER                  NOT NULL,
+    learning_id              NUMBER                  NOT NULL,
+    flashcard_id             NUMBER                  NULL,
+    voice_file_id            NUMBER                  NULL,
+    sentence_question        CLOB                    NOT NULL,
+    sentence_answer          CLOB                    NOT NULL,
+    sentence_corrected       CLOB                    NULL,
+    sentence_explanation     CLOB                    NULL,
+    sentence_like            CHAR(1)     DEFAULT 0   NOT NULL,
+    sentence_accuracy        NUMBER                  NULL,
+    sentence_next_repetition DATE                    NULL,
+    sentence_repetition_step SMALLINT    DEFAULT 0   NULL,
+    sentence_interval        NUMBER(3)   DEFAULT 1   NULL,
+    sentence_ease_factor     NUMBER(2,1) DEFAULT 2.5 NULL
 );
 
 
