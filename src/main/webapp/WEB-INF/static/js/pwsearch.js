@@ -32,12 +32,14 @@ sendNewPw.onclick = () => {
             loginIdInput.disabled = true;
             sendNewPw.disabled = true;
             userPasswordMsgDiv.classList.toggle("text-danger", false);
+            userPasswordMsgDiv.classList.toggle("text-success", true);
             userPasswordMsgDiv.innerText = "이메일로 비밀번호가 재발급되었습니다.";
             gotoIdsearchBtn.style.display = 'none';
             gotoLoginBtn.style.display = 'block';
         } else {
             userPasswordMsgDiv.innerText = responseJson.errorMsg;
             userPasswordMsgDiv.classList.toggle("text-danger", true);
+            userPasswordMsgDiv.classList.toggle("text-success", false);
             sendNewPw.disabled = false;
         }
     }

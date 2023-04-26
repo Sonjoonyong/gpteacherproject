@@ -13,13 +13,13 @@ public class UserSignupDto {
     @NotBlank(message = "이메일을 입력해주세요.")
     private String userEmail;
 
-    @NotBlank(message = "인증 코드를 입력해주세요.")
+    @NotBlank(message = "이메일 인증을 받아주세요.")
     private String userEmailCode;
 
     @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12 자리로 입력해주세요.")
     private String userLoginId;
 
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{6,12}$", message = "비밀번호는 6~12 자리의 영문자, 숫자 및 특수문자($@$!%*#?&)를 포함해 입력해주세요.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,12}$", message = "비밀번호는 6~12 자리의 영문자, 숫자 및 특수문자(@$!%*#?&)를 포함해 입력해주세요.")
     private String userPassword;
 
     @NotBlank(message = "비밀번호 확인란을 입력해주세요.")

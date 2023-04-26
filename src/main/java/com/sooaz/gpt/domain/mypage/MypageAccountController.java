@@ -107,7 +107,7 @@ public class MypageAccountController {
 
         String userNickname = userEditInfoDto.getUserNickname();
         if (userNickname != null
-                && !userNickname.equals(loginUser.getUserNickname())
+                && !userNickname.equals(loginUser.getUserNickname())  // 본인 닉네임일 경우 허용
                 && userService.isDuplicateNickname(userNickname)
         ) {
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");

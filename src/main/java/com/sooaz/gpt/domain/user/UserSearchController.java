@@ -153,9 +153,8 @@ public class UserSearchController {
 
         UserUpdateDto userUpdateDto = new UserUpdateDto();
         userUpdateDto.setUserId(user.getId());
-        userUpdateDto.setUserPassword(
-                passwordHasher.hash(newPassword, user.getUserPasswordSalt())
-        );
+        userUpdateDto.setUserPassword(newPassword);
+        userUpdateDto.setUserPasswordSalt(UUID.randomUUID().toString());
         userService.update(userUpdateDto);
 
         gmail.sendEmail(

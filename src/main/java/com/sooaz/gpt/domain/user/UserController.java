@@ -55,7 +55,7 @@ public class UserController {
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("loginUser", loginUser);
+        session.setAttribute(SessionConst.LOGIN_USER, loginUser);
         log.info("user login: {}", loginUser);
 
         return "redirect:" + redirectUri;
@@ -83,23 +83,16 @@ public class UserController {
     public String signUp(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
-            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
-            HttpServletRequest request
+            @SessionAttribute(value = SessionConst.LOGIN_USER, required = false) User loginUser
     ) {
         String userEmail = userSignupDto.getUserEmail();
         if (userEmail != null && userService.isDuplicateEmail(userEmail)) {
             bindingResult.rejectValue("userEmail", "duplicate", "중복되는 이메일입니다.");
         }
 
-        HttpSession session = request.getSession();
-        String sessionEmail = (String) session.getAttribute(SessionConst.EMAIL);
-        if (sessionEmail != null && userEmail != null && !userEmail.equals(sessionEmail)) {
-            bindingResult.rejectValue("userEmail", "duplicate", "인증된 이메일과 다른 이메일입니다.");
-        }
-
-        String userEmailCode = userSignupDto.getUserEmailCode();
-        if (userEmailCode != null && !isValidEmailCode(request, userEmailCode)) {
-            bindingResult.rejectValue("userEmailCode", "incorrect", "이메일 인증번호가 틀렸습니다.");
+        boolean isEmailValidated = userService.isEmailValidated(userEmail);
+        if (!isEmailValidated) {
+            bindingResult.rejectValue("userEmail", "incorrect", "인증되지 않은 이메일입니다.");
         }
 
         String userLoginId = userSignupDto.getUserLoginId().toLowerCase();
@@ -110,15 +103,6 @@ public class UserController {
         String userPasswordCheck = userSignupDto.getUserPasswordCheck();
         if (userPasswordCheck != null && !userSignupDto.getUserPassword().equals(userPasswordCheck)) {
             bindingResult.rejectValue("userPasswordCheck", "incorrect", "입력한 비밀번호와 다릅니다.");
-        }
-
-
-        String userNickname = userSignupDto.getUserNickname();
-        if (userNickname != null
-                && !userNickname.equals(loginUser.getUserNickname()) // 본인 닉네임일 경우 허용
-                && userService.isDuplicateNickname(userNickname)
-        ) {
-            bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
 
         Date userBirthday = userSignupDto.getUserBirthday();
@@ -135,21 +119,4 @@ public class UserController {
         return "redirect:/user/login";
     }
 
-
-    @ResponseBody
-    @PostMapping("/user/signup/emailCode")
-    public String checkEmailCode(
-            String userEmailCode,
-            HttpServletRequest request
-    ) {
-        HttpSession session = request.getSession();
-        String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
-        return String.valueOf(userEmailCode.equals(realEmailCode));
-    }
-
-    private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
-        HttpSession session = request.getSession();
-        String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
-        return realEmailCode != null && realEmailCode.equals(emailCode);
-    }
 }

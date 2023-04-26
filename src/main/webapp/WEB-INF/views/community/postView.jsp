@@ -1,50 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>커뮤니티</title>
 
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/postView.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
-    <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
-    <style>
-
-        #communityboard .table thead trboardname{
-            margin-left: 20px;
-        }
-        .col-md-7 table tbody tr,
-        .col-md-7 table tbody tr td {
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
-        }
-
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
-        #searchbar fa-solid,
-        #searchbar searchbox{
-
-        }
-
-        .btn.btn-primary{
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
-            background-color: white;
-            float: right;
-        }
-
-        .col-md-7 table thead tr{
-            background-color: #CFEAE2;
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
-            height: 40px;
-        }
-    </style>
 
 </head>
 <body>
@@ -52,55 +15,319 @@
 <%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
+
+    <form role="form" method="post">
+        <input type="hidden" name="" value="">
+    </form>
+
     <div class="col-12">
         <div class="row">
+            <!--사이드바-->
             <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>Community</h3></div>
-                <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
-                        <ul>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/?"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                                <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="${pageContext.request.contextPath}/community/list"><i class="fa-solid fa-chevron-right"></i> WeeklyTop10</a>
-                            </li>
-                        </ul>
+                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>communityPost</h3></div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button"
+                                        onclick="location.href='/community/postList'">
+                                    communityPost
+                                </button>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button " type="button" onclick="location.href='/community/?'">
+                                    Weekly top10
+                                </button>
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
-                <table class="table table-striped" style="text-align:center; border:1px solid black;" >
-                    <thead >
 
+
+            <!--본문-->
+            <div class="col-md-7" style="margin-top: 110px; ">
+                <table class="table" style="text-align:start; border:1px solid black;">
+                    <thead style="margin-bottom: 20px;">
+                    <tr class="text-start">
+                        <td colspan="2">
+                            [${communityPostViewDto.communityPostCategory}] ${communityPostViewDto.communityPostTitle}</td>
+                    </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                     <tr>
-                        <td style="width:20%;"><h4>글 제목</h4></td>
-                        <td colspan="2">${community.communityPostTitle}</td>
+                        <td>작성자: <span id="writerNickname">${communityPostViewDto.userNickname}</span></td>
+                        <td style="text-align: right">
+                            <fmt:formatDate value="${communityPostViewDto.communityPostWritedate}"
+                                            pattern="yyyy-MM-dd"/>&nbsp;
+                        </td>
                     </tr>
                     <tr>
-                        <td >글 내용</td>
-                        <td colspan="2" style="height: 200px; text-align: left;">${community.communityPostContent}</td>
+                        <td id="communityPostContent" colspan="2"
+                            style="min-height: 200px;height: 200px; text-align: left; ">${communityPostViewDto.communityPostContent}</td>
                     </tr>
                     </tbody>
                 </table>
-                <form action="${pageContext.request.contextPath}/community/?/delete${community.id}" method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
-                    <a href="${pageContext.request.contextPath}/community/list" class="btn btn-primary">목록</a>
-                    <a href="${pageContext.request.contextPath}/community/?/edit${community.id}" class="btn btn-primary">수정</a>
-                    <button type="submit" class="btn list">삭제</button>
-                </form>
+                <c:if test="${communityPostViewDto.userId.equals(loginUser.id)}">
+                    <form action="/community/${communityPostViewDto.communityPostId}/delete" method="post"
+                          onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
+                        <button type="submit" class="btn btn-primary">삭제</button>
+                    </form>
+                    <a href="/community/${communityPostViewDto.communityPostId}/edit"
+                       class="btn btn-primary mx-1">수정</a>
+                </c:if>
+                <a href="/community/list" class="btn btn-primary">목록</a>
+                <%--신고하기--%>
+                <button id="reportPost" class="btn btn-primary me-1">신고하기</button>
 
-                <a href="${pageContext.request.contextPath}/community/list" class="btn list" style="">목록</a>
+            </div>
+
+            <div class="col-md-3">
+            </div>
+
+
+            <!--댓글-->
+            <div class="col-md-7">
+                <%--댓글 등록--%>
+                <div class="row">
+                    <form method="POST" id="replyForm" class="row g-0 p-2 gap-2">
+                        <textarea class="col-10 rounded-3" rows="3" name="communityReplyContent"
+                                  id="communityReplyContent"></textarea>
+                        <button class='btn btn-primary col' type="submit">댓글등록</button>
+                    </form>
+                </div>
+
+                <%--댓글 목록--%>
+                <div class="row">
+                    <ul id="communityReplyList" class="list-group list-group-flush">
+                    </ul>
+                </div>
+
             </div>
 
         </div>
     </div>
 </section>
 
+
 <%@ include file="../fragments/footer.jsp" %>
 
+<%@ include file="../fragments/reportModal.jsp" %>
+
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script defer>
+    //댓글리스트
+    $(function () {
+        function replyList() {
+            $.ajax({
+                url: "/community/reply/list"
+                , data: {
+                    communityPostId: ${communityPostViewDto.communityPostId}
+                }
+                , type: "GET"
+                , success: function (result) {
+                    let tag = "";
+                    $(result).each(function (i, rDto) {
+                        let date = new Date(rDto.communityReplyWritedate);
+                        let newDate = date.toISOString().split('T')[0];
+                        //댓글리스트폼
+                        tag += "<li class='list-group-item'>";
+                        tag += "<div>";
+
+                        tag += "<span class='replyUserNickname'>" + rDto.userNickname + "</span> <span>(" + newDate + ")</span>"; //userId, 작성일
+
+                        if (rDto.isAdmin || rDto.isWriter) {
+                            tag += "<input type='button' name='delete' class='btn btn-sm btn-secondary' value='삭제' title='" + rDto.communityReplyId + "'>";
+                        }
+                        if (rDto.isWriter) {
+                            tag += "<input type='button' name='edit' class='btn btn-sm btn-secondary mx-1' value='수정'>";
+                        }
+                        tag += "<input type='button' name='report' class='btn btn-sm btn-secondary' value='신고'>";
+
+                        tag += "<p class='replyContent'>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
+                        //댓글수정폼
+                        tag += "<div class='row' style='display:none'>";
+                        tag += "    <form method='post' class='row g-0 gap-2'>";
+                        tag += "        <input class='communityReplyId' type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
+                        tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
+                        tag += "        <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
+                        tag += "    </form>";
+                        tag += "</div>";
+
+                        tag += "</div>";
+                        tag += "</li>";
+                    });
+                    // .html : 원래 있던 내용 지우고 표시
+                    $("#communityReplyList").html(tag);
+
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+        }
+
+        // 댓글 추가
+        $('#replyForm').submit(function () {
+            //댓글 입력했는지 확인
+            if ($("#communityReplyContent").val() == "") {
+                alert("댓글 입력후 등록하세요.");
+                return false;
+            }
+            let query = $(this).serialize();
+
+            $.ajax({
+                url: "/community/${communityPostViewDto.communityPostId}/reply"
+                , data: query
+                , type: "POST"
+                , success: function (result) {
+                    $("#communityReplyContent").val("");
+                    replyList();
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+            return false; // submit 후 페이지 이동 막기
+        });
+
+        // 댓글 수정 폼
+        $(document).on('click', '#communityReplyList input[name=edit]', function () {
+            // 댓글 숨기기
+            $(this).parent().css("display", "none");
+            // 폼 보이기
+            $(this).parent().next().css("display", "block");
+        });
+
+
+        // 댓글 수정
+        $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
+            let params = $(this).parent().serialize();
+            let url = "/community/reply/edit";
+
+            $.ajax({
+                url: url
+                , data: params
+                , type: "POST"
+                , success: function (result) {
+                    // 댓글 목록을 다시 뿌려주기
+                    replyList();
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+            return false;
+        });
+
+        // 댓글 삭제
+        $(document).on('click', '#communityReplyList input[name=delete]', function () {
+            if (confirm("댓글을 삭제할까요?")) {
+                let communityReplyId = $(this).attr("title");
+                let url = '/community/reply/' + communityReplyId + '/delete';
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    success: function (result) {
+                        // 댓글 목록을 다시 뿌려주기
+                        replyList();
+                    },
+                    error: function (e) {
+                        console.log(e.responseText);
+                    }
+                });
+            }
+        });
+
+        // 댓글 신고 모달창 띄우기
+        $(document).on('click', '#communityReplyList input[name=report]', function () {
+            toggleReportModal(true);
+            
+            const replyLi = this.closest('li');
+            const replyContent = replyLi.querySelector('.replyContent').innerText;
+
+            // 신고 내용 옮기기
+            document.querySelector('#reportTargetContent').innerText =
+                replyContent.substring(0, Math.min(20, replyContent.length));;
+
+            // 신고 대상 닉네임 옮기기
+            const writerNickname = replyLi.querySelector('.replyUserNickname').innerText;
+            document.querySelector('#reportTargetWriter').innerText = writerNickname;
+
+            // 신고 대상 id 및 종류 옮기기
+            reportSubjectIdInput.value = replyLi.querySelector('.communityReplyId').value;
+            reportSubjectInput.value = 'COMMUNITY_REPLY';
+        });
+
+        replyList();
+    });
+
+    // 신고 모달 설정
+    const body = document.querySelector('body');
+    const reportModal = document.querySelector('#reportModal');
+    const reportModalBody = document.querySelector('#reportModalBody');
+    const reportCancelBtn = document.querySelector('#reportCancel');
+    const reportSubjectIdInput = document.querySelector('#reportSubjectId');
+    const reportSubjectInput = document.querySelector('#reportSubject');
+    const reportBtn = document.querySelector('#reportButton');
+
+    // 모달 신고하기 버튼
+    reportBtn.onclick = (e) => {
+        const form = new FormData(e.currentTarget.closest('form'));
+        const request = new XMLHttpRequest();
+
+        request.onload = () => {
+            const response =  request.responseText;
+            if (response === 'ok') {
+                alert('신고가 접수되었습니다.');
+                toggleReportModal(false);
+            } else {
+                alert('신고가 접수되지 않았습니다.');
+            }
+        }
+
+        request.open("post", "/community/report")
+        request.send(form);
+    }
+
+    // 게시글 신고 모달창 띄우기
+    let reportPostBtn = document.querySelector('#reportPost');
+    reportPostBtn.onclick = () => {
+        toggleReportModal(true);
+
+        // 신고 내용 옮기기
+        const content = document.querySelector('#communityPostContent').innerText;
+        document.querySelector('#reportTargetContent').innerText =
+            content.substring(0, Math.min(20, content.length));;
+
+        // 신고 대상 닉네임 옮기기
+        const writerNickname = document.querySelector('#writerNickname').innerText;
+        document.querySelector('#reportTargetWriter').innerText = writerNickname;
+
+        // 신고 대상 id 옮기기
+        reportSubjectIdInput.value = ${communityPostViewDto.communityPostId};
+
+        reportSubjectInput.value = 'COMMUNITY_POST';
+    }
+
+    // 신고 모달창 닫기
+    reportCancelBtn.onclick = () => {
+        toggleReportModal(false);
+    }
+
+    function toggleReportModal(boolean) {
+        reportModal.classList.toggle("show", boolean);
+        reportModalBody.scrollTop = 0;
+        // 모달에 따른 body 스크롤 설정
+        boolean && (body.style.overflow = 'hidden');
+        boolean || (body.style.overflow = 'scroll');
+    }
+
+
+</script>
+
+
 </body>
 </html>
