@@ -29,4 +29,9 @@ public class AdminService {
         params.put("searchOption", searchOption);
         return adminMapper.getUserViewList(params);
     }
+
+    public void blockUser(int userId) {
+        adminMapper.blockUser(userId);
+    }
+
 }

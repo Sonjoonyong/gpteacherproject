@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -56,6 +57,12 @@ public class AdminController {
         model.addAttribute("users", users);
         model.addAttribute("pageInfo", pageInfo);
         return "admin/user/userList";
+    }
+
+    @PostMapping("/admin/blockUser")
+    public String blockUser(@RequestParam("userId") int userId) {
+        adminService.blockUser(userId);
+        return "redirect:/admin/users";
     }
 
 }

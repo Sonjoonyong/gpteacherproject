@@ -11,6 +11,7 @@ public interface AdminMapper {
     List<MonthlyUserCount> getMonthlyUserCounts();
     List<AgeGroupCount> getAgeGroupCounts();
     List<UserView> getUserViewList(Map<String, Object> params);
+    void blockUser(int userId);
 
 }
 
