@@ -151,18 +151,44 @@ public class MypageController {
             @SessionAttribute User loginUser,
             Model model
     ) {
-        PageHelper.startPage(1, 5);
-
         List<Flashcard> flashcards = flashcardService.getFlashcardList(loginUser.getId());
-
-        PageInfo<Flashcard> pageInfo = new PageInfo<>(flashcards);
-        model.addAttribute("pageInfo", pageInfo);
+        Long flashcardId = flashcards.get(0).getId();
+        List<Sentence> sentences = flashcardService.getSentenceListByFlashcard(flashcardId);
+        model.addAttribute("sentencesCount",sentences.size());
         return "mypage/learning/flashcard";
     }
 
     @PostMapping("/user/mypage/flashcards")
-    public String flashcardResult() {
-        return "";
+    public String flashcardResult(
+            @SessionAttribute User loginUser,
+            @RequestParam int limit,
+            @RequestParam(required = false) Integer quality,
+            @RequestParam(required = false) Integer sentenceId,
+            @RequestParam(defaultValue = "1") int pageNum,
+            Model model
+    ) {
+        if (quality != null) {
+
+        }
+
+        if (pageNum > limit) { //오늘 학습할 내용이 끝났을 때
+            model.addAttribute("sentencesCount", 0);
+            return "mypage/learning/flashcard";
+        }
+        List<Flashcard> flashcards = flashcardService.getFlashcardList(loginUser.getId());
+        Long flashcardId = flashcards.get(0).getId();
+
+        PageHelper.startPage(pageNum,1);
+        List<Sentence> sentences = flashcardService.getSentenceListByFlashcard(flashcardId);
+        PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
+        log.info("sentence list = {}",pageInfo);
+        log.info("quality = {}",quality);
+        log.info("sentence id", sentenceId);
+        log.info("limit = {}",limit);
+
+        model.addAttribute("limit", limit);
+        model.addAttribute("pageInfo", pageInfo);
+        return "mypage/learning/flashcard";
     }
 
     // 나의 활동 -------------------------------------------

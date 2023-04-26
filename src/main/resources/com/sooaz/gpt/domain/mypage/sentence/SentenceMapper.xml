@@ -54,6 +54,9 @@
         </trim>
     </select>
 
+    <select id="findByFlashcardId" parameterType="long" resultType="Sentence">
+        select * from SENTENCE where FLASHCARD_ID = #{flashcardId} and (sentence_next_repetition <![CDATA[ < ]]> sysdate or sentence_next_repetition is null)
+    </select>
 
     <update id="update">
         update SENTENCE
@@ -77,6 +80,12 @@
             </if>
             <if test="sentenceRepetitionStep != null">
                 sentence_repetition_step = #{sentenceRepetitionStep},
+            </if>
+            <if test="sentenceInterval != null">
+                sentence_interval = #{sentenceInterval},
+            </if>
+            <if test="sentenceEaseFactor != null">
+                sentence_ease_factor = #{sentenceEaseFactor},
             </if>
             <if test="sentenceLike != null">
                 sentence_like = #{sentenceLike}

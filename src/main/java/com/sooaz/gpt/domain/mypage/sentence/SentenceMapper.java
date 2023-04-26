@@ -20,6 +20,8 @@ public interface SentenceMapper {
 
     List<Sentence> findAll();
 
+    List<Sentence> findByFlashcardId(Long flashcardId);
+
     void update(SentenceUpdateDto sentenceUpdateDto);
 
     void delete(Long sentenceId);
