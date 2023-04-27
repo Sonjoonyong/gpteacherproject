@@ -323,7 +323,11 @@
         request.onload = () => {
             let result = request.response;
             if (result.profanity == 'true') {
-                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                Swal.fire({
+                    icon: 'error',
+                    title: '부적절한 문장이 포함되어 있습니다.',
+                    text: '바른 말을 사용해 주세요.'
+                });
                 setBtnsRecordPossible();
             } else {
                 let data = new FormData();

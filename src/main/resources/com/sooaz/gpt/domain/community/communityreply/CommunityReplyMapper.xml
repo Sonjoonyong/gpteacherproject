@@ -51,7 +51,7 @@
     </select>
 
     <select id="findByUserId" parameterType="long" resultType="CommunityReply">
-        select communityReplyContent from community_reply where user_id = #{userId}
+        select * from COMMUNITY_REPLY where user_id = #{userId} order by id desc
     </select>
 
     <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReplyUpdateDto">

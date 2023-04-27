@@ -60,7 +60,7 @@
         <%@ include file="../../fragments/mypageMenu.jsp" %>
         <div class="col-md-8 offset-md-1 p-4 myBookmarkList">
             <h2 class="h3 my-5" style="color: #5DB99D;">북마크한 글</h2>
-            <form action="/user/mypage/bookmarks" method="post">
+            <form action="/user/mypage/bookmarks" id="myForm" method="post">
                 <table class="table" style="text-align: center; table-layout:fixed;">
                     <thead>
                         <tr>
@@ -94,7 +94,7 @@
                         </label>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="btn btn-primary" value="북마크 해제" onclick="return deleteSubmit(this)" />
+                        <input type="button" class="btn btn-primary" value="북마크 해제" onclick="deleteSubmit(this)" />
                     </div>
                 </div>
             </form>
@@ -151,6 +151,9 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="/js/checkboxDeleteForm.js"></script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
