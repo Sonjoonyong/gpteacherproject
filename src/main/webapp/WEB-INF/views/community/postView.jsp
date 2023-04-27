@@ -49,11 +49,15 @@
 
                 <%--정보--%>
                 <div class="col-12 hstack mb-2">
-                    작성자:
                     <span id="writerNickname">
                         ${communityPostViewDto.userNickname}
                     </span>
                     <span class="ms-auto">
+                        <i class="bi bi-eye"></i>
+                        ${communityPostViewDto.communityPostHit}
+                    </span>
+                    <span class="ms-3">
+                        <i class="bi bi-clock"></i>
                         <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
                                         value="${communityPostViewDto.communityPostWritedate}"/>
                     </span>
@@ -69,7 +73,11 @@
                 </div>
 
                 <%--버튼--%>
-                <div class="row row justify-content-end gap-1 my-3">
+                <div class="row row justify-content-end gap-1 my-3 align-items-center">
+                    <span class="me-3 w-auto">
+                        <i class="bi bi-heart me-2"></i>
+                        ${communityPostViewDto.communityPostLike}
+                    </span>
                     <c:if test="${loginUser.userRole == 'ADMIN'
                     || communityPostViewDto.userId.equals(loginUser.id)}">
                         <button id="deletePost" type="button" class="btn btn-primary w-auto">삭제</button>
@@ -80,7 +88,9 @@
                     </c:if>
                     <a href="/community/list" class="btn btn-primary w-auto">목록</a>
                     <%--신고하기--%>
-                    <button id="reportPost" class="btn btn-primary me-1 w-auto">신고</button>
+                    <c:if test="${!communityPostViewDto.userId.equals(loginUser.id)}">
+                        <button id="reportPost" class="btn btn-primary me-1 w-auto">신고</button>
+                    </c:if>
                 </div>
 
                 <%--댓글 등록--%>
@@ -154,10 +164,11 @@
                         if (rDto.isWriter) {
                             tag += "<input type='button' name='edit' class='btn btn-sm btn-secondary mx-1 border-0 text-secondary' value='수정'>";
                         }
-
                         if (!rDto.isWriter) {
                             tag += "<input type='button' name='report' class='btn btn-sm btn-secondary border-0 text-secondary' value='신고'>";
                         }
+
+                        tag += "<input type='button' name='reReply' class='btn btn-sm btn-secondary border-0 text-secondary' value='답글'>";
 
                         tag += "<p class='replyContent'>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
                         //댓글수정폼
@@ -166,6 +177,15 @@
                         tag += "        <input class='communityReplyId' type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
                         tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
                         tag += "        <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
+                        tag += "    </form>";
+                        tag += "</div>";
+
+                        // 대댓글 폼
+                        tag += "<div class='row' style='display:none'>";
+                        tag += "    <form method='post' class='row g-0 gap-2'>";
+                        tag += "        <input class='communityReplyParentsId' type='hidden' name='communityReplyParentsId' value='" + rDto.communityReplyId + "'>";  // 원 댓글 번호
+                        tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required></textarea>";  // 댓글 내용
+                        tag += "        <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='등록' >"; //대댓글 등록 버튼
                         tag += "    </form>";
                         tag += "</div>";
 
@@ -217,6 +237,31 @@
         $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
             let params = $(this).parent().serialize();
             let url = "/community/reply/edit";
+
+            const content = this.closest('form').querySelector('textarea[name=communityReplyContent]').value;
+            if (content === '') {
+                alert('댓글을 입력하세요');
+                return false;
+            }
+
+            $.ajax({
+                url: url
+                , data: params
+                , type: "POST"
+                , success: function (result) {
+                    // 댓글 목록을 다시 뿌려주기
+                    replyList();
+                }, error: function (e) {
+                    console.log(e.responseText);
+                }
+            });
+            return false;
+        });
+
+        // 대댓글 등록
+        $(document).on('click', '#communityReplyList input[name=reReply]', function () {
+            let params = $(this).parent().serialize();
+            let url = "/community/reply";
 
             $.ajax({
                 url: url
