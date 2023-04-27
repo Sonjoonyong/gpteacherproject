@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.admin.report.ReportDto;
+import com.sooaz.gpt.domain.admin.report.ReportService;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
 import com.sooaz.gpt.domain.community.CommunityPost;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.MypageService;
-import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class AdminController {
     private final AdminService adminService;
     private final AdminRepository adminRepository;
     private final MypageService mypageService;
+    private final ReportService reportService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -143,6 +144,24 @@ public class AdminController {
     public String unblockUser(@RequestParam("userId") int userId) {
         adminService.unblockUser(userId);
         return "redirect:/admin/blockusers";
+    }
+
+    @GetMapping("/admin/reportpostlist")
+    public String getReportedPosts(Model model) {
+        List<ReportDto> reportedPosts = reportService.findReportedPosts();
+        model.addAttribute("reportedPosts", reportedPosts);
+
+        System.out.println("Reported posts: " + reportedPosts);
+        return "admin/report/reportPostList";
+    }
+
+    @GetMapping("/admin/reportreplylist")
+    public String getReportedReplies(Model model) {
+        List<ReportDto> reportedReplies = reportService.findReportedReplies();
+        model.addAttribute("reportedReplies", reportedReplies);
+
+        System.out.println("Reported replies: " + reportedReplies);
+        return "admin/report/reportReplyList";
     }
 
 }
