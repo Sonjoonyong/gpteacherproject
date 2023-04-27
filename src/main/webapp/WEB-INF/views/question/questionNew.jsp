@@ -85,15 +85,15 @@
                         <!--제목, 카테고리-->
                         <div class="row" style="margin-top: 5px;">
                             <!--카테고리-->
-                            <div class="FormSelectButton" style="width:80px; ">
-                                <form:select path="questionCategory"  class="select" id="questionCategory" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
+                            <div class="FormSelectButton" style="width:100px; margin-right: 5px; ">
+                                <form:select path="questionCategory"  class="select" id="questionTitle" value="${question.questionCategory}" style="height:38px; border: 1px solid lightgray; border-radius: 5px;" >
                                     <form:option value="학습"> 학습</form:option>
-                                    <form:option value="결제"> 결제</form:option>
+                                    <form:option value="회원정보"> 회원정보</form:option>
                                 </form:select>
                             </div>
                             <!--제목-->
-                            <div class="form-group " style="width:590px;  ">
-                                <form:input path="questionTitle" type="text" placeholder="문의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:589px; margin-left:-12px; " />
+                            <div class="form-group " style="width:560px;  ">
+                                <form:input path="questionTitle" type="text" placeholder="문의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:560px; margin-left:-12px; " />
                             </div>
                         </div>
                         <!--내용-->
@@ -103,8 +103,7 @@
                         </div>
                         <!--등록번튼&비밀번호-->
                         <div class="row">
-
-                            <div class="clearfix" style="width: 432px;">
+                            <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary submit-btn">등록</button>
                             </div>
                         </div>

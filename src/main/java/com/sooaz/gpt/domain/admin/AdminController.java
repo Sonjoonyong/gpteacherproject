@@ -112,6 +112,7 @@ public class AdminController {
         List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
+        log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userComments";
     }
     
