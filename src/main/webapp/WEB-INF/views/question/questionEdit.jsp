@@ -8,7 +8,14 @@
 
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <!--fontawesome-->
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+    <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
 
         #questionboard .table thead trboardname{
@@ -90,7 +97,7 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" style="background-color: #CFEAE2">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'">
                                     공지사항
                                 </button>
                             </h2>
@@ -104,7 +111,7 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'">
+                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" style="background-color: #CFEAE2">
                                     문의사항
                                 </button>
                             </h2>
@@ -113,33 +120,30 @@
                 </div>
             </div>
             <div class="col-md-7" style="background-color: white; margin-top: 55px;">
-                <h3>문의글 수정</h3>
+                <h3>문의사항 수정</h3>
                 <div class="create-form col-md-7">
                     <form:form action="${pageContext.request.contextPath}/help/question/update/${question.id}" method="post" modelAttribute="question">
                     <form:hidden path="id"/>
                         <div class="row" style="margin-top: 5px;">
-                            <div class="FormSelectButton" style="width:80px; ">
+                            <div class="FormSelectButton" style="width:100px; margin-right: 5px; ">
                                 <form:select path="questionCategory"  class="select" id="questionTitle" value="${question.questionCategory}" style="height:38px; border: 1px solid lightgray; border-radius: 5px;" >
                                     <form:option value="학습"> 학습</form:option>
-                                    <form:option value="결제"> 결제</form:option>
+                                    <form:option value="회원정보"> 회원정보</form:option>
                                 </form:select>
                             </div>
-                            <div class="form-group " style="width:590px;  ">
-                                <form:input path="questionTitle" type="text" value="${question.questionTitle}" class="form-control" id="questionTitle" required="required" style="width:589px; margin-left:-12px; " />
+                            <div class="form-group " style="width:560px;">
+                                <form:input path="questionTitle" type="text" value="${question.questionTitle}" class="form-control" id="questionTitle" required="required" style="width:560px; margin-left:-12px; " />
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px;">
                             <div class="form-group" >
-                                <form:textarea path="questionContent" style="border-top: 10px;" type="text" value="${question.questionContent}" class="form-control" id="questionContent" rows="5" required="required" cssStyle="min-height: 400px"/>
+                                <label for="hiddenQuestionContent">글 내용 :</label>
+                                <div id="editor" data-escaped-content='<c:out value="${question.questionContent}" />'></div>
+                                <form:hidden path="questionContent" id="hiddenQuestionContent" />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="clearfix" style="width: 250px; margin-top: 15px; ">
-                                <form:input path="questionPassword" type="text" value="${question.questionPassword}" class="textbox" id="questionPassword" required="required"/>
-                            </div>
-                            <div class="clearfix" style="width: 432px;">
-                                <button type="submit" class="btn btn-primary submit-btn">수정</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary submit-btn">수정</button>
                         </div>
                     </form:form>
                 </div>
@@ -148,8 +152,35 @@
     </div>
 </section>
 
-<%@ include file="../fragments/footer.jsp" %>
+<!-- Toast UI Editor Initialization -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            initialValue: document.querySelector('#editor').dataset.escapedContent.replace(/\\n/g, '\n'),
+            height: '400px'
+        });
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const questionContent = editor.getMarkdown();
+            if (questionContent.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: '',
+                    text: '내용을 입력해주세요.',
+                });
+                return;
+            }
+            document.querySelector('#hiddenQuestionContent').value = questionContent;
+            form.submit();
+        });
+    });
+</script>
 
+<%@ include file="../fragments/footer.jsp" %>
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 </body>
 </html>

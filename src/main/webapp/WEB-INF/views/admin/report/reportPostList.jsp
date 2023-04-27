@@ -90,7 +90,7 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>유저ID</th>
                             <th>제목</th>
                             <th>사유</th>
                             <th>작성일</th>
@@ -98,7 +98,15 @@
                         </tr>
                         </thead>
                         <tbody>
-
+                            <c:forEach var="post" items="${reportedPosts}">
+                                <tr>
+                                    <td>${post.userLoginId}</td>
+                                    <td>${post.postTitle}</td>
+                                    <td>${post.reportReason}</td>
+                                    <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
+                                    <td><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                     <div class="row">

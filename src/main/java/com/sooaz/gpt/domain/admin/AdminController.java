@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.admin.report.ReportDto;
+import com.sooaz.gpt.domain.admin.report.ReportService;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
@@ -28,6 +30,7 @@ public class AdminController {
     private final AdminService adminService;
     private final AdminRepository adminRepository;
     private final MypageService mypageService;
+    private final ReportService reportService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -109,6 +112,7 @@ public class AdminController {
         List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
+        log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userComments";
     }
     
@@ -141,6 +145,24 @@ public class AdminController {
     public String unblockUser(@RequestParam("userId") int userId) {
         adminService.unblockUser(userId);
         return "redirect:/admin/blockusers";
+    }
+
+    @GetMapping("/admin/reportpostlist")
+    public String getReportedPosts(Model model) {
+        List<ReportDto> reportedPosts = reportService.findReportedPosts();
+        model.addAttribute("reportedPosts", reportedPosts);
+
+        System.out.println("Reported posts: " + reportedPosts);
+        return "admin/report/reportPostList";
+    }
+
+    @GetMapping("/admin/reportreplylist")
+    public String getReportedReplies(Model model) {
+        List<ReportDto> reportedReplies = reportService.findReportedReplies();
+        model.addAttribute("reportedReplies", reportedReplies);
+
+        System.out.println("Reported replies: " + reportedReplies);
+        return "admin/report/reportReplyList";
     }
 
 }

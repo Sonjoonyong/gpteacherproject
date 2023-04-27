@@ -159,15 +159,15 @@
                 <div class="col-lg-12 d-flex justify-content-start" style="margin-top: 10px; margin-bottom: 5px; margin-left: 10px;">
                     <span class="boardname"><h3>자주묻는 질문</h3></span>
                 </div>
-                <!--글작성 버튼-->
+
                 <div class="d-flex " style="margin-bottom: 5px;">
                     <div class="p-2 " >
-                        <button style="margin-right: 10px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%95%99%EC%8A%B5' " >학습</button>
-                        <button style="margin-right: 10px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%EA%B2%B0%EC%A0%9C'">결제</button>
-                        <button style="margin-right: 10px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list'" >전체</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%95%99%EC%8A%B5' " >학습</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4'">회원정보</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list'" >전체</button>
                     </div>
-
-                    <div class="p-2 " style="margin-left: 390px;">
+                    <!--글작성 버튼-->
+                    <div class="p-2 " style="margin-left: 365px;">
                         <c:if test="${loginUser.userRole == 'ADMIN'}">
                             <a href="${pageContext.request.contextPath}/help/faq/write" class="btn btn-primary float-end" role="button">글 작성</a>
                         </c:if>

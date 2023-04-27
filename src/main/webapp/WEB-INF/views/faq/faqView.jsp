@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+    <!-- Toast UI Editor Viewer -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.js"></script>
+
     <style>
 
         .col-md-7{
@@ -135,7 +139,7 @@
                     <tbody>
                     <tr >
 
-                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${faq.faqContent}</td>
+                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left;" id="faqContentView">${faq.faqContent}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -149,6 +153,19 @@
         </div>
     </div>
 </section>
+
+<!-- Toast UI Editor Viewer -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const noticeContent = document.getElementById('faqContentView').innerHTML;
+        const viewer = new toastui.Editor({
+            el: document.getElementById('faqContentView'),
+            initialValue: noticeContent,
+            height: 'auto',
+            viewer: true
+        });
+    });
+</script>
 
 <%@ include file="../fragments/footer.jsp" %>
 
