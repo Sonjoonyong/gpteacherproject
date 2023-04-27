@@ -106,6 +106,7 @@
             background-color: #CFEAE2;
             color: white;
         }
+
     </style>
 
 </head>
@@ -148,7 +149,7 @@
                             <a href="/community/write" class="btn btn-primary float-end" style="align-content: end" role="button">글작성</a>
                         </div>
                     </div>
-                    <table class="table table-striped" style="text-align: center; border:1px solid black;">
+                    <table class="table" style="text-align: center; border:1px solid black;">
                         <colgroup>
                             <col span="1" style="width: 60%;">
                             <col span="1" style="width: 15%;">
@@ -166,7 +167,7 @@
                         <tbody>
                         <c:forEach var="communityPostListDto" items="${pageInfo.list}">
                             <tr>
-                                <td class="text-start ps-4">
+                                <td class="text-start ps-4 py-2">
                                     <a href="/community/${communityPostListDto.id}" class="communityPost-title-link" style="margin-right: 30px">
                                         [${communityPostListDto.communityPostCategory}] ${communityPostListDto.communityPostTitle}
                                     </a>

@@ -32,10 +32,10 @@
 
     <div class="row">
         <%--메뉴바--%>
-        <dic class="col-3"></dic>
+        <dic class="col-md-12 col-lg-3"></dic>
 
         <%--본문--%>
-        <div class="col-7 border p-4 rounded-3 mb-5">
+        <div class="col-md-12 col-lg-8 border p-4 rounded-3 mb-5">
             <div class="row g-0">
                 <%--제목--%>
                 <div class="hstack mb-2 gap-2">
@@ -51,13 +51,13 @@
                     <%--수정하기--%>
                     <c:if test="${communityPostViewDto.userId.equals(loginUser.id)}">
                         <a href="/community/${communityPostViewDto.communityPostId}/edit"
-                           class="btn btn-sm btn-secondary text-white w-auto">수정</a>
+                           class="btn btn-sm btn-outline-secondary w-auto border-0">수정</a>
                     </c:if>
 
                     <%--삭제하기--%>
                     <c:if test="${loginUser.userRole == 'ADMIN'
                     || communityPostViewDto.userId.equals(loginUser.id)}">
-                        <button id="deletePost" type="button" class="btn btn-outline-danger btn-sm w-auto">삭제</button>
+                        <button id="deletePost" type="button" class="btn btn-outline-danger btn-sm w-auto border-0">삭제</button>
                     </c:if>
 
                 </div>
@@ -77,8 +77,10 @@
 
                     <span>
                         <i class="bi bi-clock"></i>
-                        <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
-                                        value="${communityPostViewDto.communityPostWritedate}"/>
+                        <fmt:timeZone value="GMT+18">
+                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
+                                            value="${communityPostViewDto.communityPostWritedate}"/>
+                        </fmt:timeZone>
                     </span>
                 </div>
 
@@ -97,7 +99,8 @@
                         <i class="bi bi-heart me-2"></i>
                         ${communityPostViewDto.communityPostLike}
                     </span>
-                    <a href="/community/list" class="btn btn-primary w-auto text-white" style="background-color: #5DB99D">목록</a>
+                    <a href="/community/list" class="btn btn-primary w-auto text-white"
+                       style="background-color: #5DB99D">목록</a>
 
                     <%--신고하기--%>
                     <c:if test="${!communityPostViewDto.userId.equals(loginUser.id)}">
@@ -123,7 +126,7 @@
         </div>
 
         <%--더미--%>
-        <dic class="col-3"></dic>
+        <dic class="col-lg-2 d-md-none"></dic>
 
     </div>
 </section>
@@ -160,24 +163,22 @@
                 , success: function (result) {
                     let tag = "";
                     $(result).each(function (i, rDto) {
-                        let date = new Date(rDto.communityReplyWritedate);
+                        let date = new Date(rDto.communityReplyWritedate + 1000 * 60 * 60 * 9);
                         let newDate = date.toISOString().split('T')[0];
                         //댓글리스트폼
                         tag += "<li class='list-group-item row'>";
 
-                        if (rDto.communityReplyId != rDto.communityReplyParentsId) {
-                            tag += "<div class='col-12'>";
+                        const isReReply = rDto.communityReplyId != rDto.communityReplyParentsId;
+
+                        if (isReReply) {
+                            tag += "<div class='col-12 replyDiv'>";
                             tag += "    <div class='row'>";
                             tag += "        <div class='col'>";
                             tag += "            <i class='bi bi-arrow-return-right'></i>"
                             tag += "        </div>";
                         }
 
-                        if (rDto.communityReplyId != rDto.communityReplyParentsId) {
-                            tag += "        <div class='col-11'>";
-                        } else {
-                            tag += "        <div class='col-12'>";
-                        }
+                        tag += "        <div class='" + (isReReply ? "col-11" : "col-12 replyDiv") + "'>";
                         tag += "                <div class='hstack gap-2'>";
 
                         tag += "                    <span class='replyUserNickname fw-semibold'>" + rDto.userNickname + "</span> <span>(" + newDate + ")</span>"; //userId, 작성일
@@ -196,15 +197,22 @@
                         tag += "                <div class='replyContent col-12 py-2'>" + rDto.communityReplyContent + "</div>";  // 댓글 내용
                         tag += "            </div>";
 
-                        if (rDto.communityReplyId != rDto.communityReplyParentsId) {
+                        if (isReReply) {
                             tag += "    </div>";
                             tag += "</div>";
                         }
 
                         //댓글수정폼
-                        tag += "    <div class='col-12' style='display:none'>";
+                        tag += "    <div class='col-12 replyEditFormDiv' style='display:none'>";
                         tag += "        <form method='post' class='row g-0 gap-2'>";
                         tag += "            <input class='communityReplyId' type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
+
+                        if (isReReply) {
+                            tag += "        <div class='col'>";
+                            tag += "            <i class='bi bi-arrow-return-right'></i>"
+                            tag += "        </div>";
+                        }
+
                         tag += "            <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
                         tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
                         tag += "        </form>";
@@ -262,9 +270,9 @@
         // 댓글 수정 폼
         $(document).on('click', '#communityReplyList input[name=edit]', function () {
             // 댓글 숨기기
-            $(this).parent().css("display", "none");
-            // 폼 보이기
-            $(this).parent().next().css("display", "block");
+            this.closest('li').querySelector('.replyDiv').style.display = 'none';
+            // 수정 폼 보이기
+            this.closest('li').querySelector('.replyEditFormDiv').style.display = 'block';
         });
 
         // 댓글 수정
