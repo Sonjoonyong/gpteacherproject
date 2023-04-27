@@ -93,7 +93,7 @@
                             </div>
                             <!--제목-->
                             <div class="form-group " style="width:560px;  ">
-                                <form:input path="questionTitle" type="text" placeholder="문의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:560px; margin-left:-12px; " />
+                                <form:input path="questionTitle" type="text" placeholder="문의사항의 제목을 입력하세요." class="form-control" id="questionTitle" required="required" style="width:560px; margin-left:-12px; " />
                             </div>
                         </div>
                         <!--내용-->

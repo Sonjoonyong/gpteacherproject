@@ -48,6 +48,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 2;
+      width: 700px;
     }
 
     #start-button {
@@ -77,7 +78,7 @@
 <div id="content">
   <img id="logo" src="/images/logoremove.png" alt="Logo">
   <button id="start-button">Start</button>
-  <div class="title-text">ChatGPT와 함께하는<br/>체계적인 AI 영어공부 시스템</div>
+  <div class="title-text">ChatGPT와 함께하는 <br/> 체계적인 AI 영어공부 시스템</div>
 </div>
 
 <script>
