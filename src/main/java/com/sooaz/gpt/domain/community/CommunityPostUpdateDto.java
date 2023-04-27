@@ -8,7 +8,7 @@ public class CommunityPostUpdateDto {
     private Long communityPostId;
     private String communityPostTitle;
     private String communityPostContent;
-    private String communityPostHit;
+    private Long communityPostHit;
     private String communityPostLike;
     private String communityPostCategory;
 }

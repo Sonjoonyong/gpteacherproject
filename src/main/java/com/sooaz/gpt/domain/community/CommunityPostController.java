@@ -54,7 +54,17 @@ public class CommunityPostController {
     ) {
         CommunityPostViewDto communityPostViewDto =
                 communityPostService.findByIdForView(communityPostId).orElse(null);
-        log.info("communityPostViewDto = {}", communityPostViewDto);
+
+        // 본인 글이 아닐 시 조회수 증가
+        if (!communityPostViewDto.getUserId().equals(loginUser.getId())) {
+            Long hit = communityPostViewDto.getCommunityPostHit() + 1;
+            communityPostViewDto.setCommunityPostHit(hit);
+
+            CommunityPostUpdateDto updateDto = new CommunityPostUpdateDto();
+            updateDto.setCommunityPostId(communityPostId);
+            updateDto.setCommunityPostHit(hit);
+            communityPostService.update(updateDto);
+        }
 
         model.addAttribute("communityPostViewDto", communityPostViewDto);
         model.addAttribute(SessionConst.LOGIN_USER, loginUser);
