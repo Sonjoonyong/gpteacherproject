@@ -85,20 +85,28 @@
             <div class="reportreplylist" id="reportreplylist">
                 <div class="wrapper">
                     <div class="d-flex justify-content-beween" style="color: #716FAA">
-                        <span class="reportreplylistname"><h3>신고 글 목록</h3></span>
+                        <span class="reportreplylistname"><h3>신고 댓글 목록</h3></span>
                     </div>
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>내용</th>
+                            <th>유저ID</th>
+                            <th>제목</th>
                             <th>사유</th>
                             <th>작성일</th>
                             <th>신고일</th>
                         </tr>
                         </thead>
                         <tbody>
-
+                        <c:forEach var="post" items="${reportedReplies}">
+                            <tr>
+                                <td>${post.userLoginId}</td>
+                                <td>${post.replyContent}</td>
+                                <td>${post.reportReason}</td>
+                                <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
+                                <td><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                     <div class="row">

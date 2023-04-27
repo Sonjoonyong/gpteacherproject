@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.community.likes.LikesMapper">
+    <insert id="insert" parameterType="Likes">
+        INSERT INTO Likes
+        VALUES (
+                   #{userId, jdbcType=BIGINT}, #{communityPostId, jdbcType=BIGINT}
+               )
+    </insert>
+    <delete id="delete" parameterType="Likes">
+        delete from LIKES where community_post_id = #{communityPostId} and user_id = #{userId}
+    </delete>
+</mapper>

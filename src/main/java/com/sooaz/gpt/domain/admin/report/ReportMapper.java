@@ -15,4 +15,8 @@ public interface ReportMapper {
     List<Report> findAll();
 
     List<Report> findByUserId(Long userId);
+
+    List<ReportDto> findReportedPosts();
+
+    List<ReportDto> findReportedReplies();
 }

@@ -14,5 +14,6 @@ public interface AdminMapper {
     void blockUser(int userId);
     List<UserView> getBlockedUsers(Map<String, Object> params);
     void unblockUser(int userId);
+
 }
 

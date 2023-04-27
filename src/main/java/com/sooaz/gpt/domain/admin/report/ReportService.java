@@ -56,4 +56,13 @@ public class ReportService {
     public List<Report> findByUserId(Long userId) {
         return reportRepository.findByUserId(userId);
     }
+
+    public List<ReportDto> findReportedPosts() {
+        return reportRepository.findReportedPosts();
+    }
+
+    public List<ReportDto> findReportedReplies() {
+        return reportRepository.findReportedReplies();
+    }
+
 }

@@ -84,14 +84,16 @@
 
           <form:form action="${pageContext.request.contextPath}/help/faq" method="post" modelAttribute="faqCreateDto">
             <div class="row" style="margin-top: 5px;">
-              <div class="FormSelectButton" style="width:80px; ">
+              <!--카테고리-->
+              <div class="FormSelectButton" style="width:100px; margin-right: 5px; ">
                 <form:select path="faqCategory"  class="select" id="faqCategory" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
                   <form:option value="학습"> 학습</form:option>
-                  <form:option value="결제"> 결제</form:option>
+                  <form:option value="회원정보"> 회원정보</form:option>
                 </form:select>
               </div>
-              <div class="form-group " style="width:590px;  ">
-                <form:input path="faqTitle" type="text" placeholder="자주묻는 질문 제목" class="form-control" id="faqTitle" required="required" style="width:589px; margin-left:-12px; " />
+              <!--제목-->
+              <div class="form-group " style="width:560px;  ">
+                <form:input path="faqTitle" type="text" placeholder="자주묻는 질문 제목" class="form-control" id="faqTitle" required="required" style="width:560px; margin-left:-12px; " />
               </div>
             </div>
             <div class="row" >
