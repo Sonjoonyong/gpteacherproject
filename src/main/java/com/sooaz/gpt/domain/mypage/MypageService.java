@@ -105,6 +105,8 @@ public class MypageService {
             double EF = prevEF + (0.1 - (3 - quality) * (0.08 + (3 - quality) * 0.02));
             if (EF < 1.3) {
                 EF = 1.3;
+            } else if (EF > 2.5) {
+                EF = 2.5;
             }
             sentenceUpdateDto.setSentenceEaseFactor(EF);
         }

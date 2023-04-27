@@ -53,9 +53,10 @@ public class SentenceController {
     @ResponseBody
     @PostMapping("/learning/sentences/{sentenceId}/flashcard")
     public String toggleStorage(
+            @SessionAttribute User loginUser,
             @PathVariable Long sentenceId
     ) {
-        return sentenceService.toggleStorage(sentenceId);
+        return sentenceService.toggleStorage(loginUser.getId(), sentenceId);
     }
 
     @PostMapping("/learning/correction/script")

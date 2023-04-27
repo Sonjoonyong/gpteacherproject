@@ -33,11 +33,13 @@
                 </c:if>
                 <c:if test="${sentencesCount > 0 && sentencesCount != null}">
                     <form method="post" action="/user/mypage/flashcards">
-                        오늘 학습할 문장 수를 입력해 주세요 (최대 문장 수 : ${sentencesCount})
+                        <span>
+                            오늘 학습할 문장 수를 입력해 주세요 (최대 문장 수 : ${sentencesCount})
+                        </span>
                         <br/>
-                        <div class="row">
-                            <input type="text" name="limit">
-                            <input type="submit" class="quality" value="확인">
+                        <div class="row g-0 my-2 py-1">
+                            <input type="text" class="col-md-3 form-control g-0 m-1" name="limit" style="width:150px;">
+                            <input type="submit" class="col-md-auto btn btn-primary m-1" value="확인">
                         </div>
                     </form>
                 </c:if>
@@ -83,7 +85,6 @@
                                             <i class="bi bi-volume-up-fill"></i>
                                         </button>
                                     </span>
-
                                     <span class="col-12 col-md-4 pronunciationAccuracy text-end">
                                         <c:if test="${not empty sentence.sentenceAccuracy}">
                                             발음 정확도: ${sentence.sentenceAccuracy}%
