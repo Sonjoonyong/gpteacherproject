@@ -28,7 +28,7 @@ public class CommunityPostController {
     ArrayList<Likes> likes = new ArrayList<>();
 
    public void addLikes(){
-//            d
+//            dv
    }
 
     @GetMapping("/list")
