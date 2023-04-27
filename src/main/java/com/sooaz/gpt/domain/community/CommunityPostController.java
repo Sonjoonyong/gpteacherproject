@@ -2,6 +2,7 @@ package com.sooaz.gpt.domain.community;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.community.likes.Likes;
 import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor //생성자를 자동 생성해줌
@@ -24,6 +23,13 @@ import java.util.Optional;
 public class CommunityPostController {
 
     private final CommunityPostService communityPostService;
+
+    ArrayList<CommunityPost> communityPost = new ArrayList<>();
+    ArrayList<Likes> likes = new ArrayList<>();
+
+   public void addLikes(){
+//            dv
+   }
 
     @GetMapping("/list")
     public String getList(

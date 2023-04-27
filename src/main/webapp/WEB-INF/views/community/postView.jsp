@@ -81,7 +81,17 @@
                 <a href="/community/list" class="btn btn-primary">목록</a>
                 <%--신고하기--%>
                 <button id="reportPost" class="btn btn-primary me-1">신고하기</button>
+                <div class="col-12 col-md-3">
+                    <div class="row g-0">
+                        <button class="col-1 col-md-3 btn ms-md-auto" onclick="toggleSentenceLikeAjax(this)">
+                            <i class="like bi bi-heart${not empty community.Likes && community.Likes == '1'.charAt(0) ? '-fill' : ''}"></i>
+                        </button>
 
+                        <button class="col-1 col-md-3 btn" onclick="toggleStorageAjax(this)">
+                            <i class="storage bi bi-archive${not empty community.flashcardId && community.flashcardId != -2 ? '-fill' : ''}"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-3">
