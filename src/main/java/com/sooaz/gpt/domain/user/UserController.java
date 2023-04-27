@@ -41,7 +41,7 @@ public class UserController {
     public String login(
             @Valid @ModelAttribute LoginDto loginDto,
             BindingResult bindingResult,
-            @RequestParam(defaultValue = "/") String redirectUri,
+            @RequestParam(defaultValue = "/main") String redirectUri,
             HttpServletRequest request
     ) {
         if (bindingResult.hasErrors()) {
@@ -70,7 +70,7 @@ public class UserController {
             session.invalidate();
         }
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 
     @GetMapping("/user/signup")
