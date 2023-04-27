@@ -25,8 +25,6 @@
             border-radius: 10px;
             padding:20px;
             width: 800px;
-
-
         }
 
         #noticeboard .table thead trboardname{
@@ -167,7 +165,11 @@
             $("#replyForm").submit(function(){
                 //댓글 입력했는지 확인
                 if ($("#questionReplyContent").val() == "") {
-                    alert("댓글 입력후 등록하세요.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: '',
+                        text: '댓글 입력후 등록하세요.',
+                    });
                     return false;
                 }
                 var query = $(this).serialize();

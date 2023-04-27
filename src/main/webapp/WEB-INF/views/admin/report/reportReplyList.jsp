@@ -100,8 +100,16 @@
                         <tbody>
                         <c:forEach var="post" items="${reportedReplies}">
                             <tr>
-                                <td>${post.userLoginId}</td>
-                                <td>${post.replyContent}</td>
+                                <td>
+                                    <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                        <input type="hidden" name="userId" value="${post.userId}" />
+                                        <input type="submit" name="userLoginId" value="${post.userLoginId}" style="background-color: white; border: none;">
+                                    </form>
+                                </td>
+                                <td style="text-overflow:ellipsis; overflow:hidden;">
+                                    <a href="${pageContext.request.contextPath}/community/${post.communityPostId}" class="tableATag form-check-label">${post.replyContent}</a>
+                                </td>
+
                                 <td>${post.reportReason}</td>
                                 <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
                                 <td><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
