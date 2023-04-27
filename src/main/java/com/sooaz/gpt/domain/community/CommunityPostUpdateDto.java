@@ -10,5 +10,6 @@ public class CommunityPostUpdateDto {
     private String communityPostContent;
     private Long communityPostHit;
     private String communityPostLike;
+    private Long communityPostLikeChange;
     private String communityPostCategory;
 }

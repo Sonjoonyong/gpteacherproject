@@ -102,6 +102,9 @@
             <if test="communityPostLike != null">
                 community_post_like = #{communityPostLike},
             </if>
+            <if test="communityPostLikeChange != null">
+                community_post_like = community_post_like + #{communityPostLikeChange},
+            </if>
             <if test="communityPostCategory != null">
                 community_post_category = #{communityPostCategory},
             </if>

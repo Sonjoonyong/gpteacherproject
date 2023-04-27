@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.community.bookmark.Bookmark;
 import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
+import com.sooaz.gpt.domain.community.like.Like;
+import com.sooaz.gpt.domain.community.like.LikeRepository;
 import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class CommunityPostController {
 
     private final CommunityPostService communityPostService;
     private final BookmarkRepository bookmarkRepository;
+    private final LikeRepository likeRepository;
 
     @GetMapping("/list")
     public String getList(
@@ -153,17 +156,26 @@ public class CommunityPostController {
     ) {
         log.info("communityPostId = {}", communityPostId);
 
-        Optional<Bookmark> bookmarkOpt =
-                bookmarkRepository.findById(communityPostId, loginUser.getId());
+        Optional<Like> likeOpt =
+                likeRepository.findById(communityPostId, loginUser.getId());
 
-        if (bookmarkOpt.isEmpty()) {
-            bookmarkRepository.save(communityPostId, loginUser.getId());
+        CommunityPostUpdateDto updateDto = new CommunityPostUpdateDto();
+        updateDto.setCommunityPostId(communityPostId);
+
+        if (likeOpt.isEmpty()) {
+            likeRepository.save(communityPostId, loginUser.getId());
+
+            updateDto.setCommunityPostLikeChange(1L);
+            communityPostService.update(updateDto);
             return "1";
         } else {
-            Bookmark bookmark = new Bookmark();
-            bookmark.setCommunityPostId(communityPostId);
-            bookmark.setUserId(loginUser.getId());
-            bookmarkRepository.delete(bookmark);
+            Like like = new Like();
+            like.setCommunityPostId(communityPostId);
+            like.setUserId(loginUser.getId());
+            likeRepository.delete(like);
+
+            updateDto.setCommunityPostLikeChange(-1L);
+            communityPostService.update(updateDto);
             return "0";
         }
     }

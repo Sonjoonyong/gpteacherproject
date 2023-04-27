@@ -118,7 +118,7 @@
                                 <i class="bi bi-heart-fill like"></i>
                             </c:if>
                         </button>
-                        <span id="communityPostLikeNumber">${communityPostViewDto.communityPostLike}</span>
+                        <span id="communityPostLikeCount">${communityPostViewDto.communityPostLike}</span>
                     </div>
                     <a href="/community/list" class="btn btn-primary w-auto text-white"
                        style="background-color: #5DB99D">목록</a>

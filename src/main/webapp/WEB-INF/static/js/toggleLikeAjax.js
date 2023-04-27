@@ -34,9 +34,16 @@ function toggleCommunityPostLikeAjax(btn) {
     const like
         = btn.querySelector('.like');
 
+    const likeCountSpan = document.querySelector('#communityPostLikeCount');
+
     request.onload = () => {
         let result = request.response;
-        setLike(result, like)
+        setLike(result, like);
+        if (result === '1') {
+            likeCountSpan.innerText++;
+        } else if (result === '0') {
+            likeCountSpan.innerText--;
+        }
     }
 
     request.open("POST", '/community/' + communityPostId + '/like');
