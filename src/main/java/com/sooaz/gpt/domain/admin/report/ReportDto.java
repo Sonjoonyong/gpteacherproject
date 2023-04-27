@@ -16,4 +16,5 @@ public class ReportDto {
     private Date reportDate;
     private String postTitle;
     private String replyContent;
+    private String communityPostId;
 }
