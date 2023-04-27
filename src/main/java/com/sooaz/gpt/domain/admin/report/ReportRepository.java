@@ -30,4 +30,12 @@ public class ReportRepository {
     public List<Report> findByUserId(Long userId) {
         return reportMapper.findByUserId(userId);
     }
+
+    public List<ReportDto> findReportedPosts() {
+        return reportMapper.findReportedPosts();
+    }
+
+    public List<ReportDto> findReportedReplies() {
+        return reportMapper.findReportedReplies();
+    }
 }
