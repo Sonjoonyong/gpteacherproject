@@ -13,4 +13,3 @@
         delete from BOOKMARK where community_post_id = #{communityPostId} and user_id = #{userId}
     </delete>
 </mapper>
-

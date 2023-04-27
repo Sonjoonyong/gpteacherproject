@@ -1,5 +1,3 @@
-postView.jsp
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -256,7 +254,7 @@ postView.jsp
         // 댓글 신고 모달창 띄우기
         $(document).on('click', '#communityReplyList input[name=report]', function () {
             toggleReportModal(true);
-
+            
             const replyLi = this.closest('li');
             const replyContent = replyLi.querySelector('.replyContent').innerText;
 

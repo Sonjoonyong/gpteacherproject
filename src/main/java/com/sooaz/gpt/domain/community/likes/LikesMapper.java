@@ -7,4 +7,3 @@ public interface LikesMapper {
     void insert(Likes likes);
     void delete(Likes likes);
 }
-
