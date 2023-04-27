@@ -15,14 +15,16 @@
 
     <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Toast UI Editor Viewer -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.js"></script>
+
     <style>
         .col-md-7{
             border: 1px solid lightgray;
             border-radius: 10px;
             padding:20px;
             width: 800px;
-
-
         }
 
         #noticeboard .table thead trboardname{
@@ -163,7 +165,11 @@
             $("#replyForm").submit(function(){
                 //댓글 입력했는지 확인
                 if ($("#questionReplyContent").val() == "") {
-                    alert("댓글 입력후 등록하세요.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: '',
+                        text: '댓글 입력후 등록하세요.',
+                    });
                     return false;
                 }
                 var query = $(this).serialize();
@@ -299,7 +305,7 @@
                         </td>
                     </tr>
                     <tr >
-                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left; ">${question.questionContent}</td> <!--게시글내용-->
+                        <td colspan="2" style="min-height: 200px;height: 200px; text-align: left;" id="questionContentView">${question.questionContent}</td> <!--게시글내용-->
                     </tr>
                     </tbody>
                 </table>
@@ -342,6 +348,18 @@
 </section>
 
 
+<!-- Toast UI Editor Viewer -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const noticeContent = document.getElementById('questionContentView').innerHTML;
+        const viewer = new toastui.Editor({
+            el: document.getElementById('questionContentView'),
+            initialValue: noticeContent,
+            height: 'auto',
+            viewer: true
+        });
+    });
+</script>
 
 <%@ include file="../fragments/footer.jsp" %>
 

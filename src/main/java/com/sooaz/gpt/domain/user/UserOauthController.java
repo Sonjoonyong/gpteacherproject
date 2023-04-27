@@ -60,7 +60,7 @@ public class UserOauthController {
             // 비밀번호 "OAUTH"로 자동 로그인 시도 -> Oauth 가입 계정이면 성공
             if (userService.login(user.getUserLoginId(), "OAUTH") != null) {
                 session.setAttribute(SessionConst.LOGIN_USER, user);
-                return "redirect:/";
+                return "redirect:/main";
             } else { // 일반 가입 계정이면 로그인 실패
                 redirectAttributes.addFlashAttribute("oauthLoginFail", true);
                 return "redirect:/user/login";
@@ -100,7 +100,7 @@ public class UserOauthController {
         String oauthId = (String) session.getAttribute(SessionConst.OAUTH_ID);
         if (session == null || oauthId == null) {
             bindingResult.reject("access", "잘못된 접근입니다.");
-            return "redirect:/";
+            return "redirect:/main";
         }
 
         String userNickname = userOauthSignupDto.getUserNickname();
@@ -133,6 +133,6 @@ public class UserOauthController {
         User user = repository.findByEmail(userEmail).orElse(null);
         session.setAttribute(SessionConst.LOGIN_USER, user);
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 }

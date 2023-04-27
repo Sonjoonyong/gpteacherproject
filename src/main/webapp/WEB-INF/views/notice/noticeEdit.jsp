@@ -143,7 +143,6 @@
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>
-
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
 <!-- Toast UI Editor -->

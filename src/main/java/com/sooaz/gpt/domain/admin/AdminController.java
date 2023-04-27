@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.admin.report.ReportDto;
+import com.sooaz.gpt.domain.admin.report.ReportService;
 import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
@@ -28,6 +30,7 @@ public class AdminController {
     private final AdminService adminService;
     private final AdminRepository adminRepository;
     private final MypageService mypageService;
+    private final ReportService reportService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -68,20 +71,6 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/admin/userComments")
-    public String getUserComments(
-            @RequestParam("userId") Long userId,
-            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
-            Model model
-    ){
-        PageHelper.startPage(pageNum, pageSize);
-        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
-        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
-        model.addAttribute("pageInfo",pageInfo);
-        return "/admin/user/userComments";
-    }
-
     @GetMapping("/admin/userPosts")
     public String getUserPosts(
             @RequestParam("userId") Long userId,
@@ -89,12 +78,51 @@ public class AdminController {
             @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
             Model model
     ){
+        model.addAttribute("userId",userId);
         PageHelper.startPage(pageNum, pageSize);
         List<CommunityPost> communities = mypageService.getPostList(userId);
         PageInfo<CommunityPost> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userPosts";
+    }
+    
+    @PostMapping("/admin/userPosts")
+    public String deletePost(
+            @RequestParam("userId") Long userId,
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deletePostsById(deleteId); //postId list, userId
+        mypageService.deleteCommentsByPostId(deleteId);
+        mypageService.deleteBookmarks(deleteId, userId);
+        return "/admin/user/userPosts";
+    }
+
+    @GetMapping("/admin/userComments")
+    public String getUserComments(
+            @RequestParam("userId") Long userId,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+            Model model
+    ){
+        model.addAttribute("userId",userId);
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
+        PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
+        model.addAttribute("pageInfo",pageInfo);
+        log.info("pageInfo = {}", pageInfo);
+        return "/admin/user/userComments";
+    }
+    
+    @PostMapping("/admin/userComments")
+    public String deleteComments(
+            @RequestParam List<Long> deleteId
+    ) {
+        log.info("checkList = {}",deleteId);
+        mypageService.deleteCommentsById(deleteId); //commentId list, userId
+        return "/admin/user/userComments";
     }
 
     @GetMapping("/admin/blockusers")
@@ -117,6 +145,24 @@ public class AdminController {
     public String unblockUser(@RequestParam("userId") int userId) {
         adminService.unblockUser(userId);
         return "redirect:/admin/blockusers";
+    }
+
+    @GetMapping("/admin/reportpostlist")
+    public String getReportedPosts(Model model) {
+        List<ReportDto> reportedPosts = reportService.findReportedPosts();
+        model.addAttribute("reportedPosts", reportedPosts);
+
+        System.out.println("Reported posts: " + reportedPosts);
+        return "admin/report/reportPostList";
+    }
+
+    @GetMapping("/admin/reportreplylist")
+    public String getReportedReplies(Model model) {
+        List<ReportDto> reportedReplies = reportService.findReportedReplies();
+        model.addAttribute("reportedReplies", reportedReplies);
+
+        System.out.println("Reported replies: " + reportedReplies);
+        return "admin/report/reportReplyList";
     }
 
 }

@@ -7,71 +7,71 @@
     <title>관리 페이지</title>
 
     <link rel="stylesheet" href="/css/base.css">
-    <style>
+<style>
 
-        .select-container .form-select {
-            width: 280px;
-            font-size: 30px;
-            border: 0.1px solid #2F4858;
-            border-radius: 5px;
-            padding: 5px 10px;
-            color: white;
-            text-align: center;
-            background-color: #716FAA;
-        }
+    .select-container .form-select {
+        width: 280px;
+        font-size: 30px;
+        border: 0.1px solid #2F4858;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: white;
+        text-align: center;
+        background-color: #716FAA;
+    }
 
-        .wrapper {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 70px;
-            margin-bottom: 50px;
-        }
+    .wrapper {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 70px;
+        margin-bottom: 50px;
+    }
 
-        .table-hover thead th {
-            font-size: 16px;
-            font-weight: bold;
-            background-color: #716FAA;
-            color: white;
-            padding: 8px;
-        }
+    .table-hover thead th {
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #716FAA;
+        color: white;
+        padding: 8px;
+    }
 
-        #searchForm button{
-            margin-left: 10px;
-            border: 1px solid #716FAA;
-            color: white;
-            background-color: #716FAA;
-            float :right;
-            border-radius: 5px;
-        }
+    #searchForm button{
+        margin-left: 10px;
+        border: 1px solid #716FAA;
+        color: white;
+        background-color: #716FAA;
+        float :right;
+        border-radius: 5px;
+    }
 
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
+    a { color: black; }
+    a:visited { color: black; }
+    a:hover { color: black; }
+    a:active { color: black; }
 
-        .page-link {
-            color: #000;
-            background-color: #fff;
-            border: 1px solid #ccc;
-        }
+    .page-link {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #ccc;
+    }
 
-        .page-item.active .page-link {
-            z-index: 1;
-            color: white;
-            font-weight:bold;
-            background-color: #716FAA;
-            border-color: #ccc;
+    .page-item.active .page-link {
+        z-index: 1;
+        color: white;
+        font-weight:bold;
+        background-color: #716FAA;
+        border-color: #ccc;
 
-        }
+    }
 
-        .page-link:focus, .page-link:hover {
-            color: #000;
-            background-color: #fafafa;
-            border-color: #ccc;
-        }
+    .page-link:focus, .page-link:hover {
+        color: #000;
+        background-color: #fafafa;
+        border-color: #ccc;
+    }
 
-    </style>
+</style>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -82,10 +82,10 @@
     <div class="row">
         <%@ include file="../../fragments/adminMenu.jsp" %>
         <div class="col-md-8 offset-md-1">
-            <div class="reportreplylist" id="reportreplylist">
+            <div class="reportpostlist" id="reportpostlist">
                 <div class="wrapper">
                     <div class="d-flex justify-content-beween" style="color: #716FAA">
-                        <span class="reportreplylistname"><h3>신고 댓글 목록</h3></span>
+                        <span class="reportpostlistname"><h3>신고 글 목록</h3></span>
                     </div>
                     <table class="table table-hover" style="text-align: center">
                         <thead>
@@ -98,23 +98,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="post" items="${reportedReplies}">
-                            <tr>
-                                <td>
-                                    <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
-                                        <input type="hidden" name="userId" value="${post.userId}" />
-                                        <input type="submit" name="userLoginId" value="${post.userLoginId}" style="background-color: white; border: none;">
-                                    </form>
-                                </td>
-                                <td style="text-overflow:ellipsis; overflow:hidden;">
-                                    <a href="${pageContext.request.contextPath}/community/${post.communityPostId}" class="tableATag form-check-label">${post.replyContent}</a>
-                                </td>
-
-                                <td>${post.reportReason}</td>
-                                <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
-                                <td><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
-                            </tr>
-                        </c:forEach>
+                            <c:forEach var="post" items="${reportedPosts}">
+                                <tr>
+                                    <td>
+                                        <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                            <input type="hidden" name="userId" value="${post.userId}" />
+                                            <input type="submit" name="userLoginId" value="${post.userLoginId}" style="background-color: white; border: none;">
+                                        </form>
+                                    </td>
+                                    <td style="text-overflow:ellipsis; overflow:hidden;">
+                                        <a href="${pageContext.request.contextPath}/community/${post.reportSubjectId}" class="tableATag form-check-label">${post.postTitle}</a>
+                                    </td>
+                                    <td>${post.reportReason}</td>
+                                    <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
+                                    <td><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                     <div class="row">

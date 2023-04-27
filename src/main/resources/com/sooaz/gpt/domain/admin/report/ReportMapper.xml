@@ -4,6 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sooaz.gpt.domain.admin.report.ReportMapper">
+    <resultMap id="reportDtoResultMap" type="com.sooaz.gpt.domain.admin.report.ReportDto">
+        <result column="report_subject_id" property="reportSubjectId"/>
+        <result column="report_subject" property="reportSubject"/>
+        <result column="report_reason" property="reportReason"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="report_date" property="reportDate"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_login_id" property="userLoginId"/>
+        <result column="post_title" property="postTitle" jdbcType="VARCHAR"/>
+        <result column="reply_content" property="replyContent" jdbcType="VARCHAR"/>
+        <result column="community_post_id" property="communityPostId"/>
+    </resultMap>
 
     <insert id="save" parameterType="Report">
         <selectKey keyProperty="id" resultType="long" order="BEFORE">
@@ -35,6 +47,39 @@
 
     <select id="findByUserId" parameterType="long" resultType="Report">
         SELECT * FROM report where user_id = #{userId}
+    </select>
+
+    <select id="findReportedPosts" resultMap="reportDtoResultMap">
+        SELECT r.id ,
+               r.report_subject_id,
+               'COMMUNITY_POST' as report_subject,
+               r.report_reason,
+               p.community_post_writedate as creation_date,
+               r.report_date,
+               r.user_id,
+               u.user_login_id,
+               p.community_post_title as post_title
+        FROM report r
+                 JOIN community_post p ON r.report_subject_id = p.id
+                 JOIN users u ON r.user_id = u.id
+        WHERE r.report_subject = 'COMMUNITY_POST'
+    </select>
+
+    <select id="findReportedReplies" resultMap="reportDtoResultMap">
+        SELECT r.id ,
+               r.report_subject_id,
+               'COMMUNITY_REPLY' as report_subject,
+               r.report_reason,
+               cr.community_post_id as community_post_id,
+               cr.community_reply_writedate as creation_date,
+               r.report_date,
+               r.user_id,
+               u.user_login_id,
+               cr.community_reply_content as reply_content
+        FROM report r
+                 JOIN community_reply cr ON r.report_subject_id = cr.id
+                 JOIN users u ON r.user_id = u.id
+        WHERE r.report_subject = 'COMMUNITY_REPLY'
     </select>
 
 </mapper>

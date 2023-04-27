@@ -3,7 +3,6 @@ package com.sooaz.gpt.domain.community.bookmark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Book;
 import java.util.Optional;
 
 @Repository

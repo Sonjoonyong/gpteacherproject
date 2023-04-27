@@ -4,31 +4,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>유저 글</title>
+    <title>유저 댓글</title>
 
     <link rel="stylesheet" href="/css/base.css">
 
     <style>
-
-        .select-container .form-select {
-            width: 280px;
-            font-size: 30px;
-            border: 0.1px solid #2F4858;
-            border-radius: 5px;
-            padding: 5px 10px;
-            color: white;
-            text-align: center;
-            background-color: #716FAA;
-        }
-
-        .wrapper {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            margin-top: 70px;
-            margin-bottom: 50px;
-        }
-
         .table-hover thead th {
             font-size: 16px;
             font-weight: bold;
@@ -37,16 +17,19 @@
             padding: 8px;
         }
 
-        .center-align {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .myCommentList{
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding:20px;
+            width: 750px;
+            min-height: 750px;
         }
 
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
+        .btn.btn-primary{
+            border: 1px solid #716FAA;
+            color: #716FAA;
+            background-color: white;
+        }
 
         .page-link {
             color: #000;
@@ -69,6 +52,10 @@
             border-color: #ccc;
         }
 
+        .tableATag {
+            text-decoration: none;
+            color: #cccccc;
+        }
     </style>
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -79,101 +66,136 @@
 <section class="container">
     <div class="row">
         <%@ include file="../../fragments/adminMenu.jsp" %>
-        <div class="col-md-8 offset-md-1">
-            <div class="mycommentlist" id="mycommentlist">
-                <div class="wrapper">
-                    <div class="d-flex justify-content-between" style="color: #716FAA;">
-                        <span class="mycommentlist"><h3>작성 댓글</h3></span>
-                    </div>
-                    <form action="/user/mypage/comments" method="post">
-                        <div>
-                            <c:forEach var="comment" items="${pageInfo.list}">
-                                <div class="row comment mb-3" style="border-bottom: #555555 1px">
-                                    <div class="col-1 px-4 pt-2">
-                                        <input class="form-check-input" type="checkbox" name="deleteId" value="${comment.id}" style="display: inline-block; vertical-align: middle">
-                                    </div>
-                                    <div class="col-11 p-1">
-                                        <div class="row justify-content-between">
-                                            <div class="col-md-9">${comment.communityReplyContent}</div>
-                                            <div class="col-md-2">
-                                                <fmt:formatDate value="${comment.communityReplyWritedate}" pattern="yyyy.MM.dd"/>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <a href="${pageContext.request.contextPath}/community/view?communityId=${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
-                                        </div>
+        <div class="col-md-8 offset-md-1 p-4 myCommentList" style="margin-top:80px;">
+            <h2 class="h3 my-4" style="color: #716FAA;">작성댓글</h2>
+            <form action="/admin/userComments" method="post">
+                <div>
+                    <c:forEach var="comment" items="${pageInfo.list}">
+                        <div class="row comment mb-3" style="border-bottom: 1px solid #ccc">
+                            <div class="col-1 px-4 pt-2">
+                                <input class="form-check-input" type="checkbox" name="deleteId" value="${comment.id}" style="display: inline-block; vertical-align: middle">
+                            </div>
+                            <div class="col-11 p-1">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-9">${comment.communityReplyContent}</div>
+                                    <div class="col-md-2">
+                                        <fmt:formatDate value="${comment.communityReplyWritedate}" pattern="yyyy.MM.dd"/>
                                     </div>
                                 </div>
-                            </c:forEach>
-                        </div>
-                        <div class="row mb-2 mx-1 justify-content-between">
-                            <div class="col-md-4">
-                                <input class="form-check-input" type="checkbox" onclick="selectAll(this)">
-                                <label class="form-check-label ms-3">
-                                    전체 선택
-                                </label>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA" value="댓글 삭제" onclick="return deleteSubmit(this)" />
+                                <div>
+                                    <a href="${pageContext.request.contextPath}/community/${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-center">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    <c:if test="${pageInfo.hasPreviousPage}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="?pageNum=1" aria-label="First">
-                                                <span aria-hidden="true">«</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
-                                                <span aria-hidden="true">‹</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-
-                                    <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
-                                        <c:choose>
-                                            <c:when test="${i == pageInfo.pageNum}">
-                                                <li class="page-item active">
-                                                    <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                </li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                </li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-
-                                    <c:if test="${pageInfo.hasNextPage}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
-                                                <span aria-hidden="true">›</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
-                                                <span aria-hidden="true">»</span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-                                </ul>
-                            </nav>
-                        </div>
+                    </c:forEach>
+                </div>
+                <div class="row mb-2 mx-1 justify-content-between">
+                    <div class="col-md-4">
+                        <input class="form-check-input" type="checkbox" onclick="selectAll(this)">
+                        <label class="form-check-label ms-3">
+                            전체 선택
+                        </label>
                     </div>
+                    <div class="col-md-2">
+                        <input type="hidden" name="userId" value="${userId}" />
+                        <input type="submit" class="btn btn-primary" value="댓글 삭제" onclick="return deleteSubmit(this)" />
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <c:if test="${pageInfo.hasPreviousPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?pageNum=1&userId=${userId}" aria-label="First">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}&userId=${userId}" aria-label="Previous">
+                                        <span aria-hidden="true">‹</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                <c:choose>
+                                    <c:when test="${i == pageInfo.pageNum}">
+                                        <li class="page-item active">
+                                            <a class="page-link" href="?pageNum=${i}&userId=${userId}">${i}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${i}&userId=${userId}">${i}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:if test="${pageInfo.hasNextPage}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?pageNum=${pageInfo.nextPage}&userId=${userId}" aria-label="Next">
+                                        <span aria-hidden="true">›</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?pageNum=${pageInfo.pages}&userId=${userId}" aria-label="Last">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<%@ include file="../../fragments/footer.jsp" %>
+<script>
+    function selectAll(selectAll) {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = selectAll.checked;
+        });
+    }
 
+    function deleteSubmit(btn) {
+        let checkList = document.querySelectorAll('input[name="deleteId"]:checked');
+        let checkCount = checkList.length;
+
+        if(checkCount == 0) {
+            Swal.fire({
+                icon: 'error',
+                title: '',
+                text: '선택된 댓글이 없습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return false;
+        }
+        let message;
+        if (btn.value == "글 삭제") {
+            message = "글을 삭제"
+        }
+        if (btn.value == "댓글 삭제") {
+            message = "댓글을 삭제"
+        }
+        if (btn.value == "북마크 해제") {
+            message = "북마크를 해제"
+        }
+        if(!confirm(checkCount + "개의 "+ message +"하시겠습니까?")) {
+            return false;
+        }
+
+    }
+</script>
+<%@ include file="../../fragments/footer.jsp" %>
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 </body>
 </html>
+
+<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -38,6 +38,7 @@
         <interceptor>
             <mapping path="/**"/>
             <exclude-mapping path="/"/>
+            <exclude-mapping path="/main"/>
             <exclude-mapping path="/user/login/**"/>
             <exclude-mapping path="/user/idsearch/**"/>
             <exclude-mapping path="/user/pwsearch/**"/>
