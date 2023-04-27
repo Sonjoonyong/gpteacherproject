@@ -170,7 +170,7 @@ CREATE TABLE bookmark
 CREATE TABLE likes
 (
     user_id        NUMBER NOT NULL,
-    community_post NUMBER NOT NULL
+    community_post_id NUMBER NOT NULL
 );
 
 ALTER TABLE users ADD CONSTRAINT PK_USERS PRIMARY KEY (id);
