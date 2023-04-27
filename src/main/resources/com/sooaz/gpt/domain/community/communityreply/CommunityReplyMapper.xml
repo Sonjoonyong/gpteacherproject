@@ -47,6 +47,7 @@
         join users U
             on  U.id = R.user_id
         where community_post_id = #{communityPostId}
+        order by community_reply_parents_id, R.id
     </select>
 
     <select id="findByUserId" parameterType="long" resultType="CommunityReply">
