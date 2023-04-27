@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/community/view?communityId=${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
+                                    <a href="${pageContext.request.contextPath}/community/${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
                                 </div>
                             </div>
                         </div>

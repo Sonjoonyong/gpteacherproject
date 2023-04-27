@@ -79,8 +79,8 @@ public class AdminController {
     ){
         model.addAttribute("userId",userId);
         PageHelper.startPage(pageNum, pageSize);
-        List<Community> communities = mypageService.getPostList(userId);
-        PageInfo<Community> pageInfo = new PageInfo<>(communities);
+        List<CommunityPost> communities = mypageService.getPostList(userId);
+        PageInfo<CommunityPost> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
         log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userPosts";
@@ -111,6 +111,7 @@ public class AdminController {
         List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
+        log.info("pageInfo = {}", pageInfo);
         return "/admin/user/userComments";
     }
     
