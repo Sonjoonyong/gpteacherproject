@@ -5,6 +5,7 @@
     <title>Speaking</title>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
+    <link rel="stylesheet" href="/css/base.css">
 
     <style>
         .container {
@@ -49,7 +50,7 @@
 
 <form method="post" style="display: none" id="sttForm" action="/learning/correction/script"
       enctype="multipart/form-data">
-<%--    <input type="file" name="audio" id="audioFile"/>--%>
+    <%--    <input type="file" name="audio" id="audioFile"/>--%>
     <input type="hidden" name="userScript" id="userScript"/>
     <input type="hidden" name="question" class="question" value="${question}"/>
     <input type="hidden" name="learningTestType" value="${learningTestType}"/>
@@ -57,8 +58,7 @@
 
 <%@ include file="../../fragments/header.jsp" %>
 
-<section class="container">
-
+<section class="container d-flex flex-column">
     <h3 class="h3 text-center my-3" style="color: #5DB99D;">SPEAKING</h3>
     <p class="text-center">주어진 문장에 음성으로 답변하세요.</p>
 
@@ -76,7 +76,6 @@
     </div>
 
     <br>
-    </div>
 
 
     <!-- 녹음 버튼 -->
@@ -88,7 +87,7 @@
             <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
                 <i class="bi bi-square-fill"></i>
             </button>
-            <p class="text-center" id="recordInstruction" style="display:none">버튼을 누르고 답변하시오.</p>
+            <p class="text-center mt-3" id="recordInstruction" style="display:none">버튼을 누르고 음성으로 답변하세요.</p>
         </div>
 
         <div id="waitingMessage" class="row justify-content-center">
@@ -105,10 +104,9 @@
         </div>
     </div>
 
-    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+    <div class="text-center mt-auto" style="margin-top: 80px; margin-bottom: 40px">
         <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
     </div>
-
 </section>
 <%@ include file="../../fragments/footer.jsp" %>
 
@@ -235,7 +233,7 @@
         stopButton.disabled = true;
         stopButton.style.display = 'none';
         waitingMessage.style.display = 'none';
-        recordInstruction.style.display='block';
+        recordInstruction.style.display = 'block';
     }
 
     // 녹음 중
@@ -246,7 +244,7 @@
         stopButton.disabled = false;
         stopButton.style.display = 'block';
         waitingMessage.style.display = 'none';
-        recordInstruction.style.display='none';
+        recordInstruction.style.display = 'none';
     }
 
     // 대기 중
@@ -279,7 +277,7 @@
         }
 
         formData.enctype = "multipart/form-data";
-        request.open("POST","/learning/sentence/profanity", true);
+        request.open("POST", "/learning/sentence/profanity", true);
         request.responseType = "json";
         request.send(formData)
     }
