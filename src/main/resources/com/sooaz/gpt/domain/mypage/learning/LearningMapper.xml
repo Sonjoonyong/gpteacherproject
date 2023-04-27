@@ -55,6 +55,7 @@
 
     <select id="countByLearningDate" resultType="int">
         select count(id) from LEARNING where user_id = #{param1} and to_char(learning_date, 'yyyy-MM-dd') = #{param2}
+        and (select count(id) from SENTENCE where learning_id = learning.id) != 0
     </select>
 
     <update id="update">

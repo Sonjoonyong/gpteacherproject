@@ -49,13 +49,19 @@
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     let correctedScript = document.querySelector('#correctedScript').innerText;
 
-    if (correctedScript === 'retry') {
-        alert('다시 시도하세요');
-        history.back();
+    if (correctedScript == 'retry') {
+        Swal.fire({
+            icon: 'error',
+            title: '다시 입력해주세요.',
+            text: '부적절한 답변입니다.',
+        }).then(function() {
+            history.back();
+        });
     }
 
     let ttsBtn = document.querySelector('#ttsBtn');
