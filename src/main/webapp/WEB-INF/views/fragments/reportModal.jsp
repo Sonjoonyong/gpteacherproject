@@ -4,8 +4,8 @@
 <%--신고하기 모달--%>
 <div id="reportModal">
     <form id="reportModalBody" method="post"
-          class="form-check login row g-0 justify-content-center px-5 py-4 rounded-3 my-auto"
-          style="border: 2px solid #5DB99D;">
+          class="form-check login row g-0 justify-content-center px-5 py-4 rounded-3 my-auto flex-row"
+          style="border: 2px solid #5DB99D; max-height: 80vh; overflow: scroll">
 
         <input type="hidden" id="reportSubjectId" name="reportSubjectId">
         <input type="hidden" id="reportSubject" name="reportSubject" value="communityPost">
