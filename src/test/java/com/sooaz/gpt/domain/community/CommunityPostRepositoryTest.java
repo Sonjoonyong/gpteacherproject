@@ -85,7 +85,7 @@ public class CommunityPostRepositoryTest {
         newPost.setUserId(user.getId());
         communityPostRepository.save(newPost);
 
-        Optional<CommunityPostViewDto> optional = communityPostRepository.findByIdForView(newPost.getId());
+        Optional<CommunityPostViewDto> optional = communityPostRepository.findByIdForView(newPost.getId(), user.getId());
         CommunityPostViewDto byIdForView = optional.orElseThrow(IllegalStateException::new);
 
         System.out.println("byIdForView = " + byIdForView);

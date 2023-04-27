@@ -21,6 +21,10 @@
         .list_answer {
             list-style: none;
         }
+
+        .bi-bookmark-fill {
+            color: #FFC107;
+        }
     </style>
 
 </head>
@@ -29,6 +33,7 @@
 <%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
+    <input type="hidden" id="communityPostId" value="${communityPostViewDto.communityPostId}">
 
     <div class="row">
         <%--메뉴바--%>
@@ -57,7 +62,8 @@
                     <%--삭제하기--%>
                     <c:if test="${loginUser.userRole == 'ADMIN'
                     || communityPostViewDto.userId.equals(loginUser.id)}">
-                        <button id="deletePost" type="button" class="btn btn-outline-danger btn-sm w-auto border-0">삭제</button>
+                        <button id="deletePost" type="button" class="btn btn-outline-danger btn-sm w-auto border-0">삭제
+                        </button>
                     </c:if>
 
                 </div>
@@ -95,10 +101,25 @@
 
                 <%--버튼--%>
                 <div class="hstack gap-2 my-3">
-                    <span class="me-3 w-auto ms-auto">
-                        <i class="bi bi-heart me-2"></i>
-                        ${communityPostViewDto.communityPostLike}
-                    </span>
+                    <button class="ms-auto btn p-0" class="btn" onclick="toggleBookmarkAjax(this)">
+                        <c:if test="${!communityPostViewDto.isBookmarked}">
+                            <i class="bi bi-bookmark bookmark"></i>
+                        </c:if>
+                        <c:if test="${communityPostViewDto.isBookmarked}">
+                            <i class="bi bi-bookmark-fill bookmark"></i>
+                        </c:if>
+                    </button>
+                    <div class="me-3 w-auto">
+                        <button id="communityPostLikeBtn" class="btn" onclick="toggleCommunityPostLikeAjax(this)">
+                            <c:if test="${!communityPostViewDto.isLiked}">
+                                <i class="bi bi-heart like"></i>
+                            </c:if>
+                            <c:if test="${communityPostViewDto.isLiked}">
+                                <i class="bi bi-heart-fill like"></i>
+                            </c:if>
+                        </button>
+                        <span id="communityPostLikeNumber">${communityPostViewDto.communityPostLike}</span>
+                    </div>
                     <a href="/community/list" class="btn btn-primary w-auto text-white"
                        style="background-color: #5DB99D">목록</a>
 
@@ -142,6 +163,11 @@
 
 <!-- Toast Editor Viewer CDN -->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
+
+<script src="/js/toggleLikeAjax.js"></script>
+
+<%--북마크 관련 JS--%>
+<script src="/js/toggleStorageAjax.js"></script>
 
 <script defer>
     // 토스트 에디터 뷰어

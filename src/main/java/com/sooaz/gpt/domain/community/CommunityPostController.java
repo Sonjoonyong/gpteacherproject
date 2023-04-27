@@ -2,6 +2,8 @@ package com.sooaz.gpt.domain.community;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sooaz.gpt.domain.community.bookmark.Bookmark;
+import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
 import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.Optional;
 public class CommunityPostController {
 
     private final CommunityPostService communityPostService;
+    private final BookmarkRepository bookmarkRepository;
 
     @GetMapping("/list")
     public String getList(
@@ -53,7 +56,9 @@ public class CommunityPostController {
             Model model
     ) {
         CommunityPostViewDto communityPostViewDto =
-                communityPostService.findByIdForView(communityPostId).orElse(null);
+                communityPostService
+                        .findByIdForView(communityPostId, loginUser.getId())
+                        .orElse(null);
 
         // 본인 글이 아닐 시 조회수 증가
         if (!communityPostViewDto.getUserId().equals(loginUser.getId())) {
@@ -138,5 +143,51 @@ public class CommunityPostController {
         communityPostService.delete(communityPostId);
         redirectAttributes.addFlashAttribute("message", "게시글이 삭제되었습니다.");
         return "redirect:/community/list";
+    }
+
+    @ResponseBody
+    @PostMapping("/{communityPostId}/like")
+    public String toggleLike(
+            @PathVariable Long communityPostId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        log.info("communityPostId = {}", communityPostId);
+
+        Optional<Bookmark> bookmarkOpt =
+                bookmarkRepository.findById(communityPostId, loginUser.getId());
+
+        if (bookmarkOpt.isEmpty()) {
+            bookmarkRepository.save(communityPostId, loginUser.getId());
+            return "1";
+        } else {
+            Bookmark bookmark = new Bookmark();
+            bookmark.setCommunityPostId(communityPostId);
+            bookmark.setUserId(loginUser.getId());
+            bookmarkRepository.delete(bookmark);
+            return "0";
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/{communityPostId}/bookmark")
+    public String toggleBookmark(
+            @PathVariable Long communityPostId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        log.info("communityPostId = {}", communityPostId);
+
+        Optional<Bookmark> bookmarkOpt =
+                bookmarkRepository.findById(communityPostId, loginUser.getId());
+
+        if (bookmarkOpt.isEmpty()) {
+            bookmarkRepository.save(communityPostId, loginUser.getId());
+            return "1";
+        } else {
+            Bookmark bookmark = new Bookmark();
+            bookmark.setCommunityPostId(communityPostId);
+            bookmark.setUserId(loginUser.getId());
+            bookmarkRepository.delete(bookmark);
+            return "0";
+        }
     }
 }

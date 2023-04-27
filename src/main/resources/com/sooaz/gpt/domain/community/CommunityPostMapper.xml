@@ -29,20 +29,35 @@
         SELECT * FROM community_post WHERE id = #{communityPostId}
     </select>
 
-    <select id="findByIdForView" parameterType="long" resultType="CommunityPostViewDto">
-        SELECT
-            P.id as community_post_id,
-            U.id as user_Id,
-            U.user_nickname,
-            community_post_category,
-            community_post_title,
-            community_post_content,
-            community_post_hit,
-            community_post_writedate,
-            community_post_like
+    <select id="findByIdForView" resultType="CommunityPostViewDto">
+        SELECT P.id    as community_post_id,
+               U.id    as user_Id,
+               U.user_nickname,
+               community_post_category,
+               community_post_title,
+               community_post_content,
+               community_post_hit,
+               community_post_writedate,
+               community_post_like,
+               CASE
+                   WHEN exists(select *
+                               from BOOKMARK
+                               where COMMUNITY_POST_ID = #{communityPostId}
+                                 and USER_ID = #{userId})
+                       THEN '1'
+                   ELSE '0'
+                   END AS isBookmarked,
+               CASE
+                   WHEN exists(select *
+                               from LIKES
+                               where COMMUNITY_POST_ID = #{communityPostId}
+                                 and USER_ID = #{userId})
+                       THEN '1'
+                   ELSE '0'
+                   END AS isLiked
         FROM community_post P
-        JOIN users U
-        ON P.user_id = U.id
+                 JOIN users U
+                      ON P.user_id = U.id
         WHERE P.id = #{communityPostId}
     </select>
 

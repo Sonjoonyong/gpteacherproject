@@ -3,7 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sooaz.gpt.domain.community.bookmark.BookmarkMapper">
+    <insert id="save">
+        insert into bookmark (community_post_id, user_id)
+        values (#{communityPostId}, #{userId})
+    </insert>
+
+    <select id="findById" resultType="Bookmark">
+        select * from bookmark
+                 where community_post_id = #{communityPostId}
+                   and user_id = #{userId}
+    </select>
+
     <delete id="delete" parameterType="Bookmark">
-        delete from BOOKMARK where community_post_id = #{communityPostId} and user_id = #{userId}
+        delete from BOOKMARK
+               where community_post_id = #{communityPostId}
+                 and user_id = #{userId}
     </delete>
 </mapper>
