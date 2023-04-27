@@ -35,28 +35,47 @@
         <dic class="col-3"></dic>
 
         <%--본문--%>
-        <div class="col-7">
-            <div class="row">
+        <div class="col-7 border p-4 rounded-3 mb-5">
+            <div class="row g-0">
                 <%--제목--%>
-                <div class="col-12 d-flex align-items-center mb-2">
-                    <span class="badge bg-info me-3">
+                <div class="hstack mb-2 gap-2">
+                    <span class="badge bg-info">
                         ${communityPostViewDto.communityPostCategory}
                     </span>
                     <span class="h4 m-0">
                         ${communityPostViewDto.communityPostTitle}
                     </span>
+
+                    <div class="ms-auto"></div>
+
+                    <%--수정하기--%>
+                    <c:if test="${communityPostViewDto.userId.equals(loginUser.id)}">
+                        <a href="/community/${communityPostViewDto.communityPostId}/edit"
+                           class="btn btn-sm btn-secondary text-white w-auto">수정</a>
+                    </c:if>
+
+                    <%--삭제하기--%>
+                    <c:if test="${loginUser.userRole == 'ADMIN'
+                    || communityPostViewDto.userId.equals(loginUser.id)}">
+                        <button id="deletePost" type="button" class="btn btn-outline-danger btn-sm w-auto">삭제</button>
+                    </c:if>
+
                 </div>
 
-                <%--정보--%>
-                <div class="col-12 hstack mb-2">
+                <%--게시글 정보--%>
+                <div class="col-12 hstack mb-2 gap-3">
                     <span id="writerNickname">
                         ${communityPostViewDto.userNickname}
                     </span>
+
                     <span class="ms-auto">
                         <i class="bi bi-eye"></i>
                         ${communityPostViewDto.communityPostHit}
                     </span>
-                    <span class="ms-3">
+
+                    <div class="vr"></div>
+
+                    <span>
                         <i class="bi bi-clock"></i>
                         <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
                                         value="${communityPostViewDto.communityPostWritedate}"/>
@@ -73,20 +92,13 @@
                 </div>
 
                 <%--버튼--%>
-                <div class="row row justify-content-end gap-1 my-3 align-items-center">
-                    <span class="me-3 w-auto">
+                <div class="hstack gap-2 my-3">
+                    <span class="me-3 w-auto ms-auto">
                         <i class="bi bi-heart me-2"></i>
                         ${communityPostViewDto.communityPostLike}
                     </span>
-                    <c:if test="${loginUser.userRole == 'ADMIN'
-                    || communityPostViewDto.userId.equals(loginUser.id)}">
-                        <button id="deletePost" type="button" class="btn btn-primary w-auto">삭제</button>
-                    </c:if>
-                    <c:if test="${communityPostViewDto.userId.equals(loginUser.id)}">
-                        <a href="/community/${communityPostViewDto.communityPostId}/edit"
-                           class="btn btn-primary w-auto">수정</a>
-                    </c:if>
-                    <a href="/community/list" class="btn btn-primary w-auto">목록</a>
+                    <a href="/community/list" class="btn btn-primary w-auto text-white" style="background-color: #5DB99D">목록</a>
+
                     <%--신고하기--%>
                     <c:if test="${!communityPostViewDto.userId.equals(loginUser.id)}">
                         <button id="reportPost" class="btn btn-primary me-1 w-auto">신고</button>
@@ -95,20 +107,18 @@
 
                 <%--댓글 등록--%>
                 <div class="col-12">
-                    <form method="POST" id="replyForm" class="row g-0 p-2 gap-2">
+                    <form method="POST" id="replyForm" class="row g-0 gap-2">
                         <div class="col-10">
                         <textarea class="rounded-3 form-control" rows="3" name="communityReplyContent"
                                   id="communityReplyContent"></textarea>
                         </div>
-                        <button class='btn btn-primary col' type="submit">댓글등록</button>
+                        <button class='btn btn-outline-secondary col' type="submit">댓글 등록</button>
                     </form>
                 </div>
 
                 <%--댓글 목록--%>
-                <div class="row">
-                    <ul id="communityReplyList" class="list-group list-group-flush">
-                    </ul>
-                </div>
+                <ul id="communityReplyList" class="list-group list-group-flush col-12">
+                </ul>
             </div>
         </div>
 
@@ -153,43 +163,68 @@
                         let date = new Date(rDto.communityReplyWritedate);
                         let newDate = date.toISOString().split('T')[0];
                         //댓글리스트폼
-                        tag += "<li class='list-group-item'>";
-                        tag += "<div>";
+                        tag += "<li class='list-group-item row'>";
 
-                        tag += "<span class='replyUserNickname'>" + rDto.userNickname + "</span> <span>(" + newDate + ")</span>"; //userId, 작성일
-
-                        if (rDto.isAdmin || rDto.isWriter) {
-                            tag += "<input type='button' name='delete' class='btn btn-sm btn-secondary border-0 text-secondary' value='삭제' title='" + rDto.communityReplyId + "'>";
+                        if (rDto.communityReplyId != rDto.communityReplyParentsId) {
+                            tag += "<div class='col-12'>";
+                            tag += "    <div class='row'>";
+                            tag += "        <div class='col'>";
+                            tag += "            <i class='bi bi-arrow-return-right'></i>"
+                            tag += "        </div>";
                         }
+
+                        if (rDto.communityReplyId != rDto.communityReplyParentsId) {
+                            tag += "        <div class='col-11'>";
+                        } else {
+                            tag += "        <div class='col-12'>";
+                        }
+                        tag += "                <div class='hstack gap-2'>";
+
+                        tag += "                    <span class='replyUserNickname fw-semibold'>" + rDto.userNickname + "</span> <span>(" + newDate + ")</span>"; //userId, 작성일
+                        tag += "                    <button type='button' name='reReply' class='btn btn-sm btn-primary border-0 text-secondary ms-auto'>답글</button>";
                         if (rDto.isWriter) {
-                            tag += "<input type='button' name='edit' class='btn btn-sm btn-secondary mx-1 border-0 text-secondary' value='수정'>";
+                            tag += "                <input type='button' name='edit' class='btn btn-sm btn-primary border-0 text-secondary' value='수정'>";
+                        }
+                        if (rDto.isAdmin || rDto.isWriter) {
+                            tag += "                <input type='button' name='delete' class='btn btn-sm btn-primary border-0 text-secondary' value='삭제' title='" + rDto.communityReplyId + "'>";
                         }
                         if (!rDto.isWriter) {
-                            tag += "<input type='button' name='report' class='btn btn-sm btn-secondary border-0 text-secondary' value='신고'>";
+                            tag += "                <input type='button' name='report' class='btn btn-sm btn-primary border-0 text-secondary' value='신고'>";
+                        }
+                        tag += "                </div>";
+
+                        tag += "                <div class='replyContent col-12 py-2'>" + rDto.communityReplyContent + "</div>";  // 댓글 내용
+                        tag += "            </div>";
+
+                        if (rDto.communityReplyId != rDto.communityReplyParentsId) {
+                            tag += "    </div>";
+                            tag += "</div>";
                         }
 
-                        tag += "<input type='button' name='reReply' class='btn btn-sm btn-secondary border-0 text-secondary' value='답글'>";
-
-                        tag += "<p class='replyContent'>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
                         //댓글수정폼
-                        tag += "<div class='row' style='display:none'>";
-                        tag += "    <form method='post' class='row g-0 gap-2'>";
-                        tag += "        <input class='communityReplyId' type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
-                        tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
-                        tag += "        <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
-                        tag += "    </form>";
-                        tag += "</div>";
+                        tag += "    <div class='col-12' style='display:none'>";
+                        tag += "        <form method='post' class='row g-0 gap-2'>";
+                        tag += "            <input class='communityReplyId' type='hidden' name='communityReplyId' value='" + rDto.communityReplyId + "'>";  // 댓글 번호
+                        tag += "            <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
+                        tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
+                        tag += "        </form>";
+                        tag += "    </div>";
+
 
                         // 대댓글 폼
-                        tag += "<div class='row' style='display:none'>";
-                        tag += "    <form method='post' class='row g-0 gap-2'>";
-                        tag += "        <input class='communityReplyParentsId' type='hidden' name='communityReplyParentsId' value='" + rDto.communityReplyId + "'>";  // 원 댓글 번호
-                        tag += "        <textarea class='col-10' name='communityReplyContent' rows='3' required></textarea>";  // 댓글 내용
-                        tag += "        <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='등록' >"; //대댓글 등록 버튼
-                        tag += "    </form>";
-                        tag += "</div>";
+                        tag += "    <div class='col-12 reReplyFormDiv mt-2' style='display:none'>";
+                        tag += "        <form method='post' class='row g-0 gap-2 row'>";
+                        tag += "            <input class='communityReplyParentsId' type='hidden' name='communityReplyParentsId' value='" + rDto.communityReplyParentsId + "'>";  // root 댓글 번호
+                        tag += "            <div class='col'>";
+                        tag += "                <i class='bi bi-arrow-return-right'></i>"
+                        tag += "            </div>";
+                        tag += "            <div class='col-10'>";
+                        tag += "                <textarea class='form-control' name='communityReplyContent' rows='3' required></textarea>";  // 대댓글 내용
+                        tag += "            </div>";
+                        tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='reReply' value='등록' >"; //대댓글 등록 버튼
+                        tag += "        </form>";
+                        tag += "    </div>";
 
-                        tag += "</div>";
                         tag += "</li>";
                     });
                     // .html : 원래 있던 내용 지우고 표시
@@ -232,7 +267,6 @@
             $(this).parent().next().css("display", "block");
         });
 
-
         // 댓글 수정
         $(document).on('click', '#communityReplyList input[name=replyEdit]', function () {
             let params = $(this).parent().serialize();
@@ -258,10 +292,15 @@
             return false;
         });
 
+        // 대댓글 폼
+        $(document).on('click', '#communityReplyList button[name=reReply]', function () {
+            this.closest('li').querySelector('.reReplyFormDiv').style.display = 'block';
+        });
+
         // 대댓글 등록
         $(document).on('click', '#communityReplyList input[name=reReply]', function () {
             let params = $(this).parent().serialize();
-            let url = "/community/reply";
+            let url = "/community/${communityPostViewDto.communityPostId}/reply";
 
             $.ajax({
                 url: url
@@ -365,23 +404,25 @@
 
     // 게시글 신고 모달창 띄우기
     let reportPostBtn = document.querySelector('#reportPost');
-    reportPostBtn.onclick = () => {
-        toggleReportModal(true);
+    if (reportPostBtn) {
+        reportPostBtn.onclick = () => {
+            toggleReportModal(true);
 
-        // 신고 내용 옮기기
-        const content = document.querySelector('#communityPostContent').innerText;
-        document.querySelector('#reportTargetContent').innerText =
-            content.substring(0, Math.min(20, content.length));
-        ;
+            // 신고 내용 옮기기
+            const content = document.querySelector('#communityPostContent').innerText;
+            document.querySelector('#reportTargetContent').innerText =
+                content.substring(0, Math.min(20, content.length));
+            ;
 
-        // 신고 대상 닉네임 옮기기
-        const writerNickname = document.querySelector('#writerNickname').innerText;
-        document.querySelector('#reportTargetWriter').innerText = writerNickname;
+            // 신고 대상 닉네임 옮기기
+            const writerNickname = document.querySelector('#writerNickname').innerText;
+            document.querySelector('#reportTargetWriter').innerText = writerNickname;
 
-        // 신고 대상 id 옮기기
-        reportSubjectIdInput.value = ${communityPostViewDto.communityPostId};
+            // 신고 대상 id 옮기기
+            reportSubjectIdInput.value = ${communityPostViewDto.communityPostId};
 
-        reportSubjectInput.value = 'COMMUNITY_POST';
+            reportSubjectInput.value = 'COMMUNITY_POST';
+        }
     }
 
     // 신고 모달창 닫기

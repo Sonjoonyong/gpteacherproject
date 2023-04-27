@@ -14,18 +14,6 @@ a:active { color: black; }
 #searchbar fa-solid,
 #searchbar searchbox{
 }
-.btn.btn-primary{
-    border: 1px solid #5DB99D;
-    color: #5DB99D;
-    background-color: white;
-    float: right;
-}
-.btn.btn-secondary{
-    border: 1px solid #5DB99D;
-    color: #5DB99D;
-    background-color: white;
-    float: right;
-}
 
 .accordion .accordion-item .accordion-header .accordion-button{
     background-color: white;
