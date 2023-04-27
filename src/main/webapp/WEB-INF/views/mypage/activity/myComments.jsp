@@ -60,7 +60,7 @@
         <%@ include file="../../fragments/mypageMenu.jsp" %>
         <div class="col-md-8 offset-md-1 p-4 myCommentList">
             <h2 class="h3 my-5" style="color: #5DB99D;">작성댓글</h2>
-            <form action="/user/mypage/comments" method="post">
+            <form action="/user/mypage/comments" id="myForm" method="post">
                 <div>
                     <c:forEach var="comment" items="${pageInfo.list}">
                         <div class="row comment mb-3" style="border-bottom: #555555 1px">
@@ -89,7 +89,7 @@
                         </label>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="btn btn-primary" value="댓글 삭제" onclick="return deleteSubmit(this)" />
+                        <input type="button" class="btn btn-primary" value="댓글 삭제" onclick="deleteSubmit(this)" />
                     </div>
                 </div>
             </form>
@@ -146,6 +146,9 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="/js/checkboxDeleteForm.js"></script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>

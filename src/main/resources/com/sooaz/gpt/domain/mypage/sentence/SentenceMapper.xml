@@ -78,8 +78,11 @@
             <if test="sentenceRepetitionStep != null">
                 sentence_repetition_step = #{sentenceRepetitionStep},
             </if>
-            <if test="sentenceInterval != null">
+            <if test="sentenceInterval != null and sentenceNextRepetition == null">
                 sentence_interval = #{sentenceInterval}, sentence_next_repetition = sysdate + #{sentenceInterval},
+            </if>
+            <if test="sentenceNextRepetition != null">
+                sentence_interval = #{sentenceInterval}, sentence_next_repetition = sysdate,
             </if>
             <if test="sentenceEaseFactor != null">
                 sentence_ease_factor = #{sentenceEaseFactor},
