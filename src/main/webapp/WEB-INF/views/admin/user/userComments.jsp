@@ -16,6 +16,7 @@
             color: white;
             padding: 8px;
         }
+
         .myCommentList{
             border: 1px solid lightgray;
             border-radius: 10px;
@@ -23,29 +24,34 @@
             width: 750px;
             min-height: 750px;
         }
+
         .btn.btn-primary{
-            border: 1px solid #5DB99D;
-            color: #5DB99D;
+            border: 1px solid #716FAA;
+            color: #716FAA;
             background-color: white;
         }
+
         .page-link {
             color: #000;
             background-color: #fff;
             border: 1px solid #ccc;
         }
+
         .page-item.active .page-link {
             z-index: 1;
-            color: #555;
+            color: white;
             font-weight:bold;
-            background-color: #CFEAE2;
+            background-color: #716FAA;
             border-color: #ccc;
 
         }
+
         .page-link:focus, .page-link:hover {
             color: #000;
             background-color: #fafafa;
             border-color: #ccc;
         }
+
         .tableATag {
             text-decoration: none;
             color: #cccccc;
@@ -61,11 +67,11 @@
     <div class="row">
         <%@ include file="../../fragments/adminMenu.jsp" %>
         <div class="col-md-8 offset-md-1 p-4 myCommentList" style="margin-top:80px;">
-            <h2 class="h3 my-5" style="color: #5DB99D;">작성댓글</h2>
+            <h2 class="h3 my-4" style="color: #716FAA;">작성댓글</h2>
             <form action="/admin/userComments" method="post">
                 <div>
                     <c:forEach var="comment" items="${pageInfo.list}">
-                        <div class="row comment mb-3" style="border-bottom: #555555 1px">
+                        <div class="row comment mb-3" style="border-bottom: 1px solid #ccc">
                             <div class="col-1 px-4 pt-2">
                                 <input class="form-check-input" type="checkbox" name="deleteId" value="${comment.id}" style="display: inline-block; vertical-align: middle">
                             </div>
@@ -161,7 +167,13 @@
         let checkCount = checkList.length;
 
         if(checkCount == 0) {
-            alert("선택된 글이 없습니다.");
+            Swal.fire({
+                icon: 'error',
+                title: '',
+                text: '선택된 댓글이 없습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            });
             return false;
         }
         let message;
@@ -184,3 +196,6 @@
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 </body>
 </html>
+
+<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

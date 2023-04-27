@@ -25,8 +25,8 @@
     }
 
     .btn.btn-primary{
-      border: 1px solid #5DB99D;
-      color: #5DB99D;
+      border: 1px solid #716FAA;
+      color: #716FAA;
       background-color: white;
     }
 
@@ -38,20 +38,29 @@
 
     .page-item.active .page-link {
       z-index: 1;
-      color: #555;
+      color: white;
       font-weight:bold;
-      background-color: #CFEAE2;
+      background-color: #716FAA;
       border-color: #ccc;
 
     }
+
     .page-link:focus, .page-link:hover {
       color: #000;
       background-color: #fafafa;
       border-color: #ccc;
     }
+
     .tableATag {
       text-decoration: none;
       color: #373737;
+    }
+    #tableHead thead th{
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #716FAA;
+      color: white;
+      padding: 8px;
     }
   </style>
   <%@ include file="../../fragments/bootstrapCss.jsp" %>
@@ -59,15 +68,13 @@
 </head>
 <body>
 <%@ include file="../../fragments/header.jsp" %>
-<section class="container" style="margin-top: 50px;">
+<section class="container" >
   <div class="row">
     <%@ include file="../../fragments/adminMenu.jsp" %>
     <div class="col-md-8 offset-md-1 p-4 myPostList" style="margin-top:80px;">
-      <h2 class="h3 my-4" style="color: #5DB99D;">작성글</h2>
-
+      <h2 class="h3 my-4" style="color: #716FAA;">작성글</h2>
       <form action="/admin/userPosts" method="POST">
-
-        <table class="table" style="text-align: center; table-layout:fixed;">
+        <table id="tableHead" class="table table-hover" style="text-align: center; table-layout:fixed;">
           <thead>
           <tr>
             <th scope="col" style="width: 50px;"></th>
@@ -103,7 +110,7 @@
               전체 선택
             </label>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2" style="float: right">
             <input type="hidden" name="userId" value="${userId}" />
             <input  type="submit" class="btn btn-primary" value="글 삭제" onclick="return deleteSubmit(this)"/>
           </div>
@@ -176,7 +183,13 @@
     let checkCount = checkList.length;
 
     if(checkCount == 0) {
-      alert("선택된 글이 없습니다.");
+      Swal.fire({
+        icon: 'error',
+        title: '',
+        text: '선택된 글이 없습니다.',
+        showConfirmButton: false,
+        timer: 1500
+      });
       return false;
     }
     let message;
@@ -198,3 +211,6 @@
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 </body>
 </html>
+
+<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
