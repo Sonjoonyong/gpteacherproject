@@ -106,6 +106,7 @@
             background-color: #CFEAE2;
             color: white;
         }
+
     </style>
 
 </head>
@@ -115,7 +116,7 @@
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
+            <div class="col-12 col-md-3" id="sidebar">
                 <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>Community</h3></div>
                 <div class="row" style="margin-top: 15px;">
                     <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -136,19 +137,16 @@
                     </div>
                 </div>
             </div>
-            <!--고객센터-->
-            <div class="col-md-7" style="background-color: white; margin-top: 55px;">
+
+            <div class="col-12 col-md-7 my-5">
                 <div class="communitypost" id="communitypost">
                     <div class="d-flex justify-content-between">
                         <span class="boardname"><h3>커뮤니티</h3></span>
-                        <%--                                <div>--%>
-                        <%--                                    <input type="submit" class="btn btn-primary float-end" value="글등록" style="align-content: end"/>--%>
-                        <%--                                </div>--%>
                         <div>
                             <a href="/community/write" class="btn btn-primary float-end" style="align-content: end" role="button">글작성</a>
                         </div>
                     </div>
-                    <table class="table table-striped" style="text-align: center; border:1px solid black;">
+                    <table class="table" style="text-align: center; border:1px solid black;">
                         <colgroup>
                             <col span="1" style="width: 60%;">
                             <col span="1" style="width: 15%;">
@@ -166,7 +164,7 @@
                         <tbody>
                         <c:forEach var="communityPostListDto" items="${pageInfo.list}">
                             <tr>
-                                <td class="text-start ps-4">
+                                <td class="text-start ps-4 py-2">
                                     <a href="/community/${communityPostListDto.id}" class="communityPost-title-link" style="margin-right: 30px">
                                         [${communityPostListDto.communityPostCategory}] ${communityPostListDto.communityPostTitle}
                                     </a>
@@ -247,8 +245,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
 </section>
 <%@ include file="../fragments/footer.jsp" %>

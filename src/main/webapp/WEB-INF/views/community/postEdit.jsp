@@ -58,17 +58,6 @@
             height: 40px;
         }
 
-        .create-form {
-            border: 1px solid lightgray;
-            border-radius: 5px;
-            padding: 20px;
-        }
-
-        .submit-btn {
-            float: right;
-            margin-top: 15px;
-        }
-
         .accordion .accordion-item .accordion-header .accordion-button {
             background-color: white;
             color: black;
@@ -89,79 +78,62 @@
             color: white;
         }
     </style>
+
+    <!--  TOAST UI Editor CSS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+
 </head>
 <body>
 
 <%@ include file="../fragments/header.jsp" %>
 
 
-<section class="container">
-
-    <div class="col-12">
-        <div class="row">
-            <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>커뮤니티</h3></div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button"
-                                        onclick="location.href='/community/list'" style="background-color: #CFEAE2">
-                                    커뮤니티
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button"
-                                        onclick="location.href='/community/list'">
-                                    커뮤니티
-                                </button>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7" style="background-color: white; margin-top: 55px;">
-                <h3>글 수정</h3>
-                <div class="create-form">
-                    <form:form method="post" modelAttribute="communityPostUpdateDto">
-                        <form:hidden path="communityPostId"/>
-                        <form:select path="communityPostCategory" cssClass="form-select w-25">
-                            <form:option value="토익" label="토익"/>
-                            <form:option value="토플" label="토플"/>
-                            <form:option value="오픽" label="오픽"/>
-                            <form:option value="아이엘츠" label="아이엘츠"/>
-                            <form:option value="회화" label="회화"/>
-                            <form:option value="글쓰기" label="글쓰기"/>
-                            <form:option value="일상" label="일상"/>
-                            <form:option value="유머" label="유머"/>
-                            <form:option value="시험" label="시험"/>
-                            <form:option value="공부" label="공부"/>
-                        </form:select>
-                        <div class="form-group">
-                            <label for="communityPostTitle">글 제목 :</label>
-                            <form:input path="communityPostTitle" type="text" cssClass="form-control"
-                                        required="required"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="communityPostContent">글 내용 :</label>
-                            <form:textarea path="communityPostContent" cssClass="form-control" rows="5"
-                                           required="required" cssStyle="min-height: 400px"/>
-                        </div>
-                        <div class="clearfix">
-                            <button type="submit" class="btn btn-primary submit-btn">수정</button>
-                        </div>
-                    </form:form>
-                </div>
-            </div>
+<section class="container" style="max-width: 800px;">
+    <h3>글 수정</h3>
+    <form:form method="post" modelAttribute="communityPostUpdateDto"
+               cssClass="create-form row gap-2 border rounded-3 p-3">
+        <form:hidden path="communityPostId"/>
+        <div class="col">
+            <form:select path="communityPostCategory" cssClass="form-select w-auto">
+                <form:option value="토익" label="토익"/>
+                <form:option value="토플" label="토플"/>
+                <form:option value="오픽" label="오픽"/>
+                <form:option value="아이엘츠" label="아이엘츠"/>
+                <form:option value="회화" label="회화"/>
+                <form:option value="글쓰기" label="글쓰기"/>
+                <form:option value="일상" label="일상"/>
+                <form:option value="유머" label="유머"/>
+                <form:option value="시험" label="시험"/>
+                <form:option value="공부" label="공부"/>
+            </form:select>
         </div>
-    </div>
+        <%--제목--%>
+        <div class="form-group">
+            <form:input path="communityPostTitle" type="text" cssClass="form-control"
+                        required="required"/>
+        </div>
+        <%--본문--%>
+        <div class="form-group">
+            <div id="editor"></div>
+            <form:hidden path="communityPostContent"/>
+        </div>
+        <%--버튼--%>
+        <div class="col d-flex justify-content-end mt-2 gap-2">
+            <button id="submitBtn" type="button" class="btn btn-primary submit-btn">수정</button>
+            <a id="cancelBtn" href="/community/list" class="btn btn-secondary text-white">취소</a>
+        </div>
+    </form:form>
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<!--  TOAST UI Editor CDN  -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!-- 한국어 패치 -->
+<script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
+
+<script src="/js/toastUiEditor.js"></script>
 </body>
 </html>
