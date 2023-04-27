@@ -10,7 +10,6 @@ import com.sooaz.gpt.domain.admin.user.UserView;
 import com.sooaz.gpt.domain.community.CommunityPost;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.MypageService;
-import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
