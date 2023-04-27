@@ -26,27 +26,7 @@ a:active { color: black; }
     background-color: white;
     float: right;
 }
-.col-md-7 table thead tr,
-.col-md-7 table thead tr td{
-    background-color: #CFEAE2;
-    border-top : 1px solid lightgray;
-    border-left : 1px solid white;
-    border-right : 1px solid white;
-    border-bottom : 1px solid lightgray;
-    height: 40px;
-}
-.col-md-7 table tbody tr,
-.col-md-7 table tbody tr td {
-    border-top : 1px solid lightgray;
-    border-left : 1px solid white;
-    border-right : 1px solid white;
-    border-bottom : 1px solid lightgray;
-    background-color: white;
-}
-/* noticeContent부분 */
-.col-md-7 table tbody tr td{
-    background-color: white;
-}
+
 .accordion .accordion-item .accordion-header .accordion-button{
     background-color: white;
     color: black;
@@ -62,19 +42,6 @@ a:active { color: black; }
 .accordion .accordion-item .accordion-header .accordion-button:active{
     background-color: #CFEAE2;
     color: white;
-}
-#questionReplyContent{
-    width: 85%;
-    height: 50px;
-    border: 1px solid lightgray;
-}
-#replyList>li{
-    width: 100%;
-    height: 60px;
-    padding:5px 0;
-    border-bottom: 1px solid lightgray;
-    margin-top: 10px;
-    list-style: none;
 }
 
 #reportModal {
@@ -108,13 +75,4 @@ a:active { color: black; }
     justify-content: center;
 
     background-color: white;
-}
-
-ul {
-    list-style-type: none;
-    padding-inline-start: 0px;
-}
-
-.answer_area {
-    padding-left: 5px;
 }

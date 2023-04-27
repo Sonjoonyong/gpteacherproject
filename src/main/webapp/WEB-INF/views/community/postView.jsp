@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="/css/postView.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
 
+    <!--  TOAST UI Editor Viewer CSS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css"/>
+
+    <style>
+        .answer_area {
+            font-size: 12px;
+            padding-left: 0px;
+        }
+
+        .list_answer {
+            list-style: none;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -16,85 +30,66 @@
 
 <section class="container">
 
-    <form role="form" method="post">
-        <input type="hidden" name="" value="">
-    </form>
+    <div class="row">
+        <%--메뉴바--%>
+        <dic class="col-3"></dic>
 
-    <div class="col-12">
-        <div class="row">
-            <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>communityPost</h3></div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button"
-                                        onclick="location.href='/community/postList'">
-                                    communityPost
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='/community/?'">
-                                    Weekly top10
-                                </button>
-                            </h2>
-                        </div>
-                    </div>
+        <%--본문--%>
+        <div class="col-7">
+            <div class="row">
+                <%--제목--%>
+                <div class="col-12 d-flex align-items-center mb-2">
+                    <span class="badge bg-info me-3">
+                        ${communityPostViewDto.communityPostCategory}
+                    </span>
+                    <span class="h4 m-0">
+                        ${communityPostViewDto.communityPostTitle}
+                    </span>
                 </div>
-            </div>
+
+                <%--정보--%>
+                <div class="col-12 hstack mb-2">
+                    작성자:
+                    <span id="writerNickname">
+                        ${communityPostViewDto.userNickname}
+                    </span>
+                    <span class="ms-auto">
+                        <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss"
+                                        value="${communityPostViewDto.communityPostWritedate}"/>
+                    </span>
+                </div>
 
 
-            <!--본문-->
-            <div class="col-md-7" style="margin-top: 110px; ">
-                <table class="table" style="text-align:start; border:1px solid black;">
-                    <thead style="margin-bottom: 20px;">
-                    <tr class="text-start">
-                        <td colspan="2">
-                            [${communityPostViewDto.communityPostCategory}] ${communityPostViewDto.communityPostTitle}</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>작성자: <span id="writerNickname">${communityPostViewDto.userNickname}</span></td>
-                        <td style="text-align: right">
-                            <fmt:formatDate value="${communityPostViewDto.communityPostWritedate}"
-                                            pattern="yyyy-MM-dd"/>&nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="communityPostContent" colspan="2"
-                            style="min-height: 200px;height: 200px; text-align: left; ">${communityPostViewDto.communityPostContent}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <c:if test="${communityPostViewDto.userId.equals(loginUser.id)}">
-                    <form action="/community/${communityPostViewDto.communityPostId}/delete" method="post"
-                          onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;">
-                        <button type="submit" class="btn btn-primary">삭제</button>
-                    </form>
-                    <a href="/community/${communityPostViewDto.communityPostId}/edit"
-                       class="btn btn-primary mx-1">수정</a>
-                </c:if>
-                <a href="/community/list" class="btn btn-primary">목록</a>
-                <%--신고하기--%>
-                <button id="reportPost" class="btn btn-primary me-1">신고하기</button>
+                <hr>
 
-            </div>
+                <%--본문--%>
+                <%-- Toast Editor Viewer--%>
+                <div id="communityPostContent" class="col-12">
+                    <div id="viewer" style="min-height: 250px"></div>
+                </div>
 
-            <div class="col-md-3">
-            </div>
+                <%--버튼--%>
+                <div class="row row justify-content-end gap-1 my-3">
+                    <c:if test="${loginUser.userRole == 'ADMIN'
+                    || communityPostViewDto.userId.equals(loginUser.id)}">
+                        <button id="deletePost" type="button" class="btn btn-primary w-auto">삭제</button>
+                    </c:if>
+                    <c:if test="${communityPostViewDto.userId.equals(loginUser.id)}">
+                        <a href="/community/${communityPostViewDto.communityPostId}/edit"
+                           class="btn btn-primary w-auto">수정</a>
+                    </c:if>
+                    <a href="/community/list" class="btn btn-primary w-auto">목록</a>
+                    <%--신고하기--%>
+                    <button id="reportPost" class="btn btn-primary me-1 w-auto">신고</button>
+                </div>
 
-
-            <!--댓글-->
-            <div class="col-md-7">
                 <%--댓글 등록--%>
-                <div class="row">
+                <div class="col-12">
                     <form method="POST" id="replyForm" class="row g-0 p-2 gap-2">
-                        <textarea class="col-10 rounded-3" rows="3" name="communityReplyContent"
+                        <div class="col-10">
+                        <textarea class="rounded-3 form-control" rows="3" name="communityReplyContent"
                                   id="communityReplyContent"></textarea>
+                        </div>
                         <button class='btn btn-primary col' type="submit">댓글등록</button>
                     </form>
                 </div>
@@ -104,10 +99,12 @@
                     <ul id="communityReplyList" class="list-group list-group-flush">
                     </ul>
                 </div>
-
             </div>
-
         </div>
+
+        <%--더미--%>
+        <dic class="col-3"></dic>
+
     </div>
 </section>
 
@@ -120,7 +117,17 @@
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
+<!-- Toast Editor Viewer CDN -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
+
 <script defer>
+    // 토스트 에디터 뷰어
+    const viewer = new toastui.Editor({
+        el: document.querySelector('#viewer'),
+        height: 'auto',
+        initialValue: "${communityPostViewDto.communityPostContent}"
+    });
+
     //댓글리스트
     $(function () {
         function replyList() {
@@ -142,12 +149,15 @@
                         tag += "<span class='replyUserNickname'>" + rDto.userNickname + "</span> <span>(" + newDate + ")</span>"; //userId, 작성일
 
                         if (rDto.isAdmin || rDto.isWriter) {
-                            tag += "<input type='button' name='delete' class='btn btn-sm btn-secondary' value='삭제' title='" + rDto.communityReplyId + "'>";
+                            tag += "<input type='button' name='delete' class='btn btn-sm btn-secondary border-0 text-secondary' value='삭제' title='" + rDto.communityReplyId + "'>";
                         }
                         if (rDto.isWriter) {
-                            tag += "<input type='button' name='edit' class='btn btn-sm btn-secondary mx-1' value='수정'>";
+                            tag += "<input type='button' name='edit' class='btn btn-sm btn-secondary mx-1 border-0 text-secondary' value='수정'>";
                         }
-                        tag += "<input type='button' name='report' class='btn btn-sm btn-secondary' value='신고'>";
+
+                        if (!rDto.isWriter) {
+                            tag += "<input type='button' name='report' class='btn btn-sm btn-secondary border-0 text-secondary' value='신고'>";
+                        }
 
                         tag += "<p class='replyContent'>" + rDto.communityReplyContent + "</p></div>";  // 댓글 내용
                         //댓글수정폼
@@ -244,13 +254,14 @@
         // 댓글 신고 모달창 띄우기
         $(document).on('click', '#communityReplyList input[name=report]', function () {
             toggleReportModal(true);
-            
+
             const replyLi = this.closest('li');
             const replyContent = replyLi.querySelector('.replyContent').innerText;
 
             // 신고 내용 옮기기
             document.querySelector('#reportTargetContent').innerText =
-                replyContent.substring(0, Math.min(20, replyContent.length));;
+                replyContent.substring(0, Math.min(20, replyContent.length));
+            ;
 
             // 신고 대상 닉네임 옮기기
             const writerNickname = replyLi.querySelector('.replyUserNickname').innerText;
@@ -263,6 +274,21 @@
 
         replyList();
     });
+
+    // 글 삭제 버튼
+    const postDeleteBtn = document.querySelector('#deletePost');
+    if (postDeleteBtn) {
+        postDeleteBtn.onclick = () => {
+            if (confirm("게시글을 삭제하시겠습니까?")) {
+                const form = document.createElement('form');
+                form.action = '/community/${communityPostViewDto.communityPostId}/delete';
+                form.method = 'post';
+                document.querySelector('body').append(form);
+                form.submit();
+            }
+        }
+    }
+
 
     // 신고 모달 설정
     const body = document.querySelector('body');
@@ -279,7 +305,7 @@
         const request = new XMLHttpRequest();
 
         request.onload = () => {
-            const response =  request.responseText;
+            const response = request.responseText;
             if (response === 'ok') {
                 alert('신고가 접수되었습니다.');
                 toggleReportModal(false);
@@ -300,7 +326,8 @@
         // 신고 내용 옮기기
         const content = document.querySelector('#communityPostContent').innerText;
         document.querySelector('#reportTargetContent').innerText =
-            content.substring(0, Math.min(20, content.length));;
+            content.substring(0, Math.min(20, content.length));
+        ;
 
         // 신고 대상 닉네임 옮기기
         const writerNickname = document.querySelector('#writerNickname').innerText;
