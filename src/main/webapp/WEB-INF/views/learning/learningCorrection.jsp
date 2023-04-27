@@ -52,8 +52,10 @@
 
 <script>
     let correctedScript = document.querySelector('#correctedScript').innerText;
+
     if (correctedScript === 'retry') {
         alert('다시 시도하세요');
+        history.back();
     }
 
     let ttsBtn = document.querySelector('#ttsBtn');

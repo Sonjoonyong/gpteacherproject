@@ -5,6 +5,7 @@ import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
 import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
+import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.List;
 public class SentenceController {
 
     private final SentenceRepository sentenceRepository;
+    private final LearningRepository learningRepository;
     private final SpeakingService speakingService;
     private final WritingService writingService;
     private final SentenceService sentenceService;
@@ -77,6 +79,10 @@ public class SentenceController {
             correctedScript = speakingService.talk(learningTestType, question, userScript, learning, userId);
         }
 
+        if (correctedScript.equals("retry")) {
+            learningRepository.delete(learning.getId());
+        }
+
         model.addAttribute("userScript", userScript);
         model.addAttribute("question", question);
         model.addAttribute("correctedScript", correctedScript);
@@ -100,12 +106,17 @@ public class SentenceController {
             String directory = request.getServletContext().getRealPath("/WEB-INF/files");
             userScript = openAiClient.transcript(directory, audio);
         } else {
-            userScript =  text;
+            userScript = text;
         }
-        double profanityScore = perspectiveClient.getProfanityScore(userScript);
 
         JSONObject json = new JSONObject();
-        json.put("profanity", Boolean.toString(profanityScore > 0.7));
+
+        if(userScript.equals("") || userScript == null) { // user가 아무말도 하지 않았을 때
+            json.put("profanity", false);
+        } else {
+            double profanityScore = perspectiveClient.getProfanityScore(userScript);
+            json.put("profanity", Boolean.toString(profanityScore > 0.7));
+        }
         json.put("userScript", userScript);
         return json.toString();
     }
