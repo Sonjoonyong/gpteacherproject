@@ -107,7 +107,7 @@
                                         </form>
                                     </td>
                                     <td style="text-overflow:ellipsis; overflow:hidden;">
-                                        <a href="${pageContext.request.contextPath}/community/${post.reportSubjectId}" class="tableATag form-check-label">${post.postTitle}</a>
+                                        <a href="${pageContext.request.contextPath}/community/${post.reportSubjectId}" class="tableATag form-check-label" style="text-decoration: none;">${post.postTitle}</a>
                                     </td>
                                     <td>${post.reportReason}</td>
                                     <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
