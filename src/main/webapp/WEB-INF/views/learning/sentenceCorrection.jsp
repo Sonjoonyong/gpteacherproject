@@ -100,12 +100,12 @@
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 
 <script src="/js/pronunciation.js"></script>
-<script src="/js/tts.js"></script>
+<script src="/js/ttsAjax.js"></script>
 <script src="/js/toggleLikeAjax.js"></script>
 <script src="/js/toggleStorageAjax.js"></script>
 
 <script>
-
+    let audio;
     function init() {
         if (navigator.mediaDevices) {
             navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -157,7 +157,7 @@
                 // 발음 평가 모달 창 띄우기
                 setPronunciationBtnsRecordPossible();
                 pronunciationModal.classList.toggle('show', true);
-                body.style.overflow = 'hidden';
+                document.querySelector('body').style.overflow = 'hidden';
 
                 // 진행중인 TTS 종료
                 audio && audio.pause();
