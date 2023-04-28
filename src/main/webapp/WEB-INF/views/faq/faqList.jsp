@@ -159,19 +159,20 @@
                 <div class="col-lg-12 d-flex justify-content-start" style="margin-top: 10px; margin-bottom: 5px; margin-left: 10px;">
                     <span class="boardname"><h3>자주묻는 질문</h3></span>
                 </div>
-
-                <div class="d-flex " style="margin-bottom: 5px;">
+                <div class="d-flex " >
                     <div class="p-2 " >
-                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%95%99%EC%8A%B5' " >학습</button>
-                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4'">회원정보</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%95%99%EC%8A%B5'" >학습</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%EA%B3%84%EC%A0%95%EA%B4%80%EB%A6%AC'">계정관리</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%EB%82%98%EC%9D%98%ED%99%9C%EB%8F%99'">나의활동</button>
+                        <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list?search=%ED%95%99%EC%8A%B5%ED%98%84%ED%99%A9'">학습현황</button>
                         <button style="margin-right: 5px; " type="button" class="btn btn-secondary" onclick="location.href='http://localhost:8080/help/faq/list'" >전체</button>
                     </div>
-                    <!--글작성 버튼-->
-                    <div class="p-2 " style="margin-left: 365px;">
-                        <c:if test="${loginUser.userRole == 'ADMIN'}">
-                            <a href="${pageContext.request.contextPath}/help/faq/write" class="btn btn-primary float-end" role="button">글 작성</a>
-                        </c:if>
-                    </div>
+                </div>
+                <!--글작성 버튼-->
+                <div class="p-1 " style="margin-left: 50px; ">
+                    <c:if test="${loginUser.userRole == 'ADMIN'}">
+                        <a href="${pageContext.request.contextPath}/help/faq/write" class="btn btn-primary float-end" role="button">글 작성</a>
+                    </c:if>
                 </div>
                 <!-- 본문 -->
                 <table class="table "  style="border:1px solid black;" >

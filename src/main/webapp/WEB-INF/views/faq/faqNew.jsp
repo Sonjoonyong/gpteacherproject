@@ -89,6 +89,8 @@
                 <form:select path="faqCategory"  class="select" id="faqCategory" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
                   <form:option value="학습"> 학습</form:option>
                   <form:option value="회원정보"> 회원정보</form:option>
+                  <form:option value="나의활동"> 나의활동</form:option>
+                  <form:option value="학습현황"> 학습현황</form:option>
                 </form:select>
               </div>
               <!--제목-->
