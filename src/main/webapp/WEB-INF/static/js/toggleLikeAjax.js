@@ -58,6 +58,6 @@ function setLike(result, like) {
         like.classList.toggle('bi-heart', false);
         like.classList.toggle('bi-heart-fill', true);
     } else {
-        alert("잘못된 접근입니다.");
+        Swal.fire("잘못된 접근입니다.");
     }
 }

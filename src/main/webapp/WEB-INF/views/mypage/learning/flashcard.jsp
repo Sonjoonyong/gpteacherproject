@@ -137,6 +137,8 @@
 <!-- Wav 파일 업로드 라이브러리 -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="/js/pronunciation.js"></script>
 <script src="/js/ttsAjax.js"></script>
 
