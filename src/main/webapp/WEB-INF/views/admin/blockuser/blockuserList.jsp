@@ -130,7 +130,6 @@
                                 <td><fmt:formatDate value="${blockedUser.blockDate}" pattern="yyyy-MM-dd" /></td>
                             </tr>
                         </c:forEach>
-
                         </tbody>
                     </table>
                     <div class="row">

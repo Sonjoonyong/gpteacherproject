@@ -30,8 +30,8 @@ public class AdminRepository {
         return adminMapper.getUserViewList(params);
     }
 
-    public void blockUser(int userId) {
-        adminMapper.blockUser(userId);
+    public void blockUser(int userId, String blockReason) {
+        adminMapper.blockUser(userId, blockReason);
     }
 
     public List<UserView> getBlockedUsers(String search, String searchOption) {

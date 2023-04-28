@@ -129,10 +129,18 @@
                                             <input type="hidden" name="userId" value="${user.id}"/>
                                             <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">작성 댓글</button>
                                         </form>
-                                        <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
-                                            <input type="hidden" name="userId" value="${user.id}" />
-                                            <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">차단하기</button>
-                                        </form>
+                                        <c:if test="${user.blockDate eq null}">
+                                            <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                                <input type="hidden" name="userId" value="${user.id}" />
+                                                <input type="hidden" name="Reason" value="욕설"/>
+                                                <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">차단하기</button>
+                                            </form>
+                                        </c:if>
+                                        <c:if test="${user.blockDate ne null}">
+                                            <form>
+                                                <button class="btn btn-primary" style="color: #716FAA; border-color: #716FAA;">차단완료</button>
+                                            </form>
+                                        </c:if>
                                     </div>
                                 </td>
                                 <td><fmt:formatDate value="${user.userCreatedate}" pattern="yyyy-MM-dd" /></td>
