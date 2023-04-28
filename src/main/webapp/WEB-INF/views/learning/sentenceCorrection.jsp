@@ -64,19 +64,23 @@
 
                 <div class="col-12 col-md-10">
                     <div class="fw-bold mt-2" style="color: #2F4858;">Explanation</div>
-                    <div class="explanation border p-1 rounded-1">
+                    <div class="explanation border p-1 rounded-1 me-3">
                             ${sentence.sentenceExplanation}
                     </div>
                 </div>
 
                 <div class="col-12 col-md-2">
                     <div class="row g-0">
-                        <button class="col-1 col-md-5 btn ms-md-auto" onclick="toggleSentenceLikeAjax(this)">
+                        <button class="col btn" onclick="toggleSentenceLikeAjax(this)">
                             <i class="like bi bi-heart${not empty sentence.sentenceLike && sentence.sentenceLike == '1'.charAt(0) ? '-fill' : ''}"></i>
                         </button>
 
-                        <button class="col-1 col-md-5 btn" onclick="toggleStorageAjax(this)">
+                        <button class="col btn" onclick="toggleStorageAjax(this)">
                             <i class="storage bi bi-archive${not empty sentence.flashcardId && sentence.flashcardId != -2 ? '-fill' : ''}"></i>
+                        </button>
+
+                        <button class="col btn" onclick="toggleSentenceDeleteAjax(this)">
+                            <i class="bi bi-trash"></i>
                         </button>
                     </div>
                 </div>
@@ -105,6 +109,7 @@
 <script src="/js/ttsAjax.js"></script>
 <script src="/js/toggleLikeAjax.js"></script>
 <script src="/js/toggleStorageAjax.js"></script>
+<script src="/js/toggleDeleteAjax.js"></script>
 
 <script>
     let audio;
