@@ -156,7 +156,7 @@
                 </div>
 
                 <div class="col-12 col-md-10">
-                    <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                    <div class="fw-bold mt-2" style="color: #2F4858;">Explanation</div>
                     <div class="explanation border p-1 rounded-1">
                         교정에 대한 설명
                     </div>

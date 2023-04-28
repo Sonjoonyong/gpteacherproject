@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="col-12 col-md-9">
-                            <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                            <div class="fw-bold mt-2" style="color: #2F4858;">Explanation</div>
                             <div class="explanation border p-1 rounded-1">
                                     ${sentence.sentenceExplanation}
                             </div>

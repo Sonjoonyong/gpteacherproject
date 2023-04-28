@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="col-12 col-md-10">
-                    <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                    <div class="fw-bold mt-2" style="color: #2F4858;">Explanation</div>
                     <div class="explanation border p-1 rounded-1">
                             ${sentence.sentenceExplanation}
                     </div>
@@ -102,11 +102,12 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="/js/pronunciation.js"></script>
-<script src="/js/tts.js"></script>
+<script src="/js/ttsAjax.js"></script>
 <script src="/js/toggleLikeAjax.js"></script>
 <script src="/js/toggleStorageAjax.js"></script>
 
 <script>
+    let audio;
 
     function init() {
         if (navigator.mediaDevices) {
