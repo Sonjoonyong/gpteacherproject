@@ -87,6 +87,8 @@
     </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     function selectTopic(topic) {
         var exampleDiv = document.getElementById('exampleTopics');
@@ -129,7 +131,11 @@
             console.log(profanity);
             if (profanity == "true") {
                 document.getElementById('customTopic').value = '';
-                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                Swal.fire({
+                    icon: 'error',
+                    title: '부적절한 문장입니다.',
+                    text: '바른 말을 사용해 주세요.'
+                });
             }
             if (profanity == "false") {
                 form.submit();

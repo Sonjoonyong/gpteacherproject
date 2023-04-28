@@ -8,130 +8,129 @@
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+
     <style>
 
-        #communityboard .table thead trboardname{
+        #communityboard .table thead trboardname {
             margin-left: 20px;
         }
+
         .col-md-7 table tbody tr,
         .col-md-7 table tbody tr td {
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
+            border-top: 1px solid lightgray;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom: 1px solid lightgray;
         }
 
-        a { color: black; }
-        a:visited { color: black; }
-        a:hover { color: black; }
-        a:active { color: black; }
+        a {
+            color: black;
+        }
+
+        a:visited {
+            color: black;
+        }
+
+        a:hover {
+            color: black;
+        }
+
+        a:active {
+            color: black;
+        }
+
         #searchbar fa-solid,
-        #searchbar searchbox{
+        #searchbar searchbox {
 
         }
 
-        .btn.btn-primary{
+        .btn.btn-primary {
             border: 1px solid #5DB99D;
             color: #5DB99D;
             background-color: white;
         }
 
-        .col-md-7 table thead tr{
+        .col-md-7 table thead tr {
             background-color: #CFEAE2;
-            border-top : 1px solid lightgray;
-            border-left : 1px solid white;
-            border-right : 1px solid white;
-            border-bottom : 1px solid lightgray;
+            border-top: 1px solid lightgray;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom: 1px solid lightgray;
             height: 40px;
         }
 
-        .create-form {
-            border: 1px solid lightgray;
-            border-radius: 5px;
-            padding: 20px;
-        }
-
-        .submit-btn {
-            float: right;
-            margin-top: 15px;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button{
+        .accordion .accordion-item .accordion-header .accordion-button {
             background-color: white;
             color: black;
         }
-        .accordion .accordion-item .accordion-header .accordion-button:hover{
+
+        .accordion .accordion-item .accordion-header .accordion-button:hover {
             background-color: #CFEAE2;
             color: black;
         }
-        .accordion .accordion-item .accordion-header .accordion-button:focus{
+
+        .accordion .accordion-item .accordion-header .accordion-button:focus {
             background-color: #CFEAE2;
             color: black;
         }
-        .accordion .accordion-item .accordion-header .accordion-button:active{
+
+        .accordion .accordion-item .accordion-header .accordion-button:active {
             background-color: #CFEAE2;
             color: white;
         }
     </style>
+
+    <!--  TOAST UI Editor CSS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
-<section class="container">
-    <div class="col-12">
-        <div class="row">
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 50px;margin-left: -68px;"><h3>Community</h3></div>
-                <div class="row">
-                    <div id="sidebar1" class="nav" style="margin-top: 20px;margin-left: 30px;">
-                        <ul>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="/community/list"><i class="fa-solid fa-chevron-right"></i> 커뮤니티</a>
-                                <%--                                         원래 위에가 /community/list 이고 밑에가 /community/? 이다--%>
-                            </li>
-                            <li class="nav-item" style="list-style: none">
-                                <a class="nav-link " href="/community/?"><i class="fa-solid fa-chevron-right"></i> 성</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7" style="background-color: white; margin-top: 55px;">
-                <h3>글 작성</h3>
-                <div class="create-form">
-                    <form:form action="/community/write" method="post" modelAttribute="communityPostDto">
-                        <div class="FormSelectButton" style="width:80px; ">
-                            <form:select path="communityPostCategory"  class="select" id="communityPostTitle" style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
-                                <form:option value="토익" label="토익"/>
-                                <form:option value="토플" label="토플"/>
-                                <form:option value="오픽" label="오픽"/>
-                                <form:option value="아이엘츠" label="아이엘츠"/>
-                                <form:option value="회화" label="회화"/>
-                                <form:option value="글쓰기" label="글쓰기"/>
-                                <form:option value="일상" label="일상"/>
-                                <form:option value="유머" label="유머"/>
-                                <form:option value="시험" label="시험"/>
-                                <form:option value="공부" label="공부"/>
-                            </form:select>
-                        </div>
-                        <div>
-                            <label for="communityPostTitle">제목 :</label>
-                            <form:input path="communityTitle" type="text" class="form-control" id="communityPostTitle" required="required"/>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="communityPostContent">내용 :</label>
-                            <form:textarea path="communityContent" class="form-control" id="communityPostContent" rows="5" required="required" cssStyle="min-height: 400px"/>
-                        </div>
-                        <div class="clearfix">
-                            <button type="submit" class="btn btn-primary submit-btn">등록</button>
-                        </div>
-                    </form:form>
-                </div>
-            </div>
+<section class="container" style="max-width: 800px;">
+    <h3>글 작성</h3>
+    <form:form action="/community/write" method="post" modelAttribute="communityPostDto"
+               cssClass="create-form row mb-5 border p-3 rounded-2 gap-2">
+        <div class="FormSelectButton" style="width:80px; ">
+            <form:select path="communityPostCategory" class="select"
+                         style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
+                <form:option value="토익" label="토익"/>
+                <form:option value="토플" label="토플"/>
+                <form:option value="오픽" label="오픽"/>
+                <form:option value="아이엘츠" label="아이엘츠"/>
+                <form:option value="회화" label="회화"/>
+                <form:option value="글쓰기" label="글쓰기"/>
+                <form:option value="일상" label="일상"/>
+                <form:option value="유머" label="유머"/>
+                <form:option value="시험" label="시험"/>
+                <form:option value="공부" label="공부"/>
+            </form:select>
         </div>
-    </div>
+        <div>
+            <form:input path="communityPostTitle" type="text" class="form-control"
+                        required="required" placeholder="제목을 입력하세요."/>
+        </div>
+
+        <div class="form-group">
+            <div id="editor"></div>
+            <form:hidden path="communityPostContent" placeholder="내용을 입력하세요."/>
+        </div>
+        <div class="col d-flex justify-content-end mt-2 gap-2">
+            <button id="submitBtn" type="button" class="btn btn-primary submit-btn">등록</button>
+            <a id="cancelBtn" href="/community/list" class="btn btn-secondary text-white">취소</a>
+        </div>
+    </form:form>
 </section>
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+
+<!--  TOAST UI Editor CDN  -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!-- 한국어 패치 -->
+<script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
+<!--  SweetAlert2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="/js/toastUiEditor.js"></script>
+
 </body>
 </html>

@@ -25,8 +25,8 @@ public class CommunityPostRepository {
         return communityPostMapper.findById(communityPostId);
     }
 
-    public Optional<CommunityPostViewDto> findByIdForView(Long communityPostId) {
-        return communityPostMapper.findByIdForView(communityPostId);
+    public Optional<CommunityPostViewDto> findByIdForView(Long communityPostId, Long userId) {
+        return communityPostMapper.findByIdForView(communityPostId, userId);
     }
 
     public List<CommunityPostListDto> findAll(String search) {

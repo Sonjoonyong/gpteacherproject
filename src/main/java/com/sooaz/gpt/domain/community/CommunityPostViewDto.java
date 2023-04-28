@@ -15,4 +15,6 @@ public class CommunityPostViewDto {
     private Long communityPostHit;
     private Date communityPostWritedate;
     private Long communityPostLike;
+    private Boolean isBookmarked;
+    private Boolean isLiked;
 }
