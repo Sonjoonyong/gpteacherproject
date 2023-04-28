@@ -107,7 +107,7 @@
                                     </form>
                                 </td>
                                 <td style="text-overflow:ellipsis; overflow:hidden;">
-                                    <a href="${pageContext.request.contextPath}/community/${post.communityPostId}" class="tableATag form-check-label">${post.replyContent}</a>
+                                    <a href="${pageContext.request.contextPath}/community/${post.communityPostId}" class="tableATag form-check-label" style="text-decoration: none;">${post.replyContent}</a>
                                 </td>
 
                                 <td>${post.reportReason}</td>
