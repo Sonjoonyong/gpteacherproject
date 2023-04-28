@@ -76,7 +76,7 @@
             <div class="row">
                 <span class="col-12 p-0">이메일</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userEmail" class="form-control"/>
+                    <form:input path="userEmail" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="sendEmailCode">
                         인증코드 발송
                     </button>
@@ -88,7 +88,7 @@
 
                 <span class="col-12 p-0">이메일 인증 코드</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userEmailCode" type="text" class="form-control" disabled="true"/>
+                    <form:input path="userEmailCode" type="text" class="form-control" disabled="true" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6"
                             type="button" id="validateEmailCode" disabled>
                         인증
@@ -103,7 +103,7 @@
             <div class="row">
                 <span class="col-12 p-0">아이디</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userLoginId" type="text" class="form-control"/>
+                    <form:input path="userLoginId" type="text" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="idDupCheck">중복검사</button>
                 </div>
                 <div id="loginIdMsg" class="col-12 text-danger p-0">
@@ -130,7 +130,7 @@
 
                 <span class="col-12 p-0">비밀번호 확인</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:password path="userPasswordCheck" class="form-control"/>
+                    <form:password path="userPasswordCheck" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary viewPassword" type="button">
                         <i class="bi bi-eye-slash"></i>
                     </button>
@@ -141,7 +141,7 @@
             <div class="row">
                 <span class="col-12 p-0">닉네임</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userNickname" class="form-control"/>
+                    <form:input path="userNickname" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="nicknameDupCheck">중복검사</button>
                 </div>
                 <div id="nicknameMsg" class="col-12 text-danger p-0">
@@ -153,7 +153,7 @@
             <div class="row">
                 <span class="col-12 p-0">생년월일</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userBirthday" type="date" class="form-control"/>
+                    <form:input path="userBirthday" type="date" class="form-control" autocomplete="off"/>
                 </div>
                 <form:errors path="userBirthday" cssClass="p-0 text-danger"/>
             </div>

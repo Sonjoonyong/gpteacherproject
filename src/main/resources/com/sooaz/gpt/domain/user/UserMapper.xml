@@ -82,7 +82,7 @@
             </if>
             <if test="userEmailAgreement != null">
                 user_email_agreement = #{userEmailAgreement},
-            </if>if
+            </if>
         </set>
         where id = #{userId}
     </update>

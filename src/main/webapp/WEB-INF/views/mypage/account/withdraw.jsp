@@ -76,7 +76,7 @@
 
             if (response === 'true') {
                 Swal.fire("회원 탈퇴가 완료되었습니다.");
-                location.href = '/';
+                location.href = '/main';
             } else {
                 passwordMsgDiv.innerText = '비밀번호가 일치하지 않습니다.';
             }
