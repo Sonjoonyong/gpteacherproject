@@ -64,7 +64,7 @@
 
 <section class="container d-flex" style="max-width: 550px">
 
-    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3"
+    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3 shadow"
           style="border: 2px solid #5DB99D; min-height: 500px;">
 
         <div class="row g-0 justify-content-center">

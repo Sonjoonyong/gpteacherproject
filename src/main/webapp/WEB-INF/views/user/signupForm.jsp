@@ -62,10 +62,10 @@
 
 <%@ include file="../fragments/header.jsp" %>
 
-<section class="container" style="max-width: 600px">
+<section class="container d-flex" style="max-width: 600px">
 
     <form:form modelAttribute="userSignupDto" method="post"
-               class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto mb-5"
+               class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto mb-5 shadow"
                style="border: 2px solid #5DB99D;">
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
             <div class="row g-0 justify-content-center">

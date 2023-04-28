@@ -23,9 +23,9 @@
 <body>
 
 <%@ include file="../fragments/header.jsp" %>
-<section class="container" style="max-width: 500px;">
+<section class="container d-flex" style="max-width: 500px;">
     <form:form modelAttribute="loginDto" method="post"
-        class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-3"
+        class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto shadow"
         style="border: 2px solid #5DB99D;">
 
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
@@ -64,7 +64,7 @@
                 <div class="col-4 text-center text-secondary"><a href="/user/signup">회원가입</a></div>
             </div>
 
-            <div class="row g-0 my-3">
+            <div class="row g-0">
                 <div class="col-3 text-center text-secondary"><hr></div>
                 <div class="col-6 text-center text-secondary d-flex justify-content-center align-items-center">
                     다른 방법으로 로그인하기

@@ -23,15 +23,14 @@
 
 <section class="container d-flex" style="max-width: 550px;">
 
-    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3 mb-5"
-         style="border: 2px solid #5DB99D; min-height: 500px;">
+    <div class="login row flex-column g-0 justify-content-start rounded-5 p-5 pt-1 my-auto shadow"
+         style="border: 2px solid #5DB99D;">
         <div class="row g-0 justify-content-center">
             <img class="col-9" src="/images/logo.png">
             <h3 class="h3 col-12 text-center">아이디 찾기</h3>
         </div>
 
-        <div class="row">
-            <span class="col-12 p-0">아이디 찾기 질문</span>
+            <span class="col-12 p-0 mt-3">아이디 찾기 질문</span>
             <div class="col-12 input-group input-group-lg p-0">
                 <select id="userSecurityQuestion" name="userSecurityQuestion" class="form-select">
                     <option value="" disabled selected>아이디 찾기 질문을 선택하세요</option>
@@ -51,11 +50,10 @@
             <div id="securityAnswerMsg" class="col-12 text-danger p-0">
                 <%--아이디 찾기 답변 관련 메시지--%>
             </div>
-        </div>
 
-        <span class="col-12 p-0">이메일</span>
+        <span class="col-12 p-0 mt-3">이메일</span>
         <div class="col-12">
-            <div class="input-group input-group-lg p-0 mb-3">
+            <div class="input-group input-group-lg p-0">
                 <input id="userEmail" name="userEmail" type="text" class="form-control">
                 <button class="btn btn-outline-secondary fs-6" type="button" id="sendEmailCode">
                     인증코드 발송
