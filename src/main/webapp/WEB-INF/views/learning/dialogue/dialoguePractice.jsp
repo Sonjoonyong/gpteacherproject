@@ -43,10 +43,16 @@
 <section class="container" style="max-width: 900px;">
 
     <h3 class="h3 text-center my-3" style="color: #5DB99D;">CONVERSATION</h3>
-    <p class="text-center">영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
+
+    <p class="text-center text-muted">영어 표현을 잘 모르겠으면 한국어로 말해보세요. 영어로 자동 변역됩니다.</p>
+
+    <div class="row justify-content-center">
+        <div class="p-1 rounded-3 text-center w-auto border">
+            <pre class="m-0 p-1 px-4"><span style="font-family: sans-serif;">${plainTopic}</span></pre>
+        </div>
+    </div>
 
     <input type="hidden" id="learningId" value="${learningId}"/>
-
 
 
     <div id="dialogueBox" class="row align-content-start overflow-scroll p-2 my-3" style="height: 60vh;">
@@ -70,7 +76,7 @@
     </div>
     <!-- dialogueBox end -->
 
-    <div class="row g-0 justify-content-center g-0 gap-3 mb-5">
+    <div class="row g-0 justify-content-center g-0 gap-3 mb-2">
         <!-- 녹음 시작 -->
         <div class="row justify-content-center">
             <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
@@ -106,6 +112,10 @@
                    style="width:120px; background-color: #5DB99D;">
         </div>
     </form>
+
+    <div class="text-center mb-3">
+        <img src="/images/step_2and3.png">
+    </div>
 
 </section>
 
@@ -192,10 +202,6 @@
         </div>
     </div>
     <!--dialogue end-->
-
-    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
-        <img src="/images/step_2and3.png" alt="Step Second" style="max-width: 100%;">
-    </div>
 
 </template>
 

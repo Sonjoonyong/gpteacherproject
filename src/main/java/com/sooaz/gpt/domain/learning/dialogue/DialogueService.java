@@ -71,6 +71,25 @@ public class DialogueService {
 
         return learningRepository.save(learning).getId();
     }
+    public String getPlainTopic(DialogueTopicDto dialogueTopicDto) {
+
+        String topic = String.format(
+                "You, as %s, are talking to %s about %s at %s.",
+                dialogueTopicDto.getUserRole(),
+                dialogueTopicDto.getAssistantRole(),
+                dialogueTopicDto.getSituation(),
+                dialogueTopicDto.getPlace()
+        );
+
+        if (dialogueTopicDto.getOption() != null) {
+            topic += String.format(
+                    "\nAnd it's about \"%s\"",
+                    dialogueTopicDto.getOption()
+            );
+        }
+
+        return topic;
+    }
 
     private List<JSONObject> getPastMessages(Learning learning) {
 

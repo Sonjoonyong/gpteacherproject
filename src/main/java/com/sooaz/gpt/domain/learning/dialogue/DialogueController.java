@@ -40,7 +40,9 @@ public class DialogueController {
     ) {
         String assistantTalk = dialogueService.initDialogue(dialogueTopicDto);
         Long learningId = dialogueService.saveLearning(dialogueTopicDto, loginUser.getId());
+        String plainTopic = dialogueService.getPlainTopic(dialogueTopicDto);
 
+        model.addAttribute("plainTopic", plainTopic);
         model.addAttribute("assistantTalk", assistantTalk);
         model.addAttribute("learningId", learningId);
 
