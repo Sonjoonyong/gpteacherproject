@@ -66,6 +66,11 @@ function init() {
                     b.innerText = (mx - realtime) + " s";
                     progress.value = time;
 
+                    if (realtime === 2) { // 2초 이상 제출 가능
+                        stopButton.disabled = false;
+                        progress.style.accentColor = '';
+                    }
+
                     if (realtime == mx) { // 시간 제한
                         stopRecording(mediaRecorder, timer)
                     }
@@ -114,6 +119,7 @@ function checkProfanity(formData) {
 
     request.onload = () => {
         let result = request.response;
+        console.log(result);
         if (result.profanity == 'true') {
             Swal.fire({
                 icon: 'error',
@@ -234,6 +240,7 @@ function setBtnsRecordPossible() {
     stopButton.disabled = true;
     stopButton.style.display = 'none';
     waitingMessage.style.display = 'none';
+    progress.style.accentColor = 'gray';
     progress.style.display = 'none';
     clearInterval(timer); // 타이머 초기화
     setBtnsDisabled(false);
@@ -244,7 +251,7 @@ function setBtnsRecording() {
     progress.style.display = "inline";
     recordButton.disabled = true;
     recordButton.style.display = 'none';
-    stopButton.disabled = false;
+    // stopButton.disabled = false; // 녹음 시작 2초 후 타이머에서 disable 해제
     stopButton.style.display = 'block';
     waitingMessage.style.display = 'none';
     setBtnsDisabled(true);

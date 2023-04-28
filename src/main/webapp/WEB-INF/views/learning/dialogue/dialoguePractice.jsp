@@ -26,6 +26,7 @@
             border-radius: 10px;
             border: 3px solid #ffffff;
         }
+
     </style>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
@@ -91,7 +92,7 @@
         <!-- 프로그레스 바 -->
         <div class="row justify-content-center align-items-center" style="max-width: 400px;">
             <div class="col-2 align-self-center"></div><!--dummy-->
-            <progress class="col-8" id="progress" value="0" max="10" style="display:none;"></progress>
+            <progress class="col-8" id="progress" value="0" max="10" style="display:none; accent-color: gray"></progress>
             <b id="time" class="col-2"></b>
         </div>
 

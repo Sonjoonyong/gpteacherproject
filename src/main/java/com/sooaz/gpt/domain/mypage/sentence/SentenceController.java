@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
 import com.sooaz.gpt.domain.learning.PerspectiveClient;
+
 import java.util.List;
 
 @Controller
@@ -73,7 +75,7 @@ public class SentenceController {
         Learning learning = new Learning();
         Long userId = loginUser.getId();
         String correctedScript = null;
-        if(learningTestType == null) {
+        if (learningTestType == null) {
             correctedScript = writingService.talk(question, userScript, learning, userId);
         } else {
             correctedScript = speakingService.talk(learningTestType, question, userScript, learning, userId);
@@ -101,7 +103,7 @@ public class SentenceController {
             @RequestParam(required = false) String text,
             HttpServletRequest request
     ) {
-        String userScript="";
+        String userScript = "";
         if (audio != null) {
             String directory = request.getServletContext().getRealPath("/WEB-INF/files");
             userScript = openAiClient.transcript(directory, audio);
@@ -111,7 +113,7 @@ public class SentenceController {
 
         JSONObject json = new JSONObject();
 
-        if(userScript.equals("") || userScript == null) { // user가 아무말도 하지 않았을 때
+        if (userScript.equals("")) { // user가 아무말도 하지 않았을 때
             json.put("profanity", false);
         } else {
             double profanityScore = perspectiveClient.getProfanityScore(userScript);
