@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequiredArgsConstructor //생성자를 자동 생성해줌
+@RequiredArgsConstructor
 @RequestMapping("/community")
 @Slf4j
 public class CommunityPostController {
@@ -88,15 +88,14 @@ public class CommunityPostController {
     @PostMapping("/write")
     public String post(
             @ModelAttribute CommunityPostDto communityPostDto,
-            RedirectAttributes redirectAttributes,
             @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
     ) {
         log.info("Dto={}", communityPostDto);
 
         communityPostDto.setUserId(loginUser.getId());
-        communityPostService.save(communityPostDto);
-        redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
-        return "redirect:/community/list";
+        CommunityPost savedPost = communityPostService.save(communityPostDto);
+
+        return "redirect:/community/" + savedPost.getId();
     }
 
     @GetMapping("/{communityPostId}/edit")

@@ -77,7 +77,7 @@
                                     <input class="form-check-input" type="checkbox" name="deleteId" value="${post.id}">
                                 </td>
                                 <td style="text-overflow:ellipsis; overflow:hidden;">
-                                    <a href="${pageContext.request.contextPath}/community/${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
+                                    <a href="/community/${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
                                 </td>
                                 <td>
                                     <fmt:formatDate value="${post.communityPostWritedate}" pattern="yyyy.MM.dd"/>

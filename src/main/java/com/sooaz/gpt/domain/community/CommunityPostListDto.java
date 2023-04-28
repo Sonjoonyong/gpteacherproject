@@ -15,4 +15,5 @@ public class CommunityPostListDto {
     private Long communityPostHit;
     private Date communityPostWritedate;
     private Long communityPostLike;
+    private Long communityPostReplyCount;
 }
