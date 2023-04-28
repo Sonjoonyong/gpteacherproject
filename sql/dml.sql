@@ -77,3 +77,17 @@ VALUES (
    SYSDATE,
    1
 );
+
+INSERT INTO FLASHCARD
+VALUES (
+           FLASHCARD_ID_SEQ.nextval,
+           (SELECT ID FROM USERS WHERE USER_LOGIN_ID = 'user'),
+           '기본 보관함'
+       );
+
+INSERT INTO FLASHCARD
+VALUES (
+           FLASHCARD_ID_SEQ.nextval,
+           (SELECT ID FROM USERS WHERE USER_LOGIN_ID = 'admin'),
+           '기본 보관함'
+       );

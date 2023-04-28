@@ -39,6 +39,10 @@
                community_post_hit,
                community_post_writedate,
                community_post_like,
+               (SELECT count(*)
+                FROM COMMUNITY_REPLY
+                WHERE community_post_id = P.id)
+                   AS community_post_reply_count,
                CASE
                    WHEN exists(select *
                                from BOOKMARK
@@ -64,7 +68,11 @@
     <select id="findAll" resultType="CommunityPostListDto">
         SELECT
             U.user_nickname,
-            P.*
+            P.*,
+            (SELECT count(*)
+            FROM COMMUNITY_REPLY
+            WHERE community_post_id = P.id)
+            AS community_post_reply_count
         FROM community_post P
         JOIN users U
         ON U.id = P.user_id
