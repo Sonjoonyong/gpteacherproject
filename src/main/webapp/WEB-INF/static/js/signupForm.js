@@ -133,7 +133,7 @@ document.querySelector('#submitBtn').onclick = (e) => {
     }
     if (userSecurityQuestionInput.value === '') {
         userSecurityQuestionInput.focus();
-        Swal.fire('아이디 찾기 질문을 입력해주세요.');
+        Swal.fire('아이디 찾기 질문을 선택해주세요.');
         return false;
     }
     if (userSecurityAnswerInput.value === '') {

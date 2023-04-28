@@ -1,25 +1,20 @@
 package com.sooaz.gpt.domain.user;
 
-import com.sooaz.gpt.global.constant.SessionConst;
 import com.sooaz.gpt.global.email.Gmail;
-import com.sooaz.gpt.global.security.PasswordHasher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Controller
@@ -30,10 +25,12 @@ public class UserSearchController {
 
     private final Gmail gmail;
     private final UserService userService;
-    private final PasswordHasher passwordHasher;
 
     @GetMapping("/user/idsearch")
-    public String getIdSearchForm() {
+    public String getIdSearchForm(
+            Model model
+    ) {
+        model.addAttribute("userSecurityQuestions", UserService.USER_SECURITY_QUESTIONS);
         return "user/idSearch";
     }
 
@@ -42,8 +39,7 @@ public class UserSearchController {
     public String getIdSearchEmailCode(
             @Email(message = "유효한 이메일 형식이 아닙니다.")
             @NotBlank(message = "이메일을 입력해주세요.")
-            String email,
-            HttpServletRequest request
+            String email
     ) {
         Optional<User> userOpt = userService.findByEmail(email);
         if (userOpt.isEmpty()) {
@@ -55,20 +51,7 @@ public class UserSearchController {
             return "구글 등 다른 사이트를 통해 가입된 계정입니다.";
         }
 
-        String emailCode = UUID.randomUUID().toString()
-                .replaceAll("-", "").substring(0, 5);
-        log.info("발급된 emailCode = {}", emailCode);
-
-        gmail.sendEmail(
-                email,
-                "GPTeacher 아이디 찾기 인증코드입니다.",
-                "아래 코드를 인증 창에 입력 후 아이디 찾기를 진행하세요. \n\n" +
-                        emailCode
-        );
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.EMAIL, email);
-        session.setAttribute(SessionConst.EMAIL_CODE, emailCode);
+        userService.sendEmailCode(email);
 
         return "true";
     }
@@ -76,34 +59,52 @@ public class UserSearchController {
     @ResponseBody
     @PostMapping(value = "/user/idsearch/emailCode", produces = "application/json; charset=utf-8")
     public String validateIdSearchEmailCode(
-            @RequestParam String userEmailCode,
-            HttpServletRequest request
+            @NotBlank(message = "이메일을 입력해주세요.")
+            String userEmail,
+            @NotBlank(message = "이메일 코드를 입력해주세요.")
+            String userEmailCode,
+            @NotBlank(message = "질문을 선택해주세요.")
+            String userSecurityQuestion,
+            @NotBlank(message = "답변을 입력해주세요.")
+            String userSecurityAnswer
     ) {
+        log.info("userEmail = {}", userEmail);
+        log.info("userEmailCode = {}", userEmailCode);
+        log.info("userSecurityQuestion = {}", userSecurityQuestion);
+        log.info("userSecurityAnswer = {}", userSecurityAnswer);
+
         JSONObject resultJson = new JSONObject();
         resultJson.put("result", false);
 
-        if (!isValidEmailCode(request, userEmailCode)) {
-            resultJson.put("errorMsg", "코드가 유효하지 않습니다.");
+        Optional<User> loginUserOpt = userService.findByEmail(userEmail);
+        if (loginUserOpt.isEmpty()) {
+            resultJson.put("errorMsg", "가입되지 않은 이메일입니다.");
+            return resultJson.toString();
         }
 
-        HttpSession session = request.getSession();
-        String email = (String) session.getAttribute(SessionConst.EMAIL);
-        if (email == null) {
-            resultJson.put("errorMsg", "이메일을 입력해주세요.");
+        User loginUser = loginUserOpt.get();
+
+        if (!loginUser.getUserSecurityQuestion().equals(userSecurityQuestion)) {
+            resultJson.put("errorMsg", "질문 또는 답변이 잘못됐습니다.");
         }
 
+        if (!loginUser.getUserSecurityAnswer().equals(userSecurityAnswer)) {
+            resultJson.put("errorMsg", "질문 또는 답변이 잘못됐습니다.");
+        }
+
+        if (!userService.isValidEmailCode(userEmail, userEmailCode)) {
+            resultJson.put("errorMsg", "코드가 유효하지 않거나 만료되었습니다.");
+        }
 
         if (resultJson.has("errorMsg")) {
             return resultJson.toString();
         }
 
-        User user = userService.findByEmail(email).orElse(null);
+        User user = userService.findByEmail(userEmail).orElse(null);
         String userLoginId = user.getUserLoginId();
-        String maskedId = userLoginId.substring(0, 4) +
-                "*".repeat(userLoginId.length() - 4);
 
         resultJson.put("result", true);
-        resultJson.put("userLoginId", maskedId);
+        resultJson.put("userLoginId", userLoginId);
 
         return resultJson.toString();
     }
@@ -147,8 +148,14 @@ public class UserSearchController {
             user = userOpt.get();
         }
 
+        String[] specialChars = {"@", "$", "!", "%", "*", "#", "?", "&"};
+        int randomIndex = (int) (Math.random() * specialChars.length);
+        String randomChar = specialChars[randomIndex];
+
         String newPassword = UUID.randomUUID().toString()
-                .replaceAll("-", "").substring(0, 10);
+                .replaceAll("-", "").substring(0, 10)
+                + randomChar;
+
         log.info("발급된 임시 비밀번호 = {}", newPassword);
 
         UserUpdateDto userUpdateDto = new UserUpdateDto();
@@ -167,12 +174,5 @@ public class UserSearchController {
         resultJson.put("result", true);
         return resultJson.toString();
     }
-
-    private boolean isValidEmailCode(HttpServletRequest request, String emailCode) {
-        HttpSession session = request.getSession();
-        String realEmailCode = (String) session.getAttribute(SessionConst.EMAIL_CODE);
-        return realEmailCode != null && realEmailCode.equals(emailCode);
-    }
-
 
 }

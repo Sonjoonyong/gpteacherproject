@@ -141,9 +141,10 @@ public class UserService {
         userRepository.delete(userId);
     }
 
-    public String getEmailCode(String userEmail) {
+    public String sendEmailCode(String userEmail) {
         String emailCode = UUID.randomUUID().toString()
                 .replaceAll("-", "").substring(0, 5);
+
         log.info("발급된 emailCode = {}", emailCode);
 
         gmail.sendEmail(

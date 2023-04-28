@@ -17,6 +17,8 @@
             user_role,
             user_email,
             user_birthday,
+            user_security_question,
+            user_security_answer,
             user_email_agreement
         )
         values (
@@ -28,6 +30,8 @@
             #{userRole},
             #{userEmail},
             #{userBirthday},
+            #{userSecurityQuestion},
+            #{userSecurityAnswer},
             #{userEmailAgreement}
         )
     </insert>

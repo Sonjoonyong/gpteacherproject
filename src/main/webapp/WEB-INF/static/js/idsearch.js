@@ -11,14 +11,18 @@ const loginIdMsgDiv = document.querySelector('#userLoginIdMsg');
 // input
 const emailInput = document.querySelector('#userEmail');
 const emailCodeInput = document.querySelector('#userEmailCode');
+const userSecurityQuestionInput = document.querySelector('#userSecurityQuestion');
+const userSecurityAnswerInput = document.querySelector('#userSecurityAnswer');
 
 // 인증번호 전송
 sendEmailCodeBtn.onclick = () => {
     const request = new XMLHttpRequest();
     const userEmail = emailInput.value;
+    sendEmailCode.disabled = true;
 
     request.onload = () => {
         // 'true': 코드 정상 발급, 'else': 에러 메시지 출력
+        sendEmailCode.disabled = false;
         const response = request.responseText;
 
         if (response === 'true') {
@@ -42,8 +46,25 @@ sendEmailCodeBtn.onclick = () => {
 
 // 인증
 validateEmailCodeBtn.onclick = () => {
+    if (userSecurityAnswerInput.value === '') {
+        userSecurityAnswerInput.focus();
+        Swal.fire('아이디 찾기 답변을 입력해주세요.');
+        return false;
+    }
+
+    if (emailCodeInput.value === '') {
+        emailCodeInput.focus();
+        Swal.fire('이메일 인증 코드를 입력해주세요.');
+        return false;
+    }
+
+    const params = new URLSearchParams();
+    params.append("userSecurityQuestion", userSecurityQuestionInput.value);
+    params.append("userSecurityAnswer", userSecurityAnswerInput.value);
+    params.append("userEmail", emailInput.value);
+    params.append("userEmailCode", emailCodeInput.value);
+
     const request = new XMLHttpRequest();
-    const userEmailCode = emailCodeInput.value;
 
     request.onload = () => {
         // result:true - 코드 정상 인증, false: 실패
@@ -68,7 +89,8 @@ validateEmailCodeBtn.onclick = () => {
         }
     }
 
-    request.open("POST", '/user/idsearch/emailCode?userEmailCode=' + userEmailCode);
-    request.setRequestHeader("Accept", "application/json; charset=utf-8")
-    request.send();
+    request.open("POST", '/user/idsearch/emailCode');
+    request.setRequestHeader("Accept", "application/json; charset=utf-8");
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+    request.send(params.toString());
 }
