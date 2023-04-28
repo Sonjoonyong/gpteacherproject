@@ -70,12 +70,14 @@
             background-color: #fafafa;
             border-color: #ccc;
         }
+
         .searchbox{
             border-top: 1px solid white;
             border-left: 1px solid white;
             border-right: 1px solid white;
             border-bottom:1px solid lightslategray;
         }
+
         #searchForm button{
             margin-left: 10px;
             border: 1px solid #7AD4B9;
@@ -84,18 +86,14 @@
             float :right;
             border-radius: 5px;
         }
+
     </style>
-
-
 </head>
 <body>
-
 
 <%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
-
-
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
@@ -147,9 +145,7 @@
                     <tbody >
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
-
                                 <td>${question.id}</td>
-
                                 <td>
                                     <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
                                     <i class="fa-solid fa-lock" id="icon1"></i>

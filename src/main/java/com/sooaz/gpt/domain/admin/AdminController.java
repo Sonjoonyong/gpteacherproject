@@ -66,8 +66,11 @@ public class AdminController {
     }
 
     @PostMapping("/admin/blockUser")
-    public String blockUser(@RequestParam("userId") int userId) {
-        adminService.blockUser(userId);
+    public String blockUser(
+            @RequestParam("userId") int userId,
+            @RequestParam("reason") String blockReason
+    ) {
+        adminService.blockUser(userId, blockReason);
         return "redirect:/admin/users";
     }
 

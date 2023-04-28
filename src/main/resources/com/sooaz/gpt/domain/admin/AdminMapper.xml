@@ -25,6 +25,7 @@
         <result property="userEmailAgreement" column="USER_EMAIL_AGREEMENT"/>
         <result property="userCreatedate" column="USER_CREATEDATE"/>
         <result property="blockDate" column="BLOCK_DATE"/>
+        <result property="blockReason" column="BLOCK_REASON"/>
     </resultMap>
 
     <select id="getUserViewList" resultMap="userViewResultMap" parameterType="map">
@@ -72,8 +73,14 @@
     age_group
     </select>
 
-    <update id="blockUser" parameterType="int">
-        UPDATE users SET block_date = SYSDATE WHERE id = #{userId}
+    <update id="blockUser" >
+        UPDATE
+            users
+        SET
+            block_date = SYSDATE,
+            BLOCK_REASON = #{param2}
+        WHERE
+            id = #{param1}
     </update>
 
     <select id="getBlockedUsers" resultMap="userViewResultMap">

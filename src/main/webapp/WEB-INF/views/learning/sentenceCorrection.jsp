@@ -168,7 +168,7 @@
                 // 발음 평가 모달 창 띄우기
                 setPronunciationBtnsRecordPossible();
                 pronunciationModal.classList.toggle('show', true);
-                body.style.overflow = 'hidden';
+                document.querySelector('body').style.overflow = 'hidden';
 
                 // 진행중인 TTS 종료
                 audio && audio.pause();
