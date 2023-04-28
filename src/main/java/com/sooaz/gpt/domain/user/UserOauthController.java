@@ -127,6 +127,8 @@ public class UserOauthController {
         userSignupDto.setUserPassword("OAUTH");
         userSignupDto.setUserNickname(userNickname);
         userSignupDto.setUserBirthday(userBirthday);
+        userSignupDto.setUserSecurityQuestion("");
+        userSignupDto.setUserSecurityAnswer("");
         userSignupDto.setUserEmailAgreement(userOauthSignupDto.getUserEmailAgreement());
 
         userService.join(userSignupDto);
