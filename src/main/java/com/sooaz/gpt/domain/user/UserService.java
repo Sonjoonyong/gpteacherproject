@@ -180,7 +180,7 @@ public class UserService {
     public boolean isEmailValidated(String userEmail) {
         try (Jedis jedis = jedisPool.getResource()) {
             String isValidated = jedis.get(RedisConst.USER_EMAIL_VALIDATED + userEmail);
-            return isValidated.equals("true");
+            return isValidated != null && isValidated.equals("true");
         } catch (Exception e) {
             log.error("Redis error: ", e);
         }

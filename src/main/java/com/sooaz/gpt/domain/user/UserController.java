@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -106,8 +107,19 @@ public class UserController {
         }
 
         Date userBirthday = userSignupDto.getUserBirthday();
+        Date today = new Date();
+        Date minDate = new Date(0, Calendar.JANUARY, 1);
         if (userBirthday == null) {
             bindingResult.rejectValue("userBirthday", "incorrect", "생일을 입력해주세요.");
+        } else if (userBirthday.compareTo(today) >= 0) {
+            bindingResult.rejectValue("userBirthday", "incorrect", "오늘 이전 날짜를 선택해주세요.");
+        } else if (userBirthday.compareTo(minDate) < 0) {
+            log.info("userBirthday = {}", userBirthday);
+            log.info("minDate = {}", minDate);
+            log.info("userBirthday.compareTo(minDate) = {}", userBirthday.compareTo(minDate));
+            if (userBirthday.compareTo(minDate) < 0) {
+                bindingResult.rejectValue("userBirthday", "incorrect", "1900년 이후 날짜를 선택해 주세요.");
+            }
         }
 
         if (bindingResult.hasErrors()) {

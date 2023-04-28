@@ -220,6 +220,13 @@
 
 <script src="/js/signupForm.js"></script>
 
+<script>
+    // 생일 유효성 검사 1900-01-01 ~ 오늘
+    const userBirthdayInput = document.querySelector('#userBirthday');
+    userBirthdayInput.min = "1900-01-01";
+    userBirthdayInput.max = new Date().toISOString().split('T')[0];
+</script>
+
 
 </body>
 </html>

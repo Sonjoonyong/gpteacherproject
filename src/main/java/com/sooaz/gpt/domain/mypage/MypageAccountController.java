@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -81,7 +80,6 @@ public class MypageAccountController {
 
         UserEditInfoDto userEditInfoDto = new UserEditInfoDto();
         userEditInfoDto.setUserEmailAgreement(loginUser.getUserEmailAgreement());
-        userEditInfoDto.setUserBirthday(loginUser.getUserBirthday());
         userEditInfoDto.setUserNickname(loginUser.getUserNickname());
         model.addAttribute("userEditInfoDto", userEditInfoDto);
 
@@ -113,18 +111,12 @@ public class MypageAccountController {
             bindingResult.rejectValue("userNickname", "duplicate", "중복되는 닉네임입니다.");
         }
 
-        Date userBirthday = userEditInfoDto.getUserBirthday();
-        if (userBirthday == null) {
-            bindingResult.rejectValue("userBirthday", "incorrect", "생일을 입력해주세요.");
-        }
-
         if (bindingResult.hasErrors()) {
             return "mypage/account/editUserInfo";
         }
 
         UserUpdateDto userUpdateDto = new UserUpdateDto();
         userUpdateDto.setUserId(loginUser.getId());
-        userUpdateDto.setUserBirthday(userBirthday);
         userUpdateDto.setUserNickname(userNickname);
         userUpdateDto.setUserEmailAgreement(userEditInfoDto.getUserEmailAgreement());
 

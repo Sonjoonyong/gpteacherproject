@@ -14,7 +14,5 @@ public class UserEditInfoDto {
 
     private String userPassword;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date userBirthday;
     private Boolean userEmailAgreement;
 }

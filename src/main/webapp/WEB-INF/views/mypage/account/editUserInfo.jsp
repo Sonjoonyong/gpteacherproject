@@ -48,14 +48,6 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <span class="col-12 p-0">생년월일</span>
-                        <div class="col-12 input-group input-group-md p-0">
-                            <form:input path="userBirthday" type="date" class="form-control"/>
-                        </div>
-                        <form:errors path="userBirthday" cssClass="p-0 text-danger"/>
-                    </div>
-
                     <div class="row gap-0">
                         <div class="col-12 d-flex">
                             <form:checkbox path="userEmailAgreement"/>

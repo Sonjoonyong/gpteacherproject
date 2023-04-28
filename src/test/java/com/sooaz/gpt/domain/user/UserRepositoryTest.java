@@ -63,16 +63,12 @@ public class UserRepositoryTest {
 
         // 업데이트
         UserUpdateDto userUpdateDto = new UserUpdateDto();
-        Date newBirthday = new Date();
-        newBirthday.setYear(2000);
-        userUpdateDto.setUserBirthday(newBirthday);
         userUpdateDto.setUserId(user.getId());
 
         userRepository.update(userUpdateDto);
 
         User updatedUser = userRepository.findById(user.getId()).get();
 
-        assertEquals(newBirthday.getYear(), updatedUser.getUserBirthday().getYear());
 
         // 삭제
         userRepository.delete(user.getId());

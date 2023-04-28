@@ -77,9 +77,6 @@
             <if test="userRole != null">
                 user_role = #{userRole},
             </if>
-            <if test="userBirthday != null">
-                user_birthday = #{userBirthday},
-            </if>
             <if test="userEmailAgreement != null">
                 user_email_agreement = #{userEmailAgreement},
             </if>
