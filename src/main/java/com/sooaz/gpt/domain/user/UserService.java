@@ -1,5 +1,7 @@
 package com.sooaz.gpt.domain.user;
 
+import com.sooaz.gpt.domain.mypage.flashcard.Flashcard;
+import com.sooaz.gpt.domain.mypage.flashcard.FlashcardService;
 import com.sooaz.gpt.global.constant.RedisConst;
 import com.sooaz.gpt.global.email.Gmail;
 import com.sooaz.gpt.global.security.PasswordHasher;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final FlashcardService flashcardService;
     private final PasswordHasher passwordHasher;
     private final JedisPool jedisPool;
     private final Gmail gmail;
@@ -67,6 +70,12 @@ public class UserService {
         user.setUserPasswordSalt(passwordSalt);
 
         userRepository.save(user);
+
+        // 기본 플래시카드 보관함 제공
+        Flashcard flashcard = new Flashcard();
+        flashcard.setUserId(user.getId());
+        flashcard.setFlashcardName("기본 보관함");
+        flashcardService.insertFlashcard(flashcard);
     }
 
     @Transactional(readOnly = true)

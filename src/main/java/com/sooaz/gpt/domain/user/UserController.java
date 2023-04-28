@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public String signUp(
+    public String signup(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
             @SessionAttribute(value = SessionConst.LOGIN_USER, required = false) User loginUser
