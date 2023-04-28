@@ -58,8 +58,9 @@
 <section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-8 offset-md-1 p-4 myCommentList">
-            <h2 class="h3 my-5" style="color: #5DB99D;">작성댓글</h2>
+        <div class="col-md-8 offset-md-1 p-3 mt-3 myCommentList">
+            <h2 class="h3 mt-5 mb-3" style="color: #5DB99D;">작성댓글</h2>
+            <hr class="mb-4"/>
             <form action="/user/mypage/comments" id="myForm" method="post">
                 <div>
                     <c:forEach var="comment" items="${pageInfo.list}">
@@ -75,20 +76,20 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <a href="${pageContext.request.contextPath}/community/${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
+                                    <a href="/community/${comment.communityPostId}" class="tableATag">원글 : ${comment.communityPostTitle}</a>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
                 </div>
-                <div class="row mb-2 mx-1 justify-content-between">
-                    <div class="col-md-4">
+                <div class="row mb-2 g-0 justify-content-between">
+                    <div class="col-md-4 ms-3 form-check align-self-center">
                         <input class="form-check-input" type="checkbox" onclick="selectAll(this)">
                         <label class="form-check-label ms-3">
                             전체 선택
                         </label>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-auto">
                         <input type="button" class="btn btn-primary" value="댓글 삭제" onclick="deleteSubmit(this)" />
                     </div>
                 </div>

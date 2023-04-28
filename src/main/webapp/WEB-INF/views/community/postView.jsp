@@ -36,11 +36,13 @@
     <input type="hidden" id="communityPostId" value="${communityPostViewDto.communityPostId}">
 
     <div class="row">
-        <%--메뉴바--%>
-        <dic class="col-md-12 col-lg-3"></dic>
+        <%--사이드바--%>
+        <div class="col-12 col-md-3 mt-5">
+            <%@ include file="../fragments/communityMenu.jsp" %>
+        </div>
 
         <%--본문--%>
-        <div class="col-md-12 col-lg-8 border p-4 rounded-3 mb-5">
+        <div class="col-md-12 col-lg-8 border p-4 rounded-3 my-5">
             <div class="row g-0">
                 <%--제목--%>
                 <div class="hstack mb-2 gap-2">
@@ -79,6 +81,11 @@
                         ${communityPostViewDto.communityPostHit}
                     </span>
 
+                    <span>
+                        <i class="bi bi-chat-left-dots"></i>
+                        <span id="communityPostReplyCount">${communityPostViewDto.communityPostReplyCount}</span>
+                    </span>
+
                     <div class="vr"></div>
 
                     <span>
@@ -110,7 +117,7 @@
                         </c:if>
                     </button>
                     <div class="me-3 w-auto">
-                        <button id="communityPostLikeBtn" class="btn" onclick="toggleCommunityPostLikeAjax(this)">
+                        <button id="communityPostLikeBtn" class="btn px-1" onclick="toggleCommunityPostLikeAjax(this)">
                             <c:if test="${!communityPostViewDto.isLiked}">
                                 <i class="bi bi-heart like"></i>
                             </c:if>
@@ -133,7 +140,7 @@
                 <div class="col-12">
                     <form method="POST" id="replyForm" class="row g-0 gap-2">
                         <div class="col-10">
-                        <textarea class="rounded-3 form-control" rows="3" name="communityReplyContent"
+                        <textarea class="rounded-3 form-control p-2" rows="3" name="communityReplyContent"
                                   id="communityReplyContent"></textarea>
                         </div>
                         <button class='btn btn-outline-secondary col' type="submit">댓글 등록</button>
@@ -164,10 +171,11 @@
 <!-- Toast Editor Viewer CDN -->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 
-<script src="/js/toggleLikeAjax.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<%--북마크 관련 JS--%>
+<%--좋아요, 북마크 JS--%>
 <script src="/js/toggleStorageAjax.js"></script>
+<script src="/js/toggleLikeAjax.js"></script>
 
 <script defer>
     // 토스트 에디터 뷰어
@@ -239,7 +247,7 @@
                             tag += "        </div>";
                         }
 
-                        tag += "            <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
+                        tag += "            <textarea class='col-10 p-2' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
                         tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
                         tag += "        </form>";
                         tag += "    </div>";
@@ -253,7 +261,7 @@
                         tag += "                <i class='bi bi-arrow-return-right'></i>"
                         tag += "            </div>";
                         tag += "            <div class='col-10'>";
-                        tag += "                <textarea class='form-control' name='communityReplyContent' rows='3' required></textarea>";  // 대댓글 내용
+                        tag += "                <textarea class='form-control p-2' name='communityReplyContent' rows='3' required></textarea>";  // 대댓글 내용
                         tag += "            </div>";
                         tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='reReply' value='등록' >"; //대댓글 등록 버튼
                         tag += "        </form>";
@@ -263,6 +271,7 @@
                     });
                     // .html : 원래 있던 내용 지우고 표시
                     $("#communityReplyList").html(tag);
+                    document.querySelector('#communityPostReplyCount').innerText = result.length;
 
                 }, error: function (e) {
                     console.log(e.responseText);
@@ -274,7 +283,7 @@
         $('#replyForm').submit(function () {
             //댓글 입력했는지 확인
             if ($("#communityReplyContent").val() == "") {
-                alert("댓글 입력후 등록하세요.");
+                Swal.fire("댓글 입력후 등록하세요.");
                 return false;
             }
             let query = $(this).serialize();
@@ -308,7 +317,7 @@
 
             const content = this.closest('form').querySelector('textarea[name=communityReplyContent]').value;
             if (content === '') {
-                alert('댓글을 입력하세요');
+                Swal.fire('댓글을 입력하세요');
                 return false;
             }
 
@@ -352,21 +361,28 @@
 
         // 댓글 삭제
         $(document).on('click', '#communityReplyList input[name=delete]', function () {
-            if (confirm("댓글을 삭제할까요?")) {
-                let communityReplyId = $(this).attr("title");
-                let url = '/community/reply/' + communityReplyId + '/delete';
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    success: function (result) {
-                        // 댓글 목록을 다시 뿌려주기
-                        replyList();
-                    },
-                    error: function (e) {
-                        console.log(e.responseText);
-                    }
-                });
-            }
+            Swal.fire({
+                title: '댓글을 삭제할까요?',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let communityReplyId = $(this).attr("title");
+                    let url = '/community/reply/' + communityReplyId + '/delete';
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        success: function (result) {
+                            // 댓글 목록을 다시 뿌려주기
+                            replyList();
+                        },
+                        error: function (e) {
+                            console.log(e.responseText);
+                        }
+                    });
+                }
+            })
         });
 
         // 댓글 신고 모달창 띄우기
@@ -425,10 +441,10 @@
         request.onload = () => {
             const response = request.responseText;
             if (response === 'ok') {
-                alert('신고가 접수되었습니다.');
+                Swal.fire('신고가 접수되었습니다.');
                 toggleReportModal(false);
             } else {
-                alert('신고가 접수되지 않았습니다.');
+                Swal.fire('신고가 접수되지 않았습니다.');
             }
         }
 

@@ -7,6 +7,8 @@
     <title>GPTeacher</title>
 
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/dark-mode.css">
+
     <%@ include file="fragments/bootstrapCss.jsp" %>
     <style>
         .int-text{
@@ -223,7 +225,48 @@
 
 <%@ include file="fragments/footer.jsp" %>
 
+<script>
+    function setDarkMode(enabled) {
+        if (enabled) {
+            document.body.classList.add("dark-mode");
+            localStorage.setItem("dark-mode", "enabled");
+        } else {
+            document.body.classList.remove("dark-mode");
+            localStorage.removeItem("dark-mode");
+        }
+
+        const textDarkLinks = document.querySelectorAll('footer .col-12.text-center a.text-dark');
+        textDarkLinks.forEach(link => {
+            if (enabled) {
+                link.classList.add('dark-mode-text');
+            } else {
+                link.classList.remove('dark-mode-text');
+            }
+        });
+
+    }
+
+    document.getElementById("dark-mode-toggle").addEventListener("click", function () {
+        setDarkMode(!document.body.classList.contains("dark-mode"));
+    });
+
+    // Load saved preference
+    if (localStorage.getItem("dark-mode") === "enabled") {
+        setDarkMode(true);
+    }
+
+</script>
+
 <%@ include file="fragments/bootstrapJs.jsp" %>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const msg = '${message}';
+    if (msg !== '') {
+        Swal.fire(msg);
+    }
+</script>
 
 </body>
 </html>

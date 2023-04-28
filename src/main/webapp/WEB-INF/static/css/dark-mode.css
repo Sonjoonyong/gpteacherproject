@@ -1,0 +1,12 @@
+body.dark-mode {
+    background-color: #222;
+    color: #FFF;
+}
+
+.dark-mode a {
+    color: #9FD8FF;
+}
+
+.dark-mode-text {
+    color: #FFF;
+}

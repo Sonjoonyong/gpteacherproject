@@ -27,26 +27,28 @@
         <%@ include file="../../fragments/mypageMenu.jsp" %>
         <div class="col-md-8 offset-md-1">
             <h3 class="h3 my-5" style="color: #5DB99D;">플래시 카드</h3>
-            <div>
-                <c:if test="${sentencesCount == 0}">
-                    오늘 학습할 내용이 없습니다.
-                </c:if>
-                <c:if test="${sentencesCount == -1}">
-                    모든 학습이 종료 되었습니다.
-                </c:if>
-                <c:if test="${sentencesCount > 0 && sentencesCount != null}">
-                    <form method="post" action="/user/mypage/flashcards">
-                        <span>
-                            오늘 학습할 문장 수를 입력해 주세요 (최대 문장 수 : ${sentencesCount})
-                        </span>
-                        <br/>
-                        <div class="row g-0 my-2 py-1">
-                            <input type="text" class="col-md-3 form-control g-0 m-1" name="limit" style="width:150px;">
-                            <input type="submit" class="col-md-auto btn btn-primary m-1" value="확인">
-                        </div>
-                    </form>
-                </c:if>
-            </div>
+            <c:if test="${limit == 0 || limit == null}">
+                <div class="py-5" style="border: 1px solid lightgray; border-radius: 15px;" >
+                    <c:if test="${sentencesCount == 0}">
+                        <h4 class="text-center">오늘 복습할 내용이 없습니다.</h4>
+                    </c:if>
+                    <c:if test="${sentencesCount == -1}">
+                        <h4 class="text-center">모든 학습이 종료 되었습니다.</h4>
+                    </c:if>
+                    <c:if test="${sentencesCount > 0 && sentencesCount != null}">
+                        <form method="post" action="/user/mypage/flashcards">
+                            <h4 class="text-center" style="color: #373737">
+                                복습할 문장 수를 입력해 주세요 (최대 문장 수 : ${sentencesCount})
+                            </h4>
+                            <br/>
+                            <div class="row g-0 my-2 py-1 justify-content-center">
+                                <input type="text" class="col-md-3 form-control g-0 m-1" name="limit" style="width:150px;">
+                                <input type="submit" class="col-md-auto btn btn-primary m-1" value="복습 시작">
+                            </div>
+                        </form>
+                    </c:if>
+                </div>
+            </c:if>
 
             <c:forEach var="sentence" items="${pageInfo.list}">
                 <!-- sentence start -->
@@ -136,6 +138,8 @@
 
 <!-- Wav 파일 업로드 라이브러리 -->
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="/js/pronunciation.js"></script>
 <script src="/js/ttsAjax.js"></script>

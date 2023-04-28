@@ -130,9 +130,9 @@
                                             <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">작성 댓글</button>
                                         </form>
                                         <c:if test="${user.blockDate eq null}">
-                                            <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                            <form action="/admin/blockUser" method="post" onsubmit="return blockReason();">
                                                 <input type="hidden" name="userId" value="${user.id}" />
-                                                <input type="hidden" name="Reason" value="욕설"/>
+                                                <input type="hidden" name="reason" id="reason"/>
                                                 <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">차단하기</button>
                                             </form>
                                         </c:if>
@@ -217,7 +217,22 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script>
+    function blockReason() {
+        if(confirm('차단하시겠습니까?')) {
+            let reason = prompt('차단 사유를 입력해 주세요.');
 
+            if(reason != null) { //취소가 아닐 경우
+                document.getElementById('reason').value = reason;
+                return true;
+            } else{
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+</script>
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>

@@ -58,7 +58,7 @@
 <section class="container">
     <div class="row">
         <%@ include file="../../fragments/mypageMenu.jsp" %>
-        <div class="col-md-8 offset-md-1 p-4 myBookmarkList">
+        <div class="col-md-8 offset-md-1 p-3 mt-3 myBookmarkList">
             <h2 class="h3 my-5" style="color: #5DB99D;">북마크한 글</h2>
             <form action="/user/mypage/bookmarks" id="myForm" method="post">
                 <table class="table" style="text-align: center; table-layout:fixed;">
@@ -76,7 +76,7 @@
                                     <input class="form-check-input" type="checkbox" name="deleteId" value="${post.id}">
                                 </td>
                                 <td style="text-overflow:ellipsis; overflow:hidden;">
-                                    <a href="${pageContext.request.contextPath}/communityPost/view?communityId=${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
+                                    <a href="/community/${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
                                 </td>
                                 </td>
                                 <td>
@@ -86,14 +86,14 @@
                         </c:forEach>
                     </tbody>
                 </table>
-                <div class="row mb-2 justify-content-between">
-                    <div class="col-md-4 form-check">
+                <div class="row mb-2 g-0 justify-content-between">
+                    <div class="col-md-4 ps-3 align-self-center">
                         <input class="form-check-input" type="checkbox" onclick="selectAll(this)" style="margin-left:10px;">
                         <label class="form-check-label ms-3">
                             전체 선택
                         </label>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-auto">
                         <input type="button" class="btn btn-primary" value="북마크 해제" onclick="deleteSubmit(this)" />
                     </div>
                 </div>
