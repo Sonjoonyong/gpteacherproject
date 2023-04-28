@@ -16,5 +16,5 @@ public class User {
     private String userEmail;
     private Date userBirthday;
     private Boolean userEmailAgreement;
-
+    private Date blockDate;
 }

@@ -225,5 +225,14 @@
 
 <%@ include file="fragments/bootstrapJs.jsp" %>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    const msg = '${message}';
+    if (msg !== '') {
+        Swal.fire(msg);
+    }
+</script>
+
 </body>
 </html>
