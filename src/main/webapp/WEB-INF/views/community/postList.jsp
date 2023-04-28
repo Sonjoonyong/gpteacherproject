@@ -114,6 +114,11 @@
             </div>
 
             <div class="list-group list-group-flush mt-3 border-bottom border-top mb-3">
+                <c:if test="${pageInfo.list.size() == 0}">
+                    <div class="list-group-item list-group-item-action py-5">
+                        등록된 게시글이 없습니다. 첫 글을 남겨보세요!
+                    </div>
+                </c:if>
                 <c:forEach var="communityPostListDto" items="${pageInfo.list}">
                     <a href="/community/${communityPostListDto.id}" class="list-group-item list-group-item-action py-3">
                         <div class="hstack gap-2">
@@ -134,15 +139,20 @@
                             </small>
                         </div>
 
-                            <%--작성자--%>
-                        <small class="text-muted">
-                                ${communityPostListDto.userNickname}
-                        </small>
 
-                        <p class="my-0 text-muted hstack gap-1">
-                                <%--조회수--%>
-                            <i class="bi bi-eye" style="font-size: 12px"></i>
+                        <p class="my-0 text-muted hstack gap-1 mt-2">
+                                <%--작성자--%>
+                            <small class="text-muted me-auto">
+                                    ${communityPostListDto.userNickname}
+                            </small>
+
+                                <%--조회 수--%>
+                            <i class="bi bi-eye ms-auto" style="font-size: 12px"></i>
                             <span style="font-size: 12px">${communityPostListDto.communityPostHit}</span>
+
+                                <%--댓글 수--%>
+                            <i class="bi bi-chat-left-dots ms-2" style="font-size: 12px"></i>
+                            <span style="font-size: 12px">${communityPostListDto.communityPostReplyCount}</span>
 
                                 <%--좋아요--%>
                             <c:if test="${communityPostListDto.communityPostLike >= 1}">
@@ -267,11 +277,13 @@
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     (function () {
         let message = '${message}';
         if (message) {
-            alert(message);
+            Swal.fire(message);
         }
     })();
 </script>

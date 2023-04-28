@@ -81,6 +81,11 @@
                         ${communityPostViewDto.communityPostHit}
                     </span>
 
+                    <span>
+                        <i class="bi bi-chat-left-dots"></i>
+                        <span id="communityPostReplyCount">${communityPostViewDto.communityPostReplyCount}</span>
+                    </span>
+
                     <div class="vr"></div>
 
                     <span>
@@ -112,7 +117,7 @@
                         </c:if>
                     </button>
                     <div class="me-3 w-auto">
-                        <button id="communityPostLikeBtn" class="btn" onclick="toggleCommunityPostLikeAjax(this)">
+                        <button id="communityPostLikeBtn" class="btn pe-1" onclick="toggleCommunityPostLikeAjax(this)">
                             <c:if test="${!communityPostViewDto.isLiked}">
                                 <i class="bi bi-heart like"></i>
                             </c:if>
@@ -265,6 +270,7 @@
                     });
                     // .html : 원래 있던 내용 지우고 표시
                     $("#communityReplyList").html(tag);
+                    document.querySelector('#communityPostReplyCount').innerText = result.length;
 
                 }, error: function (e) {
                     console.log(e.responseText);
