@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/base.css">
 
 <style>
-
     .select-container .form-select {
         width: 280px;
         font-size: 30px;
@@ -85,6 +84,16 @@
         border-color: #ccc;
     }
 
+    .col-md-8 .wrapper .table tbody tr td .reason {
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 110px;
+        margin:0px;
+    }
+
 </style>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
@@ -103,14 +112,15 @@
                     </div>
                     <table class="table table-hover" style="text-align: center">
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>로그인ID</th>
-                            <th>닉네임</th>
-                            <th>관리</th>
-                            <th>계정 생성일</th>
-                            <th>계정 차단일</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>로그인ID</th>
+                                <th>닉네임</th>
+                                <th><div class="reason">차단사유</div></th>
+                                <th>관리</th>
+                                <th>계정 생성일</th>
+                                <th>계정 차단일</th>
+                            </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="blockedUser" items="${blockedUsers}">
@@ -118,6 +128,7 @@
                                 <td>${blockedUser.id}</td>
                                 <td>${blockedUser.userLoginId}</td>
                                 <td>${blockedUser.userNickname}</td>
+                                <td><div class="reason me-0 g-0" style="display: -webkit-box;">${blockedUser.blockReason}감자고구마당근asdfasfsadfasdfasdfsadfasdsadfds</div></td>
                                 <td class="center-align">
                                     <div class="d-flex">
                                         <form action="/admin/unblockUser" method="post" onsubmit="return confirm('정말 차단 해제하시겠습니까?');">
@@ -148,7 +159,6 @@
                                             </a>
                                         </li>
                                     </c:if>
-
                                     <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
                                         <c:choose>
                                             <c:when test="${i == pageInfo.pageNum}">
