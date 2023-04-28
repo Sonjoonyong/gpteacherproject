@@ -117,7 +117,7 @@
                         </c:if>
                     </button>
                     <div class="me-3 w-auto">
-                        <button id="communityPostLikeBtn" class="btn pe-1" onclick="toggleCommunityPostLikeAjax(this)">
+                        <button id="communityPostLikeBtn" class="btn px-1" onclick="toggleCommunityPostLikeAjax(this)">
                             <c:if test="${!communityPostViewDto.isLiked}">
                                 <i class="bi bi-heart like"></i>
                             </c:if>
@@ -171,10 +171,11 @@
 <!-- Toast Editor Viewer CDN -->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 
-<script src="/js/toggleLikeAjax.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<%--북마크 관련 JS--%>
+<%--좋아요, 북마크 JS--%>
 <script src="/js/toggleStorageAjax.js"></script>
+<script src="/js/toggleLikeAjax.js"></script>
 
 <script defer>
     // 토스트 에디터 뷰어
@@ -282,7 +283,7 @@
         $('#replyForm').submit(function () {
             //댓글 입력했는지 확인
             if ($("#communityReplyContent").val() == "") {
-                alert("댓글 입력후 등록하세요.");
+                Swal.fire("댓글 입력후 등록하세요.");
                 return false;
             }
             let query = $(this).serialize();
@@ -316,7 +317,7 @@
 
             const content = this.closest('form').querySelector('textarea[name=communityReplyContent]').value;
             if (content === '') {
-                alert('댓글을 입력하세요');
+                Swal.fire('댓글을 입력하세요');
                 return false;
             }
 
@@ -360,21 +361,28 @@
 
         // 댓글 삭제
         $(document).on('click', '#communityReplyList input[name=delete]', function () {
-            if (confirm("댓글을 삭제할까요?")) {
-                let communityReplyId = $(this).attr("title");
-                let url = '/community/reply/' + communityReplyId + '/delete';
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    success: function (result) {
-                        // 댓글 목록을 다시 뿌려주기
-                        replyList();
-                    },
-                    error: function (e) {
-                        console.log(e.responseText);
-                    }
-                });
-            }
+            Swal.fire({
+                title: '댓글을 삭제할까요?',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let communityReplyId = $(this).attr("title");
+                    let url = '/community/reply/' + communityReplyId + '/delete';
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        success: function (result) {
+                            // 댓글 목록을 다시 뿌려주기
+                            replyList();
+                        },
+                        error: function (e) {
+                            console.log(e.responseText);
+                        }
+                    });
+                }
+            })
         });
 
         // 댓글 신고 모달창 띄우기
@@ -433,10 +441,10 @@
         request.onload = () => {
             const response = request.responseText;
             if (response === 'ok') {
-                alert('신고가 접수되었습니다.');
+                Swal.fire('신고가 접수되었습니다.');
                 toggleReportModal(false);
             } else {
-                alert('신고가 접수되지 않았습니다.');
+                Swal.fire('신고가 접수되지 않았습니다.');
             }
         }
 

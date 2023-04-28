@@ -12,7 +12,7 @@ function toggleStorageAjax(btn) {
             storage.classList.toggle('bi-archive', false);
             storage.classList.toggle('bi-archive-fill', true);
         } else {
-            alert("존재하지 않는 문장입니다.");
+            Swal.fire("잘못된 접근입니다.");
         }
     }
 
@@ -35,7 +35,7 @@ function toggleBookmarkAjax(btn) {
             bookmark.classList.toggle('bi-bookmark-fill', true);
         } else {
             console.log(result);
-            alert("잘못된 접근입니다.");
+            Swal.fire("잘못된 접근입니다.");
         }
     }
 
