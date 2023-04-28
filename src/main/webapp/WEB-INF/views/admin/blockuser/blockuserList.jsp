@@ -128,7 +128,7 @@
                                 <td>${blockedUser.id}</td>
                                 <td>${blockedUser.userLoginId}</td>
                                 <td>${blockedUser.userNickname}</td>
-                                <td><div class="reason me-0 g-0" style="display: -webkit-box;">${blockedUser.blockReason}감자고구마당근asdfasfsadfasdfasdfsadfasdsadfds</div></td>
+                                <td><div class="reason me-0 g-0" style="display: -webkit-box;">${blockedUser.blockReason}</div></td>
                                 <td class="center-align">
                                     <div class="d-flex">
                                         <form action="/admin/unblockUser" method="post" onsubmit="return confirm('정말 차단 해제하시겠습니까?');">

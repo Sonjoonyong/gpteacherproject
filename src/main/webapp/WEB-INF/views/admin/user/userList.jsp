@@ -138,7 +138,7 @@
                                         </c:if>
                                         <c:if test="${user.blockDate ne null}">
                                             <form>
-                                                <button class="btn btn-primary" style="color: #716FAA; border-color: #716FAA;">차단완료</button>
+                                                <button  class="btn btn-primary" disabled style="color: white; border-color: black; background-color: lightslategray;" >차단완료</button>
                                             </form>
                                         </c:if>
                                     </div>
