@@ -36,11 +36,13 @@
     <input type="hidden" id="communityPostId" value="${communityPostViewDto.communityPostId}">
 
     <div class="row">
-        <%--메뉴바--%>
-        <dic class="col-md-12 col-lg-3"></dic>
+        <%--사이드바--%>
+        <div class="col-12 col-md-3 mt-5">
+            <%@ include file="../fragments/communityMenu.jsp" %>
+        </div>
 
         <%--본문--%>
-        <div class="col-md-12 col-lg-8 border p-4 rounded-3 mb-5">
+        <div class="col-md-12 col-lg-8 border p-4 rounded-3 my-5">
             <div class="row g-0">
                 <%--제목--%>
                 <div class="hstack mb-2 gap-2">
@@ -133,7 +135,7 @@
                 <div class="col-12">
                     <form method="POST" id="replyForm" class="row g-0 gap-2">
                         <div class="col-10">
-                        <textarea class="rounded-3 form-control" rows="3" name="communityReplyContent"
+                        <textarea class="rounded-3 form-control p-2" rows="3" name="communityReplyContent"
                                   id="communityReplyContent"></textarea>
                         </div>
                         <button class='btn btn-outline-secondary col' type="submit">댓글 등록</button>
@@ -239,7 +241,7 @@
                             tag += "        </div>";
                         }
 
-                        tag += "            <textarea class='col-10' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
+                        tag += "            <textarea class='col-10 p-2' name='communityReplyContent' rows='3' required>" + rDto.communityReplyContent + "</textarea>";  // 댓글 내용
                         tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='replyEdit' value='수정완료' >"; //댓글 수정 버튼
                         tag += "        </form>";
                         tag += "    </div>";
@@ -253,7 +255,7 @@
                         tag += "                <i class='bi bi-arrow-return-right'></i>"
                         tag += "            </div>";
                         tag += "            <div class='col-10'>";
-                        tag += "                <textarea class='form-control' name='communityReplyContent' rows='3' required></textarea>";  // 대댓글 내용
+                        tag += "                <textarea class='form-control p-2' name='communityReplyContent' rows='3' required></textarea>";  // 대댓글 내용
                         tag += "            </div>";
                         tag += "            <input type='submit' class='col btn btn-sm btn-secondary' name='reReply' value='등록' >"; //대댓글 등록 버튼
                         tag += "        </form>";
