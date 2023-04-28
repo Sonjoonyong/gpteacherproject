@@ -49,6 +49,20 @@
             <beans:bean id="loginInterceptor" class="com.sooaz.gpt.global.interceptor.LoginInterceptor"/>
         </interceptor>
 
+        <!--로그인 사용자 차단 인터셉터 TODO - 회원가입, 아이디/비번 찾기 등-->
+
+        <!--차단 유저 인터셉터, 메인페이지만 허용하고 로그아웃은 가능하도록-->
+        <interceptor>
+            <mapping path="/**"/>
+            <exclude-mapping path="/"/>
+            <exclude-mapping path="/main"/>
+            <exclude-mapping path="/user/logout"/>
+            <exclude-mapping path="/images/*"/>
+            <exclude-mapping path="/css/*"/>
+            <exclude-mapping path="/js/*"/>
+            <beans:bean id="blockUserInterceptor" class="com.sooaz.gpt.global.interceptor.BlockUserInterceptor"/>
+        </interceptor>
+
         <!-- 로그인 한 경우 session에 로그인 정보를 넣어주는 인터셉터. 화면 렌더링 시 조건문에 사용 -->
         <interceptor>
             <mapping path="/**"/>

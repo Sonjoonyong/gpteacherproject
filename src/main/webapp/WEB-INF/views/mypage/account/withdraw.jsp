@@ -56,9 +56,16 @@
     const passwordMsgDiv = document.querySelector('#passwordMsg');
 
     withdrawBtn.onclick = () => {
-        if (confirm('정말 탈퇴하시겠습니까?')) {
-            withdrawAjax();
-        }
+        Swal.fire({
+            title: '정말 탈퇴하시겠어요?',
+            showCancelButton: true,
+            confirmButtonText: '탈퇴',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                withdrawAjax();
+            }
+        })
     }
 
     function withdrawAjax() {
@@ -68,7 +75,7 @@
             const response = request.responseText;
 
             if (response === 'true') {
-                alert("회원 탈퇴가 완료되었습니다.");
+                Swal.fire("회원 탈퇴가 완료되었습니다.");
                 location.href = '/';
             } else {
                 passwordMsgDiv.innerText = '비밀번호가 일치하지 않습니다.';

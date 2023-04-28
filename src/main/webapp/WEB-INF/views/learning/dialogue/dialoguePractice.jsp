@@ -487,7 +487,6 @@
 
 </script>
 
-<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
