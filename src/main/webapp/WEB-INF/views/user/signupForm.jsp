@@ -165,7 +165,7 @@
                 </div>
                 <hr class="my-1">
                 <div class="col-12 d-flex">
-                    <form:checkbox path="userGeneralTermAgreement" id="generalTermAgreement"/>
+                    <form:checkbox path="userGeneralTermAgreement"/>
                     <span class="ms-2 termDesc d-flex align-items-center">지피티쳐 이용약관 동의 (필수)</span>
                     <button type="button" id="generalTermDetail"
                             class="termDetail btn btn-sm ms-auto text-secondary p-0">자세히
@@ -219,12 +219,15 @@
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
 <script src="/js/signupForm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // 생일 유효성 검사 1900-01-01 ~ 오늘
+    // 생일 유효성 검사 1900-01-01 ~ 오늘로 설정
     const userBirthdayInput = document.querySelector('#userBirthday');
     userBirthdayInput.min = "1900-01-01";
     userBirthdayInput.max = new Date().toISOString().split('T')[0];
+
+
 </script>
 
 

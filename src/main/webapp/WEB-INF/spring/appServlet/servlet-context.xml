@@ -49,8 +49,6 @@
             <beans:bean id="loginInterceptor" class="com.sooaz.gpt.global.interceptor.LoginInterceptor"/>
         </interceptor>
 
-        <!--로그인 사용자 차단 인터셉터 TODO - 회원가입, 아이디/비번 찾기 등-->
-
         <!--차단 유저 인터셉터, 메인페이지만 허용하고 로그아웃은 가능하도록-->
         <interceptor>
             <mapping path="/**"/>

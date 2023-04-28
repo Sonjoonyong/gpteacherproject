@@ -1,12 +1,13 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyPage - 회원 정보 수정</title>
+    <title>MyPage - 회원 정보 조회/수정</title>
 
     <link rel="stylesheet" href="/css/base.css">
 
@@ -24,6 +25,7 @@
         <div class="col-12 col-md">
             <h3 class="h3 my-5" style="color: #5DB99D;">회원 정보 수정</h3>
 
+
             <form:form modelAttribute="userEditInfoDto" method="post"
                        cssClass="userEditInfo row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto mb-5"
                        cssStyle="max-width: 500px;">
@@ -34,6 +36,21 @@
                             회원 정보가 변경되었습니다.
                         </div>
                     </c:if>
+
+                    <div class="row">
+                        <span class="col-12 p-0">이메일</span>
+                        <input class="form-control" value="${loginUser.userEmail}" disabled>
+                    </div>
+                    <div class="row">
+                        <span class="col-12 p-0">아이디</span>
+                        <input class="form-control" value="${loginUser.userLoginId}" disabled>
+                    </div>
+                    <div class="row">
+                        <span class="col-12 p-0">생년월일</span>
+                        <input class="form-control" value="<fmt:formatDate
+                        value="${loginUser.userBirthday}" pattern="yyy-MM-dd" />"
+                        disabled>
+                    </div>
 
                     <div class="row">
                         <span class="col-12 p-0">닉네임</span>
