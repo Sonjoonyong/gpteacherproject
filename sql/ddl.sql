@@ -27,7 +27,9 @@ CREATE TABLE users
     user_birthday           DATE                 NULL,
     user_createdate         DATE DEFAULT SYSDATE NULL,
     user_email_agreement    CHAR(1)              NULL,
-    block_date              DATE                 NULL
+    block_date              DATE                 NULL,
+    user_security_question  VARCHAR2(50)         NULL,
+    user_security_answer    VARCHAR2(50)         NULL
 );
 
 

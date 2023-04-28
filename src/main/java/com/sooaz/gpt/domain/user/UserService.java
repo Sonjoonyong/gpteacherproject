@@ -28,6 +28,16 @@ public class UserService {
     private final JedisPool jedisPool;
     private final Gmail gmail;
 
+    public static final String[] USER_SECURITY_QUESTIONS = {
+            "가장 아끼는 보물 1호는?",
+            "내가 졸업한 초등학교는?",
+            "나의 어머님 성함은?",
+            "나의 아버님 성함은?",
+            "가장 좋아하는 색깔은?",
+            "가장 좋아하는 음식은?",
+            "가장 좋아하는 동물은?"
+    };
+
     public boolean isCorrectPassword(User user, String inputPassword) {
         String passwordSalt = user.getUserPasswordSalt();
         String hashedPassword = passwordHasher.hash(inputPassword, passwordSalt);
@@ -61,6 +71,8 @@ public class UserService {
         user.setUserRole(UserRole.USER);
         user.setUserBirthday(userSignupDto.getUserBirthday());
         user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
+        user.setUserSecurityQuestion(userSignupDto.getUserSecurityQuestion());
+        user.setUserSecurityAnswer(userSignupDto.getUserSecurityAnswer());
 
         // 패스워드 해싱
         String password = userSignupDto.getUserPassword();

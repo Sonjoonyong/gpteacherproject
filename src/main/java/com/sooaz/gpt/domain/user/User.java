@@ -17,4 +17,6 @@ public class User {
     private Date userBirthday;
     private Boolean userEmailAgreement;
     private Date blockDate;
+    private String userSecurityQuestion;
+    private String userSecurityAnswer;
 }

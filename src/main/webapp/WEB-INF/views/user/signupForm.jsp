@@ -151,6 +151,28 @@
             </div>
 
             <div class="row">
+                <span class="col-12 p-0">아이디 찾기 질문</span>
+                <div class="col-12 input-group input-group-lg p-0">
+                    <form:select path="userSecurityQuestion" cssClass="form-select">
+                        <form:options items="${userSecurityQuestions}" cssClass="form-control"/>
+                    </form:select>
+                </div>
+                <div id="securityQuestionMsg" class="col-12 text-danger p-0">
+                        <%--아이디 찾기 질문 관련 메시지--%>
+                    <form:errors path="userSecurityQuestion" cssClass="p-0 text-danger"/>
+                </div>
+
+                <span class="col-12 p-0">아이디 찾기 답변</span>
+                <div class="col-12 input-group input-group-lg p-0">
+                    <form:input path="userSecurityAnswer" class="form-control" autocomplete="off"/>
+                </div>
+                <div id="securityAnswerMsg" class="col-12 text-danger p-0">
+                        <%--아이디 찾기 답변 관련 메시지--%>
+                    <form:errors path="userSecurityAnswer" cssClass="p-0 text-danger"/>
+                </div>
+            </div>
+
+            <div class="row">
                 <span class="col-12 p-0">생년월일</span>
                 <div class="col-12 input-group input-group-lg p-0">
                     <form:input path="userBirthday" type="date" class="form-control" autocomplete="off"/>

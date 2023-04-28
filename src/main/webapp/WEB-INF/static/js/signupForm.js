@@ -88,7 +88,9 @@ document.querySelector('#submitBtn').onclick = (e) => {
     let userBirthdayInput = document.querySelector('#userBirthday');
     let userGeneralTermAgreementInput = document.querySelector('input[name=userGeneralTermAgreement]');
     let userPrivacyTermAgreementInput = document.querySelector('input[name=userPrivacyTermAgreement]');
-    
+    let userSecurityQuestionInput = document.querySelector('#userSecurityQuestion');
+    let userSecurityAnswerInput = document.querySelector('#userSecurityAnswer');
+
     if (userEmailInput.value === '') {
         userEmailInput.focus();
         Swal.fire('이메일을 입력해주세요');
@@ -127,6 +129,16 @@ document.querySelector('#submitBtn').onclick = (e) => {
     if (userBirthdayInput.value === '') {
         userBirthdayInput.focus();
         Swal.fire('생일을 입력해주세요');
+        return false;
+    }
+    if (userSecurityQuestionInput.value === '') {
+        userSecurityQuestionInput.focus();
+        Swal.fire('아이디 찾기 질문을 입력해주세요.');
+        return false;
+    }
+    if (userSecurityAnswerInput.value === '') {
+        userSecurityAnswerInput.focus();
+        Swal.fire('아이디 찾기 답변을 입력해주세요.');
         return false;
     }
     if (userGeneralTermAgreementInput.checked === false) {
