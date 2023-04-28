@@ -24,12 +24,16 @@ pronunciationClose.onclick = closePronunciationModal;
 const pronunciationProgress = document.getElementById("pronunciationProgress"); //progress bar
 const pronunciationB = document.getElementById("pronunciationTime"); // 초 표시할 b태그
 let pronunciationTimer = 0; // 타이머
-const pronunciationMx = 10; // 최대 시간(초)
+const pronunciationMx = 15; // 최대 시간(초)
 
 
 function setPronunciationRecordBtns() {
     // 발음 평가 모달 녹음 버튼 설정
     pronunciationRecordButton.onclick = () => {
+        if (audio) {
+            audio.pause();
+        }
+
         recorder && recorder.record();
         setPronunciationBtnsRecording();
 
