@@ -8,4 +8,5 @@ import javax.validation.constraints.NotBlank;
 public class CommunityReplyDto {
     @NotBlank
     private String communityReplyContent;
+    private Long communityReplyParentsId;
 }

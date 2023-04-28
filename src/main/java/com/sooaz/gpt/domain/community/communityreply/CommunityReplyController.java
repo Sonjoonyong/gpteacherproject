@@ -39,6 +39,7 @@ public class CommunityReplyController {
         reply.setCommunityPostId(communityPostId);
         reply.setUserId(loginUser.getId());
         reply.setCommunityReplyContent(replyContent);
+        reply.setCommunityReplyParentsId(communityReplyDto.getCommunityReplyParentsId());
         communityReplyService.save(reply);
 
         return "redirect:/community/" + communityPostId;

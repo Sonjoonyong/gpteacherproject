@@ -65,6 +65,8 @@
     </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     const form = document.querySelector("form");
     const submitBtn = document.getElementById("submitBtn");
@@ -90,8 +92,12 @@
         request.onload = () => {
             let profanity = request.response.profanity;
             if (profanity == "true") {
-                document.getElementById("answer").value = '';
-                alert("부적절한 문장입니다. 바른 말을 사용해 주세요.");
+                //document.getElementById("answer").value = '';
+                Swal.fire({
+                    icon: 'error',
+                    title: '부적절한 문장이 포함되어 있습니다.',
+                    text: '바른 말을 사용해 주세요.'
+                });
             }
             if (profanity == "false") {
                 showWaiting();

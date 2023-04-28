@@ -1,6 +1,7 @@
 package com.sooaz.gpt.domain.community;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,7 @@ public interface CommunityPostMapper {
 
     Optional<CommunityPost> findById(Long communityPostId);
 
-    Optional<CommunityPostViewDto> findByIdForView(Long communityPostId);
+    Optional<CommunityPostViewDto> findByIdForView(@Param("communityPostId") Long communityPostId, @Param("userId") Long userId);
 
     List<CommunityPostListDto> findAll(String search);
 
