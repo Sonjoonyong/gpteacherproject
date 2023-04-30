@@ -50,7 +50,6 @@
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 <script>
-
     const userPasswordInput = document.querySelector('#userPassword');
     const withdrawBtn = document.querySelector('#withdraw');
     const passwordMsgDiv = document.querySelector('#passwordMsg');
@@ -73,10 +72,10 @@
 
         request.onload = () => {
             const response = request.responseText;
-
             if (response === 'true') {
-                Swal.fire("회원 탈퇴가 완료되었습니다.");
-                location.href = '/main';
+                Swal.fire("회원 탈퇴가 완료되었습니다.").then(() => {
+                    location.href = '/main';
+                });
             } else {
                 passwordMsgDiv.innerText = '비밀번호가 일치하지 않습니다.';
             }

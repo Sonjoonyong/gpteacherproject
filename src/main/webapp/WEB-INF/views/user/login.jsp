@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <html>
 <head>
@@ -25,8 +25,8 @@
 <%@ include file="../fragments/header.jsp" %>
 <section class="container d-flex" style="max-width: 500px;">
     <form:form modelAttribute="loginDto" method="post"
-        class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto shadow"
-        style="border: 2px solid #5DB99D;">
+               class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto shadow"
+               style="border: 2px solid #5DB99D;">
 
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
             <div class="row g-0 justify-content-center">
@@ -65,23 +65,27 @@
             </div>
 
             <div class="row g-0">
-                <div class="col-3 text-center text-secondary"><hr></div>
+                <div class="col-3 text-center text-secondary">
+                    <hr>
+                </div>
                 <div class="col-6 text-center text-secondary d-flex justify-content-center align-items-center">
                     다른 방법으로 로그인하기
                 </div>
-                <div class="col-3 text-center text-secondary"><hr></div>
+                <div class="col-3 text-center text-secondary">
+                    <hr>
+                </div>
             </div>
 
-            <div class="row g-0 my-3 rounded-3 border">
-                <div class="col-1">
-                    <img class="p-2" src="/images/google_logo.png" height="40">
+            <button id="loginWithGoogle" type="button"
+                    class="btn row flex-row justify-content-center g-0 my-3 rounded-3 border align-items-center"
+                    style="display: flex">
+                <div class="me-auto w-auto">
+                    <img class="me-auto" src="/images/google_logo.png" height="30">
                 </div>
-                <button id="loginWithGoogle" type="button"
-                        class="btn col-11 text-center text-secondary d-flex justify-content-center align-items-center"
-                        style="background-color: white">
-                        Login with google
-                </button>
-            </div>
+                <div class="me-auto w-auto">
+                    Login with google
+                </div>
+            </button>
         </div>
 
     </form:form>

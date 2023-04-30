@@ -52,6 +52,7 @@ public class UserOauthController {
         String oauthId = userInfo.getString("sub");
 
         HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.OAUTH_ACCESS_TOKEN, accessToken);
         Optional<User> userOpt = repository.findByEmail(email);
         // DB에 등록된 email
         if (userOpt.isPresent()) {
