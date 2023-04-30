@@ -14,6 +14,7 @@ DROP TABLE QUESTION_REPLY;
 DROP TABLE REPORT;
 DROP TABLE BOOKMARK;
 DROP TABLE LIKES;
+DROP TABLE COMMUNITY_SENTENCE;
 
 CREATE TABLE users
 (
@@ -57,6 +58,7 @@ CREATE TABLE community_post
 (
     id                       NUMBER                 NOT NULL,
     user_id                  NUMBER                 NOT NULL,
+    sentence_id              NUMBER                 NULL,
     community_post_category  VARCHAR2(20)           NOT NULL,
     community_post_title     VARCHAR2(100)          NOT NULL,
     community_post_content   CLOB                   NOT NULL,
@@ -178,6 +180,11 @@ CREATE TABLE likes
     community_post_id   NUMBER NOT NULL
 );
 
+CREATE TABLE community_sentence (
+    community_post_id	NUMBER		NOT NULL,
+    sentence_id	        NUMBER		NOT NULL
+);
+
 ALTER TABLE users ADD CONSTRAINT PK_USERS PRIMARY KEY (id);
 ALTER TABLE sentence ADD CONSTRAINT PK_SENTENCE PRIMARY KEY (id);
 ALTER TABLE community_post ADD CONSTRAINT PK_COMMUNITY_POST PRIMARY KEY (id);
@@ -189,6 +196,7 @@ ALTER TABLE board_question ADD CONSTRAINT PK_BOARD_QUESTION PRIMARY KEY (id);
 ALTER TABLE board_faq ADD CONSTRAINT PK_BOARD_FAQ PRIMARY KEY (id);
 ALTER TABLE FLASHCARD ADD CONSTRAINT PK_FLASHCARD PRIMARY KEY (id);
 ALTER TABLE question_reply ADD CONSTRAINT PK_QUESTION_REPLY PRIMARY KEY (id);
+ALTER TABLE report ADD CONSTRAINT PK_REPORT PRIMARY KEY (id);
 ALTER TABLE report ADD CONSTRAINT PK_REPORT PRIMARY KEY (id);
 
 CREATE SEQUENCE BOARD_FAQ_ID_SEQ;
