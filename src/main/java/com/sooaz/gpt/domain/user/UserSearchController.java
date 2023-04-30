@@ -100,8 +100,9 @@ public class UserSearchController {
             return resultJson.toString();
         }
 
-        User user = userService.findByEmail(userEmail).orElse(null);
+        User user = userService.findByEmail(userEmail).orElseThrow(IllegalStateException::new);
         String userLoginId = user.getUserLoginId();
+        userService.invalidEmailCode(userEmail);
 
         resultJson.put("result", true);
         resultJson.put("userLoginId", userLoginId);
@@ -170,6 +171,8 @@ public class UserSearchController {
                 "아래 비밀번호로 접속 후 비밀번호를 변경해주세요. \n\n" +
                 newPassword
         );
+
+        userService.invalidEmailCode(userEmail);
 
         resultJson.put("result", true);
         return resultJson.toString();

@@ -45,7 +45,7 @@
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <ul class="navbar-nav">
-                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/edit" data-id="itemThree">회원 정보 수정</a></li>
+                        <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/edit" data-id="itemThree">회원 정보 조회/수정</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/edit/pw" data-id="itemThree">비밀번호 변경</a></li>
                         <li style="margin-bottom:10px;"><a class="menuAtag" href="/user/mypage/withdraw" data-id="itemThree">회원 탈퇴</a></li>
                     </ul>

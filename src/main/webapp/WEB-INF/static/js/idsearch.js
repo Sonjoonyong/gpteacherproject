@@ -18,6 +18,7 @@ const userSecurityAnswerInput = document.querySelector('#userSecurityAnswer');
 sendEmailCodeBtn.onclick = () => {
     const request = new XMLHttpRequest();
     const userEmail = emailInput.value;
+    emailMsgDiv.innerText = '';
     sendEmailCode.disabled = true;
 
     request.onload = () => {

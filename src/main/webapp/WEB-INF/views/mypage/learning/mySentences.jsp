@@ -223,7 +223,7 @@
         let likeCheck = document.getElementById('flexCheckDefault');
         let form = document.getElementById('selectForm');
 
-        if (likeCheck.checked == true) {
+        if (likeCheck.checked === true) {
             document.getElementById('onlyLike').value = '1';
         } else {
             document.getElementById('onlyLike').value = null;

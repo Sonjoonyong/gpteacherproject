@@ -149,7 +149,7 @@ public class UserService {
 
         gmail.sendEmail(
                 userEmail,
-                "GPTeacher 회원가입 인증코드입니다.",
+                "GPTeacher 인증코드입니다.",
                 "아래 코드를 인증 창에 입력 후 회원가입을 진행하세요. \n\n" + emailCode
         );
 
@@ -199,5 +199,13 @@ public class UserService {
         }
 
         return false;
+    }
+
+    public void invalidEmailCode(String userEmail) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(RedisConst.USER_EMAIL_VALIDATED + userEmail, "false");
+        } catch (Exception e) {
+            log.error("Redis error: ", e);
+        }
     }
 }

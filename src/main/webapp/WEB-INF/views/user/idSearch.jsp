@@ -31,7 +31,7 @@
         </div>
 
             <span class="col-12 p-0 mt-3">아이디 찾기 질문</span>
-            <div class="col-12 input-group input-group-lg p-0">
+            <div class="col-12 input-group p-0">
                 <select id="userSecurityQuestion" name="userSecurityQuestion" class="form-select">
                     <option value="" disabled selected>아이디 찾기 질문을 선택하세요</option>
                     <c:forEach var="question" items="${userSecurityQuestions}">
@@ -44,7 +44,7 @@
             </div>
 
             <span class="col-12 p-0">아이디 찾기 답변</span>
-            <div class="col-12 input-group input-group-lg p-0">
+            <div class="col-12 input-group p-0">
                 <input type="text" id="userSecurityAnswer" name="userSecurityAnswer" class="form-control" autocomplete="off"/>
             </div>
             <div id="securityAnswerMsg" class="col-12 text-danger p-0">
@@ -53,7 +53,7 @@
 
         <span class="col-12 p-0 mt-3">이메일</span>
         <div class="col-12">
-            <div class="input-group input-group-lg p-0">
+            <div class="input-group p-0">
                 <input id="userEmail" name="userEmail" type="text" class="form-control">
                 <button class="btn btn-outline-secondary fs-6" type="button" id="sendEmailCode">
                     인증코드 발송
@@ -66,7 +66,7 @@
 
         <span class="col-12 p-0">이메일 인증 코드</span>
         <div class="col-12">
-            <div class="input-group input-group-lg p-0">
+            <div class="input-group p-0">
                 <input id="userEmailCode" name="userEmailCode" type="text" class="form-control" disabled>
                 <button class="btn btn-outline-secondary fs-6"
                         type="button" id="validateEmailCode" disabled>
@@ -78,7 +78,7 @@
             <%--이메일 코드 관련 메시지.--%>
         </div>
 
-        <div id="userLoginIdMsg" class="row g-0 py-5" style="display: none">
+        <div id="userLoginIdMsg" class="row g-0 pt-5" style="display: none">
             <div class="col-12 text-center">아이디는
                 <span id="userLoginId" class="fw-bold"></span>
                 입니다.

@@ -135,6 +135,7 @@ public class UserController {
         }
 
         userService.join(userSignupDto);
+        userService.invalidEmailCode(userEmail);
 
         return "redirect:/user/login";
     }
