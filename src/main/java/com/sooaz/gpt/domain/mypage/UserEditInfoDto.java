@@ -15,4 +15,6 @@ public class UserEditInfoDto {
     private String userPassword;
 
     private Boolean userEmailAgreement;
+
+    private String userLoginId;
 }

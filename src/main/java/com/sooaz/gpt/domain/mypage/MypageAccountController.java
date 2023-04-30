@@ -81,6 +81,12 @@ public class MypageAccountController {
         UserEditInfoDto userEditInfoDto = new UserEditInfoDto();
         userEditInfoDto.setUserEmailAgreement(loginUser.getUserEmailAgreement());
         userEditInfoDto.setUserNickname(loginUser.getUserNickname());
+
+        String userLoginId = loginUser.getUserLoginId();
+        if (userLoginId.length() == 36) {
+            userEditInfoDto.setUserLoginId("N/A (SNS 연동 계정)");
+        }
+
         model.addAttribute("userEditInfoDto", userEditInfoDto);
 
         return "mypage/account/editUserInfo";

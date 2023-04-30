@@ -43,7 +43,7 @@
                     </div>
                     <div class="row">
                         <span class="col-12 p-0">아이디</span>
-                        <input class="form-control" value="${loginUser.userLoginId}" disabled>
+                        <input class="form-control" value="${userEditInfoDto.userLoginId}" disabled>
                     </div>
                     <div class="row">
                         <span class="col-12 p-0">생년월일</span>
