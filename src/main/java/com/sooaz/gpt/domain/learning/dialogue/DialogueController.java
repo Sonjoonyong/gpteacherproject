@@ -1,8 +1,11 @@
 package com.sooaz.gpt.domain.learning.dialogue;
 
 import com.sooaz.gpt.domain.learning.AzureClient;
+import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
-import com.sooaz.gpt.domain.learning.OpenAiClient;
+import com.sooaz.gpt.domain.learning.topic.Topic;
+import com.sooaz.gpt.domain.learning.topic.TopicRepository;
+import com.sooaz.gpt.domain.learning.topic.TopicService;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import com.sooaz.gpt.domain.user.User;
@@ -25,7 +28,7 @@ public class DialogueController {
     private final DialogueService dialogueService;
     private final NcpTtsClient ncpTtsClient;
     private final AzureClient azureClient;
-    private final OpenAiClient openAiClient;
+    private final TopicService topicService;
 
     @GetMapping("/learning/dialogue")
     public String getTopicForm() {
@@ -86,5 +89,12 @@ public class DialogueController {
         sentenceRepository.update(sentenceUpdateDto);
 
         return String.valueOf(accuracyScore);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/learning/dialogue/random", produces = "application/json; charset=utf-8")
+    public String getRandomTopic() {
+        Topic topic = topicService.findRandomOne(LearningType.DIALOGUE);
+        return topic.getLearningTopic().toString();
     }
 }

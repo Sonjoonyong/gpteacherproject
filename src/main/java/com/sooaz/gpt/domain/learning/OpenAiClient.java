@@ -47,7 +47,7 @@ public class OpenAiClient {
         messages.add(message);
         return chat(messages, 0);
     }
-    public String chat(String userPrompt, int temperature) {
+    public String chat(String userPrompt, double temperature) {
         List<JSONObject> messages = new ArrayList<>();
         JSONObject message = userMessage(userPrompt);
         messages.add(message);
@@ -58,7 +58,7 @@ public class OpenAiClient {
         return chat(messages, 0);
     }
 
-    public String chat(List<JSONObject> messages, int temperature) {
+    public String chat(List<JSONObject> messages, double temperature) {
 
         String responseText = "";
 

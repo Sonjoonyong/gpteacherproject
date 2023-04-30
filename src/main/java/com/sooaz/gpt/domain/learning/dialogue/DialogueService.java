@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -71,6 +72,7 @@ public class DialogueService {
 
         return learningRepository.save(learning).getId();
     }
+
     public String getPlainTopic(DialogueTopicDto dialogueTopicDto) {
 
         String topic = String.format(
@@ -81,10 +83,11 @@ public class DialogueService {
                 dialogueTopicDto.getPlace()
         );
 
-        if (dialogueTopicDto.getOption() != null) {
+        String option = dialogueTopicDto.getOption();
+        if (option != null && !"".equals(option)) {
             topic += String.format(
                     "\nAnd it's about \"%s\"",
-                    dialogueTopicDto.getOption()
+                    option
             );
         }
 

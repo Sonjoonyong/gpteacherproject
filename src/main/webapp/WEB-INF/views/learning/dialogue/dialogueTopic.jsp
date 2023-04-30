@@ -35,6 +35,15 @@
 
         <p class="text-center">원하는 대화와 상황을 영어로 입력해 주세요.</p>
 
+        <div class="col">
+            <div class="row">
+                <button id="dialogueRandomTopic" class="btn btn-light border">
+                    <i class="bi bi-shuffle"></i>
+                    랜덤 추천
+                </button>
+            </div>
+        </div>
+
         <form method="post" action="/learning/dialogue" class="col-12 mt-3">
             <div class="row">
                 <div class="col-12 col-md-2 label">Place</div>
@@ -104,6 +113,8 @@
 <%@ include file="../../fragments/footer.jsp" %>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
+
+<script src="/js/randomTopic.js"></script>
 
 </body>
 
