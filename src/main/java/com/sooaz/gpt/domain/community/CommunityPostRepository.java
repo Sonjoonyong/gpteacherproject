@@ -44,5 +44,12 @@ public class CommunityPostRepository {
     public void delete(Long communityPostId) {
         communityPostMapper.delete(communityPostId);
     }
+
+
+    public List<CommunityPostListDto> bestListAll() {
+
+        return communityPostMapper.bestListAll();
+
+    }
 }
 

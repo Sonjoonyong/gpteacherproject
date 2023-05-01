@@ -107,6 +107,21 @@
             color: white;
         }
 
+        .searchbox{
+            border-top: 1px solid white;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            border-bottom:1px solid lightslategray;
+        }
+        #searchForm button{
+            margin-left: 10px;
+            border: 1px solid #7AD4B9;
+            color: white;
+            background-color: #7AD4B9;
+            float :right;
+            border-radius: 5px;
+        }
+
     </style>
 
 </head>
@@ -123,20 +138,18 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button " type="button" onclick="location.href='/community/list'" style="background-color: #CFEAE2">
-                                    커뮤니티
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='/community/?'">
-                                    WeeklyTop10
+                                    WeeklyBest
                                 </button>
                             </h2>
                         </div>
                     </div>
                 </div>
             </div>
+<%--            <div class="col-12 col-md-3" id="WeeklyBest">--%>
+<%--                <tb>--%>
+
+<%--                </tb>--%>
+<%--            </div>--%>
 
             <div class="col-12 col-md-7 my-5">
                 <div class="communitypost" id="communitypost">

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
 @Controller
 @RequiredArgsConstructor //생성자를 자동 생성해줌
 @RequestMapping("/community")
@@ -201,5 +202,14 @@ public class CommunityPostController {
             bookmarkRepository.delete(bookmark);
             return "0";
         }
+    }
+
+    @PostMapping("/community/postView")
+    public String bestList( Model model) {
+//        List<CommunityPostViewDTO> list = CommunityPostService.bestlistAll();
+//        model.addAttribute("list",CommunityPostService.bestListAll(userId));
+        model.addAttribute("bestList",communityPostService.bestListAll());
+
+        return "community/postList";
     }
 }

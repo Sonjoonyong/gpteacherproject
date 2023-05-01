@@ -116,4 +116,15 @@
         delete from COMMUNITY_POST where id = #{communityPostId}
     </delete>
 
+    <select id="bestListAll" resultType="CommunityPostListDto">
+        SELECT
+        P.*,
+        ROWNUM
+        FROM (select *
+        from COMMUNITY_POST
+        where COMMUNITY_POST_WRITEDATE >= TO_CHAR(SYSDATE - 7, 'YYYYMMDD')
+        ORDER BY community_post_hit desc) P
+        WHERE ROWNUM &lt;= 10;
+    </select>
+
 </mapper>
