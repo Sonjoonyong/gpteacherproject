@@ -1,8 +1,11 @@
 package com.sooaz.gpt.domain.learning.dialogue;
 
 import com.sooaz.gpt.domain.learning.AzureClient;
+import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
+import com.sooaz.gpt.domain.learning.topic.Topic;
+import com.sooaz.gpt.domain.learning.topic.TopicRepository;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import com.sooaz.gpt.domain.user.User;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +29,7 @@ public class DialogueController {
     private final DialogueService dialogueService;
     private final NcpTtsClient ncpTtsClient;
     private final AzureClient azureClient;
-    private final OpenAiClient openAiClient;
+    private final TopicRepository topicRepository;
 
     @GetMapping("/learning/dialogue")
     public String getTopicForm() {
@@ -40,7 +44,9 @@ public class DialogueController {
     ) {
         String assistantTalk = dialogueService.initDialogue(dialogueTopicDto);
         Long learningId = dialogueService.saveLearning(dialogueTopicDto, loginUser.getId());
+        String plainTopic = dialogueService.getPlainTopic(dialogueTopicDto);
 
+        model.addAttribute("plainTopic", plainTopic);
         model.addAttribute("assistantTalk", assistantTalk);
         model.addAttribute("learningId", learningId);
 
@@ -84,5 +90,12 @@ public class DialogueController {
         sentenceRepository.update(sentenceUpdateDto);
 
         return String.valueOf(accuracyScore);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/learning/dialogue/random", produces = "application/json; charset=utf-8")
+    public String getRandomTopic() {
+        Topic topic = topicRepository.findRandomOne(LearningType.DIALOGUE);
+        return topic.getLearningTopic().toString();
     }
 }

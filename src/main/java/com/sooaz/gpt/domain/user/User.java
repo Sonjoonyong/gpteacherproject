@@ -18,4 +18,6 @@ public class User {
     private Boolean userEmailAgreement;
     private Date blockDate;
     private String blockReason;
+    private String userSecurityQuestion;
+    private String userSecurityAnswer;
 }

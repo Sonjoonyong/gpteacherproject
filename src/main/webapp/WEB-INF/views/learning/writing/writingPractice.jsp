@@ -35,33 +35,37 @@
 <%@ include file="../../fragments/header.jsp" %>
 <section class="container">
     <div class="wrapper">
-    <h1 class="h3 text-center my-3" style="color: #5DB99D">QUESTION & ANSWER</h1>
+        <h1 class="h3 text-center my-3" style="color: #5DB99D">QUESTION & ANSWER</h1>
 
-    <form action="/learning/correction/script" method="post">
-        <input type="hidden" name="question" value="${question}" />
+        <form action="/learning/correction/script" method="post">
+            <input type="hidden" name="question" value="${question}"/>
 
-        <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">Question: <span>${question}</span></p>
+            <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">Question:
+                <span>${question}</span></p>
 
-        <div class="form-group">
-            <label for="answer" style="font-weight: bold; color: #2A6976">Answer </label>
-            <textarea class="form-control px-3 py-2 my-3" cols="100" rows="30" name="userScript" id="answer"></textarea>
-        </div>
-
-        <div class="text-center submit-container">
-            <input type="button" id="submitBtn" value="교정받기" onclick="checkProfanity(); return false;" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D"/>
-
-            <div id="waitingMessage" class="row justify-content-center" style="display:none;">
-                <div class="col-12 text-center mb-2">
-                    <div class="spinner-border text-secondary" role="status"></div>
-                </div>
-                <div class="col-12 text-center">문장을 분석중입니다.</div>
+            <div class="form-group">
+                <label for="answer" style="font-weight: bold; color: #2A6976">Answer </label>
+                <textarea class="form-control px-3 py-2 my-3" cols="100" rows="30" name="userScript"
+                          id="answer"></textarea>
             </div>
-        </div>
-    </form>
 
-    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
-        <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
-    </div>
+            <div class="text-center submit-container">
+                <input type="button" id="submitBtn" value="교정받기" onclick="checkProfanity(); return false;"
+                       class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+                       style="width: 200px; background-color: #5DB99D"/>
+
+                <div id="waitingMessage" class="row justify-content-center" style="display:none;">
+                    <div class="col-12 text-center mb-2">
+                        <div class="spinner-border text-secondary" role="status"></div>
+                    </div>
+                    <div class="col-12 text-center">문장을 분석중입니다.</div>
+                </div>
+            </div>
+        </form>
+
+        <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+            <img src="/images/step_second.png" alt="Step Second" style="max-width: 100%;">
+        </div>
     </div>
 </section>
 
@@ -104,7 +108,7 @@
             }
         }
 
-        request.open("POST","/learning/sentence/profanity", true);
+        request.open("POST", "/learning/sentence/profanity", true);
         request.responseType = "json";
         request.send(formData);
     }

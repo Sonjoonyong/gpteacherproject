@@ -62,10 +62,10 @@
 
 <%@ include file="../fragments/header.jsp" %>
 
-<section class="container" style="max-width: 600px">
+<section class="container d-flex" style="max-width: 600px">
 
     <form:form modelAttribute="userSignupDto" method="post"
-               class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto mb-5"
+               class="login row g-0 justify-content-center pb-5 pt-3 px-5 rounded-5 my-auto mb-5 shadow"
                style="border: 2px solid #5DB99D;">
         <div class="row g-0 d-flex flex-column justify-content-between align-items-center gap-4">
             <div class="row g-0 justify-content-center">
@@ -76,7 +76,7 @@
             <div class="row">
                 <span class="col-12 p-0">이메일</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userEmail" class="form-control"/>
+                    <form:input path="userEmail" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="sendEmailCode">
                         인증코드 발송
                     </button>
@@ -88,7 +88,7 @@
 
                 <span class="col-12 p-0">이메일 인증 코드</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userEmailCode" type="text" class="form-control" disabled="true"/>
+                    <form:input path="userEmailCode" type="text" class="form-control" disabled="true" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6"
                             type="button" id="validateEmailCode" disabled>
                         인증
@@ -103,7 +103,7 @@
             <div class="row">
                 <span class="col-12 p-0">아이디</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userLoginId" type="text" class="form-control"/>
+                    <form:input path="userLoginId" type="text" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="idDupCheck">중복검사</button>
                 </div>
                 <div id="loginIdMsg" class="col-12 text-danger p-0">
@@ -130,7 +130,7 @@
 
                 <span class="col-12 p-0">비밀번호 확인</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:password path="userPasswordCheck" class="form-control"/>
+                    <form:password path="userPasswordCheck" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary viewPassword" type="button">
                         <i class="bi bi-eye-slash"></i>
                     </button>
@@ -141,7 +141,7 @@
             <div class="row">
                 <span class="col-12 p-0">닉네임</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userNickname" class="form-control"/>
+                    <form:input path="userNickname" class="form-control" autocomplete="off"/>
                     <button class="btn btn-outline-secondary fs-6" type="button" id="nicknameDupCheck">중복검사</button>
                 </div>
                 <div id="nicknameMsg" class="col-12 text-danger p-0">
@@ -151,9 +151,31 @@
             </div>
 
             <div class="row">
+                <span class="col-12 p-0">아이디 찾기 질문</span>
+                <div class="col-12 input-group input-group-lg p-0">
+                    <form:select path="userSecurityQuestion" cssClass="form-select">
+                        <form:options items="${userSecurityQuestions}" cssClass="form-control"/>
+                    </form:select>
+                </div>
+                <div id="securityQuestionMsg" class="col-12 text-danger p-0">
+                        <%--아이디 찾기 질문 관련 메시지--%>
+                    <form:errors path="userSecurityQuestion" cssClass="p-0 text-danger"/>
+                </div>
+
+                <span class="col-12 p-0">아이디 찾기 답변</span>
+                <div class="col-12 input-group input-group-lg p-0">
+                    <form:input path="userSecurityAnswer" class="form-control" autocomplete="off"/>
+                </div>
+                <div id="securityAnswerMsg" class="col-12 text-danger p-0">
+                        <%--아이디 찾기 답변 관련 메시지--%>
+                    <form:errors path="userSecurityAnswer" cssClass="p-0 text-danger"/>
+                </div>
+            </div>
+
+            <div class="row">
                 <span class="col-12 p-0">생년월일</span>
                 <div class="col-12 input-group input-group-lg p-0">
-                    <form:input path="userBirthday" type="date" class="form-control"/>
+                    <form:input path="userBirthday" type="date" class="form-control" autocomplete="off"/>
                 </div>
                 <form:errors path="userBirthday" cssClass="p-0 text-danger"/>
             </div>
@@ -165,7 +187,7 @@
                 </div>
                 <hr class="my-1">
                 <div class="col-12 d-flex">
-                    <form:checkbox path="userGeneralTermAgreement" id="generalTermAgreement"/>
+                    <form:checkbox path="userGeneralTermAgreement"/>
                     <span class="ms-2 termDesc d-flex align-items-center">지피티쳐 이용약관 동의 (필수)</span>
                     <button type="button" id="generalTermDetail"
                             class="termDetail btn btn-sm ms-auto text-secondary p-0">자세히
@@ -219,6 +241,16 @@
 <%@ include file="../fragments/bootstrapJs.jsp" %>
 
 <script src="/js/signupForm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // 생일 유효성 검사 1900-01-01 ~ 오늘로 설정
+    const userBirthdayInput = document.querySelector('#userBirthday');
+    userBirthdayInput.min = "1900-01-01";
+    userBirthdayInput.max = new Date().toISOString().split('T')[0];
+
+
+</script>
 
 
 </body>

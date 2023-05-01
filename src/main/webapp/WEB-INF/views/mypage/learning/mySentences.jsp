@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="col-12 col-md-9">
-                            <div class="fw-bold" style="color: #2F4858;">Explanation</div>
+                            <div class="fw-bold mt-2" style="color: #2F4858;">Explanation</div>
                             <div class="explanation border p-1 rounded-1">
                                     ${sentence.sentenceExplanation}
                             </div>
@@ -223,7 +223,7 @@
         let likeCheck = document.getElementById('flexCheckDefault');
         let form = document.getElementById('selectForm');
 
-        if (likeCheck.checked == true) {
+        if (likeCheck.checked === true) {
             document.getElementById('onlyLike').value = '1';
         } else {
             document.getElementById('onlyLike').value = null;

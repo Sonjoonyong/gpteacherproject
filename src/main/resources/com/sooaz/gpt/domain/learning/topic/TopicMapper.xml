@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sooaz.gpt.domain.learning.topic.TopicMapper">
+
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select TOPIC_ID_SEQ.nextval from dual
+        </selectKey>
+        insert into TOPIC (
+        id,
+        learning_type,
+        learning_topic
+        )
+        values (
+        #{id},
+        #{learningType},
+        #{learningTopic}
+        )
+    </insert>
+
+    <select id="findAll" resultType="Topic">
+        select *
+        from topic
+    </select>
+
+    <select id="findRandomOne" parameterType="learningType" resultType="Topic">
+        select *
+        from (select * from topic where learning_type = #{learningType} order by dbms_random.random)
+        where rownum = 1
+    </select>
+
+    <select id="findById" parameterType="long" resultType="Topic">
+        select *
+        from TOPIC
+        where ID = #{topicId}
+    </select>
+
+</mapper>

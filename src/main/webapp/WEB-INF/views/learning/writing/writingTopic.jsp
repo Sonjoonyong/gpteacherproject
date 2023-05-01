@@ -47,43 +47,68 @@
 <body>
 
 <%@ include file="../../fragments/header.jsp" %>
-<section class="container">
-    <h3 class="h3 text-center my-3" style="color: #5DB99D">TOPIC</h3>
+<section class="container d-flex flex-column">
+    <div class="row flex-grow-1 align-content-start">
 
-    <form action="/learning/writing" method="post" id="customTopicForm" class="row d-flex justify-content-center">
-        <div class="form-option text-center">
-            <input type="hidden" name="topicType" value="customTopic">
-            <label for="customTopic" class="text-center mb-2">주제를 직접 입력하여 글쓰기를 연습합니다.</label><br>
-            <input type="text" id="customTopic" name="customTopic" placeholder="주제를 영어로 입력해주세요." class="col-12 col-md-8 py-2 rounded-3 border mx-auto text-center" style="text-align: center; margin-top: 40px"/>
-            <div class="text-center example" style="margin-top: 15px">ex) The effects of social media on mental health and interpersonal relationships.</div>
-        </div>
-        <div class="row justify-content-center mt-5">
-            <input type="button" value="작성한 주제로 시작" onclick="checkProfanity(); return false;" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D">
-        </div>
-    </form>
+        <h3 class="h3 text-center my-3" style="color: #5DB99D">TOPIC</h3>
 
-    <div class="divider"></div>
-
-    <form action="/learning/writing" method="post" class="row d-flex justify-content-center">
-        <div class="form-option text-center">
-            <input type="hidden" name="topicType" value="predefinedTopic">
-            <label class="text-center my-3">또는, 주제를 보기에서 선택하여 글쓰기를 연습합니다.</label><br>
-            <input type="hidden" id="selectedTopic" name="predefinedTopic">
-            <div class="mt-3">
-                <button type="button" id="politicsBtn" onclick="selectTopic('POLITICS')" class="btn btn-outline-secondary topic-button">정치</button>
-                <button type="button" id="societyBtn" onclick="selectTopic('SOCIETY')" class="btn btn-outline-secondary topic-button">사회</button>
-                <button type="button" id="economyBtn" onclick="selectTopic('ECONOMY')" class="btn btn-outline-secondary topic-button">경제</button>
-                <button type="button" id="entertainmentBtn" onclick="selectTopic('ENTERTAINMENT')" class="btn btn-outline-secondary topic-button">연예</button>
-                <button type="button" id="sportsBtn" onclick="selectTopic('SPORTS')" class="btn btn-outline-secondary topic-button">스포츠</button>
+        <form action="/learning/writing" method="post" id="customTopicForm" class="row d-flex justify-content-center">
+            <div class="form-option text-center">
+                <input type="hidden" name="topicType" value="customTopic">
+                <label for="customTopic" class="text-center mb-2">주제를 직접 입력하여 글쓰기를 연습합니다.</label><br>
+                <input type="text" id="customTopic" name="customTopic" placeholder="주제를 영어로 입력해주세요."
+                       class="col-12 col-md-8 py-2 rounded-3 border mx-auto text-center"
+                       style="text-align: center; margin-top: 40px"/>
+                <div class="text-center example" style="margin-top: 15px">ex) The effects of social media on mental
+                    health
+                    and interpersonal relationships.
+                </div>
             </div>
-            <div id="exampleTopics" class="text-center example mt-3"></div>
+            <div class="row justify-content-center mt-5">
+                <input type="button" value="작성한 주제로 시작" onclick="checkProfanity(); return false;"
+                       class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+                       style="width: 200px; background-color: #5DB99D">
+            </div>
+        </form>
+
+        <div class="divider"></div>
+
+        <form action="/learning/writing" method="post" class="row d-flex justify-content-center">
+            <div class="form-option text-center">
+                <input type="hidden" name="topicType" value="predefinedTopic">
+                <label class="text-center my-3">또는, 주제를 보기에서 선택하여 글쓰기를 연습합니다.</label><br>
+                <input type="hidden" id="selectedTopic" name="predefinedTopic">
+                <div class="mt-3">
+                    <button type="button" id="politicsBtn" onclick="selectTopic('POLITICS')"
+                            class="btn btn-outline-secondary topic-button">정치
+                    </button>
+                    <button type="button" id="societyBtn" onclick="selectTopic('SOCIETY')"
+                            class="btn btn-outline-secondary topic-button">사회
+                    </button>
+                    <button type="button" id="economyBtn" onclick="selectTopic('ECONOMY')"
+                            class="btn btn-outline-secondary topic-button">경제
+                    </button>
+                    <button type="button" id="entertainmentBtn" onclick="selectTopic('ENTERTAINMENT')"
+                            class="btn btn-outline-secondary topic-button">연예
+                    </button>
+                    <button type="button" id="sportsBtn" onclick="selectTopic('SPORTS')"
+                            class="btn btn-outline-secondary topic-button">스포츠
+                    </button>
+                </div>
+                <div id="exampleTopics" class="text-center example mt-3"></div>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <input type="submit" value="선택한 주제로 시작" class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+                       style="width: 200px; background-color: #5DB99D">
+            </div>
+        </form>
+
+    </div>
+
+    <div class="row">
+        <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+            <img src="/images/step_first.png" alt="Step First" style="max-width: 100%;">
         </div>
-        <div class="row justify-content-center mt-5">
-            <input type="submit" value="선택한 주제로 시작" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="width: 200px; background-color: #5DB99D">
-        </div>
-    </form>
-    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
-        <img src="/images/step_first.png" alt="Step First" style="max-width: 100%;">
     </div>
 </section>
 
@@ -124,7 +149,7 @@
         let topic = form.querySelector('#customTopic').value;
 
         let formData = new FormData();
-        formData.append('text',topic);
+        formData.append('text', topic);
 
         request.onload = () => {
             let profanity = request.response.profanity;
@@ -142,7 +167,7 @@
             }
         }
 
-        request.open("POST","/learning/sentence/profanity", true);
+        request.open("POST", "/learning/sentence/profanity", true);
         request.responseType = "json";
         request.send(formData);
     }

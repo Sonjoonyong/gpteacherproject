@@ -12,6 +12,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -75,6 +77,7 @@ public class UserController {
 
     @GetMapping("/user/signup")
     public String getSignupForm(Model model) {
+        model.addAttribute("userSecurityQuestions", UserService.USER_SECURITY_QUESTIONS);
         model.addAttribute("userSignupDto", new UserSignupDto());
         return "/user/signupForm";
     }
@@ -83,7 +86,7 @@ public class UserController {
     public String signup(
             @Valid @ModelAttribute UserSignupDto userSignupDto,
             BindingResult bindingResult,
-            @SessionAttribute(value = SessionConst.LOGIN_USER, required = false) User loginUser
+            Model model
     ) {
         String userEmail = userSignupDto.getUserEmail();
         if (userEmail != null && userService.isDuplicateEmail(userEmail)) {
@@ -106,15 +109,33 @@ public class UserController {
         }
 
         Date userBirthday = userSignupDto.getUserBirthday();
+        Date today = new Date();
+        Date minDate = new Date(0, Calendar.JANUARY, 1);
         if (userBirthday == null) {
             bindingResult.rejectValue("userBirthday", "incorrect", "생일을 입력해주세요.");
+        } else if (userBirthday.compareTo(today) >= 0) {
+            bindingResult.rejectValue("userBirthday", "incorrect", "오늘 이전 날짜를 선택해주세요.");
+        } else if (userBirthday.compareTo(minDate) < 0) {
+            if (userBirthday.compareTo(minDate) < 0) {
+                bindingResult.rejectValue("userBirthday", "incorrect", "1900년 이후 날짜를 선택해 주세요.");
+            }
         }
 
+        String securityQuestion = userSignupDto.getUserSecurityQuestion();
+        if (Arrays.stream(UserService.USER_SECURITY_QUESTIONS)
+                .noneMatch(securityQuestion::equals)
+        ) {
+            bindingResult.rejectValue("userSecurityQuestion", "incorrect", "주어진 질문에 대해 답변하세요.");
+        }
+
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("userSecurityQuestions", UserService.USER_SECURITY_QUESTIONS);
             return "user/signupForm";
         }
 
         userService.join(userSignupDto);
+        userService.invalidEmailCode(userEmail);
 
         return "redirect:/user/login";
     }

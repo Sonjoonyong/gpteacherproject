@@ -17,35 +17,43 @@
 <body>
 
 <%@ include file="../fragments/header.jsp" %>
-<section class="container">
+<section class="container d-flex flex-column">
+    <div class="row flex-grow-1 align-content-start">
 
-    <h3 class="h3 text-center my-3" style="color: #5DB99D;">GPTeacher's CORRECTION</h3>
-    <p class="text-center">GPTeaher가 교정해준 문장입니다.</p>
+        <h3 class="h3 text-center my-3" style="color: #5DB99D;">GPTeacher's CORRECTION</h3>
+        <p class="text-center">GPTeaher가 교정해준 문장입니다.</p>
 
-    <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">Question: ${question}</p>
-    <p style="font-weight: bold; color: #2A6976">Your Answer</p>
-    <p class="rounded-1 px-3 py-2 my-3" style="border: 1px solid #ccc">${userScript}</p>
-    <p style="font-weight: bold; color: #16967A">GPTeacher's Correction</p>
-    <p id="correctedScript" class="rounded-1 px-3 py-2 my-3" style="border: 1px solid #ccc">${correctedScript}</p>
+        <p class="text-center rounded-1 px-3 py-2 my-3" style="background-color: #F4F2FF; color: #7B61FF">
+            Question: ${question}</p>
+        <p style="font-weight: bold; color: #2A6976">Your Answer</p>
+        <p class="rounded-1 px-3 py-2 my-3" style="border: 1px solid #ccc">${userScript}</p>
+        <p style="font-weight: bold; color: #16967A">GPTeacher's Correction</p>
+        <p id="correctedScript" class="rounded-1 px-3 py-2 my-3" style="border: 1px solid #ccc">${correctedScript}</p>
 
-    <div class="d-flex justify-content-center">
-        <div class="btn-group">
-            <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" id="ttsBtn" style="background-color: #5DB99D; color: white; width: 120px; height: 40px; margin-right: 30px;">
-                교정본 듣기
-            </button>
-
-            <form method="get" action="/learning/correction/sentences">
-                <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" style="background-color: #5DB99D; color: white; width: 120px">
-                    문장별 분석
+        <div class="d-flex justify-content-center">
+            <div class="btn-group">
+                <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3" id="ttsBtn"
+                        style="background-color: #5DB99D; color: white; width: 120px; height: 40px; margin-right: 30px;">
+                    교정본 듣기
                 </button>
-                <input type="hidden" name="learningId" value="${learningId}">
-            </form>
+
+                <form method="get" action="/learning/correction/sentences">
+                    <button type="submit" class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+                            style="background-color: #5DB99D; color: white; width: 120px">
+                        문장별 분석
+                    </button>
+                    <input type="hidden" name="learningId" value="${learningId}">
+                </form>
+            </div>
         </div>
     </div>
 
-    <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
-        <img src="/images/step_third.png" alt="Step Third" style="max-width: 100%;">
+    <div class="row">
+        <div class="text-center" style="margin-top: 80px; margin-bottom: 40px">
+            <img src="/images/step_third.png" alt="Step Third" style="max-width: 100%;">
+        </div>
     </div>
+
 </section>
 
 <%@ include file="../fragments/footer.jsp" %>
@@ -59,7 +67,7 @@
             icon: 'error',
             title: '다시 입력해주세요.',
             text: '부적절한 답변입니다.',
-        }).then(function() {
+        }).then(function () {
             history.back();
         });
     }

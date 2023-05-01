@@ -77,6 +77,82 @@ document.querySelectorAll('.viewPassword').forEach(el => {
 // 회원 가입 버튼
 document.querySelector('#submitBtn').onclick = (e) => {
     const form = e.currentTarget.closest('form');
+    
+    // 유효성 검사
+    let userEmailInput = document.querySelector('#userEmail');
+    let userEmailCodeInput = document.querySelector('#userEmailCode');
+    let userLoginIdInput = document.querySelector('#userLoginId');
+    let userPasswordInput = document.querySelector('#userPassword');
+    let userPasswordCheckInput = document.querySelector('#userPasswordCheck');
+    let userNicknameInput = document.querySelector('#userNickname');
+    let userBirthdayInput = document.querySelector('#userBirthday');
+    let userGeneralTermAgreementInput = document.querySelector('input[name=userGeneralTermAgreement]');
+    let userPrivacyTermAgreementInput = document.querySelector('input[name=userPrivacyTermAgreement]');
+    let userSecurityQuestionInput = document.querySelector('#userSecurityQuestion');
+    let userSecurityAnswerInput = document.querySelector('#userSecurityAnswer');
+
+    if (userEmailInput.value === '') {
+        userEmailInput.focus();
+        Swal.fire('이메일을 입력해주세요');
+        return false;
+    }
+    if (userEmailCodeInput.value === '') {
+        userEmailCodeInput.focus();
+        Swal.fire('이메일 코드를 입력해주세요');
+        return false;
+    }
+    if (userLoginIdInput.value === '') {
+        userLoginIdInput.focus();
+        Swal.fire('아이디를 입력해주세요');
+        return false;
+    }
+    if (userPasswordInput.value.search(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]{6,12}$/g) === -1) {
+        userPasswordInput.focus();
+        Swal.fire('비밀번호는 6~12 자리의 영문자, 숫자 및 특수문자($@$!%*#?&)를 포함해 입력해주세요.');
+        return false;
+    }
+    if (userPasswordCheckInput.value === '') {
+        userPasswordCheckInput.focus();
+        Swal.fire('비밀번호 확인을 입력해주세요');
+        return false;
+    }
+    if (userPasswordInput.value !== userPasswordCheckInput.value) {
+        userPasswordCheckInput.focus();
+        Swal.fire('입력한 비밀번호와 다릅니다.');
+        return false;
+    }
+    if (userNicknameInput.value === '') {
+        userNicknameInput.focus();
+        Swal.fire('닉네임을 입력해주세요');
+        return false;
+    }
+    if (userBirthdayInput.value === '') {
+        userBirthdayInput.focus();
+        Swal.fire('생일을 입력해주세요');
+        return false;
+    }
+    if (userSecurityQuestionInput.value === '') {
+        userSecurityQuestionInput.focus();
+        Swal.fire('아이디 찾기 질문을 선택해주세요.');
+        return false;
+    }
+    if (userSecurityAnswerInput.value === '') {
+        userSecurityAnswerInput.focus();
+        Swal.fire('아이디 찾기 답변을 입력해주세요.');
+        return false;
+    }
+    if (userGeneralTermAgreementInput.checked === false) {
+        userGeneralTermAgreementInput.focus();
+        Swal.fire('필수 약관에 동의해주세요.');
+        return false;
+    }
+    if (userPrivacyTermAgreementInput.checked === false) {
+        userPrivacyTermAgreementInput.focus();
+        Swal.fire('개인정보 약관에 동의해주세요');
+        return false;
+    }
+
+
     // input disabled 모두 해제 후 전송
     document.querySelectorAll('input[disabled]')
         .forEach(e => e.disabled = false);
