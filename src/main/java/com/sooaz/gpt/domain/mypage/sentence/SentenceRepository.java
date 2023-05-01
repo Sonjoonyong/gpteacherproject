@@ -30,6 +30,10 @@ public class SentenceRepository {
         return sentenceMapper.findAllByLearningId(learningId);
     }
 
+    public List<SentenceListDto> findAllByPager(SentencePagerDto sentencePagerDto) {
+        return sentenceMapper.findAllByPager(sentencePagerDto);
+    }
+
     public List<Sentence> findByLearningId(LearningFindDto learningFindDto) {
         return sentenceMapper.findByLearningId(learningFindDto);
     }

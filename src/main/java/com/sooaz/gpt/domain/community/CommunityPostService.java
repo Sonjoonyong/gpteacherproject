@@ -18,6 +18,7 @@ public class CommunityPostService {
         communityPost.setCommunityPostTitle(communityPostDto.getCommunityPostTitle());
         communityPost.setCommunityPostContent(communityPostDto.getCommunityPostContent());
         communityPost.setCommunityPostCategory(communityPostDto.getCommunityPostCategory());
+        communityPost.setSentenceId(communityPostDto.getSentenceId());
         return communityPostRepository.save(communityPost);
     }
 

@@ -37,10 +37,10 @@
 
         <div class="col">
             <div class="row">
-                <button id="dialogueRandomTopic" class="btn btn-light border">
+                <div id="dialogueRandomTopic" class="btn border shadow-sm">
                     <i class="bi bi-shuffle"></i>
                     랜덤 추천
-                </button>
+                </div>
             </div>
         </div>
 
@@ -62,10 +62,10 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-2">
-                    <button id="changeRole" class="btn btn-sm w-auto shadow-sm" type="button">
+                    <div id="changeRole" class="btn btn-sm w-auto shadow-sm" type="button">
                         <i class="bi bi-arrow-down-up"></i>
                         역할 바꾸기
-                    </button>
+                    </div>
                 </div>
                 <div class="col-12 col-md-10 text-secondary example">ex) customer</div>
             </div>

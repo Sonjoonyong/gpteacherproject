@@ -6,6 +6,9 @@ import com.sooaz.gpt.domain.community.bookmark.Bookmark;
 import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
 import com.sooaz.gpt.domain.community.like.Like;
 import com.sooaz.gpt.domain.community.like.LikeRepository;
+import com.sooaz.gpt.domain.mypage.sentence.Sentence;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceService;
 import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,7 @@ public class CommunityPostController {
     private final CommunityPostService communityPostService;
     private final BookmarkRepository bookmarkRepository;
     private final LikeRepository likeRepository;
+    private final SentenceRepository sentenceRepository;
 
     @GetMapping("/list")
     public String getList(
@@ -72,6 +76,12 @@ public class CommunityPostController {
             updateDto.setCommunityPostId(communityPostId);
             updateDto.setCommunityPostHit(hit);
             communityPostService.update(updateDto);
+        }
+
+        Long sentenceId = communityPostViewDto.getSentenceId();
+        if (sentenceId != null) {
+            Optional<Sentence> sentenceOpt = sentenceRepository.findById(sentenceId);
+            sentenceOpt.ifPresent(sentence -> model.addAttribute("sentence", sentence));
         }
 
         model.addAttribute("communityPostViewDto", communityPostViewDto);
@@ -117,6 +127,12 @@ public class CommunityPostController {
         updateDto.setCommunityPostTitle(post.getCommunityPostTitle());
         updateDto.setCommunityPostContent(post.getCommunityPostContent());
         updateDto.setCommunityPostCategory(post.getCommunityPostCategory());
+
+        Long sentenceId = post.getSentenceId();
+        if (sentenceId != null) {
+            Optional<Sentence> sentenceOpt = sentenceRepository.findById(sentenceId);
+            sentenceOpt.ifPresent(sentence -> model.addAttribute("sentence", sentence));
+        }
 
         model.addAttribute("communityPostUpdateDto", updateDto);
         return "community/postEdit";

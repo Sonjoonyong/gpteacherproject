@@ -93,3 +93,5 @@ VALUES (
            (SELECT ID FROM USERS WHERE USER_LOGIN_ID = 'admin'),
            '기본 보관함'
        );
+
+alter table COMMUNITY_POST add sentence_id number null;

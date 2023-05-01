@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class CommunityPostDto {
     private Long userId;
+    private Long sentenceId;
     private String communityPostTitle;
     private String communityPostContent;
     private String communityPostCategory;
-
 }
 

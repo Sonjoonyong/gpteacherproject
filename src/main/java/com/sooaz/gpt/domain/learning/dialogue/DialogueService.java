@@ -76,7 +76,7 @@ public class DialogueService {
     public String getPlainTopic(DialogueTopicDto dialogueTopicDto) {
 
         String topic = String.format(
-                "You, as %s, are talking to %s about %s at %s.",
+                "As %s, you are talking to %s in case %s at %s.",
                 dialogueTopicDto.getUserRole(),
                 dialogueTopicDto.getAssistantRole(),
                 dialogueTopicDto.getSituation(),
