@@ -80,7 +80,7 @@ var calendarHeatmap = {
             var date = moment(d.date);
             var dayIndex = Math.round((date - moment(start_of_year).startOf('week')) / 86400000);
             var colIndex = Math.trunc(dayIndex / 7);
-            return colIndex * (calendarHeatmap.settings.item_size + calendarHeatmap.settings.gutter) + calendarHeatmap.settings.label_padding;
+            return colIndex * (calendarHeatmap.settings.item_size + calendarHeatmap.settings.gutter) + 35;//+ calendarHeatmap.settings.label_padding;
         };
         var calcItemY = function(d) {
             return calendarHeatmap.settings.label_padding + moment(d.date).weekday() * (calendarHeatmap.settings.item_size + calendarHeatmap.settings.gutter);

@@ -151,8 +151,8 @@ public class MypageController {
             @SessionAttribute User loginUser,
             Model model
     ) {
-        List<Flashcard> flashcards = flashcardService.getFlashcardList(loginUser.getId());
-        Long flashcardId = flashcards.get(0).getId();
+        Flashcard flashcard = flashcardService.findByUserId(loginUser.getId());
+        Long flashcardId = flashcard.getId();
         List<Sentence> sentences = flashcardService.getSentenceListByFlashcard(flashcardId);
         model.addAttribute("sentencesCount",sentences.size());
         return "mypage/learning/flashcard";
@@ -174,8 +174,8 @@ public class MypageController {
             model.addAttribute("sentencesCount", -1);
             return "mypage/learning/flashcard";
         }
-        List<Flashcard> flashcards = flashcardService.getFlashcardList(loginUser.getId());
-        Long flashcardId = flashcards.get(0).getId();
+        Flashcard flashcard = flashcardService.findByUserId(loginUser.getId());
+        Long flashcardId = flashcard.getId();
 
         PageHelper.startPage(1,1);
         List<Sentence> sentences = flashcardService.getSentenceListByFlashcard(flashcardId);

@@ -9,9 +9,5 @@ public interface FlashcardMapper {
 
     void save(Flashcard flashcard);
 
-    List<Flashcard> findByUserId(Long userId);
-
-    void updateName(Flashcard flashcard);
-
-    void delete(Long id);
+    Flashcard findByUserId(Long userId);
 }
