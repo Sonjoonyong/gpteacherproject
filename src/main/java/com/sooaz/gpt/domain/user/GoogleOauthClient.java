@@ -89,7 +89,6 @@ public class GoogleOauthClient {
 
         return null;
     }
-
     public JSONObject getUserInfo(String accessToken) {
         final String API_URL = "https://openidconnect.googleapis.com/v1/userinfo";
 
@@ -134,6 +133,42 @@ public class GoogleOauthClient {
         }
 
         return null;
+    }
+
+    public void revoke(String accessToken) {
+        final String API_URL = "https://oauth2.googleapis.com/revoke?token=" + accessToken;
+
+        try {
+            URL url = new URL(API_URL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.setRequestMethod("POST");
+
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if (responseCode == 200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer result = new StringBuffer();
+                while ((inputLine = br.readLine()) != null) {
+                    result.append(inputLine);
+                }
+                br.close();
+
+            } else {  // 오류 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String inputLine;
+                StringBuffer res = new StringBuffer();
+                while ((inputLine = br.readLine()) != null) {
+                    res.append(inputLine);
+                }
+                br.close();
+                log.error("res = {}", res);
+            }
+        } catch (Exception e) {
+            log.error("e = ", e);
+        }
+
     }
 
 }

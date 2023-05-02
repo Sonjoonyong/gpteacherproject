@@ -17,6 +17,8 @@
             user_role,
             user_email,
             user_birthday,
+            user_security_question,
+            user_security_answer,
             user_email_agreement
         )
         values (
@@ -28,6 +30,8 @@
             #{userRole},
             #{userEmail},
             #{userBirthday},
+            #{userSecurityQuestion},
+            #{userSecurityAnswer},
             #{userEmailAgreement}
         )
     </insert>
@@ -77,12 +81,9 @@
             <if test="userRole != null">
                 user_role = #{userRole},
             </if>
-            <if test="userBirthday != null">
-                user_birthday = #{userBirthday},
-            </if>
             <if test="userEmailAgreement != null">
                 user_email_agreement = #{userEmailAgreement},
-            </if>if
+            </if>
         </set>
         where id = #{userId}
     </update>

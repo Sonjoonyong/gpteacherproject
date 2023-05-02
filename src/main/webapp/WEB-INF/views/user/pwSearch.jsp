@@ -64,7 +64,7 @@
 
 <section class="container d-flex" style="max-width: 550px">
 
-    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3"
+    <div class="login row flex-column g-0 justify-content-start rounded-5 my-auto p-5 pt-3 shadow"
           style="border: 2px solid #5DB99D; min-height: 500px;">
 
         <div class="row g-0 justify-content-center">
@@ -73,12 +73,12 @@
         </div>
 
         <span class="col-12 p-0">아이디</span>
-        <div class="input-group input-group-lg p-0 mb-3">
+        <div class="input-group p-0 mb-3">
             <input id="userLoginId" name="userLoginId" class="form-control"/>
         </div>
 
         <span class="col-12 p-0">이메일</span>
-        <div class="input-group input-group-lg p-0 mb-3">
+        <div class="input-group p-0 mb-3">
             <input id="userEmail" name="userEmail" class="form-control"/>
             <button class="btn btn-outline-secondary fs-6" type="button" id="sendNewPw">
                 재발급

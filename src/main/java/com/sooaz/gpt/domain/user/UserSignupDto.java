@@ -28,6 +28,12 @@ public class UserSignupDto {
     @Size(min = 2, max = 8, message = "2~8자 범위로 입력해주세요.")
     private String userNickname;
 
+    @Size(min = 1, max = 20, message = "2~8자 범위로 입력해주세요.")
+    private String userSecurityQuestion;
+
+    @Size(min = 1, max = 10, message = "1~10자 범위로 입력해주세요.")
+    private String userSecurityAnswer;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date userBirthday;
 

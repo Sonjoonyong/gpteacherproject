@@ -1,7 +1,5 @@
 package com.sooaz.gpt.domain.user;
 
-import com.sooaz.gpt.global.constant.SessionConst;
-import com.sooaz.gpt.global.email.Gmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,13 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,7 +51,7 @@ public class UserValidationController {
             return "이미 사용중인 이메일입니다.";
         }
 
-        userService.getEmailCode(userEmail);
+        userService.sendEmailCode(userEmail);
         return "true";
     }
 

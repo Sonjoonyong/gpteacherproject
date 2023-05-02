@@ -28,6 +28,16 @@ public class UserService {
     private final JedisPool jedisPool;
     private final Gmail gmail;
 
+    public static final String[] USER_SECURITY_QUESTIONS = {
+            "가장 아끼는 보물 1호는?",
+            "내가 졸업한 초등학교는?",
+            "나의 어머님 성함은?",
+            "나의 아버님 성함은?",
+            "가장 좋아하는 색깔은?",
+            "가장 좋아하는 음식은?",
+            "가장 좋아하는 동물은?"
+    };
+
     public boolean isCorrectPassword(User user, String inputPassword) {
         String passwordSalt = user.getUserPasswordSalt();
         String hashedPassword = passwordHasher.hash(inputPassword, passwordSalt);
@@ -61,6 +71,8 @@ public class UserService {
         user.setUserRole(UserRole.USER);
         user.setUserBirthday(userSignupDto.getUserBirthday());
         user.setUserEmailAgreement(userSignupDto.getUserEmailAgreement());
+        user.setUserSecurityQuestion(userSignupDto.getUserSecurityQuestion());
+        user.setUserSecurityAnswer(userSignupDto.getUserSecurityAnswer());
 
         // 패스워드 해싱
         String password = userSignupDto.getUserPassword();
@@ -129,14 +141,15 @@ public class UserService {
         userRepository.delete(userId);
     }
 
-    public String getEmailCode(String userEmail) {
+    public String sendEmailCode(String userEmail) {
         String emailCode = UUID.randomUUID().toString()
                 .replaceAll("-", "").substring(0, 5);
+
         log.info("발급된 emailCode = {}", emailCode);
 
         gmail.sendEmail(
                 userEmail,
-                "GPTeacher 회원가입 인증코드입니다.",
+                "GPTeacher 인증코드입니다.",
                 "아래 코드를 인증 창에 입력 후 회원가입을 진행하세요. \n\n" + emailCode
         );
 
@@ -180,11 +193,19 @@ public class UserService {
     public boolean isEmailValidated(String userEmail) {
         try (Jedis jedis = jedisPool.getResource()) {
             String isValidated = jedis.get(RedisConst.USER_EMAIL_VALIDATED + userEmail);
-            return isValidated.equals("true");
+            return isValidated != null && isValidated.equals("true");
         } catch (Exception e) {
             log.error("Redis error: ", e);
         }
 
         return false;
+    }
+
+    public void invalidEmailCode(String userEmail) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(RedisConst.USER_EMAIL_VALIDATED + userEmail, "false");
+        } catch (Exception e) {
+            log.error("Redis error: ", e);
+        }
     }
 }

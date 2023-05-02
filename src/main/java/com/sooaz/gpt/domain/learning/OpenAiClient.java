@@ -45,10 +45,20 @@ public class OpenAiClient {
         List<JSONObject> messages = new ArrayList<>();
         JSONObject message = userMessage(userPrompt);
         messages.add(message);
-        return chat(messages);
+        return chat(messages, 0);
+    }
+    public String chat(String userPrompt, double temperature) {
+        List<JSONObject> messages = new ArrayList<>();
+        JSONObject message = userMessage(userPrompt);
+        messages.add(message);
+        return chat(messages, temperature);
     }
 
     public String chat(List<JSONObject> messages) {
+        return chat(messages, 0);
+    }
+
+    public String chat(List<JSONObject> messages, double temperature) {
 
         String responseText = "";
 
@@ -63,7 +73,7 @@ public class OpenAiClient {
             JSONObject prompt = new JSONObject();
             prompt.put("model", "gpt-3.5-turbo-0301"); // required - ChatGPT 3.5 모델 - 현재 공개된 모델
             prompt.put("messages", messages); // required - 요청 프롬프트(과거 대화 이력 포함)
-            prompt.put("temperature", 0.0); // optional - 0 ~ 2 (클수록 답변이 랜덤해짐)
+            prompt.put("temperature", temperature); // optional - 0 ~ 2 (클수록 답변이 랜덤해짐)
 
             /**
              * temp

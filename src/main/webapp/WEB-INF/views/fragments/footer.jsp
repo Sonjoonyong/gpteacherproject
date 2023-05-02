@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <style>
     .footer-content {
         display: flex;
@@ -10,11 +11,10 @@
     .copyright {
         text-align: center;
         flex-grow: 1;
-        margin-left: 92px;
     }
 
-    .footer-button-container {
-        text-align: right;
+    #suaandaje {
+        color: #5DB99D;
     }
 
 </style>
@@ -29,11 +29,7 @@
             <div class="col-12 footer-content">
                 <div class="copyright">
                     © 2023 Copyright:
-                    <a id="suaandaje" class="dark-mode-text" href="#">수아와아재들</a><br/>
-                    <a>All Rights Reserved.</a>
-                </div>
-                <div class="footer-button-container">
-                    <button id="dark-mode-toggle">Dark Mode</button>
+                    <a id="suaandaje" href="#">수아와아재들</a>
                 </div>
             </div>
         </div>

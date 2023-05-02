@@ -8,5 +8,22 @@ body.dark-mode {
 }
 
 .dark-mode-text {
+    color: #FFF !important;
+}
+
+#header.dark-mode {
+    background-color: #222;
     color: #FFF;
+}
+
+#header.dark-mode a {
+    color: #FFF;
+}
+
+#header.dark-mode .dark-mode-text {
+    color: #FFF;
+}
+
+.dark-mode-bg {
+    background-color: #2b2b2b;
 }

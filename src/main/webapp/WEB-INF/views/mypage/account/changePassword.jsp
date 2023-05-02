@@ -113,7 +113,7 @@
             return false;
         }
 
-        if (userNewPasswordInput.value.search(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,12}$/g)) {
+        if (userNewPasswordInput.value.search(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]{6,12}$/g) === -1) {
             userNewPasswordMsg.innerText = '비밀번호는 6~12 자리의 영문자, 숫자 및 특수문자($@$!%*#?&)를 포함해 입력해주세요.';
             userNewPasswordInput.focus();
             return false;

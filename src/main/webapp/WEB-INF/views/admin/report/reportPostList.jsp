@@ -101,8 +101,9 @@
                             <c:forEach var="post" items="${reportedPosts}">
                                 <tr>
                                     <td>
-                                        <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                        <form action="/admin/blockUser" method="post" onsubmit="return blockReason();">
                                             <input type="hidden" name="userId" value="${post.userId}" />
+                                            <input type="hidden" name="reason" id="reason"/>
                                             <input type="submit" name="userLoginId" value="${post.userLoginId}" style="background-color: white; border: none;">
                                         </form>
                                     </td>
@@ -171,7 +172,22 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script>
+    function blockReason() {
+        if(confirm('차단하시겠습니까?')) {
+            let reason = prompt('차단 사유를 입력해 주세요.');
 
+            if(reason != null) { //취소가 아닐 경우
+                document.getElementById('reason').value = reason;
+                return true;
+            } else{
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+</script>
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>
