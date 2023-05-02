@@ -122,24 +122,4 @@ public class TestDataGenerator {
             }
         }
     }
-
-    @Test
-    public void test() {
-        String result = "test3";
-
-        Topic topic = new Topic();
-        topic.setLearningTopic(result);
-        topic.setLearningType(LearningType.DIALOGUE);
-
-        topicRepository.save(topic);
-
-        Topic foundTopic = topicRepository.findById(topic.getId());
-        Assertions.assertEquals(topic.getLearningTopic(), foundTopic.getLearningTopic());
-
-        for (int i = 0; i < 5; i++) {
-            Topic topic1 = topicRepository.findRandomOne(LearningType.DIALOGUE, null);
-            System.out.println("topicRepository = " + topic1.getId());
-            System.out.println("topicRepository = " + topic1.getLearningTopic());
-        }
-    }
 }
