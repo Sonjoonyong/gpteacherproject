@@ -5,7 +5,7 @@
 
 <html>
 <head>
-  <title>커뮤니티</title>
+  <title>주간베스트글 10</title>
   <link rel="stylesheet" href="/css/base.css">
   <%@ include file="../fragments/bootstrapCss.jsp" %>
   <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
@@ -85,18 +85,12 @@
   <div class="row">
     <%--사이드바--%>
     <div class="col-12 col-md-3 mt-5">
-      <%@ include file="../fragments/communityMenu.jsp" %>
+      <%@ include file="../fragments/communityMenu2.jsp" %>
     </div>
 
     <div class="col-12 col-md-7 my-3">
-      <div class="communityPost" id="communityPost">
-        <div class="hstack mb-2">
-          <a href="/community/write" class="btn btn-primary ms-auto">
-            글작성
-          </a>
-        </div>
-      </div>
 
+      <div class="list-group list-group-flush mt-3 border-bottom border-top mb-3">
       <c:forEach items="${bestListAll}" var="communityPostListDto" begin="0" end="9">
         <a href="/community/${communityPostListDto.id}" class="list-group-item list-group-item-action py-3">
           <div class="hstack gap-2">
@@ -115,6 +109,7 @@
               <fmt:formatDate value="${communityPostListDto.communityPostWritedate}"
                               pattern="yyyy.MM.dd"/>
             </small>
+
           </div>
 
 
@@ -144,7 +139,6 @@
         </a>
       </c:forEach>
     </div>
-  </div>
   </div>
   </div>
 </section>
