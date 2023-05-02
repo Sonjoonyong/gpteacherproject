@@ -7,7 +7,6 @@
     <title>GPTeacher</title>
 
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/dark-mode.css">
 
     <%@ include file="fragments/bootstrapCss.jsp" %>
     <style>
@@ -57,12 +56,24 @@
             color: #3b9d7f;
         }
 
-        .wrapper {
+        .start-button {
+            position: absolute;
+            background-color: #5DB99D;
             border: none;
-            /*padding: 20px;*/
             border-radius: 10px;
-            margin-top: 70px;
-            margin-bottom: 50px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #716FAA;
+            cursor: pointer;
+            left: 50%;
+            bottom: 120px;
+            transform: translateX(-50%);
+        }
+
+        .start-button:hover {
+            background-color: #716FAA;
+            color: #5DB99D;
+            transition: all 0.2s ease-in-out;
         }
 
     </style>
@@ -134,7 +145,7 @@
                 </div>
             </div>
 
-            <div class="row g-0" style="background-color: #CFEAE2;border-radius: 20px;" >
+            <div class="row g-0 custom-link" style="background-color: #CFEAE2;border-radius: 20px;">
                 <div class="col-6"   >
                     <div style="padding-left: 140px;" class="int-text" >
                         <h4>문장별 분석 기능, 음성 인식 기능</h4>
@@ -165,7 +176,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row g-0" style="background-color: #CFEAE2;border-radius: 20px;" >
+            <div class="row g-0 custom-link" style="background-color: #CFEAE2;border-radius: 20px;">
                 <div class="col-6 "  >
                     <div style="padding-left: 140px;" class="int-text" >
                         <h4>커뮤니티</h4>
@@ -182,8 +193,8 @@
             </div>
 
             <div class="row g-0" >
-                <div class="col-12" id="testapply">
-                    <div calss="col-12" style="margin-top: 15px; text-align: center;">
+                <div class="col-12 custom-link" id="testapply">
+                    <div class="col-12" style="margin-top: 15px; text-align: center;">
                         <h3 style="color: #2A6976">시험 접수하러 가기</h3>
                     </div>
                     <div class="col-12" >
@@ -214,8 +225,14 @@
                 <div class="col-12" style="text-align:center; margin-top:50px; ">
                     <h2>회원들의 생생한 후기도 확인해 보아요.</h2>
                 </div>
-                <div class="col-12" style="margin-bottom: 50px">
+                <div class="col-12" style="margin-bottom: 100px">
                     <img class="reviewimg" src="/images/review.png" style="width: 800px; height: 230px;">
+                </div>
+            </div>
+
+            <div class="row g-0">
+                <div class="col-12 text-center">
+                        <button id="dark-mode-toggle" class="start-button">다크 모드</button>
                 </div>
             </div>
         </div>
@@ -227,32 +244,48 @@
 
 <script>
     function setDarkMode(enabled) {
+        const header = document.getElementById("header");
+        const lightModeBgElements = document.querySelectorAll(".light-mode-bg");
+        const customLinks = document.querySelectorAll(".custom-link");
+        const darkModeCSS = document.getElementById("dark-mode-css");
+
         if (enabled) {
+            if (!darkModeCSS) {
+                const link = document.createElement("link");
+                link.href = "/css/dark-mode.css";
+                link.rel = "stylesheet";
+                link.id = "dark-mode-css";
+                document.head.appendChild(link);
+            }
             document.body.classList.add("dark-mode");
+            header.classList.add("dark-mode");
+            lightModeBgElements.forEach(el => el.classList.add("dark-mode-bg"));
+            customLinks.forEach(link => {
+                link.style.backgroundColor = "#444444";
+            });
             localStorage.setItem("dark-mode", "enabled");
         } else {
+            if (darkModeCSS) {
+                document.head.removeChild(darkModeCSS);
+            }
             document.body.classList.remove("dark-mode");
+            header.classList.remove("dark-mode");
+            lightModeBgElements.forEach(el => el.classList.remove("dark-mode-bg"));
+            customLinks.forEach(link => {
+                link.style.backgroundColor = "#CFEAE2";
+            });
             localStorage.removeItem("dark-mode");
         }
-
-        const textDarkLinks = document.querySelectorAll('footer .col-12.text-center a.text-dark');
-        textDarkLinks.forEach(link => {
-            if (enabled) {
-                link.classList.add('dark-mode-text');
-            } else {
-                link.classList.remove('dark-mode-text');
-            }
-        });
-
     }
 
     document.getElementById("dark-mode-toggle").addEventListener("click", function () {
         setDarkMode(!document.body.classList.contains("dark-mode"));
     });
 
-    // Load saved preference
     if (localStorage.getItem("dark-mode") === "enabled") {
         setDarkMode(true);
+    } else {
+        setDarkMode(false);
     }
 
 </script>
