@@ -6,6 +6,12 @@ import com.sooaz.gpt.domain.community.bookmark.Bookmark;
 import com.sooaz.gpt.domain.community.bookmark.BookmarkRepository;
 import com.sooaz.gpt.domain.community.like.Like;
 import com.sooaz.gpt.domain.community.like.LikeRepository;
+import com.sooaz.gpt.domain.mypage.learning.Learning;
+import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
+import com.sooaz.gpt.domain.mypage.learning.LearningService;
+import com.sooaz.gpt.domain.mypage.sentence.Sentence;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
+import com.sooaz.gpt.domain.mypage.sentence.SentenceService;
 import com.sooaz.gpt.domain.user.User;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequiredArgsConstructor //생성자를 자동 생성해줌
+@RequiredArgsConstructor
 @RequestMapping("/community")
 @Slf4j
 public class CommunityPostController {
@@ -30,6 +36,8 @@ public class CommunityPostController {
     private final CommunityPostService communityPostService;
     private final BookmarkRepository bookmarkRepository;
     private final LikeRepository likeRepository;
+    private final SentenceRepository sentenceRepository;
+    private final LearningRepository learningRepository;
 
     @GetMapping("/list")
     public String getList(
@@ -74,6 +82,12 @@ public class CommunityPostController {
             communityPostService.update(updateDto);
         }
 
+        Long sentenceId = communityPostViewDto.getSentenceId();
+        if (sentenceId != null) {
+            Optional<Sentence> sentenceOpt = sentenceRepository.findById(sentenceId);
+            sentenceOpt.ifPresent(sentence -> model.addAttribute("sentence", sentence));
+        }
+
         model.addAttribute("communityPostViewDto", communityPostViewDto);
         model.addAttribute(SessionConst.LOGIN_USER, loginUser);
         return "community/postView";
@@ -88,15 +102,22 @@ public class CommunityPostController {
     @PostMapping("/write")
     public String post(
             @ModelAttribute CommunityPostDto communityPostDto,
-            RedirectAttributes redirectAttributes,
-            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            RedirectAttributes redirectAttributes
     ) {
         log.info("Dto={}", communityPostDto);
 
         communityPostDto.setUserId(loginUser.getId());
-        communityPostService.save(communityPostDto);
-        redirectAttributes.addFlashAttribute("message", "게시글이 등록되었습니다.");
-        return "redirect:/community/list";
+
+        // 본인 문장인지 확인
+        if (!isOwnSentence(communityPostDto.getSentenceId(), loginUser)) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+
+        CommunityPost savedPost = communityPostService.save(communityPostDto);
+
+        return "redirect:/community/" + savedPost.getId();
     }
 
     @GetMapping("/{communityPostId}/edit")
@@ -119,15 +140,30 @@ public class CommunityPostController {
         updateDto.setCommunityPostContent(post.getCommunityPostContent());
         updateDto.setCommunityPostCategory(post.getCommunityPostCategory());
 
+        Long sentenceId = post.getSentenceId();
+        if (sentenceId != null) {
+            Optional<Sentence> sentenceOpt = sentenceRepository.findById(sentenceId);
+            sentenceOpt.ifPresent(sentence -> model.addAttribute("sentence", sentence));
+        }
+
         model.addAttribute("communityPostUpdateDto", updateDto);
         return "community/postEdit";
     }
 
     @PostMapping("/{communityPostId}/edit")
     public String edit(
-            @ModelAttribute CommunityPostUpdateDto communityPostUpdateDto
+            @ModelAttribute CommunityPostUpdateDto communityPostUpdateDto,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            RedirectAttributes redirectAttributes
         ) {
         log.info("communityPostUpdateDto = {}", communityPostUpdateDto);
+
+        // 본인 문장인지 확인
+        if (!isOwnSentence(communityPostUpdateDto.getSentenceId(), loginUser)) {
+            redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
+            return "redirect:/community/list";
+        }
+
         communityPostService.update(communityPostUpdateDto);
         return "redirect:/community/" + communityPostUpdateDto.getCommunityPostId();
     }
@@ -203,10 +239,28 @@ public class CommunityPostController {
         }
     }
 
-    @GetMapping("/list/weekly")
-    public String bestListAll( Model model) {
-        model.addAttribute("bestListAll",communityPostService.bestListAll());
-        return "community/bestList";
-    }
+    public boolean isOwnSentence(Long sentenceId, User loginUser) {
+        if (sentenceId != null) {
+            Optional<Sentence> sentenceOpt = sentenceRepository.findById(sentenceId);
+            if (sentenceOpt.isEmpty()) {
+                return false;
+            }
 
+            Sentence sentence = sentenceOpt.get();
+            Long learningId = sentence.getLearningId();
+            Optional<Learning> learningOpt = learningRepository.findById(learningId);
+
+            if (learningOpt.isEmpty()) {
+                return false;
+            }
+
+            Learning learning = learningOpt.get();
+            Long userId = learning.getUserId();
+
+            if (!loginUser.getId().equals(userId)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

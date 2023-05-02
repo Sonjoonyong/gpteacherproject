@@ -13,6 +13,7 @@
         #communityboard .table thead trboardname {
             margin-left: 20px;
         }
+
         .col-md-7 table tbody tr,
         .col-md-7 table tbody tr td {
             border-top: 1px solid lightgray;
@@ -20,21 +21,27 @@
             border-right: 1px solid white;
             border-bottom: 1px solid lightgray;
         }
+
         a {
             color: black;
         }
+
         a:visited {
             color: black;
         }
+
         a:hover {
             color: black;
         }
+
         a:active {
             color: black;
         }
+
         .communityPost-title-link {
             text-decoration: none;
         }
+
         .col-md-7 table thead tr {
             background-color: #CFEAE2;
             border-top: 1px solid lightgray;
@@ -43,39 +50,48 @@
             border-bottom: 1px solid lightgray;
             height: 40px;
         }
+
         .page-link {
             color: #000;
             background-color: #fff;
             border: 1px solid #ccc;
         }
+
         .page-item.active .page-link {
             z-index: 1;
             color: #555;
             font-weight: bold;
             background-color: #CFEAE2;
             border-color: #ccc;
+
         }
+
         .page-link:focus, .page-link:hover {
             color: #000;
             background-color: #fafafa;
             border-color: #ccc;
         }
+
         .accordion .accordion-item .accordion-header .accordion-button {
             background-color: white;
             color: black;
         }
+
         .accordion .accordion-item .accordion-header .accordion-button:hover {
             background-color: #CFEAE2;
             color: black;
         }
+
         .accordion .accordion-item .accordion-header .accordion-button:focus {
             background-color: #CFEAE2;
             color: black;
         }
+
         .accordion .accordion-item .accordion-header .accordion-button:active {
             background-color: #CFEAE2;
             color: white;
         }
+
     </style>
 
 </head>
@@ -151,7 +167,45 @@
                 </c:forEach>
             </div>
 
-            <!--페이징-->
+            <%--            <table class="table" style="text-align: center; border:1px solid black;">--%>
+            <%--                <colgroup>--%>
+            <%--                    <col span="1" style="width: 60%;">--%>
+            <%--                    <col span="1" style="width: 15%;">--%>
+            <%--                    <col span="1" style="width: 10%;">--%>
+            <%--                    <col span="1" style="width: 15%;">--%>
+            <%--                </colgroup>--%>
+            <%--                <thead>--%>
+            <%--                <tr>--%>
+            <%--                    <th style="text-align: center;">제목</th>--%>
+            <%--                    <th style="text-align: center;">작성자</th>--%>
+            <%--                    <th style="text-align: center;">조회수</th>--%>
+            <%--                    <th style="text-align: center; width:100px; margin-right: 5px;">작성일</th>--%>
+            <%--                </tr>--%>
+            <%--                </thead>--%>
+            <%--                <tbody>--%>
+            <%--                <c:forEach var="communityPostListDto" items="${pageInfo.list}">--%>
+            <%--                    <tr>--%>
+            <%--                        <td class="text-start ps-4 py-2">--%>
+            <%--                            <a href="/community/${communityPostListDto.id}" class="communityPost-title-link"--%>
+            <%--                               style="margin-right: 30px">--%>
+            <%--                                [${communityPostListDto.communityPostCategory}] ${communityPostListDto.communityPostTitle}--%>
+            <%--                            </a>--%>
+            <%--                        </td>--%>
+            <%--                        <td>--%>
+            <%--                                ${communityPostListDto.userNickname}--%>
+            <%--                        </td>--%>
+            <%--                        <td>--%>
+            <%--                                ${communityPostListDto.communityPostHit}--%>
+            <%--                        </td>--%>
+            <%--                        <td>--%>
+            <%--                            <fmt:formatDate value="${communityPostListDto.communityPostWritedate}"--%>
+            <%--                                            pattern="yyyy.MM.dd"/>--%>
+            <%--                        </td>--%>
+            <%--                    </tr>--%>
+            <%--                </c:forEach>--%>
+            <%--                </tbody>--%>
+
+            <%--            </table>--%>
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <nav aria-label="Page navigation">

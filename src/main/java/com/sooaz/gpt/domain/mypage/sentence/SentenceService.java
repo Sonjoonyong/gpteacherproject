@@ -58,8 +58,8 @@ public class SentenceService {
         dto.setSentenceId(sentenceId);
 
         if (flashcardId == null || flashcardId == -2L) {
-            List<Flashcard> flashcards = flashcardRepository.findByUserId(userId);
-            Long flashcardIdByUserId = flashcards.get(0).getId();
+            Flashcard flashcard = flashcardRepository.findByUserId(userId);
+            Long flashcardIdByUserId = flashcard.getId();
             dto.setFlashcardId(flashcardIdByUserId);
             sentenceRepository.update(dto);
             return "1";

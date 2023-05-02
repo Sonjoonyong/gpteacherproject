@@ -49,7 +49,7 @@
 
     <div class="row justify-content-center">
         <div class="p-1 rounded-3 text-center w-auto border">
-            <pre class="m-0 p-1 px-4"><span style="font-family: sans-serif;">${plainTopic}</span></pre>
+            <pre class="m-0 p-1 px-4" style="white-space: pre-wrap"><span style="font-family: sans-serif;">${plainTopic}</span></pre>
         </div>
     </div>
 

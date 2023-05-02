@@ -1,12 +1,14 @@
 package com.sooaz.gpt.domain.mypage.sentence;
 
 import com.sooaz.gpt.domain.learning.LearningTestType;
+import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.speaking.SpeakingService;
 import com.sooaz.gpt.domain.learning.writing.WritingService;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
 import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.sooaz.gpt.domain.learning.PerspectiveClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -129,5 +132,18 @@ public class SentenceController {
             @PathVariable Long sentenceId
     ) {
         sentenceRepository.delete(sentenceId);
+    }
+
+    /**
+     * sentence 가져오기
+     */
+    @ResponseBody
+    @GetMapping("/learning/sentences/select")
+    public List<SentenceListDto> getSentences(
+            @ModelAttribute SentencePagerDto sentencePagerDto,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        sentencePagerDto.setUserId(loginUser.getId());
+        return sentenceRepository.findAllByPager(sentencePagerDto);
     }
 }

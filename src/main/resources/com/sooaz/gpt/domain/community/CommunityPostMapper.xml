@@ -12,6 +12,9 @@
         INSERT INTO community_post (
             id,
             user_id,
+            <if test="sentenceId != null">
+            sentence_id,
+            </if>
             community_post_title,
             community_post_content,
             community_post_category
@@ -19,6 +22,9 @@
         VALUES (
             #{id},
             #{userId},
+            <if test="sentenceId != null">
+                #{sentenceId},
+            </if>
             #{communityPostTitle},
             #{communityPostContent},
             #{communityPostCategory}
@@ -33,6 +39,7 @@
         SELECT P.id    as community_post_id,
                U.id    as user_Id,
                U.user_nickname,
+               sentence_id,
                community_post_category,
                community_post_title,
                community_post_content,
@@ -115,6 +122,12 @@
             </if>
             <if test="communityPostCategory != null">
                 community_post_category = #{communityPostCategory},
+            </if>
+            <if test="sentenceId != null">
+                sentence_id = #{sentenceId},
+            </if>
+            <if test="sentenceId == null">
+                sentence_id = NULL
             </if>
         </set>
         WHERE id = #{communityPostId}

@@ -24,7 +24,7 @@ public class UserValidationController {
     @ResponseBody
     @GetMapping(value = "/user/signup/loginIdDupCheck")
     public String checkIdDup(
-            @Pattern(regexp = "[a-zA-Z1-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
+            @Pattern(regexp = "[a-zA-Z0-9]{4,12}", message = "아이디는 영문자 및 숫자 4~12자리로 입력해주세요.")
             String userLoginId
     ) {
         return String.valueOf(userService.isDuplicateLoginId(userLoginId.toLowerCase()));

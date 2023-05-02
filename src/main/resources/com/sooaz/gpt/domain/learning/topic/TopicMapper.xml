@@ -11,11 +11,17 @@
         insert into TOPIC (
         id,
         learning_type,
+        <if test="learningTestType != null">
+            learning_test_type,
+        </if>
         learning_topic
         )
         values (
         #{id},
         #{learningType},
+        <if test="learningTestType != null">
+            #{learningTestType},
+        </if>
         #{learningTopic}
         )
     </insert>
@@ -25,9 +31,15 @@
         from topic
     </select>
 
-    <select id="findRandomOne" parameterType="learningType" resultType="Topic">
+    <select id="findRandomOne" resultType="Topic">
         select *
-        from (select * from topic where learning_type = #{learningType} order by dbms_random.random)
+        from (select *
+              from topic
+              where learning_type = #{learningType}
+                  <if test="learningTestType != null">
+                      and learning_test_type = #{learningTestType}
+                  </if>
+              order by dbms_random.random)
         where rownum = 1
     </select>
 

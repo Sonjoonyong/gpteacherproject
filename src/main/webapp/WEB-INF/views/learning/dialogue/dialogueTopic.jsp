@@ -37,10 +37,10 @@
 
         <div class="col">
             <div class="row">
-                <button id="dialogueRandomTopic" class="btn btn-light border">
+                <div id="dialogueRandomTopic" class="btn border shadow-sm">
                     <i class="bi bi-shuffle"></i>
                     랜덤 추천
-                </button>
+                </div>
             </div>
         </div>
 
@@ -61,7 +61,12 @@
                        class="col-12 col-md-10 py-2 rounded-3 border" required/>
             </div>
             <div class="row">
-                <div class="col-12 col-md-2"></div><!--dummy-->
+                <div class="col-12 col-md-2">
+                    <div id="changeRole" class="btn btn-sm w-auto shadow-sm" type="button">
+                        <i class="bi bi-arrow-down-up"></i>
+                        역할 바꾸기
+                    </div>
+                </div>
                 <div class="col-12 col-md-10 text-secondary example">ex) customer</div>
             </div>
 
@@ -115,6 +120,18 @@
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 <script src="/js/randomTopic.js"></script>
+
+<script>
+    // 역할 바꾸기
+    const changeRoleBtn = document.querySelector('#changeRole');
+    changeRoleBtn.onclick = () => {
+        const userRoleInput = document.querySelector('input[name=userRole]');
+        const assistantRoleInput = document.querySelector('input[name=assistantRole]');
+        const temp = userRoleInput.value;
+        userRoleInput.value = assistantRoleInput.value;
+        assistantRoleInput.value = temp;
+    };
+</script>
 
 </body>
 

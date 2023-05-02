@@ -9,33 +9,39 @@
             select SENTENCE_ID_SEQ.nextval from dual
         </selectKey>
         insert into SENTENCE (
-            id,
-            learning_id,
-            sentence_question,
-            sentence_answer,
-            sentence_corrected,
-            sentence_explanation
+        id,
+        learning_id,
+        sentence_question,
+        sentence_answer,
+        sentence_corrected,
+        sentence_explanation
         )
         values (
-            #{id},
-            #{learningId},
-            #{sentenceQuestion},
-            #{sentenceAnswer},
-            #{sentenceCorrected},
-            #{sentenceExplanation}
+        #{id},
+        #{learningId},
+        #{sentenceQuestion},
+        #{sentenceAnswer},
+        #{sentenceCorrected},
+        #{sentenceExplanation}
         )
     </insert>
 
     <select id="findById" parameterType="long" resultType="Sentence">
-        select * from SENTENCE where id = #{sentenceId}
+        select *
+        from SENTENCE
+        where id = #{sentenceId}
     </select>
 
     <select id="findAll" resultType="Sentence">
-        select * from SENTENCE
+        select *
+        from SENTENCE
     </select>
 
     <select id="findAllByLearningId" parameterType="long" resultType="Sentence">
-        select * from SENTENCE where LEARNING_ID = #{learningId} order by id
+        select *
+        from SENTENCE
+        where LEARNING_ID = #{learningId}
+        order by id
     </select>
 
     <select id="findByLearningId" resultType="Sentence">
@@ -49,13 +55,42 @@
             and sentence_like = #{onlyLike}
         </if>
         <trim prefix="ORDER BY">
-            <if test='sortType == "id_asc"'> id asc</if>
-            <if test='sortType == "id_desc"'> id desc</if>
+            <if test='sortType == "id_asc"'>id asc</if>
+            <if test='sortType == "id_desc"'>id desc</if>
         </trim>
     </select>
 
     <select id="findByFlashcardId" parameterType="long" resultType="Sentence">
-        select * from SENTENCE where FLASHCARD_ID = #{flashcardId} and (sentence_next_repetition <![CDATA[ < ]]> sysdate or sentence_next_repetition is null)
+        select *
+        from SENTENCE
+        where FLASHCARD_ID = #{flashcardId}
+          and (sentence_next_repetition <![CDATA[ < ]]> sysdate or sentence_next_repetition is null)
+    </select>
+
+    <select id="findAllByPager" parameterType="sentencePagerDto" resultType="SentenceListDto">
+        select *
+        from (select S.*, ROWNUM RN
+              from (select
+                        id,
+                        sentence_answer,
+                        sentence_corrected,
+                        sentence_explanation
+                    from sentence
+                    where learning_id in (
+                        select id from learning where user_id = #{userId}
+                        <if test="learningType != null">
+                            and learning_type = #{learningType}
+                        </if>
+                    )
+                    <if test="liked">
+                        and sentence_like = '1'
+                    </if>
+                    order by id
+                    <if test="latest">
+                        desc
+                    </if>
+                    ) S)
+        WHERE RN BETWEEN ((#{pageNum} - 1) * 10) + 1 AND ((#{pageNum}) * 10)
     </select>
 
     <update id="update">
@@ -95,7 +130,9 @@
     </update>
 
     <delete id="delete">
-        delete from SENTENCE where ID = #{sentenceId}
+        delete
+        from SENTENCE
+        where ID = #{sentenceId}
     </delete>
 
 </mapper>

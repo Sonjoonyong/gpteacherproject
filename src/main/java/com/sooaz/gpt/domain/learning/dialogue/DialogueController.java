@@ -3,9 +3,8 @@ package com.sooaz.gpt.domain.learning.dialogue;
 import com.sooaz.gpt.domain.learning.AzureClient;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
-import com.sooaz.gpt.domain.learning.OpenAiClient;
 import com.sooaz.gpt.domain.learning.topic.Topic;
-import com.sooaz.gpt.domain.learning.topic.TopicRepository;
+import com.sooaz.gpt.domain.learning.topic.TopicService;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;
 import com.sooaz.gpt.domain.user.User;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +27,7 @@ public class DialogueController {
     private final DialogueService dialogueService;
     private final NcpTtsClient ncpTtsClient;
     private final AzureClient azureClient;
-    private final TopicRepository topicRepository;
+    private final TopicService topicService;
 
     @GetMapping("/learning/dialogue")
     public String getTopicForm() {
@@ -95,7 +93,7 @@ public class DialogueController {
     @ResponseBody
     @GetMapping(value = "/learning/dialogue/random", produces = "application/json; charset=utf-8")
     public String getRandomTopic() {
-        Topic topic = topicRepository.findRandomOne(LearningType.DIALOGUE);
+        Topic topic = topicService.findRandomOne(LearningType.DIALOGUE);
         return topic.getLearningTopic().toString();
     }
 }
