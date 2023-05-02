@@ -151,6 +151,7 @@
                 </c:forEach>
             </div>
 
+            <!--페이징-->
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <nav aria-label="Page navigation">
@@ -162,18 +163,16 @@
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}"
-                                       aria-label="Previous">
+                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
                                         <span aria-hidden="true">‹</span>
                                     </a>
                                 </li>
                             </c:if>
 
-                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}"
-                                       end="${pageInfo.navigateLastPage}" step="1">
+                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
                                 <c:choose>
                                     <c:when test="${i == pageInfo.pageNum}">
-                                        <li class="page-item active">
+                                        <li class="page-item active" id="pageicon">
                                             <a class="page-link" href="?pageNum=${i}">${i}</a>
                                         </li>
                                     </c:when>
