@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>커뮤니티</title>
@@ -449,13 +450,20 @@
     const postDeleteBtn = document.querySelector('#deletePost');
     if (postDeleteBtn) {
         postDeleteBtn.onclick = () => {
-            if (confirm("게시글을 삭제하시겠습니까?")) {
-                const form = document.createElement('form');
-                form.action = '/community/${communityPostViewDto.communityPostId}/delete';
-                form.method = 'post';
-                document.querySelector('body').append(form);
-                form.submit();
-            }
+            Swal.fire({
+                text: '게시글을 삭제하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소',
+            }).then(function(result) {
+                if(result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.action = '/community/${communityPostViewDto.communityPostId}/delete';
+                    form.method = 'post';
+                    document.querySelector('body').append(form);
+                    form.submit();
+                }
+            });
         }
     }
 
