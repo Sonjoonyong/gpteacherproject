@@ -1,14 +1,21 @@
 const body = document.querySelector('body');
 
+// 모달창 관련
 const addSentenceBtn = document.querySelector('#addSentence');
 const sentenceModal = document.querySelector('#sentenceModal');
 const sentenceModalBody = document.querySelector('#sentenceModalBody');
 const sentenceModalCloseBtn = document.querySelector('#sentenceModalClose');
 
+// 페이징 관련
 let pageNum = 1;
 const sentenceBoxDiv = document.querySelector('#sentenceBox');
 const scrollFooter = document.querySelector('#scrollFooter');
 const sentenceHolderDiv = document.querySelector('#sentenceHolder');
+
+// input
+const learningTypeInput = document.querySelector('#learningType');
+const likeCheckInput = document.querySelector('#likeCheck');
+const sortTypeInput = document.querySelector('#sortType');
 
 addSentenceBtn.onclick = () => {
     toggleSentenceModal(true);
@@ -28,9 +35,6 @@ function toggleSentenceModal(boolean) {
     boolean || (body.style.overflow = 'scroll');
 }
 
-const learningTypeInput = document.querySelector('#learningType');
-const likeCheckInput = document.querySelector('#likeCheck');
-const sortTypeInput = document.querySelector('#sortType');
 /**
  * 페이징
  */

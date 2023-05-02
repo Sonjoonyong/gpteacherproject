@@ -12,7 +12,9 @@
         INSERT INTO community_post (
             id,
             user_id,
+            <if test="sentenceId != null">
             sentence_id,
+            </if>
             community_post_title,
             community_post_content,
             community_post_category
@@ -20,7 +22,9 @@
         VALUES (
             #{id},
             #{userId},
-            #{sentenceId},
+            <if test="sentenceId != null">
+                #{sentenceId},
+            </if>
             #{communityPostTitle},
             #{communityPostContent},
             #{communityPostCategory}
