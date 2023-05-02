@@ -91,22 +91,22 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <a href="/">
-                                <img src="/images/banner_main.jpg" class="d-block fixed-banner" alt="banner_main">
+                                <img src="/images/banner_mainimg.jpg" class="d-block fixed-banner" alt="banner_main">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a href="/learning/writing">
-                                <img src="/images/banner_writing.jpg" class="d-block fixed-banner" alt="banner_writing">
+                                <img src="/images/banner_writingimg.jpg" class="d-block fixed-banner" alt="banner_writing">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a href="/learning/speaking">
-                                <img src="/images/banner_speaking.jpg" class="d-block fixed-banner" alt="banner_speaking">
+                                <img src="/images/banner_speakingimg.jpg" class="d-block fixed-banner" alt="banner_speaking">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a href="/learning/dialogue">
-                                <img src="/images/banner_dialogue.jpg" class="d-block fixed-banner" alt="banner_dialogue">
+                                <img src="/images/banner_dialogueimg.jpg" class="d-block fixed-banner" alt="banner_dialogue">
                             </a>
                         </div>
                     </div>

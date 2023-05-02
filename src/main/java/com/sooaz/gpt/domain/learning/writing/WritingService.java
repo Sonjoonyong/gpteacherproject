@@ -67,7 +67,7 @@ public class WritingService {
 
     public String getRandomQuestion(String topic) {
         String initialInstruction = getInitialInstruction(topic);
-        return openAiClient.chat(initialInstruction);
+        return openAiClient.chat(initialInstruction, 1.3);
     }
 
     public String talk(String question, String userScript, Learning learning, Long userId) {
