@@ -1,6 +1,7 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,11 @@
             <h3 class="h3 my-5" style="color: #5DB99D;">학습 관리</h3>
             <div>
                 <h4 class="my-3" style="color: #2F4858">최근 학습</h4>
+                <c:if test="${fn:length(learnings) == 0}">
+                <div class="py-5" style="border: 1px solid lightgray; border-radius: 15px;" >
+                    <h4 class="text-center">새로운 학습을 시작해 보세요!</h4>
+                </div>
+                </c:if>
                 <c:forEach var="learning" items="${learnings}">
                     <div class="row g-0 justify-content-center">
                         <div class="row g-0 learning my-1 shadow rounded-3 p-3" id="learning_${learning.id}">
@@ -74,8 +80,8 @@
                     </div>
                 </c:forEach>
             </div>
-            <div>
-                <h4 class="my-3" style="color: #2F4858">연간 학습</h4>
+            <div class="mb-5">
+                <h4 class="mb-3 mt-5" style="color: #2F4858">연간 학습</h4>
                 <div id="calendar" class="py-3 calendar-heatmap"></div>
             </div>
         </div>
