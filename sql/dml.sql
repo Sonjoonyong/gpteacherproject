@@ -94,4 +94,3 @@ VALUES (
            '기본 보관함'
        );
 
-alter table COMMUNITY_POST add sentence_id number null;
