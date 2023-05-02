@@ -46,4 +46,6 @@ public class CommunityPostService {
         communityPostRepository.update(updateDto);
     }
 
+    public List<CommunityPostListDto> bestListAll() {return communityPostRepository.bestListAll();}
+
 }

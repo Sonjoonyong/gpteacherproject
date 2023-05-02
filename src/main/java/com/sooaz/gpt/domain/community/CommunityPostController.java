@@ -201,4 +201,11 @@ public class CommunityPostController {
             return "0";
         }
     }
+
+    @GetMapping("/list/weekly")
+    public String bestListAll( Model model) {
+        model.addAttribute("bestListAll",communityPostService.bestListAll());
+        return "community/bestList";
+    }
+
 }
