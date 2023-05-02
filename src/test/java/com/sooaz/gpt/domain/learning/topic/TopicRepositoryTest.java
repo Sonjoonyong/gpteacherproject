@@ -10,6 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,6 +45,27 @@ public class TopicRepositoryTest {
             Topic topic1 = topicRepository.findRandomOne(LearningType.DIALOGUE, null);
             System.out.println("topicRepository = " + topic1.getId());
             System.out.println("topicRepository = " + topic1.getLearningTopic());
+        }
+    }
+
+    @Test
+    public void reverse() {
+        List<Topic> topics = topicRepository.findAll();
+
+        File file = new File("/Users/gyuray/dev/projects/gpteacherproject/sql/topic_data.sql");
+        try (PrintWriter pr = new PrintWriter(file)) {
+            for (Topic topic : topics) {
+                String learningTestType;
+                if (topic.getLearningTestType() != null) {
+                    learningTestType = "'" + topic.getLearningTestType() + "'";
+                } else {
+                    learningTestType = null;
+                }
+                pr.write("INSERT INTO topic (id, learning_type, learning_test_type, learning_topic) " +
+                        "VALUES (TOPIC_ID_SEQ.nextval, '" + topic.getLearningType() + "', " + learningTestType + ", '" + topic.getLearningTopic().replaceAll("'", "''") + "');\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
