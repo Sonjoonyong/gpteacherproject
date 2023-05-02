@@ -60,7 +60,7 @@ public class SpeakingService {
 
     public String initSpeaking(LearningTestType learningTestType) {
         String initialInstruction = String.format(INSTRUCTION, learningTestType);
-        String question = openAiClient.chat(initialInstruction);
+        String question = openAiClient.chat(initialInstruction, 1.5);
 
         return processTalk(question);
     }

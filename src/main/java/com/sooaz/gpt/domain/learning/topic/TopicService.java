@@ -4,31 +4,35 @@ import com.sooaz.gpt.domain.learning.LearningTestType;
 import com.sooaz.gpt.domain.learning.LearningType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
+@Service
 @Slf4j
 @RequiredArgsConstructor
-public class TopicRepository {
+public class TopicService {
 
-    private final TopicMapper topicMapper;
+    private final TopicRepository topicRepository;
 
     public void save(Topic topic) {
-        topicMapper.save(topic);
+        topicRepository.save(topic);
     }
 
     public Topic findById(Long topicId) {
-        return topicMapper.findById(topicId);
+        return topicRepository.findById(topicId);
     }
 
     public Topic findRandomOne(LearningType learningType, LearningTestType learningTestType) {
-        return topicMapper.findRandomOne(learningType, learningTestType);
+        return topicRepository.findRandomOne(learningType, learningTestType);
+    }
+
+    public Topic findRandomOne(LearningType learningType) {
+        return topicRepository.findRandomOne(learningType, null);
     }
 
     public List<Topic> findAll() {
-        return topicMapper.findAll();
+        return topicRepository.findAll();
     }
 
 }

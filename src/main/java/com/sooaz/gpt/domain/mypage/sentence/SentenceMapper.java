@@ -16,6 +16,8 @@ public interface SentenceMapper {
 
     List<Sentence> findAllByLearningId(Long learningId);
 
+    List<SentenceListDto> findAllByPager(SentencePagerDto sentencePagerDto);
+
     List<Sentence> findByLearningId(LearningFindDto learningFindDto);
 
     List<Sentence> findAll();

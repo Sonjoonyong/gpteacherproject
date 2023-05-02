@@ -3,11 +3,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>새 글 작성</title>
+    <title>글 작성</title>
 
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
-    <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
 
     <style>
 
@@ -82,6 +81,8 @@
 
     <!--  TOAST UI Editor CSS -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+
+    <link rel="stylesheet" href="/css/sentenceModal.css"/>
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
@@ -89,24 +90,38 @@
     <h3>글 작성</h3>
     <form:form action="/community/write" method="post" modelAttribute="communityPostDto"
                cssClass="create-form row mb-5 border p-3 rounded-2 gap-2">
-        <div class="FormSelectButton" style="width:80px; ">
-            <form:select path="communityPostCategory" class="select"
-                         style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
-                <form:option value="토익" label="토익"/>
-                <form:option value="토플" label="토플"/>
-                <form:option value="오픽" label="오픽"/>
-                <form:option value="아이엘츠" label="아이엘츠"/>
-                <form:option value="회화" label="회화"/>
-                <form:option value="글쓰기" label="글쓰기"/>
-                <form:option value="일상" label="일상"/>
-                <form:option value="유머" label="유머"/>
-                <form:option value="시험" label="시험"/>
-                <form:option value="공부" label="공부"/>
-            </form:select>
+        <div class="col">
+            <div class="hstack">
+                <div class="FormSelectButton" style="width:80px; ">
+                    <form:select path="communityPostCategory" class="select"
+                                 style="height:38px; border: 1px solid lightgray; border-radius: 5px;">
+                        <form:option value="토익" label="토익"/>
+                        <form:option value="토플" label="토플"/>
+                        <form:option value="오픽" label="오픽"/>
+                        <form:option value="아이엘츠" label="아이엘츠"/>
+                        <form:option value="회화" label="회화"/>
+                        <form:option value="글쓰기" label="글쓰기"/>
+                        <form:option value="일상" label="일상"/>
+                        <form:option value="유머" label="유머"/>
+                        <form:option value="시험" label="시험"/>
+                        <form:option value="공부" label="공부"/>
+                    </form:select>
+                </div>
+
+                <button type="button" id="addSentence" class="btn ms-auto w-auto" style="background-color: #5DB99D; color: white;">
+                    나의 문장 첨부
+                </button>
+            </div>
         </div>
+
         <div>
             <form:input path="communityPostTitle" type="text" class="form-control"
                         required="required" placeholder="제목을 입력하세요."/>
+        </div>
+
+        <%--문장--%>
+        <div id="sentenceHolder" class="col-12">
+
         </div>
 
         <div class="form-group">
@@ -122,6 +137,8 @@
 <%@ include file="../fragments/footer.jsp" %>
 
 <%@ include file="../fragments/bootstrapJs.jsp" %>
+<%@ include file="../fragments/sentenceModal.jsp" %>
+<%@ include file="../fragments/sentenceTemplate.jsp" %>
 
 <!--  TOAST UI Editor CDN  -->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
@@ -129,8 +146,8 @@
 <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
 <!--  SweetAlert2  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script src="/js/toastUiEditor.js"></script>
+<script src="/js/sentenceModal.js"></script>
 
 </body>
 </html>

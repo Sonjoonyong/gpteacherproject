@@ -8,6 +8,7 @@ import java.util.Date;
 public class CommunityPostViewDto {
     private Long communityPostId;
     private Long userId;
+    private Long sentenceId;
     private String userNickname;
     private String communityPostCategory;
     private String communityPostTitle;

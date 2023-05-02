@@ -70,6 +70,7 @@
 
                 </div>
 
+
                 <%--게시글 정보--%>
                 <div class="col-12 hstack mb-2 gap-3">
                     <span id="writerNickname">
@@ -97,8 +98,43 @@
                     </span>
                 </div>
 
-
                 <hr>
+
+                <%--문장--%>
+                <c:if test="${not empty sentence}">
+                    <div id="sentenceHolder" class="col-12 mb-2">
+                        <div class="sentence row g-0 my-1 align-items-end justify-content-between border rounded-3 p-3"
+                             id="${sentence.id}">
+                            <div class="row px-0 g-0">
+                                <div class="col-12 col-md-6 pe-1">
+                                    <div class="fw-bold" style="color: #2A6976;">
+                                        Your sentence
+                                    </div>
+                                    <div class="yourSentence row g-0 border p-1 rounded-1">
+                                            ${sentence.sentenceAnswer}
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 ps-1">
+                                    <div class="row g-0 fw-bold align-content-center">
+                                        Corrected sentence
+                                    </div>
+                                    <div class="correctedSentence row g-0 border p-1 rounded-1">
+                                            ${sentence.sentenceCorrected}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="fw-bold mt-2" style="color: #2F4858;">Explanation</div>
+                                <div class="explanation border p-1 rounded-1">
+                                        ${sentence.sentenceExplanation}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </c:if>
 
                 <%--본문--%>
                 <%-- Toast Editor Viewer--%>

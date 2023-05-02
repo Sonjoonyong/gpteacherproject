@@ -93,3 +93,4 @@ VALUES (
            (SELECT ID FROM USERS WHERE USER_LOGIN_ID = 'admin'),
            '기본 보관함'
        );
+

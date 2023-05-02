@@ -137,7 +137,7 @@ public class TestDataGenerator {
         Assertions.assertEquals(topic.getLearningTopic(), foundTopic.getLearningTopic());
 
         for (int i = 0; i < 5; i++) {
-            Topic topic1 = topicRepository.findRandomOne(LearningType.DIALOGUE);
+            Topic topic1 = topicRepository.findRandomOne(LearningType.DIALOGUE, null);
             System.out.println("topicRepository = " + topic1.getId());
             System.out.println("topicRepository = " + topic1.getLearningTopic());
         }
