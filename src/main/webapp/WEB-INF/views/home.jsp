@@ -132,7 +132,7 @@
             <div class="row g-0 justify-content-center" >
                 <div class="col-6">
                     <div style="padding-left: 140px;">
-                        <img src="/images/speakingimg.png" class="img" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
+                        <img src="/images/speakingScreen.png" class="img" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
                     </div>
                 </div>
                 <div class="col-6">
@@ -156,7 +156,7 @@
                 </div>
                 <div class="col-6">
                     <div style="padding-left: 60px;">
-                        <img src="/images/dialogueimg.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
+                        <img src="/images/dialogueScreen.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
                     </div>
                 </div>
             </div>
@@ -164,13 +164,13 @@
             <div class="row g-0" >
                 <div class="col-6">
                     <div style="padding-left: 140px;">
-                        <img src="/images/mypage.png" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-top: 10px; margin-bottom: 10px">
+                        <img src="/images/mypageScreen.png" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-top: 10px; margin-bottom: 10px">
                     </div>
                 </div>
                 <div class="col-6 "  >
                     <div style="padding-left: 70px;" class="int-text" >
                         <h4>마이페이지</h4>
-                        <h6>학습이력, 나의 문장, 플래시 카드를 활용해보세요.</h6>
+                        <h6>학습 이력, 나의 문장, 플래시 카드를 활용해보세요.</h6>
                         <h6>부족한 점을 좋아요 버튼과 저장 버튼을 활용해 효율적인 학습을 할 수 있습니다.</h6>
                         <h6 style="color: #3998F0">#잔디 심기 #학습 관리</h6>
                     </div>
@@ -187,7 +187,7 @@
                 </div>
                 <div class="col-6">
                     <div style="padding-left: 60px;">
-                        <img src="/images/community.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
+                        <img src="/images/communityScreen.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
                     </div>
                 </div>
             </div>
