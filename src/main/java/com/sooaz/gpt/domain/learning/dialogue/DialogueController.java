@@ -4,7 +4,6 @@ import com.sooaz.gpt.domain.learning.AzureClient;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.learning.NcpTtsClient;
 import com.sooaz.gpt.domain.learning.topic.Topic;
-import com.sooaz.gpt.domain.learning.topic.TopicRepository;
 import com.sooaz.gpt.domain.learning.topic.TopicService;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceUpdateDto;

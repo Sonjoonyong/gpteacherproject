@@ -44,7 +44,6 @@
         padding: 8px;
     }
 
-
 </style>
     <%@ include file="../../fragments/bootstrapCss.jsp" %>
 
@@ -89,10 +88,10 @@
 
                     </div>
 
-                    <div id="ageGroupAnalysis" class="chart-container" style="display:none;">
-                        <div>
-                            <canvas id="ageGroupCountsChart" width="400" height="200"></canvas>
-                        </div>
+                    <div id="ageGroupAnalysis" class="chart-container">
+                    <div>
+                        <canvas id="ageGroupCountsChart" width="200" height="100" style="max-width: 100%;"></canvas>
+                    </div>
                         <table class="table table-hover" style="margin-top: 50px">
                             <thead>
                             <tr>
@@ -197,6 +196,9 @@
                 ],
                 borderWidth: 1
             }]
+        },
+        options: {
+            aspectRatio: 2
         }
     });
 

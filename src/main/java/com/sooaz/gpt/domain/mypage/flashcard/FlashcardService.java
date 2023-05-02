@@ -20,22 +20,12 @@ public class FlashcardService {
         flashcardRepository.save(flashcard);
     }
 
-    public List<Flashcard> getFlashcardList(Long userId) {
+    public Flashcard findByUserId(Long userId) {
         return flashcardRepository.findByUserId(userId);
     }
 
     public List<Sentence> getSentenceListByFlashcard(Long flashcardId) {
         return sentenceRepository.findByFlashcardId(flashcardId);
-    }
-
-    public void updateFlashcardName(Flashcard flashcard) {
-        flashcardRepository.updateName(flashcard);
-    }
-
-    public void deleteFlashcards(List<Flashcard> flashcards) {
-        for(Flashcard flashcard : flashcards) {
-            flashcardRepository.delete(flashcard.getId());
-        }
     }
 
 }

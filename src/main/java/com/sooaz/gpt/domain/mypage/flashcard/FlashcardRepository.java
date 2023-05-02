@@ -15,16 +15,8 @@ public class FlashcardRepository {
         flashcardMapper.save(flashcard);
     }
 
-    public List<Flashcard> findByUserId(Long userId) {
+    public Flashcard findByUserId(Long userId) {
         return flashcardMapper.findByUserId(userId);
-    }
-
-    public void updateName(Flashcard flashcard) {
-        flashcardMapper.updateName(flashcard);
-    }
-
-    public void delete(Long id) {
-        flashcardMapper.delete(id);
     }
 
 }
