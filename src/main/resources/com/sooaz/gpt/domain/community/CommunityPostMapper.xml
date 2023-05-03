@@ -123,12 +123,15 @@
             <if test="communityPostCategory != null">
                 community_post_category = #{communityPostCategory},
             </if>
-            <if test="sentenceId != null">
-                sentence_id = #{sentenceId},
-            </if>
-            <if test="sentenceId == null">
-                sentence_id = NULL
-            </if>
+            <choose>
+                <when test="sentenceId == -1">
+                    sentence_id = null
+                </when>
+                <when test="sentenceId != null and sentenceId != -1">
+                    sentence_id = #{sentenceId}
+                </when>
+            </choose>
+
         </set>
         WHERE id = #{communityPostId}
     </update>
