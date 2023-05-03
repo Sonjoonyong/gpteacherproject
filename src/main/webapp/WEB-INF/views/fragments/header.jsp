@@ -41,7 +41,7 @@
                     <a type="button" class="signInBtn btn btn-outline-secondary" href="/user/signup">회원가입</a>
                 </c:if>
                 <c:if test="${not empty loginUser}">
-                    <div class="btn p-0 border-0 fw-light">
+                    <div class="p-0 border-0 fw-light">
                         <b>${loginUser.userNickname}</b> 님
                     </div>
                     <c:choose>

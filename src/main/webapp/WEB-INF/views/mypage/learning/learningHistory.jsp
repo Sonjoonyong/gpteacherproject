@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>학습이력</title>
+    <title>MyPage - 학습이력</title>
 
     <link rel="stylesheet" href="/css/base.css">
 

@@ -93,7 +93,7 @@ public class MypageService {
             if(prevStep == 0) {
                 sentenceUpdateDto.setSentenceInterval(1);
             } else if(prevStep == 1) {
-                sentenceUpdateDto.setSentenceInterval(6);
+                sentenceUpdateDto.setSentenceInterval(2);
             } else if(prevStep >= 2) {
                 sentenceUpdateDto.setSentenceInterval((int)(prevInterval * prevEF + 0.5)); // +0.5 to 반올림
             }
