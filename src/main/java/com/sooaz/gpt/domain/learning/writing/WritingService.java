@@ -137,6 +137,16 @@ public class WritingService {
         );
     }
 
+    public String recommendWord(String question, String answer) {
+        String template = "I'm practicing English writing. My writing topic is \"%s\". " +
+                "I want to know which word would be proper right next to this uncompleted sentence in terms of grammar and clarity. : " +
+                "\"%s\"\n\n" +
+                "Please answer in following format:" +
+                "I recommend '[The word that you recommend]. [Short reason why you recommended that word.]";
+        String prompt = String.format(template, question, answer);
+        return openAiClient.chat(prompt, 0.5);
+    }
+
     private String processTalk(String talk) {
         if (talk == null || talk.length() == 0) {
             return "";
