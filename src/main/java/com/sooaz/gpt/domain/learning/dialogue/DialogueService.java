@@ -230,6 +230,11 @@ public class DialogueService {
         int leftIndex = (colon == -1) ? 0 : colon + 1;
         int rightIndex = (leftParenthesis == -1) ? talk.length() : leftParenthesis;
 
-        return talk.substring(leftIndex, rightIndex).trim();
+        String trimmed = talk.substring(leftIndex, rightIndex).trim();
+        if (trimmed.startsWith("\"") && trimmed.endsWith("\"")) {
+            trimmed = trimmed.substring(1, trimmed.length() - 1);
+        }
+
+        return trimmed;
     }
 }

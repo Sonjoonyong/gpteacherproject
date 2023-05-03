@@ -88,6 +88,10 @@ public class CommunityPostController {
             sentenceOpt.ifPresent(sentence -> model.addAttribute("sentence", sentence));
         }
 
+        communityPostViewDto.setCommunityPostContent(
+                communityPostViewDto.getCommunityPostContent().replace("\"", "\\\"")
+        );
+
         model.addAttribute("communityPostViewDto", communityPostViewDto);
         model.addAttribute(SessionConst.LOGIN_USER, loginUser);
         return "community/postView";
