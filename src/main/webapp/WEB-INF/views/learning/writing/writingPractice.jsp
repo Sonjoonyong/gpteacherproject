@@ -45,7 +45,7 @@
 
             <div class="form-group">
                 <label for="answer" style="font-weight: bold; color: #2A6976">Answer </label>
-                <textarea class="form-control px-3 py-2 my-3" cols="100" rows="30" name="userScript"
+                <textarea class="form-control px-3 py-2 my-3" cols="100" rows="20" name="userScript"
                           id="answer"></textarea>
             </div>
 
