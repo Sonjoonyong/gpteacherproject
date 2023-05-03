@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyPage - 학습이력</title>
+    <title>MyPage - 학습관리</title>
 
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/calendarHeatMap.css">

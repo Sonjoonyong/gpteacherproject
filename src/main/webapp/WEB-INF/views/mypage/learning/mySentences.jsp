@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>학습이력</title>
+    <title>MyPage - 나의 문장</title>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/pronunciationModal.css">
 
