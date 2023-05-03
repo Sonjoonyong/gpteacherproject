@@ -101,8 +101,9 @@
                         <c:forEach var="post" items="${reportedReplies}">
                             <tr>
                                 <td>
-                                    <form action="/admin/blockUser" method="post" onsubmit="return confirm('차단하시겠습니까?');">
+                                    <form action="/admin/blockUser" method="post" onsubmit="return blockReason(this);">
                                         <input type="hidden" name="userId" value="${post.userId}" />
+                                        <input type="hidden" name="reason" id="reason"/>
                                         <input type="submit" name="userLoginId" value="${post.userLoginId}" style="background-color: white; border: none;">
                                     </form>
                                 </td>
@@ -172,6 +173,7 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script src="/js/blockReason.js"></script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
