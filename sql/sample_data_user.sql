@@ -314,3 +314,18 @@ USERS_ID_SEQ.nextval,
 '2023-01-30',
 1
 );
+
+-- 기본 플래시카드 설정
+begin
+    for usr in (select u.id from users u where u.id not in
+                                         (select user_id from FLASHCARD))
+        loop
+            insert into flashcard (ID, USER_ID, FLASHCARD_NAME)
+            values (FLASHCARD_ID_SEQ.nextval, usr.id, 'default');
+        end loop;
+end;
+
+delete from users where 1 = 1;
+delete from FLASHCARD where 1 = 1;
+select * from FLASHCARD;
+select * from FLASHCARD;

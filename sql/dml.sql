@@ -78,45 +78,16 @@ VALUES (
    1
 );
 
-INSERT INTO USERS (
-    ID,
-    USER_EMAIL,
-    USER_LOGIN_ID,
-    USER_PASSWORD,
-    USER_PASSWORD_SALT,
-    USER_NICKNAME,
-    USER_ROLE,
-    USER_BIRTHDAY,
-    USER_CREATEDATE,
-    USER_EMAIL_AGREEMENT
-)
-VALUES (
-   USERS_ID_SEQ.nextval,
-   'deer@example.com',
-   'user',
-   '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060',
-   'e993212e-c625-4f60-8295-d287f5c9b82e',
-   'deer',
-   'USER',
-   '1999-01-09',
-   SYSDATE,
-   1
-);
 
-
-
-INSERT INTO FLASHCARD
-VALUES (
-           FLASHCARD_ID_SEQ.nextval,
-           (SELECT ID FROM USERS WHERE USER_LOGIN_ID = 'user'),
-           '기본 보관함'
-       );
-
-INSERT INTO FLASHCARD
-VALUES (
-           FLASHCARD_ID_SEQ.nextval,
-           (SELECT ID FROM USERS WHERE USER_LOGIN_ID = 'admin'),
-           '기본 보관함'
-       );
-
-
+-- 커뮤니티 게시글 등록일 랜덤 설정
+UPDATE community_post
+SET COMMUNITY_POST_WRITEDATE = CASE
+                                   WHEN ID = 250 THEN '23/04/01'
+                                   ELSE
+                                       TO_CHAR(
+                                                   DATE '2023-03-01' + (TRUNC(DBMS_RANDOM.VALUE(0, 68)) * INTERVAL '1' DAY),
+                                                   'YY/MM/DD'
+                                           )
+    END
+WHERE ID BETWEEN 250 AND 300;
+select * from COMMUNITY_POST;
