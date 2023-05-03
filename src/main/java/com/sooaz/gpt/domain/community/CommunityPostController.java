@@ -88,6 +88,10 @@ public class CommunityPostController {
             sentenceOpt.ifPresent(sentence -> model.addAttribute("sentence", sentence));
         }
 
+        communityPostViewDto.setCommunityPostContent(
+                communityPostViewDto.getCommunityPostContent().replace("\"", "\\\"")
+        );
+
         model.addAttribute("communityPostViewDto", communityPostViewDto);
         model.addAttribute(SessionConst.LOGIN_USER, loginUser);
         return "community/postView";
@@ -263,4 +267,11 @@ public class CommunityPostController {
         }
         return true;
     }
+
+    @GetMapping("/list/weekly")
+    public String bestListAll( Model model) {
+        model.addAttribute("bestListAll",communityPostService.bestListAll());
+        return "community/bestList";
+    }
+
 }

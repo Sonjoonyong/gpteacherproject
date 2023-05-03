@@ -137,4 +137,22 @@
         delete from COMMUNITY_POST where id = #{communityPostId}
     </delete>
 
+    <select id="bestListAll" resultType="CommunityPostListDto">
+        SELECT
+            U.user_nickname,
+            P.*,
+            (SELECT count(*)
+             FROM COMMUNITY_REPLY
+             WHERE community_post_id = P.id)
+                AS community_post_reply_count,
+            ROWNUM
+        FROM (select *
+              from COMMUNITY_POST
+              where COMMUNITY_POST_WRITEDATE >= TO_CHAR(SYSDATE - 7, 'YYYYMMDD')
+              ORDER BY community_post_hit desc) P
+        JOIN users U
+        ON U.id = P.user_id
+        WHERE ROWNUM &lt;= 10
+    </select>
+
 </mapper>

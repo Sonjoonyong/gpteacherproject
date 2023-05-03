@@ -167,6 +167,45 @@
                 </c:forEach>
             </div>
 
+            <%--            <table class="table" style="text-align: center; border:1px solid black;">--%>
+            <%--                <colgroup>--%>
+            <%--                    <col span="1" style="width: 60%;">--%>
+            <%--                    <col span="1" style="width: 15%;">--%>
+            <%--                    <col span="1" style="width: 10%;">--%>
+            <%--                    <col span="1" style="width: 15%;">--%>
+            <%--                </colgroup>--%>
+            <%--                <thead>--%>
+            <%--                <tr>--%>
+            <%--                    <th style="text-align: center;">제목</th>--%>
+            <%--                    <th style="text-align: center;">작성자</th>--%>
+            <%--                    <th style="text-align: center;">조회수</th>--%>
+            <%--                    <th style="text-align: center; width:100px; margin-right: 5px;">작성일</th>--%>
+            <%--                </tr>--%>
+            <%--                </thead>--%>
+            <%--                <tbody>--%>
+            <%--                <c:forEach var="communityPostListDto" items="${pageInfo.list}">--%>
+            <%--                    <tr>--%>
+            <%--                        <td class="text-start ps-4 py-2">--%>
+            <%--                            <a href="/community/${communityPostListDto.id}" class="communityPost-title-link"--%>
+            <%--                               style="margin-right: 30px">--%>
+            <%--                                [${communityPostListDto.communityPostCategory}] ${communityPostListDto.communityPostTitle}--%>
+            <%--                            </a>--%>
+            <%--                        </td>--%>
+            <%--                        <td>--%>
+            <%--                                ${communityPostListDto.userNickname}--%>
+            <%--                        </td>--%>
+            <%--                        <td>--%>
+            <%--                                ${communityPostListDto.communityPostHit}--%>
+            <%--                        </td>--%>
+            <%--                        <td>--%>
+            <%--                            <fmt:formatDate value="${communityPostListDto.communityPostWritedate}"--%>
+            <%--                                            pattern="yyyy.MM.dd"/>--%>
+            <%--                        </td>--%>
+            <%--                    </tr>--%>
+            <%--                </c:forEach>--%>
+            <%--                </tbody>--%>
+
+            <%--            </table>--%>
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <nav aria-label="Page navigation">
@@ -178,18 +217,16 @@
                                     </a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}"
-                                       aria-label="Previous">
+                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
                                         <span aria-hidden="true">‹</span>
                                     </a>
                                 </li>
                             </c:if>
 
-                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}"
-                                       end="${pageInfo.navigateLastPage}" step="1">
+                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
                                 <c:choose>
                                     <c:when test="${i == pageInfo.pageNum}">
-                                        <li class="page-item active">
+                                        <li class="page-item active" id="pageicon">
                                             <a class="page-link" href="?pageNum=${i}">${i}</a>
                                         </li>
                                     </c:when>

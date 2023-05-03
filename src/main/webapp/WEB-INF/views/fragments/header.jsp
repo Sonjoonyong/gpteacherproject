@@ -41,9 +41,9 @@
                     <a type="button" class="signInBtn btn btn-outline-secondary" href="/user/signup">회원가입</a>
                 </c:if>
                 <c:if test="${not empty loginUser}">
-                    <button class="btn p-0 border-0">
-                        <i class="alarm bi bi-bell fs-5 me-3 fw-bold"></i>
-                    </button>
+                    <div class="btn p-0 border-0 fw-light">
+                        <b>${loginUser.userNickname}</b> 님
+                    </div>
                     <c:choose>
                         <c:when test="${loginUser.userRole == 'ADMIN'}">
                             <a type="button" class="myPageBtn btn mx-2" href="/admin/trend" style="background-color: #716FAA; color: white;">관리페이지</a>
