@@ -49,7 +49,8 @@
 
     <div class="row justify-content-center">
         <div class="p-1 rounded-3 text-center w-auto border">
-            <pre class="m-0 p-1 px-4" style="white-space: pre-wrap"><span style="font-family: sans-serif;">${plainTopic}</span></pre>
+            <pre class="m-0 p-1 px-4" style="white-space: pre-wrap"><span
+                    style="font-family: sans-serif;">${plainTopic}</span></pre>
         </div>
     </div>
 
@@ -77,42 +78,51 @@
     </div>
     <!-- dialogueBox end -->
 
-    <div class="row g-0 justify-content-center g-0 gap-3 mb-2">
-        <!-- 녹음 시작 -->
-        <div class="row justify-content-center">
-            <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
-                <i class="bi bi-mic fs-2" style="color: white"></i>
-            </button>
-            <!-- 녹음 종료 -->
-            <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
-                <i class="bi bi-square-fill"></i>
-            </button>
-        </div>
+    <div class="row g-0 justify-content-center g-0 mb-5" style="min-height: 30px">
+        <!-- dummy -->
+        <div class="col-12 col-sm-3"></div>
 
-        <!-- 프로그레스 바 -->
-        <div class="row justify-content-center align-items-center" style="max-width: 400px;">
-            <div class="col-2 align-self-center"></div><!--dummy-->
-            <progress class="col-8" id="progress" value="0" max="10" style="display:none; accent-color: gray"></progress>
-            <b id="time" class="col-2"></b>
-        </div>
-
-        <!-- 분석 중 -->
-        <div id="waitingMessage" class="row justify-content-center">
-            <div class="col-12 text-center mb-2">
-                <div class="spinner-border text-secondary" role="status"></div>
+        <div class="col-12 col-sm-6">
+            <!-- 녹음 시작 버튼 -->
+            <div class="row justify-content-center mb-3">
+                <button id="record" class="btn rounded-circle text-center p-0 shadow" disabled>
+                    <i class="bi bi-mic fs-2" style="color: white"></i>
+                </button>
+                <!-- 녹음 종료 버튼 -->
+                <button id="stop" class="btn rounded-circle fs-5 text-center p-0 shadow" disabled>
+                    <i class="bi bi-square-fill"></i>
+                </button>
             </div>
-            <div class="col-12 text-center">문장을 분석 중입니다.</div>
+            <!-- 프로그레스 바 -->
+            <div class="row justify-content-center align-items-center">
+                <div class="col-2 align-self-center"></div><!--dummy-->
+                <progress class="col-8" id="progress" value="0" max="10"
+                          style="display:none; accent-color: gray"></progress>
+                <b id="time" class="col-12 col-sm-2 d-flex justify-content-center  justify-content-sm-end"></b>
+            </div>
+            <!-- 분석 중 -->
+            <div id="waitingMessage" class="row justify-content-center">
+                <div class="col-12 text-center mb-2">
+                    <div class="spinner-border text-secondary" role="status"></div>
+                </div>
+                <div class="col-12 text-center">문장을 분석 중입니다.</div>
+            </div>
         </div>
+
+        <div class="col-12 col-sm-3 d-flex justify-content-center  justify-content-sm-end m-0">
+            <form method="get" action="/learning/correction/sentences">
+                <input type="hidden" name="learningId" value="${learningId}">
+                <div class="row justify-content-center">
+                    <input type="submit" id="stopDialogue" value="대화 그만하기"
+                           class="btn btn-success border-0 rounded-3"
+                           style="width:120px; background-color: #5DB99D;">
+                </div>
+            </form>
+        </div>
+
     </div>
 
-    <form method="get" action="/learning/correction/sentences">
-        <input type="hidden" name="learningId" value="${learningId}">
-        <div class="row justify-content-center">
-            <input type="submit" id="stopDialogue" value="대화 그만하기"
-                   class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
-                   style="width:120px; background-color: #5DB99D;">
-        </div>
-    </form>
+
 
     <div class="text-center mb-3">
         <img src="/images/step_2and3.png">

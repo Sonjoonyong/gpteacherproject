@@ -35,7 +35,7 @@
 
         <p class="text-center">원하는 대화와 상황을 영어로 입력해 주세요.</p>
 
-        <div class="col">
+        <div class="col-12">
             <div class="row">
                 <div id="dialogueRandomTopic" class="btn border shadow-sm">
                     <i class="bi bi-shuffle"></i>
