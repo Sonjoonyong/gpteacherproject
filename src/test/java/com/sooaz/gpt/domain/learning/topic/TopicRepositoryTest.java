@@ -52,7 +52,7 @@ public class TopicRepositoryTest {
     public void reverse() {
         List<Topic> topics = topicRepository.findAll();
 
-        File file = new File("/Users/gyuray/dev/projects/gpteacherproject/sql/topic_data.sql");
+        File file = new File("/Users/gyuray/dev/projects/gpteacherproject/sql/sample_data_topic.sql");
         try (PrintWriter pr = new PrintWriter(file)) {
             for (Topic topic : topics) {
                 String learningTestType;

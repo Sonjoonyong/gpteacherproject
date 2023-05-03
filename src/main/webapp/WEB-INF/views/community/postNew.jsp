@@ -101,6 +101,7 @@
                         <form:option value="아이엘츠" label="아이엘츠"/>
                         <form:option value="회화" label="회화"/>
                         <form:option value="글쓰기" label="글쓰기"/>
+                        <form:option value="말하기" label="말하기"/>
                         <form:option value="일상" label="일상"/>
                         <form:option value="유머" label="유머"/>
                         <form:option value="시험" label="시험"/>
