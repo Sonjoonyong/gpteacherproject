@@ -1,5 +1,6 @@
 package com.sooaz.gpt.domain.admin.report;
 
+import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -31,11 +32,13 @@ public class ReportRepository {
         return reportMapper.findByUserId(userId);
     }
 
-    public List<ReportDto> findReportedPosts() {
-        return reportMapper.findReportedPosts();
+    public List<ReportDto> findReportedPosts(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return reportMapper.findReportedPosts(pageNum, pageSize);
     }
 
-    public List<ReportDto> findReportedReplies() {
-        return reportMapper.findReportedReplies();
+    public List<ReportDto> findReportedReplies(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return reportMapper.findReportedReplies(pageNum, pageSize);
     }
 }

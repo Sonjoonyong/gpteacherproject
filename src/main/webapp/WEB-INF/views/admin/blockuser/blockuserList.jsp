@@ -94,6 +94,19 @@
         margin:0px;
     }
 
+    .reason {
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 110px;
+        margin: 0px;
+    }
+
 </style>
 
     <%@ include file="../../fragments/bootstrapCss.jsp" %>

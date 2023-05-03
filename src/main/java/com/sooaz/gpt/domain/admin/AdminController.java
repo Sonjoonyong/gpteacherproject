@@ -151,21 +151,28 @@ public class AdminController {
     }
 
     @GetMapping("/admin/reportpostlist")
-    public String getReportedPosts(Model model) {
-        List<ReportDto> reportedPosts = reportService.findReportedPosts();
+    public String getReportedPosts(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                   @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+                                   Model model) {
+        List<ReportDto> reportedPosts = reportService.findReportedPosts(pageNum, pageSize);
+        PageInfo<ReportDto> pageInfo = new PageInfo<>(reportedPosts);
         model.addAttribute("reportedPosts", reportedPosts);
+        model.addAttribute("pageInfo", pageInfo);
 
         System.out.println("Reported posts: " + reportedPosts);
         return "admin/report/reportPostList";
     }
 
     @GetMapping("/admin/reportreplylist")
-    public String getReportedReplies(Model model) {
-        List<ReportDto> reportedReplies = reportService.findReportedReplies();
+    public String getReportedReplies(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
+                                     Model model) {
+        List<ReportDto> reportedReplies = reportService.findReportedReplies(pageNum, pageSize);
+        PageInfo<ReportDto> pageInfo = new PageInfo<>(reportedReplies);
         model.addAttribute("reportedReplies", reportedReplies);
+        model.addAttribute("pageInfo", pageInfo);
 
         System.out.println("Reported replies: " + reportedReplies);
         return "admin/report/reportReplyList";
     }
-
 }

@@ -57,12 +57,12 @@ public class ReportService {
         return reportRepository.findByUserId(userId);
     }
 
-    public List<ReportDto> findReportedPosts() {
-        return reportRepository.findReportedPosts();
+    public List<ReportDto> findReportedPosts(int pageNum, int pageSize) {
+        return reportRepository.findReportedPosts(pageNum, pageSize);
     }
 
-    public List<ReportDto> findReportedReplies() {
-        return reportRepository.findReportedReplies();
+    public List<ReportDto> findReportedReplies(int pageNum, int pageSize) {
+        return reportRepository.findReportedReplies(pageNum, pageSize);
     }
 
 }
