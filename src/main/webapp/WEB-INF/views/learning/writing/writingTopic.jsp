@@ -50,7 +50,7 @@
 <section class="container d-flex flex-column">
     <div class="row flex-grow-1 align-content-start">
 
-        <h3 class="h3 text-center my-3" style="color: #5DB99D">TOPIC</h3>
+        <h3 class="row d-flex justify-content-center" style="color: #5DB99D; margin-top: 15px; margin-bottom: 15px">TOPIC</h3>
 
         <form action="/learning/writing" method="post" id="customTopicForm" class="row d-flex justify-content-center">
             <div class="form-option text-center">

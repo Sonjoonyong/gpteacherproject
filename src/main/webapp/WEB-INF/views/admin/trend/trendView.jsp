@@ -88,7 +88,7 @@
 
                     </div>
 
-                    <div id="ageGroupAnalysis" class="chart-container">
+                    <div id="ageGroupAnalysis" class="chart-container" style="display:none;">
                     <div>
                         <canvas id="ageGroupCountsChart" width="200" height="100" style="max-width: 100%;"></canvas>
                     </div>

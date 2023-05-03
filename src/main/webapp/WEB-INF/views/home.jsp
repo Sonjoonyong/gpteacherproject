@@ -66,7 +66,7 @@
             color: #716FAA;
             cursor: pointer;
             left: 50%;
-            bottom: 120px;
+            bottom: 160px;
             transform: translateX(-50%);
         }
 
