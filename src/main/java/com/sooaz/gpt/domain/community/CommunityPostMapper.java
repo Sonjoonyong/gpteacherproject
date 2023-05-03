@@ -24,5 +24,8 @@ public interface CommunityPostMapper {
 
     void delete(Long communityPostId);
 
+    List<CommunityPostListDto> bestListAll();
+
+
 }
 

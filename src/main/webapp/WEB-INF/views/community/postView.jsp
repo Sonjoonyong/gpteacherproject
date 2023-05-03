@@ -473,7 +473,7 @@
     reportBtn.onclick = (e) => {
         const form = new FormData(e.currentTarget.closest('form'));
         const request = new XMLHttpRequest();
-
+//sub2
         request.onload = () => {
             const response = request.responseText;
             if (response === 'ok') {
