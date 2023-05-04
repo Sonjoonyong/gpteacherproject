@@ -79,10 +79,18 @@
         }
     </style>
 
-    <!--  TOAST UI Editor CSS -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+<%--    <!--  TOAST UI Editor CSS -->--%>
+<%--    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>--%>
 
-    <link rel="stylesheet" href="/css/sentenceModal.css"/>
+<%--    <link rel="stylesheet" href="/css/sentenceModal.css"/>--%>
+
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <!--fontawesome-->
+    <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
+    <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
