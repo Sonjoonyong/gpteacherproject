@@ -35,6 +35,12 @@
 
     <!-- 비 로그인 사용자 접근 제한용 인터셉터 -->
     <interceptors>
+        <!--관리자 페이지 접근 제한 인터셉터-->
+        <interceptor>
+            <mapping path="/admin/**"/>
+            <beans:bean id="adminInterceptor" class="com.sooaz.gpt.global.interceptor.AdminInterceptor"/>
+        </interceptor>
+
         <interceptor>
             <mapping path="/**"/>
             <exclude-mapping path="/"/>

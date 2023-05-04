@@ -100,8 +100,9 @@
                 <div class="col-12 col-md-10 text-secondary example">ex) select degree of doneness of steak</div>
             </div>
 
-            <div class="row justify-content-center mt-5">
-                <button id="startDialogue" type="button" class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+            <div class="row justify-content-center mt-5" style="height: 80px">
+                <div id="spinner" class="spinner-border text-secondary d-none my-3" role="status"></div>
+                <button id="startDialogue" type="button" class="btn btn-success shadow my-3 py-1 border-0 py-2 rounded-3"
                         style="width: 85px; background-color: #5DB99D;">대화 시작
                 </button>
             </div>
@@ -140,6 +141,7 @@
     const situationInput = document.querySelector('input[name=situation]');
     const optionInput = document.querySelector('input[name=option]');
 
+    // 대화 시작 버튼
     const startDialogueBtn = document.querySelector('#startDialogue');
     startDialogueBtn.onclick = (e) => {
 
@@ -162,6 +164,8 @@
             Swal.fire('상황을 입력해주세요.');
             return false;
         }
+        startDialogueBtn.style.display = 'none';
+        document.querySelector('#spinner').classList.toggle('d-none', false);
 
         optionInput.value = optionInput.value.trim();
         e.target.closest('form').submit();

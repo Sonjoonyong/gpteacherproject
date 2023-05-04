@@ -347,13 +347,15 @@
 
             <!--댓글-->
             <div class="col-md-7" >
-                <div class="row">
-                    <form method="POST" id="replyForm">
-                        <input type="hidden" name="questionId" value="${question.id}" >  <!-- 원글 글번호 -->
-                        <textarea name="questionReplyContent" id="questionReplyContent"></textarea>
-                        <button class='btn btn-primary' type="submit">댓글등록</button>
-                    </form>
-                </div>
+                <c:if test="${loginUser.userRole == 'ADMIN'}">
+                    <div class="row">
+                        <form method="POST" id="replyForm">
+                            <input type="hidden" name="questionId" value="${question.id}" >  <!-- 원글 글번호 -->
+                            <textarea name="questionReplyContent" id="questionReplyContent"></textarea>
+                            <button class='btn btn-primary' type="submit">댓글등록</button>
+                        </form>
+                    </div>
+                </c:if>
                 <div class="row">
                     <ul id="replyList" >
 

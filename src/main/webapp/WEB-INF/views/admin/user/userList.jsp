@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -217,7 +219,43 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
-<script src="/js/blockReason.js"></script>
+<script>
+    function blockReason(form) {
+        Swal.fire({
+            title: "차단 사유를 입력해주세요",
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "확인",
+            cancelButtonText: "취소",
+            showLoaderOnConfirm: true,
+            preConfirm: (reason) => {
+                if (reason) {
+                    form.querySelector("#reason").value = reason;
+                    return true;
+                } else {
+                    Swal.showValidationMessage("사유를 입력해주세요");
+                    return false;
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 확인 버튼을 눌렀을 때
+                if (form.checkValidity()) { // 폼이 유효하면 제출
+                    form.submit();
+                } else { // 폼이 유효하지 않으면 실패로 처리
+                    return false;
+                }
+            } else { // 취소 버튼을 눌렀을 때
+                return false;
+            }
+        });
+        return false;
+    }
+</script>
 
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 

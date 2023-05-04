@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -144,7 +147,7 @@
                                 <td><div class="reason me-0 g-0" style="display: -webkit-box;">${blockedUser.blockReason}</div></td>
                                 <td class="center-align">
                                     <div class="d-flex">
-                                        <form action="/admin/unblockUser" method="post" onsubmit="return confirm('정말 차단 해제하시겠습니까?');">
+                                        <form action="/admin/unblockUser" method="post" onsubmit="return unblockUser(this);">
                                             <input type="hidden" name="userId" value="${blockedUser.id}" />
                                             <button type="submit" class="btn btn-primary" style="color: #716FAA; border-color: #716FAA">차단 해제</button>
                                         </form>
@@ -225,7 +228,24 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
-
+<script>
+    function unblockUser(form) {
+        Swal.fire({
+            title: '정말 차단을 해제하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+</script>
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 </body>
