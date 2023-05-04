@@ -8,6 +8,7 @@ import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,8 +31,9 @@ public class DialogueService {
             "Optional situation: \"%s\n" +
             "My role: \"%s\". " +
             "Your role: \"%s\".  " +
-            "Don't append any comment except your role-play talk. " +
-            "Start conversation with your first talk to me with just single sentence.";
+            "Don't append any comment except answer. " +
+            "Please don't five me the full dialogue all at once. " +
+            "Say one sentence and wait for my response.";
 
     // 교정 요청 지시문 템플릿
     private String CORRECTION_INSTRUCTION = "This is my talk as \"%s\": \"%s\"\n\n" +
@@ -49,9 +51,19 @@ public class DialogueService {
             "Do noy append unnecessary comment except your answer.";
 
     public String initDialogue(DialogueTopicDto dialogueTopicDto) {
+        List<JSONObject> messages = new ArrayList<JSONObject>();
+        messages.add(OpenAiClient.userMessage("Can you help me practice my English with a role play?"));
+        messages.add(OpenAiClient.assistantMessage("Sure. I'd be happy to help you practice your English with a role play. " +
+                                                            "What scenario would you like to role play?"));
+        String plainTopic = getPlainTopic(dialogueTopicDto);
+        messages.add(OpenAiClient.userMessage("We can practice a conversation for this scenario: \"" + plainTopic + "\""));
+        messages.add(OpenAiClient.assistantMessage("Sure. We can have conversation about the scenario \"" + plainTopic + "\""));
+        messages.add(OpenAiClient.userMessage("Good. Please don't give me the full dialogue all at once. Say one sentence and wait for my response."));
+        messages.add(OpenAiClient.assistantMessage("Ok. Do you need any explanation or comment for my speaking?"));
+        messages.add(OpenAiClient.userMessage("No. Please do not append any explanation or comment. " +
+                                                    "Let's start. This is my first sentence: \"Hi\"" + dialogueTopicDto.getAssistantRole() + "\""));
 
-        String initialInstruction = getInitialInstruction(dialogueTopicDto);
-        return processTalk(openAiClient.chat(initialInstruction));
+        return processTalk(openAiClient.chat(messages));
     }
 
     public Long saveLearning(DialogueTopicDto dialogueTopicDto, Long userId) {
