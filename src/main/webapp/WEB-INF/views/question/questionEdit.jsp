@@ -129,6 +129,7 @@
                                 <form:select path="questionCategory"  class="select" id="questionTitle" value="${question.questionCategory}" style="height:38px; border: 1px solid lightgray; border-radius: 5px;" >
                                     <form:option value="학습"> 학습</form:option>
                                     <form:option value="회원정보"> 회원정보</form:option>
+                                    <form:option value="기타"> 기타</form:option>
                                 </form:select>
                             </div>
                             <div class="form-group " style="width:560px;">
