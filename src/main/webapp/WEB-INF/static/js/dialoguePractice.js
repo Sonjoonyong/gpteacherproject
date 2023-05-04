@@ -14,7 +14,7 @@ const waitingMessage = document.querySelector('#waitingMessage');
 const progress = document.getElementById("progress"); //progress bar
 const b = document.getElementById("time"); // 초 표시할 b태그
 let timer = 0; // 타이머
-let mx = 1500; // 최대 시간(초)
+let mx = 20; // 최대 시간(초)
 
 // 대화 시작하기 버튼
 const startDialogueBtn = document.querySelector('#startDialogue');

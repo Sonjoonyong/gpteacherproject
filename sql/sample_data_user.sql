@@ -324,8 +324,3 @@ begin
             values (FLASHCARD_ID_SEQ.nextval, usr.id, 'default');
         end loop;
 end;
-
-delete from users where 1 = 1;
-delete from FLASHCARD where 1 = 1;
-select * from FLASHCARD;
-select * from FLASHCARD;
