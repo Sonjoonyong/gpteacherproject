@@ -13,4 +13,6 @@ public class ReplyListDto {
     private String questionReplyContent;
     private Long questionReplyParentId;
     private String userNickname;
+    private Boolean isAdmin;
+    private Boolean isWriter;
 }
