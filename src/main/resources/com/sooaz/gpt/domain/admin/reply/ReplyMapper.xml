@@ -22,7 +22,7 @@
     </insert>
 
     <select id="replyListSelect" resultType="com.sooaz.gpt.domain.admin.reply.ReplyListDto">
-        SELECT Q.id, question_id, question_reply_content, U.user_nickname , question_reply_writedate FROM QUESTION_REPLY Q
+        SELECT Q.id, Q.user_id, question_id, question_reply_content, U.user_nickname , question_reply_writedate FROM QUESTION_REPLY Q
         JOIN USERS U ON Q.user_id = U.id
         WHERE question_id = ${questionId}
         ORDER BY question_reply_writedate desc

@@ -1,6 +1,9 @@
 package com.sooaz.gpt.domain.admin.reply;
 
+import com.sooaz.gpt.domain.community.communityreply.CommunityReplyListDto;
 import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.domain.user.UserRole;
+import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +18,11 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping("/replySend")
-    public String replySend(ReplyListDto dto, HttpServletRequest request, @RequestParam("questionId") Long questionId){
+    public String replySend(
+            ReplyListDto dto,
+            HttpServletRequest request,
+            @RequestParam("questionId") Long questionId
+    ){
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute("loginUser");
         dto.setUserId(loginUser.getId());
@@ -24,10 +31,18 @@ public class ReplyController {
 
         return result+"";
     }
-
+    @ResponseBody
     @GetMapping("/help/replyList")
-    public List<ReplyListDto> replyList(@RequestParam("questionId")Long questionId){
-        return replyService.replyListSelect(questionId);
+    public List<ReplyListDto> replyList(
+            @RequestParam("questionId")Long questionId,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ){
+        List<ReplyListDto> replyListDtos = replyService.replyListSelect(questionId);
+        for (ReplyListDto dto : replyListDtos) {
+            dto.setIsWriter(loginUser.getId().equals(dto.getUserId()));
+            dto.setIsAdmin(loginUser.getUserRole().equals(UserRole.ADMIN));
+        }
+        return replyListDtos;
     }
 
     @PostMapping("/replyEdit")

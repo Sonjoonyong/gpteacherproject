@@ -129,18 +129,20 @@
                     }
                     , type : "GET"
                     , success: function(result){
-                        console.log("questionId");
                         var tag = "";
                         $(result).each(function(i, rDto){
                             let date = new Date(rDto.questionReplyWriteDate);
                             let newDate = date.toISOString().split('T')[0];
-                            console.log(i, rDto);
                             //댓글리스트폼
                             tag += "<li>";
                                 tag += "<div>";
                                 tag += "<b>"+ rDto.userNickname +" ("+ newDate +")</b>"; //userId, 작성일
-                                tag += "<input type='button' name='delete' class='btn btn-secondary' style='margin-right: 5px;' value='삭제' title='"+ rDto.id +"'>";
+                                if (rDto.isAdmin || rDto.isWriter) {
+                                tag += "<input type='button' name='delete' class='btn btn-secondary' style='margin-right: 5px;' value='삭제' title='" + rDto.id + "'>";
+                                }
+                                if (rDto.isWriter) {
                                 tag += "<input type='button' name='edit' class='btn btn-secondary' style='margin-right: 5px;' value='수정'>";
+                                }
                                 tag += "<p>"+ rDto.questionReplyContent +"</p></div>";  // 댓글 내용
                                     //댓글수정폼
                                     tag += "<div class='row' style='display:none'>" ;
@@ -223,23 +225,30 @@
 
             //댓글삭제
             $(document).on('click', '#replyList input[name=delete]', function(){
-                if (confirm("댓글을 삭제할까요?")) {
-                    var params = "id="+ $(this).attr("title");
-                    console.log(params);
-                    var url = "/replyDelete";
-                    $.ajax({
-                        url: url
-                        , data: params
-                        , success: function(result){
-                            console.log(result);
-                            // 댓글 목록을 다시 뿌려주기
-                            replyList();
+                Swal.fire({
+                    title: '댓글을 삭제할까요?',
+                    showCancelButton: true,
+                    confirmButtonText: '삭제',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var params = "id=" + $(this).attr("title");
+                        console.log(params);
+                        var url = "/replyDelete";
+                        $.ajax({
+                            url: url
+                            , data: params
+                            , success: function (result) {
+                                console.log(result);
+                                // 댓글 목록을 다시 뿌려주기
+                                replyList();
 
-                        }, error: function(e){
-                            console.log(e.responseText);
-                        }
-                    });
-                }
+                            }, error: function (e) {
+                                console.log(e.responseText);
+                            }
+                        });
+                    }
+                })
             });
 
             replyList();
