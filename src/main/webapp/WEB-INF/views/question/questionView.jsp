@@ -157,7 +157,14 @@
                         });
                         // .html : 원래 있던 내용 지우고 표시
                         $("#replyList").html(tag);
-                    }, error: function(e){
+                        // 댓글의 개수를 확인하고 버튼을 활성화/비활성화합니다.
+                        if (result.length > 0) {
+                            $("#statusUpdateButton").prop("disabled", false);
+                        } else {
+                            $("#statusUpdateButton").prop("disabled", true);
+                        }
+                    },
+                    error: function(e){
                         console.log(e.responseText);
                     }
                 });
@@ -321,7 +328,7 @@
 
                 <c:if test="${loginUser.userRole == 'ADMIN'}">
                     <form action="${pageContext.request.contextPath}/help/question/statusUpdate/${question.id}" method="POST">
-                        <button type="submit" class="btn btn-success">답변상태변경</button>
+                        <button type="submit" id="statusUpdateButton" class="btn btn-success">답변상태변경</button>
                     </form>
                 </c:if>
 
@@ -370,6 +377,11 @@
             viewer: true
         });
     });
+
+    $(document).ready(function() {
+        $("#statusUpdateButton").prop("disabled", true);
+    });
+
 </script>
 
 <%@ include file="../fragments/footer.jsp" %>
