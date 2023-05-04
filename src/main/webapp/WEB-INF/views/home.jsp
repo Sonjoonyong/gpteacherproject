@@ -132,7 +132,7 @@
             <div class="row g-0 justify-content-center" >
                 <div class="col-6">
                     <div style="padding-left: 140px;">
-                        <img src="/images/speakingScreen.png" class="img" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
+                        <img src="/images/speakingScreen2.png" class="img" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
                     </div>
                 </div>
                 <div class="col-6">
@@ -156,7 +156,7 @@
                 </div>
                 <div class="col-6">
                     <div style="padding-left: 60px;">
-                        <img src="/images/dialogueScreen.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
+                        <img src="/images/dialogueScreen2.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
                     </div>
                 </div>
             </div>
@@ -164,7 +164,7 @@
             <div class="row g-0" >
                 <div class="col-6">
                     <div style="padding-left: 140px;">
-                        <img src="/images/mypageScreen.png" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-top: 10px; margin-bottom: 10px">
+                        <img src="/images/mypageScreen2.png" class="image" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px; margin-top: 10px; margin-bottom: 10px">
                     </div>
                 </div>
                 <div class="col-6 "  >
@@ -187,7 +187,7 @@
                 </div>
                 <div class="col-6">
                     <div style="padding-left: 60px;">
-                        <img src="/images/communityScreen.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
+                        <img src="/images/communityScreen2.png" class="image2" height="350px" width="450px" style="border: 1px solid dimgray; border-radius: 10px;margin-top: 10px; margin-bottom: 10px;">
                     </div>
                 </div>
             </div>
