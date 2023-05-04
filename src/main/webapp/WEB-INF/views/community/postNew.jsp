@@ -79,7 +79,6 @@
         }
     </style>
 
-
     <!--  TOAST UI Editor CSS -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 
@@ -149,6 +148,7 @@
 <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
 <!--  SweetAlert2  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="/js/toastUiEditor.js"></script>
 <script src="/js/sentenceModal.js"></script>
 

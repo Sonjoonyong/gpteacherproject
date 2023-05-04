@@ -1,6 +1,5 @@
 const nicknameInput = document.querySelector('#userNickname');
 const nicknameMsgDiv = document.querySelector('#nicknameMsg');
-const userEmailAgreementCheckbox = document.querySelector('#userEmailAgreement');
 
 document.querySelector('#nicknameDupCheck').onclick = () => {
     const request = new XMLHttpRequest();
@@ -95,39 +94,54 @@ sendEmailCodeBtn.onclick = () => {
     request.send();
 }
 
+const userEmailCodeInput = document.querySelector('#userEmailCode');
+const userNicknameInput = document.querySelector('#userNickname');
+
 // 인증
 validateEmailCodeBtn.onclick = () => {
     if (emailCodeInput.value === '') {
-        emailCodeInput.focus();
         Swal.fire('이메일 인증 코드를 입력해주세요.');
         return false;
     }
 
-    const params = new URLSearchParams();
-    params.append("userNickname", nicknameInput.value);
-    params.append("userEmailCode", emailCodeInput.value);
-    params.append("userEmailAgreement", userEmailAgreementCheckbox.checked);
-
+    emailInput.disabled = true;
     const request = new XMLHttpRequest();
 
     request.onload = () => {
-        // result:true - 코드 정상 인증, false: 실패
-        const responseJson = JSON.parse(request.responseText);
-
-        if (responseJson.result === true) {
-            Swal.fire('회원 정보가 변경되었습니다.').then(() => {
-                location.href = '/user/mypage/edit';
-            });
+        // 'true' - 코드 정상 인증, 'false': 실패
+        if (request.responseText === 'true') {
+            emailCodeMsgDiv.innerText = '인증되었습니다.';
+            emailCodeMsgDiv.classList.toggle("text-danger", false);
+            emailCodeMsgDiv.classList.toggle("text-success", true);
         } else {
-            emailCodeMsgDiv.innerText = responseJson.errorMsg;
+            emailCodeMsgDiv.innerText = '인증번호가 유효하지 않습니다.';
             emailCodeMsgDiv.classList.toggle("text-danger", true);
             emailCodeMsgDiv.classList.toggle("text-success", false);
-            emailInput.disabled = false;
         }
     }
 
-    request.open("POST", '/user/mypage/edit');
-    request.setRequestHeader("Accept", "application/json; charset=utf-8");
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-    request.send(params.toString());
+    request.open("POST", '/user/mypage/edit/emailCode?emailCode=' + emailCodeInput.value);
+    request.send();
+}
+
+// form 제출
+const submitBtn = document.querySelector('#submitBtn');
+submitBtn.onclick = (e) => {
+
+
+    if (userEmailCodeInput.value === '') {
+        Swal.fire('이메일 코드를 입력해주세요.');
+        return false;
+    }
+    if (userNicknameInput.value === '') {
+        Swal.fire('닉네임을 입력해주세요.');
+        return false;
+    }
+
+    if (userNicknameInput.value.length < 2 || userNicknameInput.value.length > 8) {
+        Swal.fire('닉네임은 2~8자 범위로 입력해주세요.');
+        return false;
+    }
+
+    e.target.closest('form').submit();
 }
