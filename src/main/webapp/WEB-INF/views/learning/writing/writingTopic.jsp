@@ -57,7 +57,7 @@
                 <input type="hidden" name="topicType" value="customTopic">
                 <label for="customTopic" class="text-center mb-2">주제를 직접 입력하여 글쓰기를 연습합니다.</label><br>
                 <input type="text" id="customTopic" name="customTopic" placeholder="주제를 영어로 입력해주세요."
-                       class="col-12 col-md-8 py-2 rounded-3 border mx-auto text-center"
+                       class="col-12 col-md-8 py-2 rounded-3 border mx-auto text-center" maxlength="300"
                        style="text-align: center; margin-top: 40px"/>
                 <div class="text-center example" style="margin-top: 15px">ex) The effects of social media on mental
                     health
