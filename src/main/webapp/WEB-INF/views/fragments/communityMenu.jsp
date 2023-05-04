@@ -10,7 +10,7 @@
         </li>
         <li class="list-group-item py-3">
             <a class="nav-link" href="/community/list/weekly">
-                주간 베스트글 10<i class="bi bi-fire"></i>
+                인기게시글 10<i class="bi bi-fire"></i>
             </a>
         </li>
     </ul>
