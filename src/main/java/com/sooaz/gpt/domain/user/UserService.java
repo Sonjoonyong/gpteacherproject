@@ -86,7 +86,7 @@ public class UserService {
         // 기본 플래시카드 보관함 제공
         Flashcard flashcard = new Flashcard();
         flashcard.setUserId(user.getId());
-        flashcard.setFlashcardName("기본 보관함");
+        flashcard.setFlashcardName("default");
         flashcardService.insertFlashcard(flashcard);
     }
 

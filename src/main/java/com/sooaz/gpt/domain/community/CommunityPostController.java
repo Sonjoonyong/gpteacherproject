@@ -168,6 +168,11 @@ public class CommunityPostController {
             return "redirect:/community/list";
         }
 
+        // sentence_id 삭제 (update 시 -1로 명시)
+        if (communityPostUpdateDto.getSentenceId() == null) {
+            communityPostUpdateDto.setSentenceId(-1L);
+        }
+
         communityPostService.update(communityPostUpdateDto);
         return "redirect:/community/" + communityPostUpdateDto.getCommunityPostId();
     }

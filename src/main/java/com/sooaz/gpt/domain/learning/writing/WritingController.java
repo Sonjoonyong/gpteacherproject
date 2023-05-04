@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,6 +45,18 @@ public class WritingController {
         model.addAttribute("question", question);
 
         return "learning/writing/writingPractice";
+    }
+
+    @ResponseBody
+    @GetMapping("/learning/writing/word")
+    public String recommendWord(
+            @RequestParam String question,
+            @RequestParam String answer
+    ) {
+        if (answer.length() < 10 || answer.length() > 1000) {
+            return "retry";
+        }
+        return writingService.recommendWord(question, answer);
     }
 
 }
