@@ -328,7 +328,9 @@
 
                 <form action="${pageContext.request.contextPath}/help/question/delete/${question.id}"  method="post" onsubmit="return confirm('글을 삭제하시겠습니까?');" style="display:inline;"> <!--게시글삭제버튼-->
                     <a href="${pageContext.request.contextPath}/help/question/list" class="btn btn-primary" style="margin-right: 5px;">목록</a>
-                    <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary" style="margin-right: 5px;">수정</a> <!--게시글수정버튼-->
+                    <c:if test="${loginUser.userRole != 'ADMIN'}">
+                        <a href="${pageContext.request.contextPath}/help/question/edit/${question.id}" class="btn btn-primary" style="margin-right: 5px;">수정</a> <!--게시글수정버튼-->
+                    </c:if>
                     <button type="submit" class="btn btn-primary" style="margin-right: 5px;">삭제</button>
                 </form>
 
