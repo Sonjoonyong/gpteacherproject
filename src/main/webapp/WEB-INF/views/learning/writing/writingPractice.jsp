@@ -48,8 +48,8 @@
                     <label for="answer" style="font-weight: bold; color: #2A6976">Answer </label>
                     <button id="wordRecommendation" class="btn btn-sm btn-primary ms-auto">단어 추천받기</button>
                 </div>
-                <textarea class="form-control px-3 py-2 my-3" cols="100" rows="20" name="userScript"
-                          id="answer"></textarea>
+                <textarea class="form-control px-3 py-2 my-3" cols="100" rows="20" name="userScript" id="answer" maxlength="1500"></textarea>
+
             </div>
 
             <div class="text-center submit-container">

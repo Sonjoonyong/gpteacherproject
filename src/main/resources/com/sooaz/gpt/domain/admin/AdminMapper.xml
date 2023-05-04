@@ -31,8 +31,9 @@
     <select id="getUserViewList" resultMap="userViewResultMap" parameterType="map">
         SELECT * FROM users
         <where>
+            user_role = 'USER'
             <if test="search != null and searchOption != null">
-                LOWER(${searchOption}) LIKE LOWER('%' || #{search} || '%')
+                AND LOWER(${searchOption}) LIKE LOWER('%' || #{search} || '%')
             </if>
         </where>
         ORDER BY id
