@@ -5,7 +5,7 @@
 
 <html>
 <head>
-  <title>주간베스트글 10</title>
+  <title>인기게시글 10</title>
   <link rel="stylesheet" href="/css/base.css">
   <%@ include file="../fragments/bootstrapCss.jsp" %>
   <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
