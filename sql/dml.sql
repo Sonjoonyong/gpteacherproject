@@ -90,4 +90,3 @@ SET COMMUNITY_POST_WRITEDATE = CASE
                                            )
     END
 WHERE ID BETWEEN 250 AND 300;
-select * from COMMUNITY_POST;
