@@ -79,12 +79,10 @@
         }
     </style>
 
-    <!--  TOAST UI Editor CDN  -->
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <!-- 한국어 패치 -->
-    <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
-    <!--  SweetAlert2  -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--  TOAST UI Editor CSS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+
+    <link rel="stylesheet" href="/css/sentenceModal.css"/>
 
 </head>
 <body>
@@ -150,6 +148,7 @@
 <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
 <!--  SweetAlert2  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="/js/toastUiEditor.js"></script>
 <script src="/js/sentenceModal.js"></script>
 
