@@ -12,4 +12,6 @@ public class Reply {
     private Date questionReplyWriteDate;
     private String questionReplyContent;
     private Long questionReplyParentId;
+    private Boolean isAdmin;
+    private Boolean isWriter;
 }
