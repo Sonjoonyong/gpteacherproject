@@ -50,7 +50,7 @@
                     </ul>
                 </li>
                 <li class="list-group-item ps-5"><!--불법정보-->
-                    <input class="form-check-input" type="radio" name="reportReason" id="2" value="욕설">
+                    <input class="form-check-input" type="radio" name="reportReason" id="2" value="불법">
                     <label class="form-check-label fw-bold" for="2">
                         불법정보를 포함하고 있습니다.
                     </label>

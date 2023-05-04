@@ -91,6 +91,8 @@
     <script src="https://kit.fontawesome.com/57137a5259.js" crossorigin="anonymous"></script>
     <!-- * * * * * * * * * * * * * * * *알림창 이쁘게 만들기 * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!--글수정 오류 수정완료-->
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
