@@ -89,6 +89,8 @@
 </section>
 
 <%@ include file="../../fragments/footer.jsp" %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="/js/toggleLikeAjax.js"></script>
 <script src="/js/toggleDeleteAjax.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" charset="utf-8"></script>
