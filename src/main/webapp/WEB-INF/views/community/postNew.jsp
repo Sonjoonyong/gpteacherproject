@@ -79,10 +79,12 @@
         }
     </style>
 
+
     <!--  TOAST UI Editor CSS -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 
     <link rel="stylesheet" href="/css/sentenceModal.css"/>
+
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
@@ -149,6 +151,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/toastUiEditor.js"></script>
 <script src="/js/sentenceModal.js"></script>
+
 
 </body>
 </html>
