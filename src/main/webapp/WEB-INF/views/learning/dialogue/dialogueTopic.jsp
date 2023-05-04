@@ -101,8 +101,9 @@
             </div>
 
             <div class="row justify-content-center mt-5">
-                <input type="submit" value="대화 시작" class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
-                       style="width: 85px; background-color: #5DB99D;"/>
+                <button id="startDialogue" type="button" class="btn btn-success shadow my-3 border-0 py-2 rounded-3"
+                        style="width: 85px; background-color: #5DB99D;">대화 시작
+                </button>
             </div>
         </form>
     </div>
@@ -120,6 +121,7 @@
 <%@ include file="../../fragments/bootstrapJs.jsp" %>
 
 <script src="/js/randomTopic.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     // 역할 바꾸기
@@ -131,6 +133,41 @@
         userRoleInput.value = assistantRoleInput.value;
         assistantRoleInput.value = temp;
     };
+
+    const placeInput = document.querySelector('input[name=place]');
+    const userRoleInput = document.querySelector('input[name=userRole]');
+    const assistantRoleInput = document.querySelector('input[name=assistantRole]');
+    const situationInput = document.querySelector('input[name=situation]');
+    const optionInput = document.querySelector('input[name=option]');
+
+    const startDialogueBtn = document.querySelector('#startDialogue');
+    startDialogueBtn.onclick = (e) => {
+
+        if (placeInput.value.trim() === '') {
+            Swal.fire('장소를 입력해주세요.');
+            return false;
+        }
+
+        if (userRoleInput.value.trim() === '') {
+            Swal.fire('당신의 역할을 입력해주세요.');
+            return false;
+        }
+
+        if (assistantRoleInput.value.trim() === '') {
+            Swal.fire('상대방의 역할을 입력해주세요.');
+            return false;
+        }
+
+        if (situationInput.value.trim() === '') {
+            Swal.fire('상황을 입력해주세요.');
+            return false;
+        }
+
+        optionInput.value = optionInput.value.trim();
+        e.target.closest('form').submit();
+    }
+
+
 </script>
 
 </body>

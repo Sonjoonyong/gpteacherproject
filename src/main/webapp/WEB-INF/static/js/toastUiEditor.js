@@ -4,7 +4,7 @@ const Editor = toastui.Editor;
 const editor = new Editor({
     el: document.querySelector('#editor'),
     height: '500px',
-    initialEditType: 'WYSIWYG',
+    initialEditType: 'wysiwyg',
     // initialValue: contentInput.value, // 적용 안 됨. 원인 불명
     language: "ko-KR"
 });
