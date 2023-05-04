@@ -189,9 +189,9 @@
                                 <c:forEach var="notice" items="${pageInfo.list}">
                                     <tr>
                                         <td>
+                                            <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image" aria-disabled="true">
                                             <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link" style="margin-right: 30px">
-                                                <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image">
-                                                    ${notice.noticeTitle}
+                                                ${notice.noticeTitle}
                                             </a>
                                         </td>
                                         <td style="margin-right: 5px;"><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
