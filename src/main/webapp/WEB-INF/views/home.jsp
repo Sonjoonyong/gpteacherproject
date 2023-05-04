@@ -226,7 +226,7 @@
                     <h2>회원들의 생생한 후기도 확인해 보아요.</h2>
                 </div>
                 <div class="col-12" style="margin-bottom: 100px">
-                    <img class="reviewimg" src="/images/review.png" style="width: 800px; height: 230px;">
+                    <img class="reviewimg" src="/images/review3.png" style="width: 800px; height: 230px;">
                 </div>
             </div>
 
