@@ -7,10 +7,10 @@ import com.sooaz.gpt.domain.user.UserUpdateDto;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,17 +60,21 @@ public class UserInfoController {
         if (flashMap != null && flashMap.containsKey("isEditSucceed")) {
             model.addAttribute("isEditSucceed", flashMap.get("isEditSucceed"));
         }
+        if (flashMap != null && flashMap.containsKey("errorMsg")) {
+            model.addAttribute("errorMsg", flashMap.get("errorMsg"));
+        }
 
-        UserEditInfoDto userEditInfoDto = new UserEditInfoDto();
-        userEditInfoDto.setUserEmailAgreement(loginUser.getUserEmailAgreement());
-        userEditInfoDto.setUserNickname(loginUser.getUserNickname());
+        UserEditInfoDto userEditInfoDto1 = new UserEditInfoDto();
+        userEditInfoDto1.setUserEmailAgreement(loginUser.getUserEmailAgreement());
+        userEditInfoDto1.setUserNickname(loginUser.getUserNickname());
 
         String userLoginId = loginUser.getUserLoginId();
         if (userLoginId.length() == 36) {
-            userEditInfoDto.setUserLoginId("N/A (SNS 연동 계정)");
+            userEditInfoDto1.setUserLoginId("N/A (SNS 연동 계정)");
         } else {
-            userEditInfoDto.setUserLoginId(loginUser.getUserLoginId());
+            userEditInfoDto1.setUserLoginId(loginUser.getUserLoginId());
         }
+        UserEditInfoDto userEditInfoDto = userEditInfoDto1;
 
         model.addAttribute("userEditInfoDto", userEditInfoDto);
 
@@ -94,8 +98,7 @@ public class UserInfoController {
     /**
      * 이메일 인증 후 회원 정보 변경
      */
-    @ResponseBody
-    @PostMapping(value = "/user/mypage/edit", produces = "application/json; charset=utf-8")
+    @PostMapping("/user/mypage/edit")
     public String editInfo(
             @NotBlank(message = "이메일 코드를 입력해주세요.")
             String userEmailCode,
@@ -103,6 +106,7 @@ public class UserInfoController {
             @NotBlank
             String userNickname,
             @SessionAttribute(SessionConst.LOGIN_USER) User loginUser,
+            RedirectAttributes redirectAttributes,
             HttpServletRequest request
     ) {
         String userEmail = loginUser.getUserEmail();
@@ -112,20 +116,15 @@ public class UserInfoController {
         log.info("userEmailAgreement = {}", userEmailAgreement);
         log.info("userNickname = {}", userNickname);
 
-        JSONObject resultJson = new JSONObject();
-        resultJson.put("result", false);
-
         if (!userNickname.equals(loginUser.getUserNickname())
                 && userService.isDuplicateNickname(userNickname)) {
-            resultJson.put("errorMsg", "이미 존재하는 닉네임입니다.");
+            redirectAttributes.addFlashAttribute("errorMsg", "이미 존재하는 닉네임입니다.");
+            return "redirect:/user/mypage/edit";
         }
 
         if (!userService.isValidEmailCode(userEmail, userEmailCode)) {
-            resultJson.put("errorMsg", "코드가 유효하지 않거나 만료되었습니다.");
-        }
-
-        if (resultJson.has("errorMsg")) {
-            return resultJson.toString();
+            redirectAttributes.addFlashAttribute("errorMsg", "코드가 유효하지 않거나 만료되었습니다.");
+            return "redirect:/user/mypage/edit";
         }
 
         userService.invalidEmailCode(userEmail);
@@ -134,17 +133,26 @@ public class UserInfoController {
         UserUpdateDto updateDto = new UserUpdateDto();
         updateDto.setUserId(loginUser.getId());
         updateDto.setUserNickname(userNickname);
-        updateDto.setUserEmailAgreement(userEmailAgreement);
+        updateDto.setUserEmailAgreement(userEmailAgreement == null? false : userEmailAgreement);
         userService.update(updateDto);
 
         // 세션 유저 정보도 갱신
         User updatedUser = userService.findByEmail(userEmail).orElseThrow(IllegalStateException::new);
         request.getSession().setAttribute(SessionConst.LOGIN_USER , updatedUser);
 
-        resultJson.put("result", true);
+        redirectAttributes.addFlashAttribute("isEditSucceed", "회원 정보가 변경되었습니다.");
 
-        return resultJson.toString();
+        return "redirect:/user/mypage/edit";
     }
 
 
+    @ResponseBody
+    @PostMapping("/user/mypage/edit/emailCode")
+    public String validateEmailCode(
+            @RequestParam String emailCode,
+            @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
+    ) {
+        String userEmail = loginUser.getUserEmail();
+        return String.valueOf(userService.isValidEmailCode(userEmail, emailCode));
+    }
 }
