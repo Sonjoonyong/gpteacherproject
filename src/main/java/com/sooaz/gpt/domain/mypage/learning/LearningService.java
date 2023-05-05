@@ -42,11 +42,6 @@ public class LearningService {
     }
 
     public void toggleDelete(Long learningId) {
-        // sentence 삭제
-        List<Sentence> sentences = sentenceRepository.findAllByLearningId(learningId);
-        for (Sentence sentence : sentences) {
-            sentenceRepository.delete(sentence.getId());
-        }
         // learning 삭제
         learningRepository.delete(learningId);
     }
