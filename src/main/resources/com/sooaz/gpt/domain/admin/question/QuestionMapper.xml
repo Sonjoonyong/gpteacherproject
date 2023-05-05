@@ -17,7 +17,7 @@
         WHERE (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_title) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%') or
             (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(user_id) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%') or
             (#{search, jdbcType=VARCHAR} IS NULL OR LOWER(question_category) LIKE '%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
-        ORDER BY id desc
+        ORDER BY question_writedate desc
     </select>
 
     <select id="findById" parameterType="long" resultMap="QuestionResultMap">
