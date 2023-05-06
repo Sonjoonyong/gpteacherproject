@@ -1,19 +1,16 @@
--- TODO - FK CASCADE (게시물, 사용자)
+begin
+    for rec in (select table_name from user_tables)
+        loop
+            execute immediate 'DROP TABLE ' || rec.table_name || ' CASCADE CONSTRAINTS';
+        end loop;
+end;
 
-DROP TABLE USERS;
-DROP TABLE SENTENCE;
-DROP TABLE COMMUNITY_POST;
-DROP TABLE BOARD_NOTICE;
-DROP TABLE COMMUNITY_REPLY;
-DROP TABLE LEARNING;
-DROP TABLE BOARD_QUESTION;
-DROP TABLE BOARD_FAQ;
-DROP TABLE FLASHCARD;
-DROP TABLE QUESTION_REPLY;
-DROP TABLE REPORT;
-DROP TABLE BOOKMARK;
-DROP TABLE LIKES;
-DROP TABLE TOPIC;
+begin
+    for rec in (select SEQUENCE_NAME from USER_SEQUENCES)
+        loop
+            execute immediate 'DROP SEQUENCE ' || rec.sequence_name;
+        end loop;
+end;
 
 CREATE TABLE users
 (
@@ -205,3 +202,5 @@ CREATE SEQUENCE REPORT_ID_SEQ;
 CREATE SEQUENCE SENTENCE_ID_SEQ;
 CREATE SEQUENCE USERS_ID_SEQ;
 CREATE SEQUENCE TOPIC_ID_SEQ;
+
+commit;

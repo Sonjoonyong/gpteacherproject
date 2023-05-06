@@ -146,7 +146,8 @@
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
                                 <td>${question.id}</td>
-                                <td>
+                                    
+                                <td style="text-align: left;">
                                     <c:if test="${question.userId eq loginUser.getId()}">
                                         <i class="fa-solid fa-lock-open" id="icon1" aria-disabled="true"></i>
                                     </c:if>
