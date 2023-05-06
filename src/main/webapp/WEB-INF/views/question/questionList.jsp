@@ -28,6 +28,13 @@
             border-right : 1px solid white;
             border-bottom : 1px solid lightgray;
         }
+        .col-md-7 table tbody tr td .questiontitle{
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         a { color: black; }
         a:visited { color: black; }
@@ -137,7 +144,8 @@
                     <thead>
                     <tr>
                         <th style="width: 50px;">번호</th>
-                        <th >제목</th>
+                        <th style="width: 20px;"></th>
+                        <th>제목</th>
                         <th style="width: 100px;">작성일</th>
                         <th style="width: 100px;">상태</th>
                     </tr>
@@ -146,14 +154,22 @@
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
                                 <td>${question.id}</td>
-                                <td>
-                                    <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
-                                    <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
-                                    [${question.questionCategory}] ${question.questionTitle}
-                                    </a>
+                                <td style="width: 20px; padding-left: 1px;padding-right: 1px;">
+                                    <c:if test="${question.userId eq loginUser.getId()}">
+                                        <i class="fa-solid fa-lock-open" id="icon1" aria-disabled="true"></i>
+                                    </c:if>
+                                    <c:if test="${question.userId ne loginUser.getId()}">
+                                        <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
+                                    </c:if>
+                                </td>
+                                <td  style="text-align: left;">
+                                    <div class="questiontitle" style="display: -webkit-box; position: relative;">
+                                        <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
+                                        [${question.questionCategory}] ${question.questionTitle}
+                                        </a>
+                                    </div>
                                 </td>
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
-
                                 <td>
                                     <c:if test="${question.questionStatus }">답변완료</c:if>
                                     <c:if test="${not question.questionStatus }">답변중</c:if>

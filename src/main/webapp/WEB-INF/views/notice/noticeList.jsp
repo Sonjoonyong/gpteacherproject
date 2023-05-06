@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>고객센터</title>
+    <title>공지사항</title>
 
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
@@ -153,7 +153,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
-                                    자주묻는 질문
+                                    자주 묻는 질문
                                 </button>
                             </h2>
                         </div>
@@ -188,11 +188,9 @@
                                 <tbody>
                                 <c:forEach var="notice" items="${pageInfo.list}">
                                     <tr>
-                                        <td>
+                                        <td style="text-align: left;">
                                             <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image" aria-disabled="true">
-                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link" style="margin-right: 30px">
-                                                ${notice.noticeTitle}
-                                            </a>
+                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link" style="margin-right: 30px">${notice.noticeTitle}</a>
                                         </td>
                                         <td style="margin-right: 5px;"><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
                                     </tr>
