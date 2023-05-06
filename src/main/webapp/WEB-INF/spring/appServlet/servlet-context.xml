@@ -41,6 +41,7 @@
             <beans:bean id="adminInterceptor" class="com.sooaz.gpt.global.interceptor.AdminInterceptor"/>
         </interceptor>
 
+        <!-- 로그인 인터셉터 -->
         <interceptor>
             <mapping path="/**"/>
             <exclude-mapping path="/"/>
