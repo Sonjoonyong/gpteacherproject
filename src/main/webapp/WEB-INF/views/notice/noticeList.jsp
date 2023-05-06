@@ -96,22 +96,6 @@
             color: #5DB99D;
             background-color: white;
         }
-        .accordion .accordion-item .accordion-header .accordion-button{
-            background-color: white;
-            color: black;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button:hover{
-            background-color: #CFEAE2;
-            color: black;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button:focus{
-            background-color: #CFEAE2;
-            color: black;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button:active{
-            background-color: #CFEAE2;
-            color: white;
-        }
         .searchbox{
             border-top: 1px solid white;
             border-left: 1px solid white;
@@ -138,127 +122,98 @@
 
     <div class="col-12">
         <div class="row">
-            <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" style="background-color: #CFEAE2">
-                                    공지사항
-                                </button>
-                            </h2>
+            <%@ include file="../fragments/customerServiceMenu.jsp" %>
+            <!--고객센터-->
+            <div class="col-md-7" style="background-color: white; margin-top: 55px;">
+                <div class="noticeboard" id="noticeboard">
+                    <div class="d-flex justify-content-between">
+                        <span class="boardname"><h3>공지사항</h3></span>
+                        <div>
+                            <c:if test="${loginUser.userRole == 'ADMIN'}">
+                                <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
+                            </c:if>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
-                                    자주 묻는 질문
-                                </button>
-                            </h2>
+                    </div>
+                    <table class="table " style="text-align: center; border:1px solid black;">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center; ">제목</th>
+                            <th style="text-align: center; width:100px; margin-right: 5px;">작성일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="notice" items="${pageInfo.list}">
+                            <tr>
+                                <td style="text-align: left;">
+                                    <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image" aria-disabled="true">
+                                    <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link" style="margin-right: 30px">${notice.noticeTitle}</a>
+                                </td>
+                                <td style="margin-right: 5px;"><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <c:if test="${pageInfo.hasPreviousPage}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=1" aria-label="First">
+                                                <span aria-hidden="true">«</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
+                                                <span aria-hidden="true">‹</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+
+                                    <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
+                                        <c:choose>
+                                            <c:when test="${i == pageInfo.pageNum}">
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pageNum=${i}">${i}</a>
+                                                </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+
+                                    <c:if test="${pageInfo.hasNextPage}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
+                                                <span aria-hidden="true">›</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
+                                                <span aria-hidden="true">»</span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'">
-                                    문의사항
-                                </button>
-                            </h2>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <form action="/help/notice/list" method="get" id="searchForm">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" class="searchbox" name="search" />
+                                <button type="submit">검색</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--고객센터-->
-                    <div class="col-md-7" style="background-color: white; margin-top: 55px;">
-                        <div class="noticeboard" id="noticeboard">
-                            <div class="d-flex justify-content-between">
-                                <span class="boardname"><h3>공지사항</h3></span>
-                                <div>
-                                    <c:if test="${loginUser.userRole == 'ADMIN'}">
-                                        <a href="${pageContext.request.contextPath}/help/notice/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
-                                    </c:if>
-                                </div>
-                            </div>
-                            <table class="table " style="text-align: center; border:1px solid black;">
-                                <thead>
-                                <tr>
-                                    <th style="text-align: center; ">제목</th>
-                                    <th style="text-align: center; width:100px; margin-right: 5px;">작성일</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="notice" items="${pageInfo.list}">
-                                    <tr>
-                                        <td style="text-align: left;">
-                                            <img src="/images/notice_titleimage.png" alt="Notice" class="notice-image" aria-disabled="true">
-                                            <a href="${pageContext.request.contextPath}/help/notice/view?noticeId=${notice.id}" class="notice-title-link" style="margin-right: 30px">${notice.noticeTitle}</a>
-                                        </td>
-                                        <td style="margin-right: 5px;"><fmt:formatDate value="${notice.noticeWriteDate}" pattern="yyyy.MM.dd" /></td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-
-                            </table>
-                            <div class="row">
-                                <div class="col-md-12 d-flex justify-content-center">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            <c:if test="${pageInfo.hasPreviousPage}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=1" aria-label="First">
-                                                        <span aria-hidden="true">«</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${pageInfo.prePage}" aria-label="Previous">
-                                                        <span aria-hidden="true">‹</span>
-                                                    </a>
-                                                </li>
-                                            </c:if>
-
-                                            <c:forEach var="i" begin="${pageInfo.navigateFirstPage}" end="${pageInfo.navigateLastPage}" step="1">
-                                                <c:choose>
-                                                    <c:when test="${i == pageInfo.pageNum}">
-                                                        <li class="page-item active">
-                                                            <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                        </li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="page-item">
-                                                            <a class="page-link" href="?pageNum=${i}">${i}</a>
-                                                        </li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-
-                                            <c:if test="${pageInfo.hasNextPage}">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${pageInfo.nextPage}" aria-label="Next">
-                                                        <span aria-hidden="true">›</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pageNum=${pageInfo.pages}" aria-label="Last">
-                                                        <span aria-hidden="true">»</span>
-                                                    </a>
-                                                </li>
-                                            </c:if>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 d-flex justify-content-center">
-                                    <form action="/help/notice/list" method="get" id="searchForm">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                        <input type="text" class="searchbox" name="search" />
-                                        <button type="submit">검색</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
         </div>
     </div>
 </section>
