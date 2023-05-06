@@ -151,7 +151,7 @@
             ROWNUM
         FROM (select *
               from COMMUNITY_POST
-              where COMMUNITY_POST_WRITEDATE >= TO_CHAR(SYSDATE - 7, 'YYYYMMDD')
+              where COMMUNITY_POST_WRITEDATE >= trunc(SYSDATE - 7)
               ORDER BY community_post_hit desc) P
         JOIN users U
         ON U.id = P.user_id
