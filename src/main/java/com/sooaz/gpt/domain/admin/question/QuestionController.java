@@ -27,7 +27,10 @@ public class QuestionController {
     public String getQuestions(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                               @RequestParam(value = "pageSize", defaultValue = "12") int pageSize,
                               @RequestParam(value = "search", required = false) String search,
-                              Model model){
+                              Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginUser");
+        model.addAttribute("loginUser", loginUser);
         PageHelper.startPage(pageNum, pageSize);
         List<Question> questions = questionService.getAllQuestions(search);
 
