@@ -8,11 +8,10 @@ import com.sooaz.gpt.domain.community.like.Like;
 import com.sooaz.gpt.domain.community.like.LikeRepository;
 import com.sooaz.gpt.domain.mypage.learning.Learning;
 import com.sooaz.gpt.domain.mypage.learning.LearningRepository;
-import com.sooaz.gpt.domain.mypage.learning.LearningService;
 import com.sooaz.gpt.domain.mypage.sentence.Sentence;
 import com.sooaz.gpt.domain.mypage.sentence.SentenceRepository;
-import com.sooaz.gpt.domain.mypage.sentence.SentenceService;
 import com.sooaz.gpt.domain.user.User;
+import com.sooaz.gpt.domain.user.UserRole;
 import com.sooaz.gpt.global.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -184,7 +183,7 @@ public class CommunityPostController {
             @SessionAttribute(SessionConst.LOGIN_USER) User loginUser
     ) {
         Optional<CommunityPost> postOpt = communityPostService.findById(communityPostId);
-        if (postOpt.isEmpty() || !postOpt.get().getUserId().equals(loginUser.getId())) {
+        if (postOpt.isEmpty() || (loginUser.getUserRole() != UserRole.ADMIN && !postOpt.get().getUserId().equals(loginUser.getId()))) {
             redirectAttributes.addFlashAttribute("message", "잘못된 접근입니다.");
             return "redirect:/community/list";
         }
