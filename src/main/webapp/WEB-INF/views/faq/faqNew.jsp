@@ -4,7 +4,7 @@
 
 <html>
 <head>
-  <title>새 글 작성</title>
+  <title>자주 묻는 질문 새 글 작성</title>
 
   <link rel="stylesheet" href="/css/base.css">
   <%@ include file="../fragments/bootstrapCss.jsp" %>
@@ -49,39 +49,10 @@
   <div class="col-12">
     <div class="row">
       <!--사이드바-->
-      <div class="col-md-3" id="sidebar">
-        <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
-        <div class="row" style="margin-top: 15px;">
-          <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'">
-                  공지사항
-                </button>
-              </h2>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'" style="background-color: #CFEAE2">
-                  자주묻는 질문
-                </button>
-              </h2>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'" >
-                  문의사항
-                </button>
-              </h2>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%@ include file="../fragments/customerServiceMenu.jsp" %>
       <!--글작성폼-->
       <div class="col-md-7" style="background-color: white; margin-top: 55px;">
-
         <div class="create-form col-md-7">
-
           <form:form action="${pageContext.request.contextPath}/help/faq" method="post" modelAttribute="faqCreateDto">
             <div class="row" style="margin-top: 5px;">
               <!--카테고리-->

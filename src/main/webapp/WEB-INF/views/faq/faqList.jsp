@@ -46,13 +46,6 @@
 
         }
 
-        #icon1{
-            float: left;
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
-        }
-
         .page-link {
             color: #000;
             background-color: #fff;
@@ -120,44 +113,15 @@
 <%@ include file="../fragments/header.jsp" %>
 
 <section class="container">
-
-
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'">
-                                    공지사항
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'"style="background-color: #CFEAE2">
-                                    자주 묻는 질문
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" >
-                                    문의사항
-                                </button>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <%@ include file="../fragments/customerServiceMenu.jsp" %>
             <!--본문-->
             <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
                 <!--본문제목 + 카테고리 버튼-->
                 <div class="col-lg-12 d-flex justify-content-start" style="margin-top: 10px; margin-bottom: 5px; margin-left: 10px;">
-                    <span class="boardname"><h3>자주묻는 질문</h3></span>
+                    <span class="boardname"><h3>자주 묻는 질문</h3></span>
                 </div>
                 <div class="d-flex " >
                     <div class="p-2 " >
