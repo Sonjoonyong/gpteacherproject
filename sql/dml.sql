@@ -27,3 +27,15 @@ DELETE FROM REPORT WHERE 1 = 1;
 DELETE FROM BOOKMARK WHERE 1 = 1;
 DELETE FROM LIKES WHERE 1 = 1;
 DELETE FROM TOPIC WHERE 1 = 1;
+
+select * from users;
+
+DECLARE
+    question_id NUMBER;
+begin
+SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
+insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
+values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '사용 방법이 잘 이해가 안 돼요.', '보고 있는데 뭔가 어렵네요.', '2023-04-01', '1');
+insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
+VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '메인 페이지 및 자주 묻는 질문에 자세히 설명되어 있습니다. 감사합니다.');
+end;
