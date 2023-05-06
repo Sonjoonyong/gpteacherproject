@@ -6,7 +6,7 @@
 <head>
     <%@ include file="../fragments/bootstrapCss.jsp" %>
 
-    <title>문의사항</title>
+    <title>자주 묻는 질문</title>
 
     <link rel="stylesheet" href="/css/base.css"/>
     <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico"/>
@@ -139,7 +139,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'"style="background-color: #CFEAE2">
-                                    자주묻는 질문
+                                    자주 묻는 질문
                                 </button>
                             </h2>
                         </div>

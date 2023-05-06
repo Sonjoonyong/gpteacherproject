@@ -75,7 +75,7 @@
                                 <td>
                                     <input class="form-check-input" type="checkbox" name="deleteId" value="${post.id}">
                                 </td>
-                                <td style="text-overflow:ellipsis; overflow:hidden;">
+                                <td style="text-overflow:ellipsis; overflow:hidden; text-align: left;">
                                     <a href="/community/${post.id}" class="tableATag form-check-label">${post.communityPostTitle}</a>
                                 </td>
                                 </td>
