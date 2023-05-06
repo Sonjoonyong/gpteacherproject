@@ -69,9 +69,7 @@
                 <div class="col-1 d-flex py-2 my-2 me-2 align-items-start">
                     <img src="/images/favicon.ico" class="shadow rounded-circle" height="35px" alt="bot image">
                 </div>
-                <div class="assistantTalk col-10 rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;">
-                    ${assistantTalk}
-                </div>
+                <div class="assistantTalk col-10 rounded-2 px-3 py-2 my-3 shadow" style="color: #7054ff;">${assistantTalk}</div>
             </div>
         </div>
 
