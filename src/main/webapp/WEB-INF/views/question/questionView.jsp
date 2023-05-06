@@ -309,8 +309,9 @@
                 <table class="table" style="text-align:start; border:1px solid black;" >
                     <thead style="margin-bottom: 20px;">
                     <tr>
-
-                        <td colspan="2">[ ${question.questionCategory} ] ${question.questionTitle}</td> <!--게시글제목-->
+                        <td colspan="2">
+                            [ ${question.questionCategory} ] ${question.questionTitle}
+                        </td> <!--게시글제목-->
                     </tr>
                     </thead>
                     <tbody>
@@ -318,6 +319,12 @@
                         <td>작성자: ${question.userNickname}</td> <!--게시글작성자-->
                         <td style="text-align: right">
                             <fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy-MM-dd" />&nbsp; <!--게시글작성일-->
+                            <c:if test="${question.questionStatus }">
+                                <span class="badge text-bg-success">답변완료</span>
+                            </c:if>
+                            <c:if test="${not question.questionStatus }">
+                                <span class="badge text-bg-secondary">답변중</span>
+                            </c:if>
                         </td>
                     </tr>
                     <tr >
@@ -328,7 +335,9 @@
 
                 <c:if test="${loginUser.userRole == 'ADMIN'}">
                     <form action="${pageContext.request.contextPath}/help/question/statusUpdate/${question.id}" method="POST">
+                        <c:if test="${question.questionStatus == '0'}">
                         <button type="submit" id="statusUpdateButton" class="btn btn-success">답변상태변경</button>
+                        </c:if>
                     </form>
                 </c:if>
 
