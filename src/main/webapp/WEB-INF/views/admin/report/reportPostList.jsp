@@ -39,6 +39,10 @@
         padding: 8px;
     }
 
+    td{
+        vertical-align: middle;
+    }
+
     #searchForm button{
         margin-left: 10px;
         border: 1px solid #716FAA;
@@ -104,18 +108,18 @@
                             <c:forEach var="post" items="${reportedPosts}">
                                 <tr>
                                     <td>
-                                        <form action="/admin/blockUser" method="post" onsubmit="return blockReason(this);">
+                                        <form action="/admin/blockUser" method="post" onsubmit="return blockReason(this);" class="m-0">
                                             <input type="hidden" name="userId" value="${post.userId}" />
                                             <input type="hidden" name="reason" id="reason"/>
                                             <input type="submit" name="userLoginId" value="${post.userLoginId}" style="background-color: white; border: none;">
                                         </form>
                                     </td>
-                                    <td style="text-overflow:ellipsis; overflow:hidden;">
-                                        <a href="${pageContext.request.contextPath}/community/${post.reportSubjectId}" class="tableATag form-check-label" style="text-decoration: none;">${post.postTitle}</a>
+                                    <td style="text-overflow:ellipsis; overflow:hidden; text-align: left;">
+                                        <a href="${pageContext.request.contextPath}/community/${post.reportSubjectId}" class="form-check-label" style="text-decoration: none; color:black;">${post.postTitle}</a>
                                     </td>
-                                    <td>${post.reportReason}</td>
-                                    <td><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
-                                    <td><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
+                                    <td style="white-space:nowrap;">${post.reportReason}</td>
+                                    <td style="white-space:nowrap;"><fmt:formatDate value="${post.creationDate}" pattern="yyyy-MM-dd" /></td>
+                                    <td style="white-space:nowrap;"><fmt:formatDate value="${post.reportDate}" pattern="yyyy-MM-dd" /></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

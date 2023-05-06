@@ -5,7 +5,7 @@
 <html>
 <head>
     <%@ include file="../fragments/bootstrapCss.jsp" %>
-    <title>문의사항</title>
+    <title>문의 사항</title>
 
     <link rel="stylesheet" href="/css/base.css"/>
     <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico"/>
@@ -27,6 +27,13 @@
             border-left : 1px solid white;
             border-right : 1px solid white;
             border-bottom : 1px solid lightgray;
+        }
+        .col-md-7 table tbody tr td .questiontitle{
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         a { color: black; }
@@ -97,38 +104,11 @@
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'">
-                                    공지사항
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
-                                    자주묻는 질문
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" style="background-color: #CFEAE2">
-                                    문의사항
-                                </button>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <%@ include file="../fragments/customerServiceMenu.jsp" %>
             <!--문의사항-->
             <div class="col-md-7" style="background-color: white ;margin-top: 55px; ">
                 <div class="d-flex justify-content-between">
-                    <span class="boardname"><h3>문의사항</h3></span>
+                    <span class="boardname"><h3>문의 사항</h3></span>
                     <div>
                         <a href="${pageContext.request.contextPath}/help/question/write" class="btn btn-primary float-end" style="align-content: end" role="button">글 작성</a>
                     </div>
@@ -137,7 +117,8 @@
                     <thead>
                     <tr>
                         <th style="width: 50px;">번호</th>
-                        <th >제목</th>
+                        <th style="width: 20px;"></th>
+                        <th>제목</th>
                         <th style="width: 100px;">작성일</th>
                         <th style="width: 100px;">상태</th>
                     </tr>
@@ -146,14 +127,22 @@
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
                                 <td>${question.id}</td>
-                                <td>
-                                    <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
-                                    <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
-                                    [${question.questionCategory}] ${question.questionTitle}
-                                    </a>
+                                <td style="width: 20px; padding-left: 1px;padding-right: 1px;">
+                                    <c:if test="${question.userId eq loginUser.getId()}">
+                                        <i class="fa-solid fa-lock-open" id="icon1" aria-disabled="true"></i>
+                                    </c:if>
+                                    <c:if test="${question.userId ne loginUser.getId()}">
+                                        <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
+                                    </c:if>
+                                </td>
+                                <td  style="text-align: left;">
+                                    <div class="questiontitle" style="display: -webkit-box; position: relative;">
+                                        <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
+                                        [${question.questionCategory}] ${question.questionTitle}
+                                        </a>
+                                    </div>
                                 </td>
                                 <td><fmt:formatDate value="${question.questionWriteDate}" pattern="yyyy.MM.dd" /></td>
-
                                 <td>
                                     <c:if test="${question.questionStatus }">답변완료</c:if>
                                     <c:if test="${not question.questionStatus }">답변중</c:if>

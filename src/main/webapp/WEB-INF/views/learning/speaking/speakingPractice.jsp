@@ -136,7 +136,7 @@
     let progress = document.getElementById("progress"); //progress bar
     let b = document.getElementById("time"); // 초 표시할 b태그
     let timer = 0; // 타이머
-    let mx = 30; // 최대 시간(초)
+    let mx = 60; // 최대 시간(초)
 
     let sttForm = document.querySelector("#sttForm");
     let audioFile = document.querySelector("#audioFile");
