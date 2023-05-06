@@ -79,7 +79,15 @@
             (SELECT count(*)
             FROM COMMUNITY_REPLY
             WHERE community_post_id = P.id)
-            AS community_post_reply_count
+            AS community_post_reply_count,
+            CASE
+            WHEN exists(select *
+            from LIKES
+            where COMMUNITY_POST_ID = #{communityPostId}
+            and USER_ID = #{userId})
+            THEN '1'
+            ELSE '0'
+            END AS isLiked
         FROM community_post P
         JOIN users U
         ON U.id = P.user_id

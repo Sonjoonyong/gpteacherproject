@@ -155,10 +155,10 @@
                             <span style="font-size: 12px">${communityPostListDto.communityPostReplyCount}</span>
 
                                 <%--좋아요--%>
-                            <c:if test="${communityPostListDto.communityPostLike >= 1}">
+                            <c:if test="${communityPostListDto.isLiked}">
                                 <i class="bi bi-heart-fill ms-2" style="font-size: 10px"></i>
                             </c:if>
-                            <c:if test="${communityPostListDto.communityPostLike == 0}">
+                            <c:if test="${!communityPostListDto.isLiked}">
                                 <i class="bi bi-heart ms-2" style="font-size: 10px"></i>
                             </c:if>
                             <span style="font-size: 12px">${communityPostListDto.communityPostLike}</span>

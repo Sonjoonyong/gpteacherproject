@@ -16,4 +16,5 @@ public class CommunityPostListDto {
     private Date communityPostWritedate;
     private Long communityPostLike;
     private Long communityPostReplyCount;
+    private Boolean isLiked;
 }
