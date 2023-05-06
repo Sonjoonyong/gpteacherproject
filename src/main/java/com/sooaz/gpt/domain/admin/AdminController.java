@@ -10,6 +10,7 @@ import com.sooaz.gpt.domain.admin.trend.AgeGroupCount;
 import com.sooaz.gpt.domain.admin.trend.MonthlyUserCount;
 import com.sooaz.gpt.domain.admin.user.UserView;
 import com.sooaz.gpt.domain.community.CommunityPost;
+import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.mypage.MypageService;
 import lombok.RequiredArgsConstructor;
@@ -112,7 +113,7 @@ public class AdminController {
         model.addAttribute("userId",userId);
         PageHelper.startPage(pageNum, pageSize);
 
-        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(userId);
+        List<MyReplyDto> myReplyDtos = mypageService.getCommentList(userId);
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
         log.info("pageInfo = {}", pageInfo);

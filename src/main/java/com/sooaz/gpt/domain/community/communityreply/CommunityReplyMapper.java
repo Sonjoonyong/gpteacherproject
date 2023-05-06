@@ -14,7 +14,7 @@ public interface CommunityReplyMapper {
 
     List<CommunityReplyListDto> findByCommunityPostId(Long communityPostId);
 
-    List<CommunityReply> findByUserId(Long userId);
+    List<MyReplyDto> findByUserId(Long userId);
 
     void update(CommunityReplyUpdateDto communityReplyUpdateDto);
 

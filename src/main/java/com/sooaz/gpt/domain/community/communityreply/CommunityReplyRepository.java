@@ -21,7 +21,7 @@ public class CommunityReplyRepository {
         return communityReplyMapper.findById(communityReplyId);
     }
 
-    public List<CommunityReply> findByUserId(Long userId) {
+    public List<MyReplyDto> findByUserId(Long userId) {
         return communityReplyMapper.findByUserId(userId);
     }
 
