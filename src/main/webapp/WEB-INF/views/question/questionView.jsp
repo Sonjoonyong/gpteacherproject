@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>고객센터</title>
+    <title>문의 사항 상세 페이지</title>
 
     <link rel="stylesheet" href="/css/base.css">
     <%@ include file="../fragments/bootstrapCss.jsp" %>
@@ -84,22 +84,7 @@
             background-color: white;
 
         }
-        .accordion .accordion-item .accordion-header .accordion-button{
-            background-color: white;
-            color: black;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button:hover{
-            background-color: #CFEAE2;
-            color: black;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button:focus{
-            background-color: #CFEAE2;
-            color: black;
-        }
-        .accordion .accordion-item .accordion-header .accordion-button:active{
-            background-color: #CFEAE2;
-            color: white;
-        }
+
         #questionReplyContent{
             width: 85%;
             height: 50px;
@@ -269,41 +254,10 @@
 
 <section class="container">
 
-    <form role="form" method="post">
-        <input type="hidden" name="" value="" >
-    </form>
-
     <div class="col-12">
         <div class="row">
             <!--사이드바-->
-            <div class="col-md-3" id="sidebar">
-                <div class="row text-center" style="margin-top: 57px;margin-left: -71px;"><h3>고객센터</h3></div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/notice/list'" >
-                                    공지사항
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
-                                    자주묻는 질문
-                                </button>
-                            </h2>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/question/list'" style="background-color: #CFEAE2">
-                                    문의사항
-                                </button>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <%@ include file="../fragments/customerServiceMenu.jsp" %>
             <!--본문-->
             <div class="col-md-7" style="margin-top: 110px; ">
                 <table class="table" style="text-align:start; border:1px solid black;" >
