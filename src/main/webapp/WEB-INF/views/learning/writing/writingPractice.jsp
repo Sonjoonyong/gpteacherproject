@@ -86,6 +86,7 @@
     function showWaiting() {
         submitBtn.style.display = "none";
         waitingMessage.style.display = "block";
+        document.getElementById("answer").readOnly = true;
         setTimeout(() => {
             form.submit();
         }, 100);
