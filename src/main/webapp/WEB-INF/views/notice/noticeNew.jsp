@@ -103,7 +103,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button " type="button" onclick="location.href='${pageContext.request.contextPath}/help/faq/list'">
-                                    자주묻는 질문
+                                    자주 묻는 질문
                                 </button>
                             </h2>
                         </div>

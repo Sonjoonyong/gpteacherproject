@@ -146,7 +146,7 @@
                         <c:forEach var="question" items="${pageInfo.list}">
                             <tr>
                                 <td>${question.id}</td>
-                                <td>
+                                <td style="text-align: left;">
                                     <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
                                     <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
                                     [${question.questionCategory}] ${question.questionTitle}
