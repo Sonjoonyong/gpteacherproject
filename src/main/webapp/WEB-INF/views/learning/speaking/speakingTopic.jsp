@@ -21,6 +21,14 @@
             width: 350px;
             height: 280px;
         }
+
+        .card {
+            border: 3px solid rgba(255, 255, 255, 0.0);
+        }
+
+        .card:hover {
+            border: 3px solid rgba(232, 179, 212, 0.52);
+        }
     </style>
 </head>
 <body>

@@ -16,6 +16,7 @@ begin
         end loop;
 end;
 
+-- 테이블 생성
 CREATE TABLE users
 (
     id                      NUMBER               NOT NULL,
@@ -34,7 +35,6 @@ CREATE TABLE users
     user_security_answer    VARCHAR2(50)         NULL
 );
 
-
 CREATE TABLE sentence
 (
     id                       NUMBER                  NOT NULL,
@@ -52,7 +52,6 @@ CREATE TABLE sentence
     sentence_ease_factor     NUMBER(2,1) DEFAULT 2.5 NULL
 );
 
-
 CREATE TABLE community_post
 (
     id                       NUMBER                 NOT NULL,
@@ -66,7 +65,6 @@ CREATE TABLE community_post
     community_post_like      NUMBER DEFAULT 0       NULL
 );
 
-
 CREATE TABLE board_notice
 (
     id               NUMBER                 NOT NULL,
@@ -76,7 +74,6 @@ CREATE TABLE board_notice
     notice_hit       NUMBER DEFAULT 0       NULL,
     notice_writedate DATE   DEFAULT SYSDATE NULL
 );
-
 
 CREATE TABLE community_reply
 (
@@ -88,7 +85,6 @@ CREATE TABLE community_reply
     community_reply_parents_id NUMBER               NOT NULL
 );
 
-
 CREATE TABLE learning
 (
     id                 NUMBER        NOT NULL,
@@ -99,7 +95,6 @@ CREATE TABLE learning
     learning_date      DATE          NULL,
     learning_like      CHAR(1)       NULL
 );
-
 
 CREATE TABLE board_question
 (
@@ -121,7 +116,6 @@ CREATE TABLE board_faq
     faq_title    VARCHAR2(100) NOT NULL,
     faq_content  CLOB          NOT NULL
 );
-
 
 CREATE TABLE FLASHCARD
 (
@@ -203,6 +197,7 @@ ALTER TABLE LIKES ADD CONSTRAINT FK_COMMUNITY_POST_LIKES FOREIGN KEY (community_
 ALTER TABLE BOOKMARK ADD CONSTRAINT FK_COMMUNITY_POST_BOOKMARK FOREIGN KEY (community_post_id) REFERENCES community_post(id) ON DELETE CASCADE;
 ALTER TABLE COMMUNITY_POST ADD CONSTRAINT FK_SENTENCE_COMMUNITY_POST FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE;
 
+-- 시퀀스 생성
 CREATE SEQUENCE USERS_ID_SEQ;
 CREATE SEQUENCE BOARD_FAQ_ID_SEQ;
 CREATE SEQUENCE BOARD_NOTICE_ID_SEQ;
@@ -226,13 +221,13 @@ begin
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
         VALUES (USERS_ID_SEQ.nextval, 'subsub1@gpteacher.com', 'sub1', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '영단어', 'USER', '1991-03-23', '2023-01-10', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
-        VALUES (USERS_ID_SEQ.nextval, 'subsub3@gpteacher.com', 'sub3', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '토익만점', 'USER', '2000-03-01', '2023-01-30', 1);
+        VALUES (USERS_ID_SEQ.nextval, 'subsub3@gpteacher.com', 'sub2', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '토익만점', 'USER', '2000-03-01', '2023-01-30', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
         VALUES (USERS_ID_SEQ.nextval, 'sjy0443@gpteacher.com', 'sonjoonyong', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '용가리', 'USER', '1996-06-10', '2023-01-03', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
         VALUES (USERS_ID_SEQ.nextval, 'son0443@gpteacher.com', 'sonny', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '시큐리티', 'USER', '1992-12-25', '2023-04-26', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
-        VALUES (USERS_ID_SEQ.nextval, 'apple25@gpteacher.com', 'apple25', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '애플이좋아', 'USER', '1998-08-14', '2023-01-16', 1);
+        VALUES (USERS_ID_SEQ.nextval, 'apple25@gpteacher.com', 'apple', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '애플이좋아', 'USER', '1998-08-14', '2023-01-16', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
         VALUES (USERS_ID_SEQ.nextval, 'deer@example.com', 'deer', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '사슴', 'USER', '1980-09-20', '2023-01-01', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
@@ -246,9 +241,9 @@ begin
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
         VALUES (USERS_ID_SEQ.nextval, 'tndkd@gpteacher.com', 'tnak0614', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '오늘점심짬뽕', 'USER', '1991-09-09', '2023-04-25', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
-        VALUES (USERS_ID_SEQ.nextval, 'subsub1@gpteacher.com', 'sub1', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '영단어', 'USER', '1991-03-23', '2023-01-10', 1);
+        VALUES (USERS_ID_SEQ.nextval, 'subsub1@gpteacher.com', 'sub3', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '토익조아', 'USER', '1991-03-23', '2023-01-10', 1);
     INSERT INTO USERS (ID, USER_EMAIL, USER_LOGIN_ID, USER_PASSWORD, USER_PASSWORD_SALT, USER_NICKNAME, USER_ROLE, USER_BIRTHDAY, USER_CREATEDATE, USER_EMAIL_AGREEMENT)
-        VALUES (USERS_ID_SEQ.nextval, 'subsub3@gpteacher.com', 'sub3', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '토포자', 'USER', '2000-03-01', '2023-01-30', 1);
+        VALUES (USERS_ID_SEQ.nextval, 'subsub3@gpteacher.com', 'sub4', '267df045825a2f33dcf4aad3aba3cca41572216140013adcbd5e5439ef21c060', 'e993212e-c625-4f60-8295-d287f5c9b82e', '토포자', 'USER', '2000-03-01', '2023-01-30', 1);
 
 END;
 
@@ -287,6 +282,489 @@ BEGIN
         END LOOP;
 END;
 
+-- 학습/문장 데이터
+declare
+    learning_id number;
+begin
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 2, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 2, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 2, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 3, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 3, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 3, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 4, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 4, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 4, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 5, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 5, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 5, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 6, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 6, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 6, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 7, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 7, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 7, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 8, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 8, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 8, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 9, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 9, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 9, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 10, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 10, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 10, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 11, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 11, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 11, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 12, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 12, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 12, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 13, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 13, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 13, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 14, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 14, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 14, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 15, 'WRITING', null, 'The effects of social media on mental health and interpersonal relationships.', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The social media made us care about each other more than ever.', 'Social media has made us connect with each other more than ever.', 'Change "made" to "has made" to indicate that the impact is ongoing, and use "connect" instead of "care about" to convey the idea of social media bringing people together.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'In result, It has effected our society a lot.', 'As a result, it has affected our society a lot.', 'Replace "In result" with "As a result" to show the cause-and-effect relationship, and use "affected" instead of "effected" to convey the idea of impact.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'The politics have got to be more democratic but sometimes made too weak for wrong information and misinformation.', 'Politics need to be more democratic but sometimes are vulnerable to wrong information and misinformation.', 'Replace "got to be" with "need to be" to convey the idea of necessity, and use "vulnerable" instead of "weak" to convey the idea of susceptibility to misinformation.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'That distorted information made people believe wrong fact and hate each other than necessary resulting into the missing of trust for each other.', 'Falsehoods made people believe in wrong things and hate each other more than necessary, resulting in a lack of trust for each other.', 'Replace "wrong fact" with "falsehoods" to convey the idea of deliberate misinformation, and use "resulted in" instead of "resulting into" to show the cause-and-effect relationship.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'The effects of social media on mental health and interpersonal relationships.', 'Furthermore, it made people know their relative position in economic hiarachy and caused them anxiety.', 'Moreover, it made people know their relative position in economic hierarchy and caused them anxiety.', 'Replace "Furthermore" with "Moreover" to add to the previous point, and use "hierarchy" instead of "hiarachy" to convey the correct spelling and meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 15, 'SPEAKING', 'TOEFL', 'What three qualities do you value most in a person, and why?', SYSDATE, '1');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I think the one is kindness and second is the ability for their job and finally the humbleness for them.', 'I believe that three important qualities are kindness, job ability, and humbleness.', 'The sentence is unclear and lacks parallel structure. It can be improved by rephrasing it to list the three qualities in a parallel structure.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'What three qualities do you value most in a person, and why?', 'I cannot tell the exact reason why I told that three personality about quality but in my experience I think it is.', 'I cannot explain the exact reason why I consider these three qualities important, but based on my experience, I believe they are crucial.', 'The sentence is unclear and lacks proper grammar. It can be improved by rephrasing it to clarify the meaning.');
+
+    select LEARNING_ID_SEQ.nextval into learning_id from dual;
+    insert into LEARNING (ID, USER_ID, LEARNING_TYPE, LEARNING_TEST_TYPE, LEARNING_TOPIC, LEARNING_DATE, LEARNING_LIKE)
+    VALUES (learning_id, 15, 'DIALOGUE', null, '{"place":"Library","assistantRole":"Librarian","userRole":"Student","situation":"I see a person struggling to carry a large stack of books.","option":"The person has a broken arm and cannot carry the books alone."}', SYSDATE, '0');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Hello, how can I assist you today?', 'Oh, there is a person whose arm is broken and carrying the books alone. Can you help me to help him to carry the books?', 'Oh, there is a person with a broken arm who needs help carrying the books. Can you assist me in helping them?', 'I corrected the grammar and phrasing to make the message clearer and more concise. ''Whose arm is broken'' is changed to ''with a broken arm'' for clarity. ''Carrying the books alone'' is changed to ''needs help carrying the books'' to emphasize the need for assistance. Lastly, I added ''them'' to refer to the person with the broken arm instead of assuming their gender.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Of course, I can help you both carry the books.', 'Okay, do you have any car to carry that many books?', 'Okay, do you have a car to help us carry all these books?', 'I corrected the sentence to make it more clear and concise. Also, I changed ''him'' to ''us'' to include yourself in the request for help. Additionally, I added ''all these'' to specify the number of books being carried.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'No, we don''t have a car, but we can provide a trolley to help carry the books.', 'yeah I meant the cart you you said the trolley yes it would be correct to call them crowd trolley let''s go help him', 'Yeah, I meant the cart. You said trolley, yes, it would be correct to call them crowd trolleys. Let''s go help him.', 'I corrected the capitalization and punctuation errors. Also, I added a missing word ''cart'' to make the sentence clearer. Additionally, I added a comma to separate the two independent clauses. Finally, I corrected the plural form of ''trolley'' to ''trolleys''.');
+    insert into sentence (ID, LEARNING_ID, SENTENCE_QUESTION, SENTENCE_ANSWER, SENTENCE_CORRECTED, SENTENCE_EXPLANATION)
+    VALUES (SENTENCE_ID_SEQ.nextval, learning_id, 'Sure, let''s go grab the trolley and help him out.', 'Yes, and I think you have to stand a card in your account that you are absent because of some jobs so that the other students do not be confused because of you not being here.', 'Yes, and I think you should update your account to indicate that you are absent due to work, so that other students are not confused by your absence.', 'I corrected the verb ''stand'' to ''update'' to make the sentence more clear and grammatically correct. I also added ''due to work'' to clarify the reason for the absence and changed ''do not be'' to ''are not'' to improve the sentence structure.');
+
+
+end;
 
 -- 커뮤니티 게시글 (50개)
 BEGIN
@@ -295,7 +773,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '토익', -- 카테고리
             '토익 스피킹 시험 후기입니다.', -- 제목
@@ -308,7 +786,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '유머', -- 카테고리
             '아재개그 하나 던지고 갑니다.', -- 제목
@@ -321,7 +799,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             '공부하다가 너무 너무 힘들 때', -- 제목
@@ -334,7 +812,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '아이엘츠', -- 카테고리
             '축구보러 런던갑니다!', -- 제목
@@ -347,7 +825,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '말하기', -- 카테고리
             '말하기 녹음 최소길이 2초 제한 있네요', -- 제목
@@ -360,7 +838,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '글쓰기', -- 카테고리
             '글쓰기 재밌는 점', -- 제목
@@ -373,7 +851,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '팀플할 때', -- 제목
@@ -386,7 +864,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '오픽', -- 카테고리
             '오픽은 처음 들어보는데', -- 제목
@@ -399,7 +877,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             '한국어로 말하면 자동 번역해주는 기능 너무 편하네요.', -- 제목
@@ -412,7 +890,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '토익', -- 카테고리
             '토익 배우기 괜찮은 스터디 있나요?', -- 제목
@@ -424,7 +902,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '시험', -- 카테고리
             '내일이 토익 스피킹 시험인데 긴장되네요 ㄷㄷㄷㄷㄷ', -- 제목
@@ -436,7 +914,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '저희집 앵무새 발음점수가 저보다 높네요 ㅠㅠ', -- 제목
@@ -448,7 +926,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '토익', -- 카테고리
             '토익 제대로 준비하는 법', -- 제목
@@ -460,7 +938,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '솔직히', -- 제목
@@ -472,7 +950,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '다들 허리 안아프신지', -- 제목
@@ -484,7 +962,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             '서울대 영문과 다니면서 느낀점', -- 제목
@@ -496,7 +974,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '안녕하세요~', -- 제목
@@ -508,7 +986,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             '대학영어 공부 어떻게 하시나요?', -- 제목
@@ -520,7 +998,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '회화', -- 카테고리
             '호주 놀러가는데', -- 제목
@@ -532,7 +1010,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '유머', -- 카테고리
             '왕이 넘어지면~?', -- 제목
@@ -544,7 +1022,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '점메추', -- 제목
@@ -556,7 +1034,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '오픽', -- 카테고리
             '오픽 인강 다들 뭐 들으세요?', -- 제목
@@ -568,7 +1046,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '토익', -- 카테고리
             '어제 토익시험 보신분??', -- 제목
@@ -580,7 +1058,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '토익', -- 카테고리
             '말하기연습이 정말 효과가 있네요!!', -- 제목
@@ -592,7 +1070,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '친구한테 GPTeacher 추천해줬더니 좋아하네요.', -- 제목
@@ -604,7 +1082,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '시험', -- 카테고리
             'OPIC 준비하는데 책 추천받습니다.', -- 제목
@@ -616,7 +1094,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             '회화연습에서 추천할만한 카테고리 있을까요?.', -- 제목
@@ -628,7 +1106,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '여러분들은 오늘 저녁 뭐 드시나요.', -- 제목
@@ -640,7 +1118,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             '회화연습에서 추천할만한 카테고리 있을까요?.', -- 제목
@@ -652,7 +1130,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '시험', -- 카테고리
             'TOEIC 시험 싸게 볼 수 있는 방법있을까요.', -- 제목
@@ -664,7 +1142,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '일상', -- 카테고리
             '오늘 날씨가 참 좋네요.', -- 제목
@@ -676,7 +1154,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '공부', -- 카테고리
             'IELTS랑 TOEFL 중 어떤걸 공부하는게 더 좋을까요.', -- 제목
@@ -688,7 +1166,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '글쓰기', -- 카테고리
             '글쓰기를 잘 못해서 그러는데 어디 부분을 공부해야 할까요?.', -- 제목
@@ -700,7 +1178,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             null, -- 첨부 문장 없음
             '회화', -- 카테고리
             '요즘은 외로워서 지피티처와 대화하러 옵니다.', -- 제목
@@ -712,7 +1190,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '일상', -- 카테고리
             '공부하다가 슬플때 저는 춤을 춰요', -- 제목
@@ -724,7 +1202,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '말하기', -- 카테고리
             '제 발음이 많이 좋나봅니다.', -- 제목
@@ -736,7 +1214,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '오픽', -- 카테고리
             '오픽스터디 멤버 구합니다.', -- 제목
@@ -748,7 +1226,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '회화', -- 카테고리
             'GPT가 교정을 해줬는데 의문점이 있습니다.', -- 제목
@@ -760,7 +1238,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '글쓰기', -- 카테고리
             '마음에 드는 교정문 공유합니다.', -- 제목
@@ -772,7 +1250,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '말하기', -- 카테고리
             '실제로 영어에서 이런 표현이 많이 쓰이나보네요.', -- 제목
@@ -784,7 +1262,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '공부', -- 카테고리
             '오늘의 문장 (100일차)', -- 제목
@@ -796,7 +1274,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '시험', -- 카테고리
             '아이엘츠 시험 D-30 ', -- 제목
@@ -808,7 +1286,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '회화', -- 카테고리
             '교정 의문점 있어서 질문 드립니다.', -- 제목
@@ -820,7 +1298,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '회화', -- 카테고리
             '지피티처가 저의 버릇없는 MZ 영어를 예의바르게 교정해주네요.', -- 제목
@@ -832,7 +1310,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '말하기', -- 카테고리
             '지피티처가 알려준 고급 표현', -- 제목
@@ -844,7 +1322,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '회화', -- 카테고리
             '오늘도 GPT와 티키타카 했습니다.', -- 제목
@@ -856,7 +1334,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '말하기', -- 카테고리
             '오늘의 교정 내역 공유요~', -- 제목
@@ -868,7 +1346,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '회화', -- 카테고리
             '교정해주는 것이 기가 막히네요 !', -- 제목
@@ -880,7 +1358,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '글쓰기', -- 카테고리
             '제가 글 쓰다가 스펠링 많이 틀리네요...', -- 제목
@@ -892,7 +1370,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '글쓰기', -- 카테고리
             '보통 이런 단어를 쓰나요??', -- 제목
@@ -904,7 +1382,7 @@ BEGIN
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title,
                                 community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
     VALUES (COMMUNITY_POST_ID_SEQ.nextval,
-            FLOOR(DBMS_RANDOM.VALUE(2, 15)), -- 작성자 랜덤
+            FLOOR(DBMS_RANDOM.VALUE(2, 16)), -- 작성자 랜덤
             (SELECT * FROM (SELECT id FROM sentence ORDER BY dbms_random.random) S WHERE rownum = 1), -- 첨부 나의 문장 랜덤
             '회화', -- 카테고리
             '오늘의 학습', -- 제목
@@ -3368,61 +3846,61 @@ begin
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '사용 방법이 잘 이해가 안 돼요.', '보고 있는데 뭔가 어렵네요.', '2023-04-01', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '사용 방법이 잘 이해가 안 돼요.', '보고 있는데 뭔가 어렵네요.', '2023-04-01', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '메인 페이지 및 자주 묻는 질문에 자세히 설명되어 있습니다. 감사합니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '오디오가 재생되지 않아요.', 'AI의 음성이 들리지 않습니다. 무슨 문제일까요?', '2023-04-03', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '오디오가 재생되지 않아요.', 'AI의 음성이 들리지 않습니다. 무슨 문제일까요?', '2023-04-03', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '오디오 재생이 되지 않을 경우, 사용하시는 브라우저를 버전으로 업데이트해주세요.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '문제가 너무 어려워요.', '학습 질문으로 주어지는 것들이 내용이 너무 어렵습니다.', '2023-04-04', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '문제가 너무 어려워요.', '학습 질문으로 주어지는 것들이 내용이 너무 어렵습니다.', '2023-04-04', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '죄송합니다. 아직 난이도 조절 기능은 제공되지 않고 있습니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '환불을 요청하고 싶어요.', '환불 받고싶은데, 혹시 환불 되나요?', '2023-04-12', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '환불을 요청하고 싶어요.', '환불 받고싶은데, 혹시 환불 되나요?', '2023-04-12', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '환불을 원하실 경우, 고객센터로 전화 바랍니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '비밀번호를 분실했어요.', '비밀번호는 어떻게 찾을 수 있나요?', '2023-04-15', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '비밀번호를 분실했어요.', '비밀번호는 어떻게 찾을 수 있나요?', '2023-04-15', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '비밀번호 분실 시, 회원가입 시 등록한 이메일 주소로 비밀번호를 재발급 해드립니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '회원정보', '회원 가입 후에 정보를 수정할 수 있나요?', '제 회원 정보를 수정하고 싶어요.', '2023-04-19', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '회원정보', '회원 가입 후에 정보를 수정할 수 있나요?', '제 회원 정보를 수정하고 싶어요.', '2023-04-19', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '네, 마이페이지에서 정보를 수정할 수 있습니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '회원정보', '회원 탈퇴를 하려면 어떻게 해야 하나요?', '회원 탈퇴를 하고싶어요.', '2023-04-20', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '회원정보', '회원 탈퇴를 하려면 어떻게 해야 하나요?', '회원 탈퇴를 하고싶어요.', '2023-04-20', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '마이페이지에서 회원 탈퇴 버튼을 클릭하고, 탈퇴 사유를 선택한 후 비밀번호를 입력하면 탈퇴가 가능합니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '회원정보', '회원 탈퇴 시 보유하고 있던 정보는 모두 삭제되나요?', '회원 탈퇴 시 보유하고 있던 정보는 모두 삭제되나요?', '2023-04-21', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '회원정보', '회원 탈퇴 시 보유하고 있던 정보는 모두 삭제되나요?', '회원 탈퇴 시 보유하고 있던 정보는 모두 삭제되나요?', '2023-04-21', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '네. 회원 탈퇴 시 모든 정보가 삭제됩니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '회원정보', '한 번 가입한 이메일을 다른 계정에서도 사용할 수 있나요?', '이메일 하나로 여러 계정을 사용하고 싶습니다.', '2023-04-22', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '회원정보', '한 번 가입한 이메일을 다른 계정에서도 사용할 수 있나요?', '이메일 하나로 여러 계정을 사용하고 싶습니다.', '2023-04-22', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '아니요, 한 번 가입한 이메일은 다른 계정에서 사용할 수 없습니다.');
 
     SELECT BOARD_QUESTION_ID_SEQ.nextval into question_id from dual;
     insert into BOARD_QUESTION (ID, USER_ID, QUESTION_CATEGORY, QUESTION_TITLE, QUESTION_CONTENT, QUESTION_WRITEDATE, QUESTION_STATUS)
-    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '회원정보', '계정 도용이 의심될 때 어떻게 해야 하나요?', '누가 제 계정으로 학습을 하는 것 같아서 소름이 돋아요.', '2023-04-30', '1');
+    values (question_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '회원정보', '계정 도용이 의심될 때 어떻게 해야 하나요?', '누가 제 계정으로 학습을 하는 것 같아서 소름이 돋아요.', '2023-04-30', '1');
     insert into QUESTION_REPLY (ID, QUESTION_ID, USER_ID, QUESTION_REPLY_CONTENT)
     VALUES (QUESTION_REPLY_ID_SEQ.nextval, question_id, 1, '관리자에게 신고를 하거나, 마이페이지에서 비밀번호를 변경하시기 바랍니다.');
 
@@ -3433,38 +3911,38 @@ end;
 begin
 
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '개명을 했는데 이름 변경은 어떻게 하나요?', 'GPTeacher에서는 회원관리하는데 있어 실명을 받지 않고 있기 때문에 추가로 수정하실 필요 없습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '개명을 했는데 이름 변경은 어떻게 하나요?', 'GPTeacher에서는 회원관리하는데 있어 실명을 받지 않고 있기 때문에 추가로 수정하실 필요 없습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '비밀번호 수정은 어떻게 하나요?', '마이페이지 -> 계정관리 -> 비밀번호 변경에서 변경하실 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '비밀번호 수정은 어떻게 하나요?', '마이페이지 -> 계정관리 -> 비밀번호 변경에서 변경하실 수 있습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '아이디/비밀번호를 분실했어요', '로그인 페이지의 아이디 및 비밀번호 찾기를 이용해주시면 됩니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '아이디/비밀번호를 분실했어요', '로그인 페이지의 아이디 및 비밀번호 찾기를 이용해주시면 됩니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '인증메일이 오지 않아요', '이메일 주소를 확인해주시고, 스팸 메일함도 확인 바랍니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '인증메일이 오지 않아요', '이메일 주소를 확인해주시고, 스팸 메일함도 확인 바랍니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '회원탈퇴 시 개인정보는 언제 삭제되나요', '개인정보는 탈퇴 즉시 파기됩니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '회원탈퇴 시 개인정보는 언제 삭제되나요', '개인정보는 탈퇴 즉시 파기됩니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '회원 정보는 어디서 수정하나요?', '마이페이지 -> 계정관리 -> 회원 정보 조회/수정 변경에서 변경하실 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '회원 정보는 어디서 수정하나요?', '마이페이지 -> 계정관리 -> 회원 정보 조회/수정 변경에서 변경하실 수 있습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '계정관리', '회원 탈퇴는 어디서 하나요?', '마이페이지 -> 계정관리 -> 회원 탈퇴를 통해 탈퇴하실 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '계정관리', '회원 탈퇴는 어디서 하나요?', '마이페이지 -> 계정관리 -> 회원 탈퇴를 통해 탈퇴하실 수 있습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '글쓰기 연습은 어떻게 이용하나요?', '글쓰기 연습은 먼저 직접 주제를 입력하시거나 분야를 골라 GPT로부터 랜덤 주제를 출제받습니다. 이후 1500자 이내로 정답을 제출하시고, 교정본 출력과 문장별 분석을 통해 피드백을 받으실 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '글쓰기 연습은 어떻게 이용하나요?', '글쓰기 연습은 먼저 직접 주제를 입력하시거나 분야를 골라 GPT로부터 랜덤 주제를 출제받습니다. 이후 1500자 이내로 정답을 제출하시고, 교정본 출력과 문장별 분석을 통해 피드백을 받으실 수 있습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '말하기 연습은 어떻게 활용하나요?', '말하기 연습은 먼저 문제를 출제받고 싶은 시험을 선택하시고 GPT로투버 랜덤 주제를 출제받습니다. 이후 1분 내로 음성으로 정답을 제출하시고, 교정본 출력과 문장별 분석을 통해 피드백을 받으실 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '말하기 연습은 어떻게 활용하나요?', '말하기 연습은 먼저 문제를 출제받고 싶은 시험을 선택하시고 GPT로투버 랜덤 주제를 출제받습니다. 이후 1분 내로 음성으로 정답을 제출하시고, 교정본 출력과 문장별 분석을 통해 피드백을 받으실 수 있습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습', '회화 연습은 어떻게 활용하나요?', '회화 연습은 직접 주제를 설정하시거나 랜덤 주제를 추천받아 GPT와 대화를 시작하실 수 있습니다. 사용자의 답변은 매 답변마다 실시간 분석되고, 대화도 자연스럽게 이어집니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습', '회화 연습은 어떻게 활용하나요?', '회화 연습은 직접 주제를 설정하시거나 랜덤 주제를 추천받아 GPT와 대화를 시작하실 수 있습니다. 사용자의 답변은 매 답변마다 실시간 분석되고, 대화도 자연스럽게 이어집니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습현황', '나의 문장은 어떻게 활용하나요?', '나의 문장은 학습했던 내용이 문장별로 확인할 수 있는 공간입니다. 좋아요 버튼과 북마크 버튼을 이용해 복습에 활용해보세요. 학습이력 찾기가 힘들다면 카테고리선택과 시간순서, 좋아요 표시를 활용해 좀 더 간편하게 찾을 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습현황', '나의 문장은 어떻게 활용하나요?', '나의 문장은 학습했던 내용이 문장별로 확인할 수 있는 공간입니다. 좋아요 버튼과 북마크 버튼을 이용해 복습에 활용해보세요. 학습이력 찾기가 힘들다면 카테고리선택과 시간순서, 좋아요 표시를 활용해 좀 더 간편하게 찾을 수 있습니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습현황', '플래시카드는 무엇인가요?', '플래시 카드는 학습할 때 어려웠던 부분을 북마크에 담아뒀다면 확인할 수 있는 공간입니다. 이전에 학습한 내용이 있어야 활용할 수 있으니 평소 학습 시 어려웠던 부분은 북마크로 꼭 표시해두세요. ' ||
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습현황', '플래시카드는 무엇인가요?', '플래시 카드는 학습할 때 어려웠던 부분을 북마크에 담아뒀다면 확인할 수 있는 공간입니다. 이전에 학습한 내용이 있어야 활용할 수 있으니 평소 학습 시 어려웠던 부분은 북마크로 꼭 표시해두세요. ' ||
                                                                                                    '플래시카드 학습은 아래와 같은 순서로 진행됩니다. ' ||
                                                                                                    '<br> Step 1. 오늘 복습할 문장 수를 입력해주세요. ' ||
                                                                                                    '<br>Step 2. 주어진 Quesiton에 이전에 어떤 대답을 했는지 확인하고 your sentence에 고쳐야하는 점을 생각해보세요.' ||
                                                                                                    '<br>Step 3. 이전 단계에서 Your sentence를 보고 고쳐야할점을 찾았고 맞췄다면 문장 난이도에 맞춰 Again Hard Good Easy 버튼을 눌러 난이도를 입력해주세요. 다음 플래시카드 학습 시 난이도에 맞춰 일정 기간 후 다시 출제됩니다. ' ||
                                                                                                    '<br>Your sentence 우측에 위치한 마이크 버튼을 눌러 발음평가도 해보세요.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '학습현황', '회화 연습은 어떻게 활용하나요?', '회화 연습은 직접 주제를 설정하시거나 랜덤 주제를 추천받아 GPT와 대화를 시작하실 수 있습니다. 사용자의 답변은 매 답변마다 실시간 분석되고, 대화도 자연스럽게 이어집니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '학습현황', '회화 연습은 어떻게 활용하나요?', '회화 연습은 직접 주제를 설정하시거나 랜덤 주제를 추천받아 GPT와 대화를 시작하실 수 있습니다. 사용자의 답변은 매 답변마다 실시간 분석되고, 대화도 자연스럽게 이어집니다.');
     insert into BOARD_FAQ (ID, USER_ID, FAQ_CATEGORY, FAQ_TITLE, FAQ_CONTENT)
-    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '나의활동', '북마크 기능은 무엇인가요?', '북마크는 커뮤니티 게시글에 제공되는 북마크기능을 활용하면 사용할 수 있는 공간입니다. 커뮤니티 게시글 중 마음에 들었던 게시글을 북마크 해두면 이 공간에서 확인할 수 있습니다. 북마크 해제 기능이 제공되니 불필요한 북마크된 게시글을 관리할 수 있습니다.');
+    values (BOARD_FAQ_ID_SEQ.nextval, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '나의활동', '북마크 기능은 무엇인가요?', '북마크는 커뮤니티 게시글에 제공되는 북마크기능을 활용하면 사용할 수 있는 공간입니다. 커뮤니티 게시글 중 마음에 들었던 게시글을 북마크 해두면 이 공간에서 확인할 수 있습니다. 북마크 해제 기능이 제공되니 불필요한 북마크된 게시글을 관리할 수 있습니다.');
 
 end;
 
@@ -3479,154 +3957,154 @@ BEGIN
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '야이 바보들아!!',  '<p>메롱~</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '야이 바보들아!!',  '<p>메롱~</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '욕설', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '수익률 200% 보장 글로벌 노.리.터 카톡 abc123',  '<p>수익률 200% 보장 글로벌 노.리.터 카톡 abc123</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '수익률 200% 보장 글로벌 노.리.터 카톡 abc123',  '<p>수익률 200% 보장 글로벌 노.리.터 카톡 abc123</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '토익 100점도 못 맞는 놈들 이해가 안가네 ㅎㅎ',  '<p>한심하다 한심해~</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '토익 100점도 못 맞는 놈들 이해가 안가네 ㅎㅎ',  '<p>한심하다 한심해~</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '욕설', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '행운의 편지',  '이 편지는 영국에서 시작되어',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '행운의 편지',  '이 편지는 영국에서 시작되어',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '좋은 사진 공유합니다 ㅎㅎ',  '(음란한 사진)',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '좋은 사진 공유합니다 ㅎㅎ',  '(음란한 사진)',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '음란물', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '회화',  '저랑 일 하나 하실분(돈 급하신 분 환영)',  '카톡 abc 연락주세요~',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '회화',  '저랑 일 하나 하실분(돈 급하신 분 환영)',  '카톡 abc 연락주세요~',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '불법', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '잼민이들 안녕~',  'ㅎㅇㅎㅇ',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '잼민이들 안녕~',  'ㅎㅇㅎㅇ',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '청소년유해', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '유머',  '야이 멍청아!!!',  '멍청이들~ㅋㅋ',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '유머',  '야이 멍청아!!!',  '멍청이들~ㅋㅋ',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '욕설', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '토익',  '이번 토익 답안지 유출됨 이거 한번씩 봐봐',  '<p>www.toiec유출.com 여기서 확인가능 ㄱㄱ</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '토익',  '이번 토익 답안지 유출됨 이거 한번씩 봐봐',  '<p>www.toiec유출.com 여기서 확인가능 ㄱㄱ</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '불법', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '토플',  '이번에 저희랑 같이 커닝할 멤버 구합니다.',  '<p>확실하게 컨닝할 방법이 있는데 인원이 부족하네요.두명 더 구합니다.</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '토플',  '이번에 저희랑 같이 커닝할 멤버 구합니다.',  '<p>확실하게 컨닝할 방법이 있는데 인원이 부족하네요.두명 더 구합니다.</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '불법', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '시험',  '머리가 맑아지는 약 팝니다.',  '<p>괜찮은 약인데 이거 먹으면 머리 맑아져서 시험을 잘 봅니다.</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '시험',  '머리가 맑아지는 약 팝니다.',  '<p>괜찮은 약인데 이거 먹으면 머리 맑아져서 시험을 잘 봅니다.</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '글쓰기',  '글쓰기 *** 어렵다',  '<p>심한 욕설 문장</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '글쓰기',  '글쓰기 *** 어렵다',  '<p>심한 욕설 문장</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '욕설', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '여기 말고 진짜 영어교육 사이트 알려준다.',  '<p>www.englishjjoa.com 여기가 진짜 영어사이트다 여기 버리고 일로 오삼</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '여기 말고 진짜 영어교육 사이트 알려준다.',  '<p>www.englishjjoa.com 여기가 진짜 영어사이트다 여기 버리고 일로 오삼</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '중고등학생들 전용 술집 위치 알려드립니다~',  '<p>서울시 중랑구에 괜찮은 곳 있습니다.카카오톡 suljoa 여기로 문의주세요.</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '중고등학생들 전용 술집 위치 알려드립니다~',  '<p>서울시 중랑구에 괜찮은 곳 있습니다.카카오톡 suljoa 여기로 문의주세요.</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '청소년유해', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '토익',  '여기 토익 수레기네',  '<p>니들 사이트 이따구로 만들래??</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '토익',  '여기 토익 수레기네',  '<p>니들 사이트 이따구로 만들래??</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '욕설', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '저랑 만나실분~',  '<p>연락주세요 ㅎㅎ</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '저랑 만나실분~',  '<p>연락주세요 ㅎㅎ</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '음란물', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '말하기',  '말하기 ai기능 해킹할 건데 구경하실 분 계심?',  '<p>스트리밍으로 보여줄건데 보고싶음 댓글 달아봐 주소 보내줄게</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '말하기',  '말하기 ai기능 해킹할 건데 구경하실 분 계심?',  '<p>스트리밍으로 보여줄건데 보고싶음 댓글 달아봐 주소 보내줄게</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '불법', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '유머',  '음흉한 사이트 괜찮은 거 있는데 보여줄까?',  '<p>댓글 달면 내가 밑에 대댓글로 사이트 주소 보내드림</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '유머',  '음흉한 사이트 괜찮은 거 있는데 보여줄까?',  '<p>댓글 달면 내가 밑에 대댓글로 사이트 주소 보내드림</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '음란물', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '공부',  '마약 같은거 파는데 있나요?',  '<p>약 먹고 하루종일 공부에 집중하고 싶어요</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '공부',  '마약 같은거 파는데 있나요?',  '<p>약 먹고 하루종일 공부에 집중하고 싶어요</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '불법', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '공부',  '여기 말고 괜찮은 영어 강사 있는데 소개해줌',  '<p>메카스토디에 OOO강사가 좀 쩔어 여기 버리고 일로 가자</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '공부',  '여기 말고 괜찮은 영어 강사 있는데 소개해줌',  '<p>메카스토디에 OOO강사가 좀 쩔어 여기 버리고 일로 가자</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '일상',  '도박사이트 중에 괜찮은 곳하면 잉글리시bet이지~',  '<p>잉글리시bet.com 들어가서 유석유 추천인 해주면 좋은 결과 나올거야 ㅎㅎ</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '일상',  '도박사이트 중에 괜찮은 곳하면 잉글리시bet이지~',  '<p>잉글리시bet.com 들어가서 유석유 추천인 해주면 좋은 결과 나올거야 ㅎㅎ</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
 
     SELECT COMMUNITY_POST_ID_SEQ.nextval into post_id from dual;
     INSERT INTO community_post (id, user_id, sentence_id, community_post_category, community_post_title, community_post_content, community_post_hit, community_post_like, COMMUNITY_POST_WRITEDATE)
-    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 15)), null, '아이엘츠',  '아이엘츠용 강사 있는데 소개해줌',  '<p>메카스토디에 OOO강사가 좀 쩔어 여기 버리고 일로 가자</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
+    VALUES (post_id, FLOOR(DBMS_RANDOM.VALUE(2, 16)), null, '아이엘츠',  '아이엘츠용 강사 있는데 소개해줌',  '<p>메카스토디에 OOO강사가 좀 쩔어 여기 버리고 일로 가자</p>',  FLOOR(DBMS_RANDOM.VALUE(0, 5)), 0, '2023-04-' || LPAD(FLOOR(DBMS_RANDOM.VALUE(1, 30)), 2, '0'));
     SELECT * INTO post_info FROM COMMUNITY_POST WHERE id = post_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, post_info.user_id, 'COMMUNITY_POST', post_info.id, '스팸/광고', post_info.COMMUNITY_POST_WRITEDATE);
@@ -3645,7 +4123,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '한심하다 증말 ㅉㅉ.', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '한심하다 증말 ㅉㅉ.', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3653,7 +4131,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '바보멍청이~', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '바보멍청이~', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3661,7 +4139,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '혹시 가출 청소년이세요? 보금자리가 필요하시면 연락주세요.', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '혹시 가출 청소년이세요? 보금자리가 필요하시면 연락주세요.', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '청소년유해', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3669,7 +4147,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '혹시 가출? 잘곳 필요하면 연락주세요.', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '혹시 가출? 잘곳 필요하면 연락주세요.', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '청소년유해', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3677,7 +4155,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '스타가 되고 싶으면 연락해', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '스타가 되고 싶으면 연락해', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '스팸/광고', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3685,7 +4163,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '얘 또 헛소리하네', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '얘 또 헛소리하네', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3693,7 +4171,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '발 닦고 잠이나 자라', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '발 닦고 잠이나 자라', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3701,7 +4179,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '한심하다 증말 ㅉㅉ.', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '한심하다 증말 ㅉㅉ.', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3709,7 +4187,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '니들 이런다고 영어 실력 안 늘어 으휴 ㅋㅋ', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '니들 이런다고 영어 실력 안 늘어 으휴 ㅋㅋ', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3717,7 +4195,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '수익률 200% 보장 글로벌 놀.이.터 카톡 abc123', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '수익률 200% 보장 글로벌 놀.이.터 카톡 abc123', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '스팸/광고', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3725,7 +4203,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '청소년 쉼터말고 우리집 와~ 잘해줄게', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '청소년 쉼터말고 우리집 와~ 잘해줄게', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '청소년유해', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3733,7 +4211,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '내가 여기 사이트말고 더 괜찮은 사이트 소개해줄까?', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '내가 여기 사이트말고 더 괜찮은 사이트 소개해줄까?', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '홍보/광고', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3741,7 +4219,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '내가 여기 해킹해서 너희 정보 한번 다 털어봐?', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '내가 여기 해킹해서 너희 정보 한번 다 털어봐?', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '불법', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3749,7 +4227,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '괜찮은 스포츠 관련 알바 한번 해볼래?', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '괜찮은 스포츠 관련 알바 한번 해볼래?', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '불법', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3757,7 +4235,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '어휴 모자란놈 ㅉㅉ', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '어휴 모자란놈 ㅉㅉ', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3765,7 +4243,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '영어강사 중에 진짜 괜찮은 사람 있는데 내가 소개시켜줄게 여기 말고 저기로 가', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '영어강사 중에 진짜 괜찮은 사람 있는데 내가 소개시켜줄게 여기 말고 저기로 가', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '스팸/광고', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3773,7 +4251,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '좋은 사이트 아는 곳 있는데 한번 볼 사람?', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '좋은 사이트 아는 곳 있는데 한번 볼 사람?', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '음란물', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3781,7 +4259,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '우리집 놀러와~', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '우리집 놀러와~', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '청소년유해', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3789,7 +4267,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '유튜버 중에 얘 좀 괜찮더라', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '유튜버 중에 얘 좀 괜찮더라', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '스팸/광고', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3797,7 +4275,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '약오르지 메롱', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '약오르지 메롱', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3805,7 +4283,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '바보 멍청이~', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '바보 멍청이~', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '욕설', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3813,7 +4291,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '키크는약 키가탄탄 정말 괜찮아요~ 제가 추천할게요 다들 하나씩 사드세요~', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '키크는약 키가탄탄 정말 괜찮아요~ 제가 추천할게요 다들 하나씩 사드세요~', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '스팸/광고', reply_info.COMMUNITY_REPLY_WRITEDATE);
@@ -3821,7 +4299,7 @@ BEGIN
     select COMMUNITY_REPLY_ID_SEQ.nextval into reply_id from dual;
     select * into post_info from (SELECT * FROM COMMUNITY_POST ORDER BY DBMS_RANDOM.RANDOM()) where rownum = 1;
     INSERT INTO COMMUNITY_REPLY (ID, COMMUNITY_POST_ID, COMMUNITY_REPLY_WRITEDATE, USER_ID, COMMUNITY_REPLY_CONTENT, COMMUNITY_REPLY_PARENTS_ID)
-    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 15)), '외로운 사람들 저한테 오세요 제가 잘 해드릴게요 ㅎㅎ', reply_id);
+    VALUES (reply_id, post_info.id, post_info.community_post_writedate, FLOOR(DBMS_RANDOM.VALUE(2, 16)), '외로운 사람들 저한테 오세요 제가 잘 해드릴게요 ㅎㅎ', reply_id);
     select * into reply_info from community_reply where id = reply_id;
     insert into REPORT (ID, USER_ID, REPORT_SUBJECT, REPORT_SUBJECT_ID, REPORT_REASON, REPORT_DATE)
     VALUES (REPORT_ID_SEQ.nextval, reply_info.user_id, 'COMMUNITY_REPLY', reply_info.id, '음란물', reply_info.COMMUNITY_REPLY_WRITEDATE);
