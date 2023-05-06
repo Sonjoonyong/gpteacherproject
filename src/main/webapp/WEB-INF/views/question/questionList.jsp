@@ -147,7 +147,12 @@
                             <tr>
                                 <td>${question.id}</td>
                                 <td>
-                                    <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
+                                    <c:if test="${question.userId eq loginUser.getId()}">
+                                        <i class="fa-solid fa-lock-open" id="icon1" aria-disabled="true"></i>
+                                    </c:if>
+                                    <c:if test="${question.userId ne loginUser.getId()}">
+                                        <i class="fa-solid fa-lock" id="icon1" aria-disabled="true"></i>
+                                    </c:if>
                                     <a href="${pageContext.request.contextPath}/help/question/view?questionId=${question.id}" class="question-title-link" style="margin-right: 30px;">
                                     [${question.questionCategory}] ${question.questionTitle}
                                     </a>
