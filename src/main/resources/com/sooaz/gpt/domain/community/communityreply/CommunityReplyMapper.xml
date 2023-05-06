@@ -50,8 +50,18 @@
         order by community_reply_parents_id, R.id
     </select>
 
-    <select id="findByUserId" parameterType="long" resultType="CommunityReply">
-        select * from COMMUNITY_REPLY where user_id = #{userId} order by id desc
+    <select id="findByUserId" parameterType="long" resultType="MyReplyDto">
+        select
+            R.id as id,
+            community_post_id,
+            P.community_post_title as community_post_title,
+            community_reply_content,
+            community_reply_writedate
+        from community_reply R
+        join community_post P
+            on P.id = R.community_post_id
+        where R.user_id = #{userId}
+        order by R.id desc
     </select>
 
     <update id="update" parameterType="com.sooaz.gpt.domain.community.communityreply.CommunityReplyUpdateDto">

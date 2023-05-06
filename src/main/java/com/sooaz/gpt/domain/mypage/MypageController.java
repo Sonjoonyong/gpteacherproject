@@ -3,6 +3,7 @@ package com.sooaz.gpt.domain.mypage;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sooaz.gpt.domain.community.CommunityPost;
+import com.sooaz.gpt.domain.community.communityreply.CommunityReply;
 import com.sooaz.gpt.domain.community.communityreply.MyReplyDto;
 import com.sooaz.gpt.domain.learning.LearningType;
 import com.sooaz.gpt.domain.mypage.flashcard.Flashcard;
@@ -198,7 +199,6 @@ public class MypageController {
         List<CommunityPost> communities = mypageService.getPostList(loginUser.getId());
         PageInfo<CommunityPost> pageInfo = new PageInfo<>(communities);
         model.addAttribute("pageInfo", pageInfo);
-        log.info("pageInfo = {}", pageInfo);
         return "mypage/activity/myPosts";
     }
 
@@ -220,7 +220,8 @@ public class MypageController {
             Model model
     ) {
         PageHelper.startPage(pageNum, pageSize);
-        List<MyReplyDto> myReplyDtos = mypageService.getMyCommentList(loginUser.getId());
+        List<MyReplyDto> myReplyDtos = mypageService.getCommentList(loginUser.getId());
+
         PageInfo<MyReplyDto> pageInfo = new PageInfo<>(myReplyDtos);
         model.addAttribute("pageInfo",pageInfo);
         return "mypage/activity/myComments";

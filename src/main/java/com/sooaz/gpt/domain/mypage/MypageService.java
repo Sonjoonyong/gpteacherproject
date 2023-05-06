@@ -123,8 +123,12 @@ public class MypageService {
         return communities;
     }
 
-    public List<MyReplyDto> getMyCommentList(Long userId) {
-        List<CommunityReply> communityReplies = communityReplyRepository.findByUserId(userId);
+    public List<MyReplyDto> getCommentList(Long userId) {
+        List<MyReplyDto> communityReplies = communityReplyRepository.findByUserId(userId);
+        return communityReplies;
+    }
+
+    public List<MyReplyDto> getMyCommentList(List<CommunityReply> communityReplies) {
         List<MyReplyDto> myReplyDtos = new ArrayList<MyReplyDto>();
 
         for (CommunityReply communityReply : communityReplies) {
